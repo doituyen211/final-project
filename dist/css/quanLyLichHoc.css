@@ -1,0 +1,37 @@
+.add_data_lichhoc {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+.btn_add_data {
+    width: 9%;
+    height: 40px;
+    background-color: #007bff;
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+}
+.form-control {
+    width: 100%;
+    background-color: aquamarine;
+}
+.right-lh,
+.left-lh {
+    width: 100%;
+}
+
+.delete_data {
+    color: #fff;
+    background-color: #de2727a6;
+    border: none;
+    border-radius: 5px;
+}
+
+.fix_data {
+    color: #fff;
+    background-color: #383be1c4;
+    border: none;
+    border-radius: 5px;
+}
