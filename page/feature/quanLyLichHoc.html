@@ -414,129 +414,166 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">
-                                            Thêm Lịch Học Mới
-                                        </h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <form>
-                                        <div class="card-body">
-                                            <div class="add_data_lichhoc">
-                                                <div class="left-lh">
-                                                    <div class="form-group">
-                                                        <label
-                                                            for="exampleInputName"
-                                                            >Môn Học</label
-                                                        >
-                                                        <input
-                                                            type="email"
-                                                            class="form-control"
-                                                            id="exampleInputName"
-                                                            placeholder="Nhập tên môn học ..."
-                                                        />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label
-                                                            for="exampleInputDate_Start"
-                                                            >Ngày Bắt Đầu</label
-                                                        >
-                                                        <input
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="exampleInputDate_Start"
-                                                        />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label
-                                                            for="exampleInputDate_End"
-                                                            >Ngày Kết
-                                                            Thúc</label
-                                                        >
-                                                        <input
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="exampleInputDate_End"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div class="right-lh">
-                                                    <div class="form-group">
-                                                        <label
-                                                            for="exampleInputIDClass"
-                                                            >Mã Lớp</label
-                                                        >
-                                                        <select
-                                                            id="exampleInputIDClass"
-                                                            class="form-control"
-                                                        >
-                                                            <option>
-                                                                Chọn mã lớp
-                                                            </option>
-                                                            <option>
-                                                                option 1
-                                                            </option>
-                                                            <option>
-                                                                option 2
-                                                            </option>
-                                                            <option>
-                                                                option 3
-                                                            </option>
-                                                            <option>
-                                                                option 4
-                                                            </option>
-                                                            <option>
-                                                                option 5
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label
-                                                            for="exampleInputClassroom"
-                                                            >Phòng Học</label
-                                                        >
-                                                        <input
-                                                            type="number"
-                                                            class="form-control"
-                                                            id="exampleInputClassroom"
-                                                            placeholder="Nhập phòng học ..."
-                                                        />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label
-                                                            for="exampleInputLecturers"
-                                                            >Giảng Viên</label
-                                                        >
-                                                        <select
-                                                            id="exampleInputLecturers"
-                                                            class="form-control"
-                                                        >
-                                                            <option
-                                                                selected
-                                                                disabled
-                                                            >
-                                                                Chọn giảng viên
-                                                            </option>
-                                                            <option>
-                                                                Giảng viên 1
-                                                            </option>
-                                                            <option>
-                                                                Giảng viên 2
-                                                            </option>
-                                                            <option>
-                                                                Giảng viên 3
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn_add_data">
-                                                Thêm
+                                <div class="nenmodal" id="nenmodal-1">
+                                    <div class="nenmodal2"></div>
+                                    <div class="ndmodal">
+                                        <div class="closemodal">
+                                            <button onclick="momodal()">
+                                                ×
                                             </button>
                                         </div>
-                                    </form>
-                                    <!-- /.card-body -->
+                                        <div class="card popup-add">
+                                            <div class="card-header">
+                                                <h3 class="card-title">
+                                                    Thêm Lịch Học Mới
+                                                </h3>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <form>
+                                                <div class="card-body">
+                                                    <div
+                                                        class="add_data_lichhoc"
+                                                    >
+                                                        <div class="left-lh">
+                                                            <div
+                                                                class="form-group"
+                                                            >
+                                                                <label
+                                                                    for="exampleInputName"
+                                                                    >Môn
+                                                                    Học</label
+                                                                >
+                                                                <input
+                                                                    type="email"
+                                                                    class="form-control"
+                                                                    id="exampleInputName"
+                                                                    placeholder="Nhập tên môn học ..."
+                                                                />
+                                                            </div>
+                                                            <div
+                                                                class="form-group"
+                                                            >
+                                                                <label
+                                                                    for="exampleInputDate_Start"
+                                                                    >Ngày Bắt
+                                                                    Đầu</label
+                                                                >
+                                                                <input
+                                                                    type="date"
+                                                                    class="form-control"
+                                                                    id="exampleInputDate_Start"
+                                                                />
+                                                            </div>
+                                                            <div
+                                                                class="form-group"
+                                                            >
+                                                                <label
+                                                                    for="exampleInputDate_End"
+                                                                    >Ngày Kết
+                                                                    Thúc</label
+                                                                >
+                                                                <input
+                                                                    type="date"
+                                                                    class="form-control"
+                                                                    id="exampleInputDate_End"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="right-lh">
+                                                            <div
+                                                                class="form-group"
+                                                            >
+                                                                <label
+                                                                    for="exampleInputIDClass"
+                                                                    >Mã
+                                                                    Lớp</label
+                                                                >
+                                                                <select
+                                                                    id="exampleInputIDClass"
+                                                                    class="form-control"
+                                                                >
+                                                                    <option>
+                                                                        Chọn mã
+                                                                        lớp
+                                                                    </option>
+                                                                    <option>
+                                                                        option 1
+                                                                    </option>
+                                                                    <option>
+                                                                        option 2
+                                                                    </option>
+                                                                    <option>
+                                                                        option 3
+                                                                    </option>
+                                                                    <option>
+                                                                        option 4
+                                                                    </option>
+                                                                    <option>
+                                                                        option 5
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                            <div
+                                                                class="form-group"
+                                                            >
+                                                                <label
+                                                                    for="exampleInputClassroom"
+                                                                    >Phòng
+                                                                    Học</label
+                                                                >
+                                                                <input
+                                                                    type="number"
+                                                                    class="form-control"
+                                                                    id="exampleInputClassroom"
+                                                                    placeholder="Nhập phòng học ..."
+                                                                />
+                                                            </div>
+                                                            <div
+                                                                class="form-group"
+                                                            >
+                                                                <label
+                                                                    for="exampleInputLecturers"
+                                                                    >Giảng
+                                                                    Viên</label
+                                                                >
+                                                                <select
+                                                                    id="exampleInputLecturers"
+                                                                    class="form-control"
+                                                                >
+                                                                    <option
+                                                                        selected
+                                                                        disabled
+                                                                    >
+                                                                        Chọn
+                                                                        giảng
+                                                                        viên
+                                                                    </option>
+                                                                    <option>
+                                                                        Giảng
+                                                                        viên 1
+                                                                    </option>
+                                                                    <option>
+                                                                        Giảng
+                                                                        viên 2
+                                                                    </option>
+                                                                    <option>
+                                                                        Giảng
+                                                                        viên 3
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        class="btn_add_data"
+                                                    >
+                                                        Thêm Mới
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <!-- /.card-body -->
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
 
@@ -548,9 +585,36 @@
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
+                                        <div class="btn-add-calendar">
+                                            <button onclick="momodal()">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="23"
+                                                    height="23"
+                                                    viewBox="0 0 20 20"
+                                                    fill="none"
+                                                >
+                                                    <path
+                                                        d="M10 5L10 15"
+                                                        stroke="white"
+                                                        stroke-width="2"
+                                                        stroke-linecap="square"
+                                                        stroke-linejoin="round"
+                                                    />
+                                                    <path
+                                                        d="M15 10L5 10"
+                                                        stroke="white"
+                                                        stroke-width="2"
+                                                        stroke-linecap="square"
+                                                        stroke-linejoin="round"
+                                                    />
+                                                </svg>
+                                                Thêm Mới
+                                            </button>
+                                        </div>
                                         <table
                                             id="example1"
-                                            class="table table-bordered table-striped"
+                                            class="table table-bordered table-striped table-lich"
                                         >
                                             <thead>
                                                 <tr>
@@ -572,16 +636,56 @@
                                                     <td>101</td>
                                                     <td>Nguyễn Văn A</td>
                                                     <td>
-                                                        <button
-                                                            class="fix_data"
+                                                        <!-- icon eye -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            class="icon-eye iconn-table"
                                                         >
-                                                            Sửa
-                                                        </button>
-                                                        <button
-                                                            class="delete_data"
+                                                            <circle
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="3"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                            <path
+                                                                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon pen -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="22"
+                                                            height="22"
+                                                            viewBox="0 0 22 22"
+                                                            fill="none"
+                                                            class="icon-pen iconn-table"
                                                         >
-                                                            Xóa
-                                                        </button>
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                clip-rule="evenodd"
+                                                                d="M15.8315 9.83521L17.4167 8.25C17.8063 7.86037 18.0011 7.66555 18.1239 7.46653C18.5208 6.82291 18.5208 6.01043 18.1239 5.36681C18.0011 5.16779 17.8063 4.97297 17.4167 4.58334C17.027 4.1937 16.8322 3.99888 16.6332 3.87614C15.9896 3.47919 15.1771 3.47919 14.5335 3.87614C14.3345 3.99888 14.1397 4.1937 13.75 4.58334L12.1439 6.18949C13.0243 7.70489 14.2957 8.96655 15.8315 9.83521ZM10.6893 7.64401L4.52306 13.8103L4.52305 13.8103C4.098 14.2354 3.88547 14.4479 3.74574 14.709C3.606 14.9701 3.54706 15.2648 3.42917 15.8543L2.8971 18.5146C2.83058 18.8472 2.79732 19.0135 2.89193 19.1081C2.98654 19.2027 3.15284 19.1694 3.48545 19.1029L6.14577 18.5709C6.73522 18.453 7.02994 18.394 7.29104 18.2543C7.55214 18.1145 7.76467 17.902 8.18973 17.477L14.3732 11.2935C12.8885 10.3603 11.6315 9.11191 10.6893 7.64401Z"
+                                                                fill="#222222"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon delete -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 448 512"
+                                                            width="19"
+                                                            height="19"
+                                                            class="icon-delete iconn-table"
+                                                        >
+                                                            <path
+                                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"
+                                                            />
+                                                        </svg>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -592,16 +696,54 @@
                                                     <td>203</td>
                                                     <td>Nguyễn Đức B</td>
                                                     <td>
-                                                        <button
-                                                            class="fix_data"
+                                                        <!-- icon eye -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
                                                         >
-                                                            Sửa
-                                                        </button>
-                                                        <button
-                                                            class="delete_data"
+                                                            <circle
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="3"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                            <path
+                                                                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon pen -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="22"
+                                                            height="22"
+                                                            viewBox="0 0 22 22"
+                                                            fill="none"
+                                                            class="icon-pen iconn-table"
                                                         >
-                                                            Xóa
-                                                        </button>
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                clip-rule="evenodd"
+                                                                d="M15.8315 9.83521L17.4167 8.25C17.8063 7.86037 18.0011 7.66555 18.1239 7.46653C18.5208 6.82291 18.5208 6.01043 18.1239 5.36681C18.0011 5.16779 17.8063 4.97297 17.4167 4.58334C17.027 4.1937 16.8322 3.99888 16.6332 3.87614C15.9896 3.47919 15.1771 3.47919 14.5335 3.87614C14.3345 3.99888 14.1397 4.1937 13.75 4.58334L12.1439 6.18949C13.0243 7.70489 14.2957 8.96655 15.8315 9.83521ZM10.6893 7.64401L4.52306 13.8103L4.52305 13.8103C4.098 14.2354 3.88547 14.4479 3.74574 14.709C3.606 14.9701 3.54706 15.2648 3.42917 15.8543L2.8971 18.5146C2.83058 18.8472 2.79732 19.0135 2.89193 19.1081C2.98654 19.2027 3.15284 19.1694 3.48545 19.1029L6.14577 18.5709C6.73522 18.453 7.02994 18.394 7.29104 18.2543C7.55214 18.1145 7.76467 17.902 8.18973 17.477L14.3732 11.2935C12.8885 10.3603 11.6315 9.11191 10.6893 7.64401Z"
+                                                                fill="#222222"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon delete -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 448 512"
+                                                            width="19"
+                                                            height="19"
+                                                        >
+                                                            <path
+                                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"
+                                                            />
+                                                        </svg>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -612,16 +754,54 @@
                                                     <td>108</td>
                                                     <td>Nguyễn Hồng C</td>
                                                     <td>
-                                                        <button
-                                                            class="fix_data"
+                                                        <!-- icon eye -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
                                                         >
-                                                            Sửa
-                                                        </button>
-                                                        <button
-                                                            class="delete_data"
+                                                            <circle
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="3"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                            <path
+                                                                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon pen -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="22"
+                                                            height="22"
+                                                            viewBox="0 0 22 22"
+                                                            fill="none"
+                                                            class="icon-pen iconn-table"
                                                         >
-                                                            Xóa
-                                                        </button>
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                clip-rule="evenodd"
+                                                                d="M15.8315 9.83521L17.4167 8.25C17.8063 7.86037 18.0011 7.66555 18.1239 7.46653C18.5208 6.82291 18.5208 6.01043 18.1239 5.36681C18.0011 5.16779 17.8063 4.97297 17.4167 4.58334C17.027 4.1937 16.8322 3.99888 16.6332 3.87614C15.9896 3.47919 15.1771 3.47919 14.5335 3.87614C14.3345 3.99888 14.1397 4.1937 13.75 4.58334L12.1439 6.18949C13.0243 7.70489 14.2957 8.96655 15.8315 9.83521ZM10.6893 7.64401L4.52306 13.8103L4.52305 13.8103C4.098 14.2354 3.88547 14.4479 3.74574 14.709C3.606 14.9701 3.54706 15.2648 3.42917 15.8543L2.8971 18.5146C2.83058 18.8472 2.79732 19.0135 2.89193 19.1081C2.98654 19.2027 3.15284 19.1694 3.48545 19.1029L6.14577 18.5709C6.73522 18.453 7.02994 18.394 7.29104 18.2543C7.55214 18.1145 7.76467 17.902 8.18973 17.477L14.3732 11.2935C12.8885 10.3603 11.6315 9.11191 10.6893 7.64401Z"
+                                                                fill="#222222"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon delete -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 448 512"
+                                                            width="19"
+                                                            height="19"
+                                                        >
+                                                            <path
+                                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"
+                                                            />
+                                                        </svg>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -632,16 +812,54 @@
                                                     <td>205</td>
                                                     <td>Nguyễn Tiến D</td>
                                                     <td>
-                                                        <button
-                                                            class="fix_data"
+                                                        <!-- icon eye -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
                                                         >
-                                                            Sửa
-                                                        </button>
-                                                        <button
-                                                            class="delete_data"
+                                                            <circle
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="3"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                            <path
+                                                                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                                stroke="black"
+                                                                stroke-width="2"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon pen -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="22"
+                                                            height="22"
+                                                            viewBox="0 0 22 22"
+                                                            fill="none"
+                                                            class="icon-pen iconn-table"
                                                         >
-                                                            Xóa
-                                                        </button>
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                clip-rule="evenodd"
+                                                                d="M15.8315 9.83521L17.4167 8.25C17.8063 7.86037 18.0011 7.66555 18.1239 7.46653C18.5208 6.82291 18.5208 6.01043 18.1239 5.36681C18.0011 5.16779 17.8063 4.97297 17.4167 4.58334C17.027 4.1937 16.8322 3.99888 16.6332 3.87614C15.9896 3.47919 15.1771 3.47919 14.5335 3.87614C14.3345 3.99888 14.1397 4.1937 13.75 4.58334L12.1439 6.18949C13.0243 7.70489 14.2957 8.96655 15.8315 9.83521ZM10.6893 7.64401L4.52306 13.8103L4.52305 13.8103C4.098 14.2354 3.88547 14.4479 3.74574 14.709C3.606 14.9701 3.54706 15.2648 3.42917 15.8543L2.8971 18.5146C2.83058 18.8472 2.79732 19.0135 2.89193 19.1081C2.98654 19.2027 3.15284 19.1694 3.48545 19.1029L6.14577 18.5709C6.73522 18.453 7.02994 18.394 7.29104 18.2543C7.55214 18.1145 7.76467 17.902 8.18973 17.477L14.3732 11.2935C12.8885 10.3603 11.6315 9.11191 10.6893 7.64401Z"
+                                                                fill="#222222"
+                                                            />
+                                                        </svg>
+                                                        <!-- icon delete -->
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 448 512"
+                                                            width="19"
+                                                            height="19"
+                                                        >
+                                                            <path
+                                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"
+                                                            />
+                                                        </svg>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -731,6 +949,13 @@
                     responsive: true,
                 });
             });
+        </script>
+        <script>
+            function momodal() {
+                document
+                    .getElementById("nenmodal-1")
+                    .classList.toggle("active");
+            }
         </script>
     </body>
 </html>
