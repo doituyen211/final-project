@@ -11,11 +11,13 @@ const SubjectComponent = () => {
     const [titleTable, setTitleTable] = useState('');
     const [classTable, setClassTable] = useState('');
     const [totalPage, setTotalPage] = useState(5);
-    const [isEdit, setIsEdit] = useState(false);
+    const [isEdit, setIsEdit] = useState(true);
     const [isCurrent, setIsCurrent] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const apiUpdate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
     const apiCreate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
+    const apiDelete = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
+    const apiView = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
     const formFieldsProp = [
         {
             name: 'name',
@@ -57,8 +59,8 @@ const SubjectComponent = () => {
     //BEGIN- GetData
     const getData = async () => {
         try {
-            const res = await axios.get('/data/subject.json'); // Get data from api
-            setDataTable(res.data.data);
+            const res = await axios.get('https://66aa0b5b613eced4eba7559a.mockapi.io/subject'); // Get data from api
+            setDataTable(res.data);
             setTitleTable('SubjectComponent');
             setClassTable('table table-bordered table-hover');
             setTotalPage(5);
@@ -82,9 +84,16 @@ const SubjectComponent = () => {
     //---------
     //---------Begin - Modal
     const [modalShow, setModalShow] = useState(false);
+    const [modalProps, setModalProps] = useState({
+        show: modalShow,
+        action: '',
+        formFieldsProp: formFieldsProp,
+        initialIsEdit: false,
+        initialIdCurrent: null,
+        apiUpdate: apiUpdate,
+        apiCreate: apiCreate,
+    });
 
-    //---------
-    //---------Begin - Create
     const handleSave = (formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
@@ -103,7 +112,6 @@ const SubjectComponent = () => {
                     <div className="row mb-2">
                         <div className="col-sm-6">
                             <h1>Quản lý Môn học</h1>
-
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
@@ -150,7 +158,19 @@ const SubjectComponent = () => {
                                             </div>
                                         </div>
                                         <div className="col-md-2 d-flex align-items-center justify-content-end">
-                                            <Button variant="primary" size="lg" onClick={() => setModalShow(true)}>
+                                            <Button variant="primary" size="lg" onClick={() => {
+                                                setModalShow(true)
+                                                setModalProps({
+                                                    onHide: () => setModalShow(false),
+                                                    onSave: handleSave,
+                                                    action: 'CREATE',
+                                                    formFieldsProp: formFieldsProp,
+                                                    initialIsEdit: true,
+                                                    initialIdCurrent: null,
+                                                    // apiUpdate: apiUpdate,
+                                                    apiCreate: apiCreate
+                                                });
+                                            }}>
                                                 <i className="bi bi-plus-circle"></i>
                                             </Button>
                                         </div>
@@ -158,7 +178,9 @@ const SubjectComponent = () => {
 
                                     <div className="row">
                                         <div className="col-12">
-                                            <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}/>
+                                            <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}
+                                                             apiDelete={apiDelete} apiUpdate={apiUpdate}
+                                                             apiView={apiView} formFieldsProp={formFieldsProp}/>
                                         </div>
                                     </div>
                                     <div className="row justify-content-center mt-3">
@@ -184,16 +206,7 @@ const SubjectComponent = () => {
             {/*
         díplay modal
         */}
-            <ModalComponent
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                onSave={handleSave}
-                action="EDIT"
-                formFieldsProp={formFieldsProp}
-                initialIsEdit={isEdit}
-                initialIdCurrent={isCurrent}
-            >
-            </ModalComponent>
+            <ModalComponent show={modalShow} {...modalProps} />
         </>
     );
 }

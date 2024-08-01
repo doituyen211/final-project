@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import SelectDropdown from "../SelectDownButton";
 import axios from "axios";
-import Input from "../InputComponents";
 import {Button, Col, Form, Row} from "react-bootstrap";
+import Input from "../InputComponents";
 
-function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
+function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView}) {
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
     );
@@ -21,7 +21,8 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
     };
 
     useEffect(() => {
-        if (isEdit) {
+        console.log(isView)
+        if (isEdit || isView) {
             axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/subject/${idCurrent}`)
                 .then((res) => {
                     setFormData(res.data);
@@ -30,8 +31,8 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
                     console.error("Error fetching data:", err);
                 });
         }
-    }, [isEdit, idCurrent]);
-
+    }, [isEdit, idCurrent, isView]);
+    
     return (
         <Form onSubmit={handleSubmit}>
             <Row>
@@ -50,6 +51,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
                                             onChange={handleChange}
                                             placeholder={field.placeholder}
                                             className="form-control"
+                                            disabled={true}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -63,8 +65,12 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
                                             id={field.name}
                                             apiUrl={field.apiUrl}
                                             label={field.label}
-                                            defaultOption={field.defaultOption}
+                                            defaultOption={isEdit || isView ? {
+                                                value: formData[field.name],
+                                                label: formData[field.name]
+                                            } : field.defaultOption}
                                             onChange={(e) => handleChange(e)}
+                                            disabled={isView}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -80,6 +86,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
                                             name={field.name}
                                             value={formData[field.name]}
                                             onChange={handleChange}
+                                            disabled={isView}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -96,6 +103,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
                                             value={formData[field.name]}
                                             onChange={handleChange}
                                             placeholder={field.placeholder}
+                                            disabled={isView}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -107,7 +115,8 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose}) {
             </Row>
             <div className="d-flex justify-content-center">
                 <Button variant="secondary" className="me-2" type="button" onClick={onClose}>Close</Button>
-                <Button variant="primary" type="submit">Save Changes</Button>
+                {isView ? <Button variant="primary" type="submit">Edit</Button> :
+                    <Button variant="primary" type="submit">Save Changes</Button>}
             </div>
         </Form>
     );

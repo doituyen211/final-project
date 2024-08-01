@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = ({type, name, value, onChange, placeholder}) => {
+const Input = ({type, name, value, onChange, placeholder, disabled}) => {
     return (
         <input
             type={type}
@@ -11,6 +11,7 @@ const Input = ({type, name, value, onChange, placeholder}) => {
             onChange={onChange}
             placeholder={placeholder}
             className="form-control"
+            disabled={disabled}
         />
     );
 };

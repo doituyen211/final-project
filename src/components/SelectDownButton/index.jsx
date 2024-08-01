@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const SelectDropdown = ({id, apiUrl, label, defaultOption}) => {
+const SelectDropdown = ({id, apiUrl, label, defaultOption, disabled}) => {
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(true); // Hiện khi data đang load
     const [error, setError] = useState(null);               // Hiện khi lỗi load data
@@ -34,7 +34,7 @@ const SelectDropdown = ({id, apiUrl, label, defaultOption}) => {
         <>
             <div className="form-group">
                 <label htmlFor={id}>{label}</label>
-                <select className="form-control" id={id}>
+                <select className="form-control" id={id} disabled={disabled}>
                     {options.map((option, index) => (
                         <option key={index} value={option.value}>
                             {option.label}

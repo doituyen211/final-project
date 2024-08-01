@@ -1,23 +1,51 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
 import FormComponent from "../FormComponent";
+import axios from "axios";
 
-function ModalComponent({children, onHide, show, onSave, action, formFieldsProp, initialIsEdit, initialIdCurrent}) {
-
+function ModalComponent({
+                            onHide,
+                            show,
+                            action,
+                            formFieldsProp,
+                            initialIsEdit,
+                            initialIdCurrent,
+                            apiUpdate,
+                            apiCreate,
+                            apiView
+                        }) {
 
     const handleSave = (formData) => {
         console.log("Saving data in SubjectCreate...");
         console.log("Form data:", JSON.stringify(formData));
-    };
-    const [isEdit, setIsEdit] = useState(initialIsEdit || false);
-    const [idCurrent, setIdCurrent] = useState(initialIdCurrent || 17);
-
-    useEffect(() => {
-        if (isEdit && idCurrent !== null) {
-            setIdCurrent(initialIdCurrent);
-            setIsEdit(false);
+        if (action === 'EDIT') {
+            UpdateItem(formData);
+        } else if (action === 'CREATE') {
+            CreateItem(formData);
         }
-    }, []);
+    };
+    const UpdateItem = (formData) => {
+        axios.put(`${apiUpdate}/${formData.id}`, formData)
+            .then(response => {
+                console.log('Update successful:', response);
+                onHide();
+            })
+            .catch(error => {
+                console.error('There was an error updating the item:', error);
+            });
+    };
+
+    const CreateItem = (formData) => {
+        axios.post(apiCreate, formData)
+            .then(response => {
+                console.log('Create successful:', response);
+                onHide();
+            })
+            .catch(error => {
+                console.error('There was an error creating the item:', error);
+            });
+    };
+
     return (
         <Modal
             show={show}
@@ -36,7 +64,8 @@ function ModalComponent({children, onHide, show, onSave, action, formFieldsProp,
                     fields={formFieldsProp}
                     onSubmit={handleSave}
                     isEdit={action === "EDIT"}
-                    idCurrent={idCurrent}
+                    isView={action === 'VIEW'}
+                    idCurrent={initialIdCurrent}
                     onClose={onHide}
                 />
             </Modal.Body>
