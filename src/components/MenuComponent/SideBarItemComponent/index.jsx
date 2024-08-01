@@ -9,7 +9,7 @@ const SideBarItemComponent = (props) => {
 
     useEffect(() => {
         setIsOpen(isActive);
-    }, [isActive]);
+    }, []);
 
     const handleToggle = (event) => {
         setIsOpen(prevIsOpen => !prevIsOpen);
