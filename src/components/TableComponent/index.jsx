@@ -49,8 +49,9 @@ function TableComponents({
                 <tbody>
                 {dataTable.map((row, rowIndex) => (
                     <tr key={rowIndex}>
-                        {Object.values(row).map((cell, cellIndex) => (
-                            <td key={cellIndex}>{cell}</td>
+                        <td>{row.id}</td>
+                        {formFieldsProp.map((field, cellIndex) => (
+                            <td key={cellIndex}>{row[field.name]}</td>
                         ))}
                         <td className="text-center">
                             <Button variant="light" className="me-2" onClick={() => {
@@ -89,7 +90,7 @@ function TableComponents({
                 ))}
                 </tbody>
             </table>
-            <ModalComponent show={modalShow} {...modalProps} />
+            <ModalComponent show={modalShow} getData={getData} {...modalProps} />
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
