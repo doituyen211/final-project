@@ -5,7 +5,7 @@ import axios from "axios";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import Input from "../InputComponents";
 
-function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView}) {
+function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView, apiGetById}) {
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
     );
@@ -23,7 +23,8 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView}) {
     useEffect(() => {
         console.log(isView)
         if (isEdit || isView) {
-            axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/subject/${idCurrent}`)
+            const url = `${apiGetById}/${idCurrent}`;
+            axios.get(url)
                 .then((res) => {
                     setFormData(res.data);
                 })
@@ -31,7 +32,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView}) {
                     console.error("Error fetching data:", err);
                 });
         }
-    }, [isEdit, idCurrent, isView]);
+    }, [isEdit, idCurrent, isView, apiGetById]);
 
     return (
         <Form onSubmit={handleSubmit}>

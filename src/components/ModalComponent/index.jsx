@@ -77,6 +77,7 @@ function ModalComponent({
                     isView={action === 'VIEW'}
                     idCurrent={initialIdCurrent}
                     onClose={onHide}
+                    apiGetById={apiView}
                 />
             </Modal.Body>
             <Modal.Footer>
