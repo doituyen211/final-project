@@ -50,9 +50,7 @@ function TableComponents({
                     <tr>
                         {Array.isArray(cols) &&
                             cols.map((col, index) => (
-                                <th key={index} style={{ textAlign: "center" }}>
-                                    {col}
-                                </th>
+                                <th key={index}>{col}</th>
                             ))}
                     </tr>
                 </thead>

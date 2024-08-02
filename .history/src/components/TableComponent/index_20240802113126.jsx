@@ -60,12 +60,7 @@ function TableComponents({
                     {dataTable.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             {Object.values(row).map((cell, cellIndex) => (
-                                <td
-                                    key={cellIndex}
-                                    style={{ textAlign: "center" }}
-                                >
-                                    {cell}
-                                </td>
+                                <td key={cellIndex}>{cell}</td>
                             ))}
                             <td className="text-center">
                                 <Button

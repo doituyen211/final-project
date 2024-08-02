@@ -50,9 +50,7 @@ function TableComponents({
                     <tr>
                         {Array.isArray(cols) &&
                             cols.map((col, index) => (
-                                <th key={index} style={{ textAlign: "center" }}>
-                                    {col}
-                                </th>
+                                <th key={index}>{col}</th>
                             ))}
                     </tr>
                 </thead>
@@ -60,12 +58,7 @@ function TableComponents({
                     {dataTable.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             {Object.values(row).map((cell, cellIndex) => (
-                                <td
-                                    key={cellIndex}
-                                    style={{ textAlign: "center" }}
-                                >
-                                    {cell}
-                                </td>
+                                <td key={cellIndex}>{cell}</td>
                             ))}
                             <td className="text-center">
                                 <Button

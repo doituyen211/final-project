@@ -1,5 +1,4 @@
-import { SubjectComponent, UserComponent } from "../pages";
-import ScheduleComponent from "../pages/ScheduleComponent";
+import {SubjectComponent, UserComponent} from '../pages';
 
 export const routeSideBar = [
     {
@@ -7,7 +6,7 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-tachometer-alt",
         component: UserComponent,
         to: "/",
-        child: [],
+        child: []
     },
 
     {
@@ -20,8 +19,8 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-tachometer-alt",
                 to: "/list",
                 component: UserComponent,
-            },
-        ],
+            }
+        ]
     },
     {
         name: "Education",
@@ -72,7 +71,6 @@ export const routeSideBar = [
             {
                 name: "Quản lý lịch học",
                 icon: "nav-icon fas fa-calendar-alt",
-                component: ScheduleComponent,
                 to: "/schedules",
             },
             {
@@ -84,7 +82,7 @@ export const routeSideBar = [
                 name: "Quản lý điểm số",
                 icon: "nav-icon fas fa-chart-line",
                 to: "/grades",
-            },
-        ],
-    },
-];
+            }
+        ]
+    }
+]
