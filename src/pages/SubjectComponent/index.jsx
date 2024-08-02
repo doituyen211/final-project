@@ -74,7 +74,7 @@ const SubjectComponent = () => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [dataTable]);
     //-------------
 
     //Begin - Paging
@@ -91,7 +91,7 @@ const SubjectComponent = () => {
         initialIsEdit: false,
         initialIdCurrent: null,
         apiUpdate: apiUpdate,
-        apiCreate: apiCreate,
+        apiCreate: apiCreate
     });
 
     const handleSave = (formData) => {
@@ -180,7 +180,8 @@ const SubjectComponent = () => {
                                         <div className="col-12">
                                             <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}
                                                              apiDelete={apiDelete} apiUpdate={apiUpdate}
-                                                             apiView={apiView} formFieldsProp={formFieldsProp}/>
+                                                             apiView={apiView} formFieldsProp={formFieldsProp}
+                                                             getData={getData}/>
                                         </div>
                                     </div>
                                     <div className="row justify-content-center mt-3">
@@ -206,7 +207,8 @@ const SubjectComponent = () => {
             {/*
         díplay modal
         */}
-            <ModalComponent show={modalShow} {...modalProps} />
+            <ModalComponent show={modalShow} getData={getData}
+                            {...modalProps} />
         </>
     );
 }

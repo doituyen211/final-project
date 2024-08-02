@@ -5,7 +5,7 @@ import DeleteComponent from "../DeleteItemComponent";
 
 function TableComponents({
                              cols, titleTable, dataTable, classTable,
-                             apiDelete, apiUpdate, apiView, formFieldsProp
+                             apiDelete, apiUpdate, apiView, formFieldsProp, getData
                          }) {
     const [modalShow, setModalShow] = useState(false);
     const [modalProps, setModalProps] = useState({
@@ -22,11 +22,12 @@ function TableComponents({
     const handleSave = (formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
+        getData()
         // Your save logic here
     };
 
     const handleDeleteConfirmation = () => {
-
+        getData()
     };
 
     const confirmDelete = (item) => {

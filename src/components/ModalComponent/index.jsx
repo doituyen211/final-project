@@ -12,7 +12,8 @@ function ModalComponent({
                             initialIdCurrent,
                             apiUpdate,
                             apiCreate,
-                            apiView
+                            apiView,
+                            getData
                         }) {
 
     const handleSave = (formData) => {
@@ -29,6 +30,7 @@ function ModalComponent({
             .then(response => {
                 console.log('Update successful:', response);
                 onHide();
+                getData()
             })
             .catch(error => {
                 console.error('There was an error updating the item:', error);
@@ -40,6 +42,7 @@ function ModalComponent({
             .then(response => {
                 console.log('Create successful:', response);
                 onHide();
+                getData()
             })
             .catch(error => {
                 console.error('There was an error creating the item:', error);

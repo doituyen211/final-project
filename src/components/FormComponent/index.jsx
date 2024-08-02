@@ -32,7 +32,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView}) {
                 });
         }
     }, [isEdit, idCurrent, isView]);
-    
+
     return (
         <Form onSubmit={handleSubmit}>
             <Row>
@@ -51,7 +51,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView}) {
                                             onChange={handleChange}
                                             placeholder={field.placeholder}
                                             className="form-control"
-                                            disabled={true}
+                                            disabled={isView}
                                         />
                                     </Form.Group>
                                 </Col>
