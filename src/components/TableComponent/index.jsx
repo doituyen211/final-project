@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap';
 function TableComponents(props) {
     const {
         cols, titleTable, dataTable, classTable,
-        formFieldsProp, actionView, actionEdit, useModal, actionDelete, openModal
+        formFieldsProp, actionView, actionEdit, useModal, actionDelete, openModal, currentPage
     } = props;
 
 
@@ -22,7 +22,7 @@ function TableComponents(props) {
                 <tbody>
                 {dataTable.map((row, rowIndex) => (
                     <tr key={rowIndex}>
-                        <td>{rowIndex + 1}</td>
+                        <td>{rowIndex + 10 * (currentPage - 1) + 1}</td>
                         {/*<td>{row.id}</td>*/}
                         {formFieldsProp.map((field, cellIndex) => (
                             <td key={cellIndex}>{row[field.name]}</td>

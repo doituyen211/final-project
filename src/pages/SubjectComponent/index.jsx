@@ -50,33 +50,49 @@ const SubjectComponent = () => {
     const [state, setState] = useState(INITIAL_STATE); // Trạng thái của component
     const [deleteItemId, setDeleteItemId] = useState(null); // ID của mục đang được xóa
     const [showConfirmModal, setShowConfirmModal] = useState(false); // Trạng thái hiển thị modal xác nhận xóa
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const api = API.SUBJECT;
 
     // Hàm lấy dữ liệu
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async (search = '', page = 1) => {
         try {
-            const {data} = await axios.get(api);
+            const {data} = await axios.get(api, {
+                params: {
+                    page: page,
+                    pageSize: 10,
+                    search
+                }
+            });
             setState(prevState => ({
                 ...prevState,
-                dataTable: data.content, // Dữ liệu bảng từ API
-                currentPage: data.page,
-                totalPage: data.totalPages // Tổng số trang từ phản hồi
+                dataTable: data.content
             }));
+            setCurrentPage(data.page);
+            setTotalPages(data.totalPages);
         } catch (error) {
             console.error('Lỗi khi lấy dữ liệu:', error);
         }
     }, [api]);
+//Search
+    const [searchTerm, setSearchTerm] = useState('');
 
-    // Sử dụng useEffect để gọi fetchData khi component mount
+    const handleSearchChange = useCallback((event) => {
+        setSearchTerm(event.target.value);
+    }, []);
+
+    const handleSearch = useCallback(() => {
+        fetchData(searchTerm);
+    }, [fetchData, searchTerm]);
+
     useEffect(() => {
-        fetchData();
+        fetchData('', currentPage);
         console.log('Render SubjectComponent');
-    }, [fetchData]);
+    }, [fetchData, currentPage]);
 
-    // Xử lý thay đổi trang
     const handlePageChange = useCallback(pageNumber => {
-        setState(prevState => ({...prevState, currentPage: pageNumber}));
+        setCurrentPage(pageNumber);
     }, []);
 
     // Xử lý lưu dữ liệu
@@ -179,18 +195,22 @@ const SubjectComponent = () => {
                                                 className="form-select rounded-pill border-secondary flex-fill"
                                             />
                                         </div>
+                                        {/* Ô tìm kiếm và nút tìm kiếm */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
                                                 className="form-control rounded-pill border-secondary flex-fill"
                                                 placeholder="Search..."
                                                 aria-label="Search input"
+                                                value={searchTerm}
+                                                onChange={handleSearchChange}
                                             />
                                             <Button
                                                 variant="outline-secondary"
                                                 size="sm"
                                                 aria-label="Search"
                                                 className="d-flex align-items-center px-3 rounded-pill"
+                                                onClick={handleSearch}
                                             >
                                                 <i className="bi bi-search"></i>
                                             </Button>
@@ -220,16 +240,18 @@ const SubjectComponent = () => {
                                                 actionDelete={confirmDelete}
                                                 useModal={true}
                                                 openModal={openModal}
+                                                currentPage={currentPage}
                                             />
                                         </div>
                                     </div>
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
-                                                totalPage={state.totalPage}
-                                                currentPage={state.currentPage}
+                                                totalPage={totalPages}
+                                                currentPage={currentPage}
                                                 onPageChange={handlePageChange}
                                             />
+
                                         </div>
                                     </div>
                                 </div>
