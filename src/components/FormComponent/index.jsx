@@ -5,7 +5,10 @@ import axios from "axios";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import Input from "../InputComponents";
 
-function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView, apiGetById}) {
+// Cập nhật tên hàm từ FormComponent({ fields, onSubmit, isEdit, idCurrent, onClose, isView, apiGetById }) thành FormComponent(props)
+function FormComponent(props) {
+    const {fields, onSubmit, isEdit, idCurrent, onClose, isView, apiGetById} = props;
+
     const [formData, setFormData] = useState(
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
     );
@@ -21,7 +24,7 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView, ap
     };
 
     useEffect(() => {
-        console.log(isView)
+        console.log(isView);
         if (isEdit || isView) {
             const url = `${apiGetById}/${idCurrent}`;
             axios.get(url)
@@ -32,6 +35,8 @@ function FormComponent({fields, onSubmit, isEdit, idCurrent, onClose, isView, ap
                     console.error("Error fetching data:", err);
                 });
         }
+        console.log('Render FORMComponent');
+
     }, [isEdit, idCurrent, isView, apiGetById]);
 
     return (
@@ -130,11 +135,11 @@ FormComponent.propTypes = {
             type: PropTypes.oneOf(['text', 'select', 'date', 'number']).isRequired,
             label: PropTypes.string.isRequired,
             placeholder: PropTypes.string,
-            apiUrl: PropTypes.string,  // Add apiUrl for select fields
+            apiUrl: PropTypes.string,  // Thêm apiUrl cho các trường select
             defaultOption: PropTypes.shape({
                 value: PropTypes.string.isRequired,
                 label: PropTypes.string,
-            }),  // Add defaultOption for select fields
+            }),  // Thêm defaultOption cho các trường select
         })
     ).isRequired,
     onSubmit: PropTypes.func.isRequired,

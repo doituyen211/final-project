@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Button} from "react-bootstrap";
 import ModalComponent from "../ModalComponent";
 import DeleteComponent from "../DeleteItemComponent";
 
-function TableComponents({
-                             cols, titleTable, dataTable, classTable,
-                             apiDelete, apiUpdate, apiView, formFieldsProp, getData
-                         }) {
+function TableComponents(props) {
+    const {
+        cols, titleTable, dataTable, classTable,
+        apiDelete, apiUpdate, apiView, formFieldsProp, getData
+    } = props;
+
     const [modalShow, setModalShow] = useState(false);
     const [modalProps, setModalProps] = useState({
         action: '',
@@ -19,21 +21,38 @@ function TableComponents({
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [deleteItem, setDeleteItem] = useState(null);
 
-    const handleSave = (formData) => {
+    // Hàm xử lý khi lưu dữ liệu
+    const handleSave = useCallback((formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
-        getData()
-        // Your save logic here
-    };
+        getData();
+    }, [getData]);
 
-    const handleDeleteConfirmation = () => {
-        getData()
-    };
+    // Hàm xử lý khi xác nhận xóa dữ liệu
+    const handleDeleteConfirmation = useCallback(() => {
+        getData();
+    }, [getData]);
 
-    const confirmDelete = (item) => {
+    // Hàm mở modal xác nhận xóa
+    const confirmDelete = useCallback((item) => {
         setDeleteItem(item);
         setShowConfirmModal(true);
-    };
+    }, []);
+
+    // Hàm mở modal với các thiết lập khác nhau
+    const openModal = useCallback((action, isEdit, id) => {
+        setModalProps({
+            onHide: () => setModalShow(false),
+            onSave: handleSave,
+            action: action,
+            formFieldsProp: formFieldsProp,
+            initialIsEdit: isEdit,
+            initialIdCurrent: id,
+            apiUpdate: apiUpdate,
+            apiView: apiView
+        });
+        setModalShow(true);
+    }, [handleSave, formFieldsProp, apiUpdate, apiView]);
 
     return (
         <>
@@ -54,34 +73,10 @@ function TableComponents({
                             <td key={cellIndex}>{row[field.name]}</td>
                         ))}
                         <td className="text-center">
-                            <Button variant="light" className="me-2" onClick={() => {
-                                setModalProps({
-                                    onHide: () => setModalShow(false),
-                                    onSave: handleSave,
-                                    action: 'VIEW',
-                                    formFieldsProp: formFieldsProp,
-                                    initialIsEdit: true,
-                                    initialIdCurrent: row.id,
-                                    apiUpdate: apiUpdate,
-                                    apiView: apiView
-                                });
-                                setModalShow(true);
-                            }}>
+                            <Button variant="light" className="me-2" onClick={() => openModal('VIEW', true, row.id)}>
                                 View
                             </Button>
-                            <Button variant="primary" className="me-2" onClick={() => {
-                                setModalProps({
-                                    onHide: () => setModalShow(false),
-                                    onSave: handleSave,
-                                    action: 'EDIT',
-                                    formFieldsProp: formFieldsProp,
-                                    initialIsEdit: true,
-                                    initialIdCurrent: row.id,
-                                    apiUpdate: apiUpdate,
-                                    apiView: apiView
-                                });
-                                setModalShow(true);
-                            }}>
+                            <Button variant="primary" className="me-2" onClick={() => openModal('EDIT', true, row.id)}>
                                 Edit
                             </Button>
                             <Button variant="danger" onClick={() => confirmDelete(row)}>Delete</Button>

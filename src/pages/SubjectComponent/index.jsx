@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TableComponents from '../../components/TableComponent';
 import SelectDropdown from "../../components/SelectDownButton";
 import PagingComponent from "../../components/PagingComponent";
@@ -7,104 +7,119 @@ import {Button} from "react-bootstrap";
 import axios from "axios";
 
 const SubjectComponent = () => {
-    const [dataTable, setDataTable] = useState([]);
-    const [titleTable, setTitleTable] = useState('');
-    const [classTable, setClassTable] = useState('');
-    const [totalPage, setTotalPage] = useState(5);
-    const [isEdit, setIsEdit] = useState(true);
-    const [isCurrent, setIsCurrent] = useState(null);
-    const [currentPage, setCurrentPage] = useState(0);
-    const apiUpdate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
-    const apiCreate = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
-    const apiDelete = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
-    const apiView = 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
-    const formFieldsProp = [
-        {
-            name: 'name',
-            type: 'text',
-            label: 'Name',
-            placeholder: 'Enter the name',
-        },
-        {
-            name: 'duration',
-            type: 'text',
-            label: 'Duration',
-            placeholder: 'Enter duration',
-        },
-        {
-            name: 'programName',
-            type: 'select',
-            label: 'Program Name',
-            placeholder: 'Select a program',
-            apiUrl: '/data/status.json',
-            defaultOption: {
-                value: '',
-                label: 'Select a program'
-            }
-        },
-        {
-            name: 'status',
-            type: 'select',
-            label: 'Status',
-            placeholder: 'Select status',
-            apiUrl: '/data/status.json',
-            defaultOption: {
-                value: '',
-                label: 'Select status'
-            }
+    const [state, setState] = useState({
+        dataTable: [],
+        titleTable: 'SubjectComponent',
+        classTable: 'table table-bordered table-hover',
+        totalPage: 5,
+        currentPage: 1,
+        isEdit: true,
+        isCurrent: null,
+        modalShow: false,
+        modalProps: {
+            show: false,
+            action: '',
+            formFieldsProp: [
+                {
+                    name: 'name',
+                    type: 'text',
+                    label: 'Name',
+                    placeholder: 'Enter the name',
+                },
+                {
+                    name: 'duration',
+                    type: 'text',
+                    label: 'Duration',
+                    placeholder: 'Enter duration',
+                },
+                {
+                    name: 'programName',
+                    type: 'select',
+                    label: 'Program Name',
+                    placeholder: 'Select a program',
+                    apiUrl: '/data/status.json',
+                    defaultOption: {
+                        value: '',
+                        label: 'Select a program'
+                    }
+                },
+                {
+                    name: 'status',
+                    type: 'select',
+                    label: 'Status',
+                    placeholder: 'Select status',
+                    apiUrl: '/data/status.json',
+                    defaultOption: {
+                        value: '',
+                        label: 'Select status'
+                    }
+                }
+            ],
+            initialIsEdit: false,
+            initialIdCurrent: null,
+            apiUpdate: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
+            apiCreate: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
         }
-    ]
-    const cols = ['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', '']
+    });
 
-    //BEGIN- GetData
-    const getData = async () => {
-        try {
-            const res = await axios.get('https://66aa0b5b613eced4eba7559a.mockapi.io/subject'); // Get data from api
-            setDataTable(res.data);
-            setTitleTable('SubjectComponent');
-            setClassTable('table table-bordered table-hover');
-            setTotalPage(5);
-            setCurrentPage(1);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-
-        }
+    const apiEndpoints = {
+        update: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
+        create: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
+        delete: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
+        view: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
     };
 
+    const cols = ['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
+
+    const getData = useCallback(async () => {
+        try {
+            const res = await axios.get(apiEndpoints.view); // Get data from api
+            setState(prevState => ({
+                ...prevState,
+                dataTable: res.data,
+                currentPage: 1
+            }));
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }, [apiEndpoints.view]);
 
     useEffect(() => {
         getData();
-    }, [dataTable]);
-    //-------------
+        console.log('Render SubjectComponent');
+    }, [getData]);
 
-    //Begin - Paging
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-    //---------
-    //---------Begin - Modal
-    const [modalShow, setModalShow] = useState(false);
-    const [modalProps, setModalProps] = useState({
-        show: modalShow,
-        action: '',
-        formFieldsProp: formFieldsProp,
-        initialIsEdit: false,
-        initialIdCurrent: null,
-        apiUpdate: apiUpdate,
-        apiCreate: apiCreate
-    });
+    const handlePageChange = useCallback((pageNumber) => {
+        setState(prevState => ({
+            ...prevState,
+            currentPage: pageNumber
+        }));
+    }, []);
 
-    const handleSave = (formData) => {
+    const handleSave = useCallback((formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
         // Your save logic here
-    };
-    //End - Create
+    }, []);
 
-    //Begin - Search
-    const handleSearch = () => {
-    }
-    // End - Search
+    const handleModalShow = useCallback(() => {
+        setState(prevState => ({
+            ...prevState,
+            modalShow: true,
+            modalProps: {
+                ...prevState.modalProps,
+                show: true,
+                onHide: () => setState(prevState => ({...prevState, modalShow: false})),
+                onSave: handleSave,
+                action: 'CREATE',
+                initialIsEdit: true,
+                initialIdCurrent: null
+            }
+        }));
+    }, [handleSave]);
+
+    const modalProps = useMemo(() => state.modalProps, [state.modalProps]);
+
     return (
         <>
             <section className="content-header">
@@ -115,7 +130,9 @@ const SubjectComponent = () => {
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Home</a></li>
+                                <li className="breadcrumb-item">
+                                    <button onClick={() => console.log('Home clicked')}>Home</button>
+                                </li>
                                 <li className="breadcrumb-item active">Quản lý môn học</li>
                             </ol>
                         </div>
@@ -158,19 +175,7 @@ const SubjectComponent = () => {
                                             </div>
                                         </div>
                                         <div className="col-md-2 d-flex align-items-center justify-content-end">
-                                            <Button variant="primary" size="lg" onClick={() => {
-                                                setModalShow(true)
-                                                setModalProps({
-                                                    onHide: () => setModalShow(false),
-                                                    onSave: handleSave,
-                                                    action: 'CREATE',
-                                                    formFieldsProp: formFieldsProp,
-                                                    initialIsEdit: true,
-                                                    initialIdCurrent: null,
-                                                    // apiUpdate: apiUpdate,
-                                                    apiCreate: apiCreate
-                                                });
-                                            }}>
+                                            <Button variant="primary" size="lg" onClick={handleModalShow}>
                                                 <i className="bi bi-plus-circle"></i>
                                             </Button>
                                         </div>
@@ -178,17 +183,20 @@ const SubjectComponent = () => {
 
                                     <div className="row">
                                         <div className="col-12">
-                                            <TableComponents cols={cols} dataTable={dataTable} classTable={classTable}
-                                                             apiDelete={apiDelete} apiUpdate={apiUpdate}
-                                                             apiView={apiView} formFieldsProp={formFieldsProp}
+                                            <TableComponents cols={cols} dataTable={state.dataTable}
+                                                             classTable={state.classTable}
+                                                             apiDelete={apiEndpoints.delete}
+                                                             apiUpdate={apiEndpoints.update}
+                                                             apiView={apiEndpoints.view}
+                                                             formFieldsProp={state.modalProps.formFieldsProp}
                                                              getData={getData}/>
                                         </div>
                                     </div>
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
-                                                totalPage={totalPage}
-                                                currentPage={currentPage}
+                                                totalPage={state.totalPage}
+                                                currentPage={state.currentPage}
                                                 onPageChange={handlePageChange}
                                             />
                                         </div>
@@ -204,11 +212,7 @@ const SubjectComponent = () => {
                     </div>
                 </div>
             </section>
-            {/*
-        díplay modal
-        */}
-            <ModalComponent show={modalShow} getData={getData}
-                            {...modalProps} />
+            <ModalComponent show={state.modalShow} getData={getData} {...modalProps} />
         </>
     );
 }

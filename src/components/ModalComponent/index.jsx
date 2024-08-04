@@ -4,19 +4,21 @@ import FormComponent from "../FormComponent";
 import axios from "axios";
 import {toast} from "react-toastify";
 
-function ModalComponent({
-                            onHide,
-                            show,
-                            action,
-                            formFieldsProp,
-                            initialIsEdit,
-                            initialIdCurrent,
-                            apiUpdate,
-                            apiCreate,
-                            apiView,
-                            getData
-                        }) {
+function ModalComponent(props) {
+    // Lấy các props cần thiết
+    const {
+        onHide,
+        show,
+        action,
+        formFieldsProp,
+        initialIdCurrent,
+        apiUpdate,
+        apiCreate,
+        apiView,
+        getData
+    } = props;
 
+    // Hàm xử lý khi lưu dữ liệu
     const handleSave = (formData) => {
         console.log("Saving data in SubjectCreate...");
         console.log("Form data:", JSON.stringify(formData));
@@ -26,33 +28,36 @@ function ModalComponent({
             CreateItem(formData);
         }
     };
+
+    // Hàm cập nhật item
     const UpdateItem = (formData) => {
         axios.put(`${apiUpdate}/${formData.id}`, formData)
             .then(response => {
                 console.log('Update successful:', response);
                 onHide();
-                getData()
-                toast.success("Success Notification !", {
+                getData();
+                toast.success("Cập nhật thành công!", {
                     position: toast.POSITION.TOP_RIGHT,
                 });
             })
             .catch(error => {
-                console.error('There was an error updating the item:', error);
+                console.error('Có lỗi khi cập nhật item:', error);
             });
     };
 
+    // Hàm tạo mới item
     const CreateItem = (formData) => {
         axios.post(apiCreate, formData)
             .then(response => {
                 console.log('Create successful:', response);
                 onHide();
-                getData()
-                toast.success("Success Notification !", {
+                getData();
+                toast.success("Tạo mới thành công!", {
                     position: toast.POSITION.TOP_RIGHT,
                 });
             })
             .catch(error => {
-                console.error('There was an error creating the item:', error);
+                console.error('Có lỗi khi tạo mới item:', error);
             });
     };
 
