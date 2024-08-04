@@ -6,7 +6,7 @@ import DeleteComponent from "../DeleteItemComponent";
 function TableComponents(props) {
     const {
         cols, titleTable, dataTable, classTable,
-        apiDelete, apiUpdate, apiView, formFieldsProp, getData
+        api, formFieldsProp, getData
     } = props;
 
     const [modalShow, setModalShow] = useState(false);
@@ -15,8 +15,7 @@ function TableComponents(props) {
         formFieldsProp: formFieldsProp,
         initialIsEdit: false,
         initialIdCurrent: null,
-        apiUpdate: apiUpdate,
-        apiView: apiView
+        api
     });
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [deleteItem, setDeleteItem] = useState(null);
@@ -28,7 +27,7 @@ function TableComponents(props) {
         getData();
     }, [getData]);
 
-    // Hàm xử lý khi xác nhận xóa dữ liệu
+    // Hàm xử lý sau khi xác nhận xóa dữ liệu
     const handleDeleteConfirmation = useCallback(() => {
         getData();
     }, [getData]);
@@ -48,11 +47,10 @@ function TableComponents(props) {
             formFieldsProp: formFieldsProp,
             initialIsEdit: isEdit,
             initialIdCurrent: id,
-            apiUpdate: apiUpdate,
-            apiView: apiView
+            api
         });
         setModalShow(true);
-    }, [handleSave, formFieldsProp, apiUpdate, apiView]);
+    }, [handleSave, formFieldsProp, api]);
 
     return (
         <>
@@ -68,6 +66,7 @@ function TableComponents(props) {
                 <tbody>
                 {dataTable.map((row, rowIndex) => (
                     <tr key={rowIndex}>
+                        <td>{rowIndex + 1}</td>
                         <td>{row.id}</td>
                         {formFieldsProp.map((field, cellIndex) => (
                             <td key={cellIndex}>{row[field.name]}</td>
@@ -91,7 +90,7 @@ function TableComponents(props) {
                 onHide={() => setShowConfirmModal(false)}
                 onConfirm={handleDeleteConfirmation}
                 deleteItem={deleteItem}
-                apiDelete={apiDelete}
+                apiDelete={api}
             />
         </>
     );

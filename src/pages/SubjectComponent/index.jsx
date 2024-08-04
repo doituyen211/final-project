@@ -5,6 +5,7 @@ import PagingComponent from "../../components/PagingComponent";
 import ModalComponent from "../../components/ModalComponent";
 import {Button} from "react-bootstrap";
 import axios from "axios";
+import API from '../../store/Api';
 
 const SubjectComponent = () => {
     const [state, setState] = useState({
@@ -57,23 +58,16 @@ const SubjectComponent = () => {
             ],
             initialIsEdit: false,
             initialIdCurrent: null,
-            apiUpdate: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
-            apiCreate: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
+            api: API.SUBJECT
         }
     });
 
-    const apiEndpoints = {
-        update: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
-        create: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
-        delete: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject',
-        view: 'https://66aa0b5b613eced4eba7559a.mockapi.io/subject'
-    };
-
-    const cols = ['Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
+    const api = API.SUBJECT
+    const cols = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
 
     const getData = useCallback(async () => {
         try {
-            const res = await axios.get(apiEndpoints.view); // Get data from api
+            const res = await axios.get(api);
             setState(prevState => ({
                 ...prevState,
                 dataTable: res.data,
@@ -82,7 +76,7 @@ const SubjectComponent = () => {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    }, [apiEndpoints.view]);
+    }, [api]);
 
     useEffect(() => {
         getData();
@@ -118,7 +112,12 @@ const SubjectComponent = () => {
         }));
     }, [handleSave]);
 
-    const modalProps = useMemo(() => state.modalProps, [state.modalProps]);
+    const getModalProps = useMemo(() => ({
+        ...state.modalProps,
+        show: state.modalShow,
+        onHide: () => setState(prevState => ({...prevState, modalShow: false})),
+        onSave: handleSave
+    }), [state.modalProps, state.modalShow, handleSave]);
 
     return (
         <>
@@ -185,9 +184,7 @@ const SubjectComponent = () => {
                                         <div className="col-12">
                                             <TableComponents cols={cols} dataTable={state.dataTable}
                                                              classTable={state.classTable}
-                                                             apiDelete={apiEndpoints.delete}
-                                                             apiUpdate={apiEndpoints.update}
-                                                             apiView={apiEndpoints.view}
+                                                             api={api}
                                                              formFieldsProp={state.modalProps.formFieldsProp}
                                                              getData={getData}/>
                                         </div>
@@ -212,7 +209,7 @@ const SubjectComponent = () => {
                     </div>
                 </div>
             </section>
-            <ModalComponent show={state.modalShow} getData={getData} {...modalProps} />
+            <ModalComponent {...getModalProps} getData={getData}/>
         </>
     );
 }
