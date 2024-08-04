@@ -3,13 +3,13 @@ import {Button, Modal} from 'react-bootstrap';
 import axios from 'axios';
 
 function DeleteComponent(props) {
-    const {show, onHide, onConfirm, deleteItem, apiDelete} = props;
+    const {show, onHide, onConfirm, deleteItemID, apiDelete} = props;
 
     const handleDelete = () => {
-        if (deleteItem) {
-            axios.delete(`${apiDelete}/${deleteItem.id}`)
+        if (deleteItemID) {
+            axios.delete(`${apiDelete}/${deleteItemID}`)
                 .then(() => {
-                    console.log('Delete Successful: ' + JSON.stringify(deleteItem));
+                    console.log('Delete Successful: ' + JSON.stringify(deleteItemID));
                     if (onConfirm) onConfirm();  // Call onConfirm to notify parent
                 })
                 .catch((error) => {
@@ -27,7 +27,7 @@ function DeleteComponent(props) {
                 <Modal.Title>Xác nhận Xoá</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>Bạn có chắc chắn muốn xoá <strong>{deleteItem ? deleteItem.name : ''}</strong> không?</p>
+                <p>Bạn có chắc chắn muốn xoá không?</p>
                 <p>Hành động này không thể hoàn tác.</p>
             </Modal.Body>
             <Modal.Footer>

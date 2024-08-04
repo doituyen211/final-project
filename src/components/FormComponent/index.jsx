@@ -20,7 +20,8 @@ function FormComponent(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = action === 'EDIT' ? `${api}/${formData.id}` : api;
+            console.log(formData)
+            const url = action === 'EDIT' ? `${api}/${idCurrent}` : api;
             const method = action === 'EDIT' ? axios.put : axios.post;
             await method(url, formData);
             onClose();

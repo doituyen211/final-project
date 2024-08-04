@@ -6,27 +6,26 @@ import SelectDropdown from '../../components/SelectDownButton';
 import PagingComponent from '../../components/PagingComponent';
 import API from '../../store/Api';
 import FormComponent from "../../components/FormComponent";
+import DeleteComponent from "../../components/DeleteItemComponent";
 
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
     titleTable: 'SubjectComponent', // Tiêu đề của bảng
     classTable: 'table table-bordered table-hover', // Lớp CSS của bảng
-    totalPage: 5, // Tổng số trang
-    currentPage: 1, // Trang hiện tại
     modalShow: false, // Trạng thái hiển thị modal
     modalProps: {
         show: false,
         action: '',
         formFieldsProp: [
-            {name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name'},
-            {name: 'duration', type: 'text', label: 'Duration', placeholder: 'Enter duration'},
+            {name: 'subject_name', type: 'text', label: 'Subject Name', placeholder: 'Enter the subject name'},
+            {name: 'training_duration', type: 'text', label: 'Duration', placeholder: 'Enter duration'},
             {
-                name: 'programName',
+                name: 'training_program_id',
                 type: 'select',
                 label: 'Program Name',
                 placeholder: 'Select a program',
-                apiUrl: '/data/status.json',
+                apiUrl: '/data/status.json', // Cập nhật URL này với API endpoint thực tế của bạn
                 defaultOption: {value: '', label: 'Select a program'}
             },
             {
@@ -34,7 +33,7 @@ const INITIAL_STATE = {
                 type: 'select',
                 label: 'Status',
                 placeholder: 'Select status',
-                apiUrl: '/data/status.json',
+                apiUrl: '/data/status.json', // Cập nhật URL này với API endpoint thực tế của bạn
                 defaultOption: {value: '', label: 'Select status'}
             }
         ],
@@ -44,10 +43,15 @@ const INITIAL_STATE = {
     }
 };
 
+// Các cột của bảng
 const COLUMNS = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
 
 const SubjectComponent2 = () => {
     const [state, setState] = useState(INITIAL_STATE);
+    const [deleteItemId, setDeleteItemId] = useState(null);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [actionModal, setActionModal] = useState('CREATE');
+    const [initialIdCurrent, setInitialIdCurrent] = useState(null);
 
     const api = API.SUBJECT;
 
@@ -57,14 +61,16 @@ const SubjectComponent2 = () => {
             const {data} = await axios.get(api);
             setState(prevState => ({
                 ...prevState,
-                dataTable: data,
-                currentPage: 1
+                dataTable: data.content,
+                currentPage: data.page,
+                totalPage: data.totalPages
             }));
         } catch (error) {
             console.error('Lỗi khi lấy dữ liệu:', error);
         }
     }, [api]);
 
+    // Gọi hàm fetchData khi component được render
     useEffect(() => {
         fetchData();
         console.log('Render SubjectComponent');
@@ -99,9 +105,16 @@ const SubjectComponent2 = () => {
         }));
     }, [handleSave]);
 
-    const [actionModal, setActionModal] = useState('CREATE');
-    const [initialIdCurrent, setInitialIdCurrent] = useState(null);
+    // Hàm xử lý xác nhận xóa
+    const confirmDelete = (item) => {
+        setDeleteItemId(item.subject_id);
+        setShowConfirmModal(true);
+    };
 
+    // Hàm xử lý xác nhận xóa và cập nhật dữ liệu
+    const handleDeleteConfirmation = () => {
+        fetchData();
+    };
 
     return (
         <>
@@ -125,13 +138,12 @@ const SubjectComponent2 = () => {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row justify-content-center">
-                        {/* Form Component Card */}
+                        {/* Card cho Form Component */}
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
                                     <FormComponent
-                                        title={actionModal === 'EDIT' ?
-                                            'Cập Nhật' : actionModal === 'CREATE' ? 'Thêm Mới' : 'Chi tiết'}
+                                        title={actionModal === 'EDIT' ? 'Cập Nhật' : actionModal === 'CREATE' ? 'Thêm Mới' : 'Chi tiết'}
                                         fields={state.modalProps.formFieldsProp}
                                         getData={fetchData}
                                         action={actionModal}
@@ -144,12 +156,12 @@ const SubjectComponent2 = () => {
                             </div>
                         </div>
 
-                        {/* Filters, Search Input and Button, Add New Button Card */}
+                        {/* Card cho các bộ lọc, ô tìm kiếm và nút thêm mới */}
                         <div className="col-md-8">
                             <div className="card mb-4">
                                 <div className="card-body">
                                     <div className="row mb-4">
-                                        {/* Filters */}
+                                        {/* Bộ lọc */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <SelectDropdown
                                                 id="programStatus1"
@@ -165,7 +177,7 @@ const SubjectComponent2 = () => {
                                             />
                                         </div>
 
-                                        {/* Search Input and Button */}
+                                        {/* Ô tìm kiếm và nút tìm kiếm */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
@@ -183,7 +195,7 @@ const SubjectComponent2 = () => {
                                             </Button>
                                         </div>
 
-                                        {/* Add New Button */}
+                                        {/* Nút thêm mới */}
                                         <div className="col-md-4 d-flex align-items-center justify-content-end">
                                             <Button
                                                 variant="primary"
@@ -197,6 +209,8 @@ const SubjectComponent2 = () => {
                                             </Button>
                                         </div>
                                     </div>
+
+                                    {/* Bảng dữ liệu */}
                                     <TableComponents
                                         cols={COLUMNS}
                                         dataTable={state.dataTable}
@@ -204,16 +218,19 @@ const SubjectComponent2 = () => {
                                         api={api}
                                         formFieldsProp={state.modalProps.formFieldsProp}
                                         getData={fetchData}
-                                        actionView={(data) => {
-                                            setInitialIdCurrent(data);
+                                        actionView={(subject) => {
+                                            setInitialIdCurrent(subject.subject_id);
                                             setActionModal('VIEW');
                                         }}
-                                        actionEdit={(data) => {
-                                            setInitialIdCurrent(data);
+                                        actionEdit={(subject) => {
+                                            setInitialIdCurrent(subject.subject_id);
                                             setActionModal('EDIT');
                                         }}
+                                        actionDelete={confirmDelete}
                                         useModal={false}
                                     />
+
+                                    {/* Phân trang */}
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
@@ -230,7 +247,14 @@ const SubjectComponent2 = () => {
                 </div>
             </section>
 
-
+            {/* Modal xác nhận xóa */}
+            <DeleteComponent
+                show={showConfirmModal}
+                onHide={() => setShowConfirmModal(false)}
+                onConfirm={handleDeleteConfirmation}
+                deleteItemID={deleteItemId}
+                apiDelete={api}
+            />
         </>
     );
 }

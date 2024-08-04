@@ -6,27 +6,26 @@ import SelectDropdown from '../../components/SelectDownButton';
 import PagingComponent from '../../components/PagingComponent';
 import ModalComponent from '../../components/ModalComponent';
 import API from '../../store/Api';
+import DeleteComponent from "../../components/DeleteItemComponent";
 
-// Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
+// Các hằng số khởi tạo
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
     titleTable: 'SubjectComponent', // Tiêu đề của bảng
     classTable: 'table table-bordered table-hover', // Lớp CSS của bảng
-    totalPage: 5, // Tổng số trang
-    currentPage: 1, // Trang hiện tại
     modalShow: false, // Trạng thái hiển thị modal
     modalProps: {
         show: false,
         action: '',
         formFieldsProp: [
-            {name: 'name', type: 'text', label: 'Name', placeholder: 'Enter the name'},
-            {name: 'duration', type: 'text', label: 'Duration', placeholder: 'Enter duration'},
+            {name: 'subject_name', type: 'text', label: 'Subject Name', placeholder: 'Enter the subject name'},
+            {name: 'training_duration', type: 'text', label: 'Duration', placeholder: 'Enter duration'},
             {
-                name: 'programName',
+                name: 'training_program_id',
                 type: 'select',
                 label: 'Program Name',
                 placeholder: 'Select a program',
-                apiUrl: '/data/status.json',
+                apiUrl: '/data/status.json', // Cập nhật URL này thành API thực tế của bạn
                 defaultOption: {value: '', label: 'Select a program'}
             },
             {
@@ -34,7 +33,7 @@ const INITIAL_STATE = {
                 type: 'select',
                 label: 'Status',
                 placeholder: 'Select status',
-                apiUrl: '/data/status.json',
+                apiUrl: '/data/status.json', // Cập nhật URL này thành API thực tế của bạn
                 defaultOption: {value: '', label: 'Select status'}
             }
         ],
@@ -44,45 +43,50 @@ const INITIAL_STATE = {
     }
 };
 
-const COLUMNS = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
+// Các cột của bảng
+const COLUMNS = ['STT', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
 
 const SubjectComponent = () => {
-    const [state, setState] = useState(INITIAL_STATE);
+    const [state, setState] = useState(INITIAL_STATE); // Trạng thái của component
+    const [deleteItemId, setDeleteItemId] = useState(null); // ID của mục đang được xóa
+    const [showConfirmModal, setShowConfirmModal] = useState(false); // Trạng thái hiển thị modal xác nhận xóa
 
     const api = API.SUBJECT;
 
-    // Hàm lấy dữ liệu từ API
+    // Hàm lấy dữ liệu
     const fetchData = useCallback(async () => {
         try {
             const {data} = await axios.get(api);
             setState(prevState => ({
                 ...prevState,
-                dataTable: data,
-                currentPage: 1
+                dataTable: data.content, // Dữ liệu bảng từ API
+                currentPage: data.page,
+                totalPage: data.totalPages // Tổng số trang từ phản hồi
             }));
         } catch (error) {
             console.error('Lỗi khi lấy dữ liệu:', error);
         }
     }, [api]);
 
+    // Sử dụng useEffect để gọi fetchData khi component mount
     useEffect(() => {
         fetchData();
         console.log('Render SubjectComponent');
     }, [fetchData]);
 
-    // Hàm xử lý thay đổi trang
+    // Xử lý thay đổi trang
     const handlePageChange = useCallback(pageNumber => {
         setState(prevState => ({...prevState, currentPage: pageNumber}));
     }, []);
 
-    // Hàm xử lý lưu dữ liệu
+    // Xử lý lưu dữ liệu
     const handleSave = useCallback(formData => {
         console.log('Đang lưu dữ liệu...');
         console.log('Dữ liệu biểu mẫu:', formData);
         // Thêm logic lưu dữ liệu ở đây
     }, []);
 
-    // Hàm hiển thị modal
+    // Hiển thị modal
     const handleModalShow = useCallback(() => {
         setState(prevState => ({
             ...prevState,
@@ -106,6 +110,34 @@ const SubjectComponent = () => {
         onHide: () => setState(prevState => ({...prevState, modalShow: false})),
         onSave: handleSave
     }), [state.modalProps, state.modalShow, handleSave]);
+
+    // Xác nhận xóa mục
+    const confirmDelete = (item) => {
+        setDeleteItemId(item.subject_id);
+        setShowConfirmModal(true);
+    };
+
+    // Xử lý xác nhận xóa
+    const handleDeleteConfirmation = () => {
+        fetchData(); // Cập nhật dữ liệu sau khi xóa
+    };
+
+    // Mở modal với các cài đặt khác nhau
+    const openModal = (action, isEdit, row) => {
+        setState(prevState => ({
+            ...prevState,
+            modalShow: true,
+            modalProps: {
+                ...prevState.modalProps,
+                show: true,
+                onHide: () => setState(prevState => ({...prevState, modalShow: false})),
+                onSave: fetchData,
+                action,
+                initialIsEdit: isEdit,
+                initialIdCurrent: row.subject_id
+            }
+        }));
+    };
 
     return (
         <>
@@ -133,7 +165,6 @@ const SubjectComponent = () => {
                             <div className="card card-primary">
                                 <div className="card-body">
                                     <div className="row mb-4">
-                                        {/* First Part: Filters */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <SelectDropdown
                                                 id="programStatus1"
@@ -147,10 +178,7 @@ const SubjectComponent = () => {
                                                 apiUrl="/data/status.json"
                                                 className="form-select rounded-pill border-secondary flex-fill"
                                             />
-
                                         </div>
-
-                                        {/* Second Part: Search Input and Button */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
@@ -167,8 +195,6 @@ const SubjectComponent = () => {
                                                 <i className="bi bi-search"></i>
                                             </Button>
                                         </div>
-
-                                        {/* Third Part: Add New Button */}
                                         <div className="col-md-4 d-flex align-items-center justify-content-end">
                                             <Button
                                                 variant="primary"
@@ -182,7 +208,6 @@ const SubjectComponent = () => {
                                             </Button>
                                         </div>
                                     </div>
-
                                     <div className="row">
                                         <div className="col-12">
                                             <TableComponents
@@ -192,6 +217,9 @@ const SubjectComponent = () => {
                                                 api={api}
                                                 formFieldsProp={state.modalProps.formFieldsProp}
                                                 getData={fetchData}
+                                                actionDelete={confirmDelete}
+                                                useModal={true}
+                                                openModal={openModal}
                                             />
                                         </div>
                                     </div>
@@ -212,8 +240,15 @@ const SubjectComponent = () => {
                 </div>
             </section>
             <ModalComponent {...modalProps} getData={fetchData}/>
+            <DeleteComponent
+                show={showConfirmModal}
+                onHide={() => setShowConfirmModal(false)}
+                onConfirm={handleDeleteConfirmation}
+                deleteItemID={deleteItemId}
+                apiDelete={api}
+            />
         </>
     );
-}
+};
 
 export default SubjectComponent;

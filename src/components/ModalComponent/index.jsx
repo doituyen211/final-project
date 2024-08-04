@@ -24,9 +24,9 @@ function ModalComponent(props) {
         }
     }, [initialAction]);
 
-    const handleEdit = () => {
-        setActionModal('EDIT');
-    };
+    // const handleEdit = () => {
+    //     setActionModal('EDIT');
+    // };
 
     return (
         <Modal
