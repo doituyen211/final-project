@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import TableComponents from '../../components/TableComponent';
 import SelectDropdown from '../../components/SelectDownButton';
 import PagingComponent from '../../components/PagingComponent';
-import ModalComponent from '../../components/ModalComponent';
 import API from '../../store/Api';
+import FormComponent from "../../components/FormComponent";
 
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
@@ -46,7 +46,7 @@ const INITIAL_STATE = {
 
 const COLUMNS = ['STT', 'Mã môn học', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
 
-const SubjectComponent = () => {
+const SubjectComponent2 = () => {
     const [state, setState] = useState(INITIAL_STATE);
 
     const api = API.SUBJECT;
@@ -99,13 +99,9 @@ const SubjectComponent = () => {
         }));
     }, [handleSave]);
 
-    // Các thuộc tính của modal
-    const modalProps = useMemo(() => ({
-        ...state.modalProps,
-        show: state.modalShow,
-        onHide: () => setState(prevState => ({...prevState, modalShow: false})),
-        onSave: handleSave
-    }), [state.modalProps, state.modalShow, handleSave]);
+    const [actionModal, setActionModal] = useState('CREATE');
+    const [initialIdCurrent, setInitialIdCurrent] = useState(null);
+
 
     return (
         <>
@@ -129,11 +125,31 @@ const SubjectComponent = () => {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row justify-content-center">
-                        <div className="col">
-                            <div className="card card-primary">
+                        {/* Form Component Card */}
+                        <div className="col-md-4">
+                            <div className="card">
+                                <div className="card-body">
+                                    <FormComponent
+                                        title={actionModal === 'EDIT' ?
+                                            'Cập Nhật' : actionModal === 'CREATE' ? 'Thêm Mới' : 'Chi tiết'}
+                                        fields={state.modalProps.formFieldsProp}
+                                        getData={fetchData}
+                                        action={actionModal}
+                                        idCurrent={initialIdCurrent}
+                                        onClose={() => {
+                                        }}
+                                        api={api}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Filters, Search Input and Button, Add New Button Card */}
+                        <div className="col-md-8">
+                            <div className="card mb-4">
                                 <div className="card-body">
                                     <div className="row mb-4">
-                                        {/* First Part: Filters */}
+                                        {/* Filters */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <SelectDropdown
                                                 id="programStatus1"
@@ -147,10 +163,9 @@ const SubjectComponent = () => {
                                                 apiUrl="/data/status.json"
                                                 className="form-select rounded-pill border-secondary flex-fill"
                                             />
-
                                         </div>
 
-                                        {/* Second Part: Search Input and Button */}
+                                        {/* Search Input and Button */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
@@ -168,7 +183,7 @@ const SubjectComponent = () => {
                                             </Button>
                                         </div>
 
-                                        {/* Third Part: Add New Button */}
+                                        {/* Add New Button */}
                                         <div className="col-md-4 d-flex align-items-center justify-content-end">
                                             <Button
                                                 variant="primary"
@@ -182,19 +197,23 @@ const SubjectComponent = () => {
                                             </Button>
                                         </div>
                                     </div>
-
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <TableComponents
-                                                cols={COLUMNS}
-                                                dataTable={state.dataTable}
-                                                classTable={state.classTable}
-                                                api={api}
-                                                formFieldsProp={state.modalProps.formFieldsProp}
-                                                getData={fetchData}
-                                            />
-                                        </div>
-                                    </div>
+                                    <TableComponents
+                                        cols={COLUMNS}
+                                        dataTable={state.dataTable}
+                                        classTable={state.classTable}
+                                        api={api}
+                                        formFieldsProp={state.modalProps.formFieldsProp}
+                                        getData={fetchData}
+                                        actionView={(data) => {
+                                            setInitialIdCurrent(data);
+                                            setActionModal('VIEW');
+                                        }}
+                                        actionEdit={(data) => {
+                                            setInitialIdCurrent(data);
+                                            setActionModal('EDIT');
+                                        }}
+                                        useModal={false}
+                                    />
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
@@ -205,15 +224,15 @@ const SubjectComponent = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="card-footer"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <ModalComponent {...modalProps} getData={fetchData}/>
+
+
         </>
     );
 }
 
-export default SubjectComponent;
+export default SubjectComponent2;

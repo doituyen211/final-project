@@ -6,7 +6,7 @@ import {Button, Col, Form, Row} from 'react-bootstrap';
 import Input from '../InputComponents';
 
 function FormComponent(props) {
-    const {fields, getData, action, idCurrent, onClose, api} = props;
+    const {fields, getData, action, idCurrent, onClose, api, title} = props;
 
     const [formData, setFormData] = useState(() =>
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
@@ -24,6 +24,9 @@ function FormComponent(props) {
             const method = action === 'EDIT' ? axios.put : axios.post;
             await method(url, formData);
             onClose();
+            // Đưa form về mặc định
+            setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+
             getData();
         } catch (error) {
             console.error(`Error ${action.toLowerCase()} item:`, error);
@@ -122,14 +125,15 @@ function FormComponent(props) {
 
     return (
         <Form onSubmit={handleSubmit}>
+            <h3 className="text-start mb-4">{title}</h3> {/* Add form title here */}
             <Row>
                 {fields.map(renderField)}
             </Row>
             <div className="d-flex justify-content-center">
-                <Button variant="secondary" className="me-2" type="button" onClick={onClose}>Close</Button>
+                <Button variant="secondary" className="me-2" type="button" onClick={onClose}>Huỷ bỏ</Button>
                 {action === 'VIEW'
-                    ? <Button variant="primary" type="button">Edit</Button>
-                    : <Button variant="primary" type="submit">Save Changes</Button>
+                    ? <Button variant="primary" type="button">Chỉnh sửa</Button>
+                    : <Button variant="primary" type="submit">Lưu lại</Button>
                 }
             </div>
         </Form>

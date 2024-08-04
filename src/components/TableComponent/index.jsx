@@ -1,12 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import {Button} from "react-bootstrap";
-import ModalComponent from "../ModalComponent";
-import DeleteComponent from "../DeleteItemComponent";
+import {Button} from 'react-bootstrap';
+import ModalComponent from '../ModalComponent';
+import DeleteComponent from '../DeleteItemComponent';
 
 function TableComponents(props) {
     const {
         cols, titleTable, dataTable, classTable,
-        api, formFieldsProp, getData
+        api, formFieldsProp, getData, actionView, actionEdit, useModal
     } = props;
 
     const [modalShow, setModalShow] = useState(false);
@@ -20,25 +20,25 @@ function TableComponents(props) {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [deleteItem, setDeleteItem] = useState(null);
 
-    // Hàm xử lý khi lưu dữ liệu
+    // Handle save data
     const handleSave = useCallback((formData) => {
         console.log("Saving data...");
         console.log("Form data:", formData);
         getData();
     }, [getData]);
 
-    // Hàm xử lý sau khi xác nhận xóa dữ liệu
+    // Handle delete confirmation
     const handleDeleteConfirmation = useCallback(() => {
         getData();
     }, [getData]);
 
-    // Hàm mở modal xác nhận xóa
+    // Open confirm delete modal
     const confirmDelete = useCallback((item) => {
         setDeleteItem(item);
         setShowConfirmModal(true);
     }, []);
 
-    // Hàm mở modal với các thiết lập khác nhau
+    // Open modal with different settings
     const openModal = useCallback((action, isEdit, id) => {
         setModalProps({
             onHide: () => setModalShow(false),
@@ -72,12 +72,37 @@ function TableComponents(props) {
                             <td key={cellIndex}>{row[field.name]}</td>
                         ))}
                         <td className="text-center">
-                            <Button variant="light" className="me-2" onClick={() => openModal('VIEW', true, row.id)}>
+                            <Button
+                                variant="light"
+                                className="me-2"
+                                onClick={() => {
+                                    if (!useModal) {
+                                        console.log("Using actionView");
+                                        actionView(row.id);
+                                    } else {
+                                        console.log("Using default view action");
+                                        openModal('VIEW', true, row.id);
+                                    }
+                                }}
+                            >
                                 View
                             </Button>
-                            <Button variant="primary" className="me-2" onClick={() => openModal('EDIT', true, row.id)}>
+                            <Button
+                                variant="primary"
+                                className="me-2"
+                                onClick={() => {
+                                    if (!useModal) {
+                                        console.log("Using actionEdit");
+                                        actionEdit(row.id);
+                                    } else {
+                                        console.log("Using default edit action");
+                                        openModal('EDIT', true, row.id);
+                                    }
+                                }}
+                            >
                                 Edit
                             </Button>
+
                             <Button variant="danger" onClick={() => confirmDelete(row)}>Delete</Button>
                         </td>
                     </tr>
