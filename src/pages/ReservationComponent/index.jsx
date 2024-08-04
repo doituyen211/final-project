@@ -47,13 +47,11 @@ const ReservationComponent = () => {
       name: "started",
       type: "date",
       label: "Thời gian bắt đầu",
-      placeholder: "Nhập thời gian",
     },
     {
       name: "ended",
       type: "date",
       label: "Thời gian kết thúc",
-      placeholder: "Nhập thời gian",
     },
     {
       name: "status",
@@ -63,6 +61,7 @@ const ReservationComponent = () => {
     },
   ];
   const cols = [
+    "STT",
     "Mã học viên",
     "Tên học viên",
     "Số điện thoại",
