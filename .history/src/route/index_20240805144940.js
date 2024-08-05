@@ -1,7 +1,6 @@
 import { SubjectComponent2, UserComponent } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ScheduleComponent from "../pages/ScheduleComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 export const routeSideBar = [
     {
         name: "Dashboard",
@@ -60,7 +59,7 @@ export const routeSideBar = [
                 name: "Quản lý chương trình đào tạo",
                 icon: "nav-icon fas fa-cogs",
                 to: "/programs",
-                component: TrainningProgramComponent,
+                component: ,
             },
             {
                 name: "Quản lý điểm danh",
