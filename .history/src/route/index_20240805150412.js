@@ -1,6 +1,5 @@
 import { SubjectComponent2, UserComponent } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 
 export const routeSideBar = [
     {

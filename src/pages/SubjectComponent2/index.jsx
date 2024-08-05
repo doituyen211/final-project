@@ -181,6 +181,10 @@ const SubjectComponent2 = () => {
                                         action={actionModal}
                                         idCurrent={initialIdCurrent}
                                         onClose={() => {
+                                            // Refresh page by fetching data again
+                                            fetchData(searchTerm, currentPage);
+                                            setInitialIdCurrent(null); // Reset current ID if needed
+                                            setActionModal('CREATE'); // Reset action if needed
                                         }}
                                         api={api}
                                     />

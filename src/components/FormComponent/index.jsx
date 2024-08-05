@@ -150,7 +150,10 @@ function FormComponent(props) {
                 {fields.map(renderField)}
             </Row>
             <div className="d-flex justify-content-center">
-                <Button variant="secondary" className="me-2" type="button" onClick={onClose}>Huỷ bỏ</Button>
+                <Button variant="secondary" className="me-2" type="button" onClick={() => {
+                    setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+                    onClose()
+                }}>Huỷ bỏ</Button>
                 {action === 'VIEW'
                     ? <Button variant="primary" type="button">Chỉnh sửa</Button>
                     : <Button variant="primary" type="submit">Lưu lại</Button>
