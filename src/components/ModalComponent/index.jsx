@@ -1,60 +1,32 @@
-import React from 'react';
-import {Modal} from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
 import FormComponent from "../FormComponent";
-import axios from "axios";
-import {toast} from "react-toastify";
 
-function ModalComponent({
-                            onHide,
-                            show,
-                            action,
-                            formFieldsProp,
-                            initialIsEdit,
-                            initialIdCurrent,
-                            apiUpdate,
-                            apiCreate,
-                            apiView,
-                            getData
-                        }) {
+function ModalComponent(props) {
+    const {
+        onHide,
+        show,
+        action: initialAction,
+        formFieldsProp,
+        initialIdCurrent,
+        api,
+        getData,
+    } = props;
 
-    const handleSave = (formData) => {
-        console.log("Saving data in SubjectCreate...");
-        console.log("Form data:", JSON.stringify(formData));
-        if (action === 'EDIT') {
-            UpdateItem(formData);
-        } else if (action === 'CREATE') {
-            CreateItem(formData);
+    const [actionModal, setActionModal] = useState(initialAction);
+
+    useEffect(() => {
+        if (["CREATE", "EDIT", "VIEW"].includes(initialAction)) {
+            setActionModal(initialAction);
+        } else {
+            console.warn(`Invalid action: ${initialAction}`);
+            setActionModal("CREATE"); // Default action
         }
-    };
-    const UpdateItem = (formData) => {
-        axios.put(`${apiUpdate}/${formData.id}`, formData)
-            .then(response => {
-                console.log('Update successful:', response);
-                onHide();
-                getData()
-                toast.success("Success Notification !", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            })
-            .catch(error => {
-                console.error('There was an error updating the item:', error);
-            });
-    };
+    }, [initialAction]);
 
-    const CreateItem = (formData) => {
-        axios.post(apiCreate, formData)
-            .then(response => {
-                console.log('Create successful:', response);
-                onHide();
-                getData()
-                toast.success("Success Notification !", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-            })
-            .catch(error => {
-                console.error('There was an error creating the item:', error);
-            });
-    };
+    // const handleEdit = () => {
+    //     setActionModal('EDIT');
+    // };
 
     return (
         <Modal
@@ -66,21 +38,24 @@ function ModalComponent({
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {action === "EDIT" ? "Cập nhật" : action === "VIEW" ? "" : "Thêm mới"}
+                    {actionModal === "EDIT"
+                        ? "Edit"
+                        : actionModal === "VIEW"
+                        ? "View"
+                        : "Create"}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <FormComponent
                     fields={formFieldsProp}
-                    onSubmit={handleSave}
-                    isEdit={action === "EDIT"}
-                    isView={action === 'VIEW'}
+                    getData={getData}
+                    action={actionModal}
                     idCurrent={initialIdCurrent}
                     onClose={onHide}
+                    api={api}
                 />
             </Modal.Body>
-            <Modal.Footer>
-            </Modal.Footer>
+            <Modal.Footer>{/* Add footer content if needed */}</Modal.Footer>
         </Modal>
     );
 }
