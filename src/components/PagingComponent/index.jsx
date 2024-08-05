@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-function PagingComponent() {
-  const [totalPage, setTotalPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
-
+function PagingComponent({ totalPage, currentPage, onPageChange }) {
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber >= 1 && pageNumber <= totalPage) {
+      onPageChange(pageNumber);
+    }
   };
 
   return (

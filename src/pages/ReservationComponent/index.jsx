@@ -3,21 +3,26 @@ import TableComponents from "../../components/TableComponent";
 import SelectDropdown from "../../components/SelectDownButton";
 import PagingComponent from "../../components/PagingComponent";
 import ModalComponent from "../../components/ModalComponent";
+import _ from "lodash";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 
 const ReservationComponent = () => {
+  const [keyword, setKeyword] = useState("");
   const [dataTable, setDataTable] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [paginatedData, setPaginatedData] = useState([]);
   const [titleTable, setTitleTable] = useState("");
   const [classTable, setClassTable] = useState("");
-  const [totalPage, setTotalPage] = useState(5);
-  const [isEdit, setIsEdit] = useState(true);
-  const [isCurrent, setIsCurrent] = useState(null);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Set the number of items per page
+
   const apiCreate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
   const apiDelete = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
   const apiView = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
   const apiUpdate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
+
   const formFieldsProp = [
     {
       name: "code",
@@ -72,15 +77,16 @@ const ReservationComponent = () => {
     "",
   ];
 
-  //BEGIN- GetData
+  // Get data from API
   const getData = async () => {
     try {
-      const res = await axios.get(
-        "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien"
-      ); // Get data from api
+      const res = await axios.get(apiView);
       setDataTable(res.data);
+      setFilteredData(res.data);
       setTitleTable("ReservationComponent");
       setClassTable("table table-bordered table-hover");
+      setTotalPage(Math.ceil(res.data.length / itemsPerPage)); // Calculate total pages
+      paginateData(res.data, currentPage);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -88,15 +94,22 @@ const ReservationComponent = () => {
 
   useEffect(() => {
     getData();
-  }, [dataTable]);
-  //-------------
+  }, []);
 
-  //Begin - Paging
+  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    paginateData(filteredData, pageNumber);
   };
-  //---------
-  //---------Begin - Modal
+
+  // Pagination logic
+  const paginateData = (data, page) => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const paginated = data.slice(startIndex, startIndex + itemsPerPage);
+    setPaginatedData(paginated);
+  };
+
+  // Modal handling
   const [modalShow, setModalShow] = useState(false);
   const [modalProps, setModalProps] = useState({
     show: modalShow,
@@ -113,11 +126,27 @@ const ReservationComponent = () => {
     console.log("Form data:", formData);
     // Your save logic here
   };
-  //End - Create
 
-  //Begin - Search
-  const handleSearch = () => {};
-  // End - Search
+  // Handle search
+  const handleSearch = (event) => {
+    setKeyword(event.target.value);
+    let term = event.target.value.toLowerCase();
+    if (term) {
+      const filtered = dataTable.filter((item) =>
+        item.name.toLowerCase().includes(term)
+      );
+      setFilteredData(filtered);
+      paginateData(filtered, 1); // Reset to first page for search results
+      setCurrentPage(1);
+      setTotalPage(Math.ceil(filtered.length / itemsPerPage)); // Recalculate total pages for search results
+    } else {
+      setFilteredData(dataTable);
+      paginateData(dataTable, 1); // Reset to first page if search term is cleared
+      setCurrentPage(1);
+      setTotalPage(Math.ceil(dataTable.length / itemsPerPage)); // Recalculate total pages
+    }
+  };
+
   return (
     <>
       <section className="content-header">
@@ -147,24 +176,26 @@ const ReservationComponent = () => {
                     <div className="col-md-10 d-flex align-items-center gap-3">
                       <div className="d-flex gap-3 col-md-6">
                         {/* <SelectDropdown
-                                                    id="programStatus1"
-                                                    defaultOption={{value: '', label: 'Chọn trạng thái'}}
-                                                    apiUrl="/data/status.json"
-                                                    className="form-select"
-                                                />
-                                                <SelectDropdown
-                                                    id="programStatus2"
-                                                    defaultOption={{value: '', label: 'Chọn chương trình học'}}
-                                                    apiUrl="/data/status.json"
-                                                    className="form-select"
-                                                /> */}
+                          id="programStatus1"
+                          defaultOption={{ value: '', label: 'Chọn trạng thái' }}
+                          apiUrl="/data/status.json"
+                          className="form-select"
+                        />
+                        <SelectDropdown
+                          id="programStatus2"
+                          defaultOption={{ value: '', label: 'Chọn chương trình học' }}
+                          apiUrl="/data/status.json"
+                          className="form-select"
+                        /> */}
                       </div>
                       <div className="d-flex col-md-6 justify-between-end gap-2">
                         <input
                           type="text"
+                          value={keyword}
                           className="form-control"
-                          placeholder="Search..."
+                          placeholder="Tìm kiếm học viên..."
                           aria-label="Search input"
+                          onChange={handleSearch}
                         />
                         <Button variant="light" size="sm">
                           <i className="bi bi-search"></i>
@@ -184,7 +215,6 @@ const ReservationComponent = () => {
                             formFieldsProp: formFieldsProp,
                             initialIsEdit: true,
                             initialIdCurrent: null,
-                            // apiUpdate: apiUpdate,
                             apiCreate: apiCreate,
                           });
                         }}
@@ -198,7 +228,7 @@ const ReservationComponent = () => {
                     <div className="col-12" style={{ width: "100%" }}>
                       <TableComponents
                         cols={cols}
-                        dataTable={dataTable}
+                        dataTable={paginatedData}
                         classTable={classTable}
                         apiDelete={apiDelete}
                         apiUpdate={apiUpdate}
@@ -225,7 +255,7 @@ const ReservationComponent = () => {
         </div>
       </section>
       {/*
-        díplay modal
+        display modal
         */}
       <ModalComponent show={modalShow} getData={getData} {...modalProps} />
     </>
