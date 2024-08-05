@@ -81,8 +81,6 @@ const ReservationComponent = () => {
       setDataTable(res.data);
       setTitleTable("ReservationComponent");
       setClassTable("table table-bordered table-hover");
-      setTotalPage(5);
-      setCurrentPage(1);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -197,7 +195,7 @@ const ReservationComponent = () => {
                   </div>
 
                   <div className="row">
-                    <div className="col-12">
+                    <div className="col-12" style={{ width: "100%" }}>
                       <TableComponents
                         cols={cols}
                         dataTable={dataTable}
