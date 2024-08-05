@@ -7,6 +7,7 @@ const BASE_URL = 'http://localhost:8080/api';
 // Common API endpoints
 const API = {
     SUBJECT: `${BASE_URL}/subject`,
+    COURSE: `${BASE_URL}/khoa_hoc`,
     // Add other API endpoints here if needed
 };
 
