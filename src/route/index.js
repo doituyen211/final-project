@@ -1,5 +1,6 @@
 import {SubjectComponent2, UserComponent} from "../pages";
 import ClassComponent from "../pages/ClassComponent";
+import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 
 export const routeSideBar = [
     {
@@ -59,6 +60,8 @@ export const routeSideBar = [
                 name: "Quản lý chương trình đào tạo",
                 icon: "nav-icon fas fa-cogs",
                 to: "/programs",
+                component: TrainningProgramComponent,
+
             },
             {
                 name: "Quản lý điểm danh",
@@ -88,3 +91,4 @@ export const routeSideBar = [
         ],
     },
 ];
+
