@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TableComponents from "../../components/TableComponent";
-import SelectDropdown from "../../components/SelectDownButton";
 import PagingComponent from "../../components/PagingComponent";
 import ModalComponent from "../../components/ModalComponent";
-import _ from "lodash";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 
@@ -78,15 +76,18 @@ const ReservationComponent = () => {
   ];
 
   // Get data from API
-  const getData = async () => {
+  const getData = async (page = 1) => {
     try {
       const res = await axios.get(apiView);
-      setDataTable(res.data);
-      setFilteredData(res.data);
+      const allData = res.data;
+      setDataTable(allData);
+      setFilteredData(allData);
       setTitleTable("ReservationComponent");
       setClassTable("table table-bordered table-hover");
-      setTotalPage(Math.ceil(res.data.length / itemsPerPage)); // Calculate total pages
-      paginateData(res.data, currentPage);
+
+      const total = Math.ceil(allData.length / itemsPerPage);
+      setTotalPage(total);
+      paginateData(allData, page);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -174,20 +175,6 @@ const ReservationComponent = () => {
                 <div className="card-body">
                   <div className="row align-items-center">
                     <div className="col-md-10 d-flex align-items-center gap-3">
-                      <div className="d-flex gap-3 col-md-6">
-                        {/* <SelectDropdown
-                          id="programStatus1"
-                          defaultOption={{ value: '', label: 'Chọn trạng thái' }}
-                          apiUrl="/data/status.json"
-                          className="form-select"
-                        />
-                        <SelectDropdown
-                          id="programStatus2"
-                          defaultOption={{ value: '', label: 'Chọn chương trình học' }}
-                          apiUrl="/data/status.json"
-                          className="form-select"
-                        /> */}
-                      </div>
                       <div className="d-flex col-md-6 justify-between-end gap-2">
                         <input
                           type="text"
@@ -254,9 +241,6 @@ const ReservationComponent = () => {
           </div>
         </div>
       </section>
-      {/*
-        display modal
-        */}
       <ModalComponent show={modalShow} getData={getData} {...modalProps} />
     </>
   );
