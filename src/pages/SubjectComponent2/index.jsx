@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
+import {Button, Form} from 'react-bootstrap';
 import TableComponents from '../../components/TableComponent';
-import SelectDropdown from '../../components/SelectDownButton';
+// import SelectDropdown from '../../components/SelectDownButton';
 import PagingComponent from '../../components/PagingComponent';
 import API from '../../store/Api';
 import FormComponent from "../../components/FormComponent";
@@ -25,7 +25,7 @@ const INITIAL_STATE = {
                 type: 'select',
                 label: 'Program Name',
                 placeholder: 'Select a program',
-                apiUrl: '/data/status.json', // Cập nhật URL này với API endpoint thực tế của bạn
+                apiUrl: '/data/program.json', // Cập nhật URL này với API endpoint thực tế của bạn
                 defaultOption: {value: '', label: 'Select a program'}
             },
             {
@@ -55,15 +55,28 @@ const SubjectComponent2 = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const [program, setProgram] = useState('');
+    const [status, setStatus] = useState('');
+
     const api = API.SUBJECT;
 
+    // Fetch data with optional filters
     const fetchData = useCallback(async (search = '', page = 1) => {
         try {
+            console.log("RENDER with", {
+                page: page,
+                pageSize: 10,
+                search,
+                status,
+                program
+            });
             const {data} = await axios.get(api, {
                 params: {
                     page: page,
                     pageSize: 10,
-                    search
+                    search,
+                    status,
+                    program
                 }
             });
             setState(prevState => ({
@@ -73,9 +86,10 @@ const SubjectComponent2 = () => {
             setCurrentPage(data.page);
             setTotalPages(data.totalPages);
         } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu:', error);
+            console.error('Error fetching data:', error);
         }
-    }, [api]);
+    }, [api, status, program]);
+
     //Search
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -87,6 +101,14 @@ const SubjectComponent2 = () => {
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
+    const handleProgramChange = useCallback((event) => {
+        setProgram(event.target.value);
+    }, []);
+
+    const handleStatusChange = useCallback((event) => {
+        setStatus(event.target.value);
+    }, []);
+
     useEffect(() => {
         fetchData('', currentPage);
         console.log('Render SubjectComponent');
@@ -96,30 +118,25 @@ const SubjectComponent2 = () => {
         setCurrentPage(pageNumber);
     }, []);
 
-    // Hàm xử lý lưu dữ liệu
-    const handleSave = useCallback(formData => {
-        console.log('Đang lưu dữ liệu...');
-        console.log('Dữ liệu biểu mẫu:', formData);
-        // Thêm logic lưu dữ liệu ở đây
+    useEffect(() => {
+        // fetchData('', currentPage);
+        fetchOptions();
     }, []);
-
-    // Hàm hiển thị modal
-    const handleModalShow = useCallback(() => {
-        setState(prevState => ({
-            ...prevState,
-            modalShow: true,
-            modalProps: {
-                ...prevState.modalProps,
-                show: true,
-                onHide: () => setState(prevState => ({...prevState, modalShow: false})),
-                onSave: handleSave,
-                action: 'CREATE',
-                initialIsEdit: true,
-                initialIdCurrent: null
-            }
-        }));
-    }, [handleSave]);
-
+    const [statusOptions, setStatusOptions] = useState([]);
+    const [programOptions, setProgramOptions] = useState([]);
+    // Fetch options for filters
+    const fetchOptions = useCallback(async () => {
+        try {
+            const [statusResponse, programResponse] = await Promise.all([
+                axios.get('/data/status.json'),
+                axios.get('/data/program.json')
+            ]);
+            setStatusOptions(statusResponse.data);
+            setProgramOptions(programResponse.data);
+        } catch (error) {
+            console.error('Error fetching options:', error);
+        }
+    }, []);
     // Hàm xử lý xác nhận xóa
     const confirmDelete = (item) => {
         setDeleteItemId(item.subject_id);
@@ -177,23 +194,39 @@ const SubjectComponent2 = () => {
                                 <div className="card-body">
                                     <div className="row mb-4">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-4 d-flex align-items-center gap-3">
-                                            <SelectDropdown
-                                                id="programStatus1"
-                                                defaultOption={{value: '', label: 'Chọn trạng thái'}}
-                                                apiUrl="/data/status.json"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                            />
-                                            <SelectDropdown
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
                                                 id="programStatus2"
-                                                defaultOption={{value: '', label: 'Chọn chương trình học'}}
-                                                apiUrl="/data/status.json"
+                                                aria-label="Program"
                                                 className="form-select rounded-pill border-secondary flex-fill"
-                                            />
+                                                value={program}
+                                                onChange={handleProgramChange}
+                                            >
+                                                <option value="">Chọn chương trình học</option>
+                                                {programOptions.map(option => (
+                                                    <option key={option.value} value={option.id}>
+                                                        {option.name}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
                                         </div>
-
-                                        {/* Ô tìm kiếm và nút tìm kiếm */}
-                                        <div className="col-md-4 d-flex align-items-center gap-3">
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus1"
+                                                aria-label="Status"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={status}
+                                                onChange={handleStatusChange}
+                                            >
+                                                <option value="">Chọn trạng thái</option>
+                                                {statusOptions.map(option => (
+                                                    <option key={option.value} value={option.id}>
+                                                        {option.name}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-6 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
                                                 className="form-control rounded-pill border-secondary flex-fill"
@@ -212,19 +245,19 @@ const SubjectComponent2 = () => {
                                                 <i className="bi bi-search"></i>
                                             </Button>
                                         </div>
-                                        {/* Nút thêm mới */}
-                                        <div className="col-md-4 d-flex align-items-center justify-content-end">
-                                            <Button
-                                                variant="primary"
-                                                size="sm"
-                                                onClick={handleModalShow}
-                                                aria-label="Add new item"
-                                                className="d-flex align-items-center px-3 rounded-pill"
-                                            >
-                                                <i className="bi bi-plus-circle me-2"></i>
-                                                Add New
-                                            </Button>
-                                        </div>
+                                        {/*/!* Nút thêm mới *!/*/}
+                                        {/*<div className="col-md-4 d-flex align-items-center justify-content-end">*/}
+                                        {/*    <Button*/}
+                                        {/*        variant="primary"*/}
+                                        {/*        size="sm"*/}
+                                        {/*        onClick={handleModalShow}*/}
+                                        {/*        aria-label="Add new item"*/}
+                                        {/*        className="d-flex align-items-center px-3 rounded-pill"*/}
+                                        {/*    >*/}
+                                        {/*        <i className="bi bi-plus-circle me-2"></i>*/}
+                                        {/*        Add New*/}
+                                        {/*    </Button>*/}
+                                        {/*</div>*/}
                                     </div>
 
                                     {/* Bảng dữ liệu */}

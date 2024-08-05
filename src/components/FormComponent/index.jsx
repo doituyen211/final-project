@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import SelectDropdown from '../SelectDownButton';
+// import SelectDropdown from '../SelectDownButton';
 import axios from 'axios';
 import {Button, Col, Form, Row} from 'react-bootstrap';
 import Input from '../InputComponents';
@@ -41,7 +41,16 @@ function FormComponent(props) {
                 .catch(err => console.error('Error fetching data:', err));
         }
     }, [action, idCurrent, api]);
-
+    const [selectOptions, setSelectOptions] = useState({});
+    useEffect(() => {
+        fields.forEach(field => {
+            if (field.type === 'select' && field.apiUrl) {
+                axios.get(field.apiUrl)
+                    .then(res => setSelectOptions(prev => ({...prev, [field.name]: res.data})))
+                    .catch(err => console.error('Error fetching select options:', err));
+            }
+        });
+    }, [fields]);
     const renderField = (field) => {
         const commonProps = {
             key: field.name,
@@ -72,17 +81,25 @@ function FormComponent(props) {
                 return (
                     <Col {...commonProps}>
                         <Form.Group controlId={field.name}>
-                            <SelectDropdown
+                            <Form.Label>{field.label}</Form.Label>
+                            <Form.Select
                                 id={field.name}
-                                apiUrl={field.apiUrl}
-                                label={field.label}
-                                defaultOption={action === 'EDIT' || action === 'VIEW' ? {
-                                    value: formData[field.name],
-                                    label: formData[field.name]
-                                } : field.defaultOption}
+                                name={field.name}
+                                value={formData[field.name] || ''}
                                 onChange={handleChange}
                                 disabled={action === 'VIEW'}
-                            />
+                            >
+                                {field.defaultOption && (
+                                    <option value={field.defaultOption.value}>
+                                        {field.defaultOption.label}
+                                    </option>
+                                )}
+                                {field.apiUrl && selectOptions[field.name] && selectOptions[field.name].map(option => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.name}
+                                    </option>
+                                ))}
+                            </Form.Select>
                         </Form.Group>
                     </Col>
                 );
