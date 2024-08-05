@@ -1,22 +1,22 @@
-import {useEffect, useState} from 'react';
-import {NavLink, useMatch, useResolvedPath} from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {NavLink, useMatch, useResolvedPath} from "react-router-dom";
 
 const SideBarItemComponent = (props) => {
     const {to, name, icon, child = []} = props.item;
     const [isOpen, setIsOpen] = useState(false);
     const resolved = useResolvedPath(to);
     const isActive = useMatch({path: resolved.pathname, end: true});
-
+  
     useEffect(() => {
         setIsOpen(isActive);
     }, []);
 
     const handleToggle = (event) => {
-        setIsOpen(prevIsOpen => !prevIsOpen);
+        setIsOpen((prevIsOpen) => !prevIsOpen);
     };
 
     return (
-        <li className={`nav-item ${child.length > 0 ? 'menu-open' : ''}`}>
+        <li className={`nav-item ${child.length > 0 ? "menu-open" : ""}`}>
             <NavLink
                 to={to}
                 className={isActive ? "nav-link active" : "nav-link"}
@@ -26,12 +26,12 @@ const SideBarItemComponent = (props) => {
                 <p>
                     {name}
                     {child.length > 0 && (
-                        <i className={`fas fa-angle-${isOpen ? 'down' : 'left'} right`}></i>
+                        <i className={`fas fa-angle-${isOpen ? "down" : "left"} right`}></i>
                     )}
                 </p>
             </NavLink>
             {child.length > 0 && (
-                <ul className={`nav nav-treeview ${isOpen ? 'd-block' : 'd-none'}`}>
+                <ul className={`nav nav-treeview ${isOpen ? "d-block" : "d-none"}`}>
                     {child.map((item, i) => (
                         <SideBarItemComponent item={item} key={i}/>
                     ))}

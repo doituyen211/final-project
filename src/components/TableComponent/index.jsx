@@ -57,67 +57,50 @@ function TableComponents({
                     </tr>
                 </thead>
                 <tbody>
-                    {dataTable.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {Object.values(row).map((cell, cellIndex) => (
-                                <td
-                                    key={cellIndex}
-                                    style={{ textAlign: "center" }}
-                                >
-                                    {cell}
-                                </td>
-                            ))}
-                            <td className="text-center">
-                                <Button
-                                    variant="light"
-                                    className="me-2"
-                                    onClick={() => {
-                                        setModalProps({
-                                            onHide: () => setModalShow(false),
-                                            onSave: handleSave,
-                                            action: "VIEW",
-                                            formFieldsProp: formFieldsProp,
-                                            initialIsEdit: true,
-                                            initialIdCurrent: row.id,
-                                            apiUpdate: apiUpdate,
-                                            apiView: apiView,
-                                        });
-                                        setModalShow(true);
-                                    }}
-                                >
-                                    View
-                                </Button>
-                                <Button
-                                    variant="primary"
-                                    className="me-2"
-                                    onClick={() => {
-                                        setModalProps({
-                                            onHide: () => setModalShow(false),
-                                            onSave: handleSave,
-                                            action: "EDIT",
-                                            formFieldsProp: formFieldsProp,
-                                            initialIsEdit: true,
-                                            initialIdCurrent: row.id,
-                                            apiUpdate: apiUpdate,
-                                            apiView: apiView,
-                                        });
-                                        setModalShow(true);
-                                    }}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant="danger"
-                                    onClick={() => confirmDelete(row)}
-                                >
-                                    Delete
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}
+                {dataTable.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                        <td>{row.id}</td>
+                        {formFieldsProp.map((field, cellIndex) => (
+                            <td key={cellIndex} >{row[field.name]}</td>
+                        ))}
+                        <td className="text-center">
+                            <Button variant="light" className="me-2" onClick={() => {
+                                setModalProps({
+                                    onHide: () => setModalShow(false),
+                                    onSave: handleSave,
+                                    action: 'VIEW',
+                                    formFieldsProp: formFieldsProp,
+                                    initialIsEdit: true,
+                                    initialIdCurrent: row.id,
+                                    apiUpdate: apiUpdate,
+                                    apiView: apiView
+                                });
+                                setModalShow(true);
+                            }}>
+                                View
+                            </Button>
+                            <Button variant="primary" className="me-2" onClick={() => {
+                                setModalProps({
+                                    onHide: () => setModalShow(false),
+                                    onSave: handleSave,
+                                    action: 'EDIT',
+                                    formFieldsProp: formFieldsProp,
+                                    initialIsEdit: true,
+                                    initialIdCurrent: row.id,
+                                    apiUpdate: apiUpdate,
+                                    apiView: apiView
+                                });
+                                setModalShow(true);
+                            }}>
+                                Edit
+                            </Button>
+                            <Button variant="danger" onClick={() => confirmDelete(row)}>Delete</Button>
+                        </td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
-            <ModalComponent show={modalShow} {...modalProps} />
+            <ModalComponent show={modalShow} getData={getData} {...modalProps} />
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}

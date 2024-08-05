@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import FormComponent from "../FormComponent";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 function ModalComponent({
                             onHide,
@@ -31,6 +32,9 @@ function ModalComponent({
                 console.log('Update successful:', response);
                 onHide();
                 getData()
+                toast.success("Success Notification !", {
+                    position: toast.POSITION.TOP_RIGHT,
+                });
             })
             .catch(error => {
                 console.error('There was an error updating the item:', error);
@@ -43,6 +47,9 @@ function ModalComponent({
                 console.log('Create successful:', response);
                 onHide();
                 getData()
+                toast.success("Success Notification !", {
+                    position: toast.POSITION.TOP_RIGHT,
+                });
             })
             .catch(error => {
                 console.error('There was an error creating the item:', error);

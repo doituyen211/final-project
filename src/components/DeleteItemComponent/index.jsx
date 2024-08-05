@@ -7,7 +7,7 @@ function DeleteComponent({show, onHide, onConfirm, deleteItem, apiDelete}) {
         if (deleteItem) {
             axios.delete(apiDelete + `/${deleteItem.id}`)
                 .then((res) => {
-                   
+
                     console.log('Delete Successful: ' + JSON.stringify(deleteItem));
                     if (onConfirm) onConfirm();  // Call onConfirm to notify parent
                 })
@@ -24,17 +24,17 @@ function DeleteComponent({show, onHide, onConfirm, deleteItem, apiDelete}) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Confirm Deletion</Modal.Title>
+                <Modal.Title>Xác nhận xoá</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to delete this item?
+                Bạn cos chắc chăn muốn xoá không ?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Cancel
+                    Huỷ bỏ
                 </Button>
                 <Button variant="danger" onClick={handleDelete}>
-                    Delete
+                    Xoá
                 </Button>
             </Modal.Footer>
         </Modal>

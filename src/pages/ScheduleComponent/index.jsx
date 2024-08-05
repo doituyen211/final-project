@@ -45,7 +45,7 @@ const ScheduleComponent = () => {
             type: "select",
             label: "Mã Lớp",
             placeholder: "Chọn mã lớp",
-            apiUrl: "/data/status.json",
+            apiUrl: "/data/schedules.json",
             defaultOption: {
                 value: "",
                 label: "Select a classCode",
@@ -62,7 +62,7 @@ const ScheduleComponent = () => {
             type: "select",
             label: "Giảng viên",
             placeholder: "Chọn giảng viên...",
-            apiUrl: "/data/status.json",
+            apiUrl: "/data/schedules.json",
             defaultOption: {
                 value: "",
                 label: "Select a lecturers",
@@ -71,6 +71,7 @@ const ScheduleComponent = () => {
     ];
 
     const cols = [
+        "",
         "Môn học",
         "Thời Gian Bắt Đầu",
         "Thời Gian Kết Thúc",
