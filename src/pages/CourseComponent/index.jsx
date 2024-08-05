@@ -11,7 +11,7 @@ import DeleteComponent from "../../components/DeleteItemComponent";
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
-    titleTable: 'SubjectComponent', // Tiêu đề của bảng
+    titleTable: 'CourseComponent', // Tiêu đề của bảng
     classTable: 'table table-bordered table-hover', // Lớp CSS của bảng
     modalShow: false, // Trạng thái hiển thị modal
     modalProps: {
@@ -27,9 +27,9 @@ const INITIAL_STATE = {
 };
 
 // Các cột của bảng
-const COLUMNS = ['STT', 'Năm khóa học', 'Trạng thái', ''];
+const COLUMNS = ['STT', 'Năm khóa học', ''];
 
-const SubjectComponent2 = () => {
+const CourseComponent = () => {
     const [state, setState] = useState(INITIAL_STATE);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -72,7 +72,7 @@ const SubjectComponent2 = () => {
 
     useEffect(() => {
         fetchData('', currentPage);
-        console.log('Render SubjectComponent');
+        console.log('Render CourseComponent');
     }, [fetchData, currentPage]);
 
     const handlePageChange = useCallback(pageNumber => {
@@ -161,20 +161,7 @@ const SubjectComponent2 = () => {
                                     <div className="row mb-4">
                                         {/* Bộ lọc */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
-                                            {/* <SelectDropdown
-                                                id="programStatus1"
-                                                defaultOption={{value: '', label: 'Chọn trạng thái'}}
-                                                apiUrl="/data/status.json"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                            /> */}
-                                            {/* <SelectDropdown
-                                                id="programStatus2"
-                                                defaultOption={{value: '', label: 'Chọn chương trình học'}}
-                                                apiUrl="/data/status.json"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                            /> */}
                                         </div>
-
                                         {/* Ô tìm kiếm và nút tìm kiếm */}
                                         <div className="col-md-4 d-flex align-items-center gap-3">
                                             <input
@@ -197,7 +184,7 @@ const SubjectComponent2 = () => {
                                         </div>
                                         {/* Nút thêm mới */}
                                         <div className="col-md-4 d-flex align-items-center justify-content-end">
-                                            <Button
+                                            {/* <Button
                                                 variant="primary"
                                                 size="sm"
                                                 onClick={handleModalShow}
@@ -206,7 +193,7 @@ const SubjectComponent2 = () => {
                                             >
                                                 <i className="bi bi-plus-circle me-2"></i>
                                                 Add New
-                                            </Button>
+                                            </Button> */}
                                         </div>
                                     </div>
 
@@ -261,4 +248,4 @@ const SubjectComponent2 = () => {
     );
 }
 
-export default SubjectComponent2;
+export default CourseComponent;
