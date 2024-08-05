@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import {Button, Col, Form, Row} from 'react-bootstrap';
 import Input from '../InputComponents';
+import {toast, ToastContainer} from 'react-toastify'; // Import toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 function FormComponent(props) {
     const {fields, getData, action, idCurrent, onClose, api, title} = props;
@@ -20,17 +22,17 @@ function FormComponent(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(formData)
+            console.log(formData);
             const url = action === 'EDIT' ? `${api}/${idCurrent}` : api;
             const method = action === 'EDIT' ? axios.put : axios.post;
             await method(url, formData);
             onClose();
-            // Đưa form về mặc định
             setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
-
             getData();
+            toast.success(`${action === 'EDIT' ? 'Updated' : 'Created'} successfully!`);  // Success toast
         } catch (error) {
             console.error(`Error ${action.toLowerCase()} item:`, error);
+            toast.error(`Failed to ${action.toLowerCase()} item.`);  // Error toast
         }
     };
 
@@ -154,6 +156,8 @@ function FormComponent(props) {
                     : <Button variant="primary" type="submit">Lưu lại</Button>
                 }
             </div>
+            <ToastContainer/> {/* Add ToastContainer here */}
+
         </Form>
     );
 }
