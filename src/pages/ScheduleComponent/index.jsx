@@ -19,25 +19,25 @@ const INITIAL_STATE = {
         action: "",
         formFieldsProp: [
             {
-                name: "schedule_name",
+                name: "ma_mon_hoc",
                 type: "text",
                 label: "Môn Học",
                 placeholder: "Nhập tên môn học...",
             },
             {
-                name: "classroom",
+                name: "phong_hoc",
                 type: "text",
                 label: "Phòng Học",
                 placeholder: "Nhập Phòng Học",
             },
             {
-                name: "start-time",
+                name: "thoi_gian_bat_dau",
                 type: "date",
                 label: "Thời Gian Bắt Đầu",
             },
 
             {
-                name: "class_id",
+                name: "ma_lop",
                 type: "select",
                 label: "Mã Lớp",
                 placeholder: "Chọn Mã Lớp",
@@ -45,12 +45,12 @@ const INITIAL_STATE = {
                 defaultOption: { value: "", label: "Chọn Mã Lớp" },
             },
             {
-                name: "end-time",
+                name: "thoi_gian_ket_thuc",
                 type: "date",
                 label: "Thời Gian Kết Thúc",
             },
             {
-                name: "lecturers",
+                name: "id_nhan_su",
                 type: "select",
                 label: "Giảng Viên",
                 placeholder: "Chọn Giảng Viên",
@@ -60,7 +60,7 @@ const INITIAL_STATE = {
         ],
         initialIsEdit: false,
         initialIdCurrent: null,
-        api: API.SUBJECT,
+        api: API.SCHEDULE,
     },
 };
 
@@ -88,7 +88,7 @@ const ScheduleComponent = () => {
     const [program, setProgram] = useState("");
     const [status, setStatus] = useState("");
 
-    const api = API.SUBJECT;
+    const api = API.SCHEDULE;
     // Fetch data with optional filters
     const fetchData = useCallback(
         async (search = "", page = 1) => {
@@ -100,6 +100,18 @@ const ScheduleComponent = () => {
                     status,
                     program,
                 });
+                console.log(
+                    api +
+                        {
+                            params: {
+                                page: page,
+                                pageSize: 10,
+                                search,
+                                status,
+                                program,
+                            },
+                        }
+                );
                 const { data } = await axios.get(api, {
                     params: {
                         page: page,
@@ -115,6 +127,7 @@ const ScheduleComponent = () => {
                 }));
                 setCurrentPage(data.page);
                 setTotalPages(data.totalPages);
+                console.log(data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
