@@ -1,4 +1,9 @@
-import { ScheduleComponent3, SubjectComponent2, UserComponent } from "../pages";
+import {
+    CourseComponent,
+    ScheduleComponent3,
+    SubjectComponent2,
+    UserComponent,
+} from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 
@@ -70,6 +75,7 @@ export const routeSideBar = [
             {
                 name: "Quản lý khoá học",
                 icon: "nav-icon fas fa-clipboard-list",
+                component: CourseComponent,
                 to: "/courses",
             },
             {

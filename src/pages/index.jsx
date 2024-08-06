@@ -1,5 +1,17 @@
 import BookComponent from "./BookComponent";
+import CourseComponent from "./CourseComponent";
 import ScheduleComponent3 from "./ScheduleComponent3";
-import SubjectComponent2 from "./SubjectComponent";
+import {
+    default as SubjectComponent,
+    default as SubjectComponent2,
+} from "./SubjectComponent";
 import UserComponent from "./UserComponent";
-export { BookComponent, ScheduleComponent3, SubjectComponent2, UserComponent };
+
+export {
+    BookComponent,
+    CourseComponent,
+    ScheduleComponent3,
+    SubjectComponent,
+    SubjectComponent2,
+    UserComponent,
+};
