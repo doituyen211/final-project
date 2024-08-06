@@ -6,11 +6,12 @@ const BASE_URL = "http://localhost:8080/api";
 
 // Common API endpoints
 const API = {
-    SUBJECT: `${BASE_URL}/subject`,
+  SUBJECT: `${BASE_URL}/subject`,
+  CLASS: `${BASE_URL}/class`,
+  Student: `${BASE_URL}/student`,
     COURSE: `${BASE_URL}/khoa_hoc`,
     SCHEDULE: `${BASE_URL}/lich_hoc`,
 
-    CLASS: `${BASE_URL}/class`,
 
     // Add other API endpoints here if needed
 };
