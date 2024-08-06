@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Modal} from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
 import FormComponent from "../FormComponent";
 
 function ModalComponent(props) {
@@ -10,17 +10,17 @@ function ModalComponent(props) {
         formFieldsProp,
         initialIdCurrent,
         api,
-        getData
+        getData,
     } = props;
 
     const [actionModal, setActionModal] = useState(initialAction);
 
     useEffect(() => {
-        if (['CREATE', 'EDIT', 'VIEW'].includes(initialAction)) {
+        if (["CREATE", "EDIT", "VIEW"].includes(initialAction)) {
             setActionModal(initialAction);
         } else {
             console.warn(`Invalid action: ${initialAction}`);
-            setActionModal('CREATE'); // Default action
+            setActionModal("CREATE"); // Default action
         }
     }, [initialAction]);
 
@@ -38,7 +38,11 @@ function ModalComponent(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {actionModal === 'EDIT' ? "Edit" : actionModal === 'VIEW' ? "View" : "Create"}
+                    {actionModal === "EDIT"
+                        ? "Edit"
+                        : actionModal === "VIEW"
+                        ? "View"
+                        : "Create"}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -51,9 +55,7 @@ function ModalComponent(props) {
                     api={api}
                 />
             </Modal.Body>
-            <Modal.Footer>
-                {/* Add footer content if needed */}
-            </Modal.Footer>
+            <Modal.Footer>{/* Add footer content if needed */}</Modal.Footer>
         </Modal>
     );
 }

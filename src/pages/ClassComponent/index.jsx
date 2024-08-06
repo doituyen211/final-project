@@ -1,44 +1,24 @@
-import { useEffect, useState } from "react";
-import PageContent from "./PageContent";
-import PageHeader from "./PageHeader";
-import PageLayout from "./PageLayout";
+import { useQuery } from "@tanstack/react-query";
+import { classApi } from "../../services/classApi";
+import PageContent from "./layouts/PageContent";
+import PageHeader from "./layouts/PageHeader";
+import PageLayout from "./layouts/PageLayout";
+import { useState } from "react";
+import { columns } from "./constants";
 
 const ClassComponent = () => {
-  const [cols, setCols] = useState([]);
-  const [dataTable, setDataTable] = useState([]);
-  const getData = () => {
-    setCols([
-      "Mã lớp",
-      "Mã chương trình đào tạo",
-      "Tên lớp",
-      "Sĩ số",
-      "Ngày bắt đầu",
-      "Ngày kết thúc",
-      "Hành động",
-    ]);
-    setDataTable([
-      {
-        id: "abc",
-        trainingProgramId: "def",
-        name: "ghk",
-        size: "99",
-        startDate: "1/7/2024",
-        endDate: "1/10/2024",
-        action: <>haha</>,
-      },
-    ]);
-  };
+  const { data } = useQuery({
+    queryKey: ["class-list"],
+    queryFn: classApi.getClassList,
+  });
 
-  useEffect(() => {
-    getData();
-  }, []);
   return (
     <PageLayout>
       <PageHeader namePage={"Quản lý lớp học"} />
       <PageContent
         headerContent={"Danh sách lớp học"}
-        dataTable={dataTable}
-        cols={cols}
+        dataTable={data?.data.content}
+        columns={columns}
       />
     </PageLayout>
   );
