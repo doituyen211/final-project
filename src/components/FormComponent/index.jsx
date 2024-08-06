@@ -8,7 +8,7 @@ import {toast, ToastContainer} from 'react-toastify'; // Import toast and ToastC
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 function FormComponent(props) {
-    const {fields, getData, action, idCurrent, onClose, api, title} = props;
+    const {fields, getData, action, idCurrent, onClose, api, title, dataForm} = props;
 
     const [formData, setFormData] = useState(() =>
         fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
@@ -37,12 +37,13 @@ function FormComponent(props) {
     };
 
     useEffect(() => {
-        if (action === 'EDIT' || action === 'VIEW') {
-            axios.get(`${api}/${idCurrent}`)
-                .then(res => setFormData(res.data))
-                .catch(err => console.error('Error fetching data:', err));
-        }
-    }, [action, idCurrent, api]);
+        // if (action === 'EDIT' || action === 'VIEW') {
+        //     axios.get(`${api}/${idCurrent}`)
+        //         .then(res => setFormData(res.data))
+        //         .catch(err => console.error('Error fetching data:', err));
+        // }
+        setFormData(dataForm)
+    }, [dataForm]);
     const [selectOptions, setSelectOptions] = useState({});
     useEffect(() => {
         fields.forEach(field => {
@@ -150,7 +151,10 @@ function FormComponent(props) {
                 {fields.map(renderField)}
             </Row>
             <div className="d-flex justify-content-center">
-                <Button variant="secondary" className="me-2" type="button" onClick={onClose}>Huỷ bỏ</Button>
+                <Button variant="secondary" className="me-2" type="button" onClick={() => {
+                    setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+                    onClose()
+                }}>Huỷ bỏ</Button>
                 {action === 'VIEW'
                     ? <Button variant="primary" type="button">Chỉnh sửa</Button>
                     : <Button variant="primary" type="submit">Lưu lại</Button>

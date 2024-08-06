@@ -1,12 +1,35 @@
-import React, { useEffect, useState } from "react";
-import ButtonAddComponent from "./ButtonAddComponent";
-import TableComponents from "../../components/TableComponent";
+import React, { useState } from "react";
+import ModalComponent from "../../components/ModalComponent";
 import PagingComponent from "../../components/PagingComponent";
-import ModalAdd from "./ModalAdd";
-import SearchComponent from "./SearchComponent";
+import TableComponents from "../../components/TableComponent";
+import ToolsComponent from "./ToolsComponent";
+import NotificationComponent from "../../components/NotificationComponent";
 
-const PageContent = ({ headerContent, cols, dataTable }) => {
-  const [showAddModal, setShowAddModal] = useState(false);
+const PageContent = ({
+  headerContent,
+  dataTable,
+  getData,
+  classTable,
+  apiUpdate,
+  apiCreate,
+  apiDelete,
+  apiView,
+  formFieldsProp,
+  cols,
+  handleSave,
+}) => {
+  const [isEdit, setIsEdit] = useState(true);
+  const [isCurrent, setIsCurrent] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [modalProps, setModalProps] = useState({
+    show: modalShow,
+    action: "",
+    formFieldsProp: formFieldsProp,
+    initialIsEdit: false,
+    initialIdCurrent: null,
+    apiUpdate: apiUpdate,
+    apiCreate: apiCreate,
+  });
 
   return (
     <>
@@ -17,18 +40,33 @@ const PageContent = ({ headerContent, cols, dataTable }) => {
               <div className="card card-primary">
                 <div className="card-body">
                   <div className="mb-3 text-lg">{headerContent}</div>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <SearchComponent />
-                    <ButtonAddComponent setShowAddModal={setShowAddModal} />
+                  <ToolsComponent
+                    setModalShow={setModalShow}
+                    setModalProps={setModalProps}
+                    handleSave={handleSave}
+                    formFieldsProp={formFieldsProp}
+                    apiCreate={apiCreate}
+                  />
+
+                  <div className="row">
+                    <div className="col-12">
+                      <TableComponents
+                        cols={cols}
+                        dataTable={dataTable}
+                        classTable={classTable}
+                        apiDelete={apiDelete}
+                        apiUpdate={apiUpdate}
+                        apiView={apiView}
+                        formFieldsProp={formFieldsProp}
+                        getData={getData}
+                      />
+                    </div>
                   </div>
 
-                  <TableComponents
-                    cols={cols}
-                    dataTable={dataTable}
-                    classTable={"table table-bordered table-hover"}
-                  />
                   <div className="row justify-content-center mt-3">
-                    <PagingComponent />
+                    <div className="col-auto">
+                      <PagingComponent />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -36,7 +74,8 @@ const PageContent = ({ headerContent, cols, dataTable }) => {
           </div>
         </div>
       </section>
-      <ModalAdd showAddModal={showAddModal} setShowAddModal={setShowAddModal} />
+      <ModalComponent show={modalShow} getData={getData} {...modalProps} />
+      <NotificationComponent />
     </>
   );
 };

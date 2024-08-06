@@ -9,6 +9,9 @@ const API = {
     SUBJECT: `${BASE_URL}/subject`,
     COURSE: `${BASE_URL}/khoa_hoc`,
     // Add other API endpoints here if needed
+  CLASS: `${BASE_URL}/class`,
+
+  // Add other API endpoints here if needed
 };
 
 export default API;
