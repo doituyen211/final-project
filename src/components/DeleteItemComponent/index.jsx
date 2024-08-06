@@ -1,22 +1,25 @@
-import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
-import axios from 'axios';
+import axios from "axios";
+import React from "react";
+import { Button, Modal } from "react-bootstrap";
 
-function DeleteComponent({show, onHide, onConfirm, deleteItem, apiDelete}) {
+function DeleteComponent(props) {
+    const { show, onHide, onConfirm, deleteItemID, apiDelete } = props;
+
     const handleDelete = () => {
-        if (deleteItem) {
-            axios.delete(apiDelete + `/${deleteItem.id}`)
-                .then((res) => {
-
-                    console.log('Delete Successful: ' + JSON.stringify(deleteItem));
-                    if (onConfirm) onConfirm();  // Call onConfirm to notify parent
+        if (deleteItemID) {
+            axios
+                .delete(`${apiDelete}/${deleteItemID}`)
+                .then(() => {
+                    console.log(
+                        "Delete Successful: " + JSON.stringify(deleteItemID)
+                    );
+                    if (onConfirm) onConfirm(); // Call onConfirm to notify parent
                 })
                 .catch((error) => {
-                    // Handle error if any
-                    console.error('Error deleting item:', error);
+                    console.error("Error deleting item:", error);
                 })
                 .finally(() => {
-                    onHide();  // Close modal
+                    onHide(); // Close modal
                 });
         }
     };
@@ -24,10 +27,11 @@ function DeleteComponent({show, onHide, onConfirm, deleteItem, apiDelete}) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Xác nhận xoá</Modal.Title>
+                <Modal.Title>Xác nhận Xoá</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Bạn có chắc chăn muốn xoá không ?
+                <p>Bạn có chắc chắn muốn xoá không?</p>
+                <p>Hành động này không thể hoàn tác.</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>

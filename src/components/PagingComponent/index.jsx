@@ -1,47 +1,40 @@
-import React from "react";
 import Pagination from "react-bootstrap/Pagination";
 
 function PagingComponent({ totalPage, currentPage, onPageChange }) {
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPage) {
-      onPageChange(pageNumber);
-    }
-  };
+    return (
+        <Pagination>
+            <Pagination.First
+                onClick={() => onPageChange(1)}
+                disabled={currentPage === 1}
+            />
+            <Pagination.Prev
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            />
 
-  return (
-    <Pagination>
-      <Pagination.First
-        onClick={() => handlePageChange(1)}
-        disabled={currentPage === 1}
-      />
-      <Pagination.Prev
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      />
+            {[...Array(totalPage).keys()].map((number) => {
+                const pageNumber = number + 1;
+                return (
+                    <Pagination.Item
+                        key={pageNumber}
+                        active={pageNumber === currentPage}
+                        onClick={() => onPageChange(pageNumber)}
+                    >
+                        {pageNumber}
+                    </Pagination.Item>
+                );
+            })}
 
-      {[...Array(totalPage).keys()].map((number) => {
-        const pageNumber = number + 1;
-        return (
-          <Pagination.Item
-            key={pageNumber}
-            active={pageNumber === currentPage}
-            onClick={() => handlePageChange(pageNumber)}
-          >
-            {pageNumber}
-          </Pagination.Item>
-        );
-      })}
-
-      <Pagination.Next
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPage}
-      />
-      <Pagination.Last
-        onClick={() => handlePageChange(totalPage)}
-        disabled={currentPage === totalPage}
-      />
-    </Pagination>
-  );
+            <Pagination.Next
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage === totalPage}
+            />
+            <Pagination.Last
+                onClick={() => onPageChange(totalPage)}
+                disabled={currentPage === totalPage}
+            />
+        </Pagination>
+    );
 }
 
 export default PagingComponent;
