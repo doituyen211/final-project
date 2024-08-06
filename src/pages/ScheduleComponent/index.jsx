@@ -8,6 +8,7 @@ import FormComponent from "../../components/FormComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
+
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
@@ -87,7 +88,13 @@ const ScheduleComponent = () => {
 
     const [program, setProgram] = useState("");
     const [status, setStatus] = useState("");
-
+    const [dataForm, setDataForm] = useState({
+        ma_mon_hoc: "",
+        phong_hoc: "",
+        thoi_gian_bat_dau: "",
+        thoi_gian_ket_thuc: "",
+        id_nhan_su: "",
+    });
     const api = API.SCHEDULE;
     // Fetch data with optional filters
     const fetchData = useCallback(
@@ -226,6 +233,7 @@ const ScheduleComponent = () => {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
+
                                     <FormComponent
                                         title={
                                             actionModal === "EDIT"
@@ -245,6 +253,7 @@ const ScheduleComponent = () => {
                                             setActionModal("CREATE"); // Reset action if needed
                                         }}
                                         api={api}
+                                        dataForm={dataForm}
                                     />
                                 </div>
                             </div>
@@ -306,12 +315,15 @@ const ScheduleComponent = () => {
                                                 subject.subject_id
                                             );
                                             setActionModal("VIEW");
+                                            setDataForm(subject);
                                         }}
                                         actionEdit={(subject) => {
                                             setInitialIdCurrent(
                                                 subject.subject_id
                                             );
                                             setActionModal("EDIT");
+                                            setDataForm(subject);
+
                                         }}
                                         actionDelete={confirmDelete}
                                         useModal={false}
