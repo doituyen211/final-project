@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import TableComponents from "../../components/TableComponent";
+import { Button, Card, Row, Table } from "react-bootstrap";
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../../components/FormComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
@@ -84,7 +82,7 @@ const ScheduleComponent = () => {
     const [initialIdCurrent, setInitialIdCurrent] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
+    const [action, setAction] = useState("CREATE"); //CREATE, EDIT, VIEW
     const [program, setProgram] = useState("");
     const [status, setStatus] = useState("");
     const [dataForm, setDataForm] = useState({
@@ -153,14 +151,6 @@ const ScheduleComponent = () => {
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
-    // const handleProgramChange = useCallback((event) => {
-    //     setProgram(event.target.value);
-    // }, []);
-
-    // const handleStatusChange = useCallback((event) => {
-    //     setStatus(event.target.value);
-    // }, []);
-
     useEffect(() => {
         fetchData("", currentPage);
         console.log("Render SubjectComponent");
@@ -170,28 +160,12 @@ const ScheduleComponent = () => {
         setCurrentPage(pageNumber);
     }, []);
 
-    // useEffect(() => {
-    //     // fetchData('', currentPage);
-    //     fetchOptions();
-    // }, []);
     const [statusOptions, setStatusOptions] = useState([]);
     const [programOptions, setProgramOptions] = useState([]);
-    // Fetch options for filters
-    // const fetchOptions = useCallback(async () => {
-    //     try {
-    //         const [statusResponse, programResponse] = await Promise.all([
-    //             axios.get("/data/status.json"),
-    //             axios.get("/data/program.json"),
-    //         ]);
-    //         setStatusOptions(statusResponse.data);
-    //         setProgramOptions(programResponse.data);
-    //     } catch (error) {
-    //         console.error("Error fetching options:", error);
-    //     }
-    // }, []);
+
     // Hàm xử lý xác nhận xóa
     const confirmDelete = (item) => {
-        setDeleteItemId(item.subject_id);
+        setDeleteItemId(item.id);
         setShowConfirmModal(true);
     };
     // Hàm xử lý xác nhận xóa và cập nhật dữ liệu
@@ -231,31 +205,42 @@ const ScheduleComponent = () => {
                     <div className="row justify-content-center">
                         {/* Card cho Form Component */}
                         <div className="col-md-4">
-                            <div className="card">
-                                <div className="card-body">
-                                    <FormComponent
-                                        title={
-                                            actionModal === "EDIT"
-                                                ? "Cập Nhật"
-                                                : actionModal === "CREATE"
-                                                ? "Thêm Mới"
-                                                : "Chi tiết"
-                                        }
-                                        fields={state.modalProps.formFieldsProp}
-                                        getData={fetchData}
-                                        action={actionModal}
-                                        idCurrent={initialIdCurrent}
-                                        onClose={() => {
-                                            // Refresh page by fetching data again
-                                            fetchData(searchTerm, currentPage);
-                                            setInitialIdCurrent(null); // Reset current ID if needed
-                                            setActionModal("CREATE"); // Reset action if needed
-                                        }}
-                                        api={api}
-                                        dataForm={dataForm}
-                                    />
-                                </div>
-                            </div>
+                            {/* Card Form */}
+                            <Card>
+                                {/* fill all data in fomrData */}
+                                <Card.Body>
+                                    {console.log(JSON.stringify(dataForm))}
+                                    {console.log(action)}
+                                    <Row>
+                                        <Row>
+                                            <div className="col-6"></div>
+                                            <div className="col-6"></div>
+                                        </Row>
+                                    </Row>
+                                    <Row className="">
+                                        <Button
+                                            variant="light"
+                                            className="ms-3"
+                                        >
+                                            Huy bo
+                                        </Button>
+                                        <Button
+                                            variant="primary"
+                                            className="ms-3"
+                                        >
+                                            {action === "CREATE"
+                                                ? "Them moi"
+                                                : action === "VIEW"
+                                                ? "Chinh sua"
+                                                : "Cap nhat"}
+                                        </Button>
+                                    </Row>
+                                    {/* <Form>
+
+                                </Form> */}
+                                    <div></div>
+                                </Card.Body>
+                            </Card>
                         </div>
 
                         {/* Card cho các bộ lọc, ô tìm kiếm và nút thêm mới */}
@@ -284,50 +269,94 @@ const ScheduleComponent = () => {
                                                 <i className="bi bi-search"></i>
                                             </Button>
                                         </div>
-                                        {/* /!* Nút thêm mới *!/*/}
-                                        {/*<div className="col-md-4 d-flex align-items-center justify-content-end">*/}
-                                        {/*    <Button*/}
-                                        {/*        variant="primary"*/}
-                                        {/*        size="sm"*/}
-                                        {/*        onClick={handleModalShow}*/}
-                                        {/*        aria-label="Add new item"*/}
-                                        {/*        className="d-flex align-items-center px-3 rounded-pill"*/}
-                                        {/*    >*/}
-                                        {/*        <i className="bi bi-plus-circle me-2"></i>*/}
-                                        {/*        Add New*/}
-                                        {/*    </Button>*/}
-                                        {/*</div> */}
                                     </div>
 
                                     {/* Bảng dữ liệu */}
-                                    <TableComponents
-                                        cols={COLUMNS}
-                                        dataTable={state.dataTable}
-                                        classTable={state.classTable}
-                                        api={api}
-                                        formFieldsProp={
-                                            state.modalProps.formFieldsProp
-                                        }
-                                        getData={fetchData}
-                                        actionView={(schedule) => {
-                                            setInitialIdCurrent(
-                                                schedule.ma_mon_hoc
-                                            );
-                                            setActionModal("VIEW");
-                                            setDataForm(schedule);
-                                        }}
-                                        actionEdit={(schedule) => {
-                                            setInitialIdCurrent(
-                                                schedule.ma_mon_hoc
-                                            );
-                                            setActionModal("EDIT");
-                                            setDataForm(schedule);
-                                        }}
-                                        actionDelete={confirmDelete}
-                                        useModal={false}
-                                        currentPage={currentPage}
-                                    />
+                                    <Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                {COLUMNS.map((col) => (
+                                                    <th key={col}>{col}</th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {state.dataTable.map(
+                                                (item, index) => (
+                                                    <tr key={item.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>
+                                                            {item.ma_mon_hoc}
+                                                        </td>
+                                                        <td>
+                                                            {item.phong_hoc}
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                item.thoi_gian_bat_dau
+                                                            }
+                                                        </td>
 
+                                                        <td>
+                                                            {
+                                                                item.thoi_gian_ket_thuc
+                                                            }
+                                                        </td>
+                                                        <td>{item.ma_lop}</td>
+                                                        <td>
+                                                            {item.id_nhan_su}
+                                                        </td>
+                                                        <td>
+                                                            <Button
+                                                                variant="light"
+                                                                size="sm"
+                                                                className="me-2"
+                                                                onClick={() => {
+                                                                    setDataForm(
+                                                                        item
+                                                                    );
+                                                                    setAction(
+                                                                        "VIEW"
+                                                                    );
+                                                                }}
+                                                            >
+                                                                View
+                                                            </Button>
+                                                            <Button
+                                                                variant="primary"
+                                                                size="sm"
+                                                                className="me-2"
+                                                                onClick={() => {
+                                                                    setDataForm(
+                                                                        item
+                                                                    );
+                                                                    setAction(
+                                                                        "EDIT"
+                                                                    );
+                                                                }}
+                                                            >
+                                                                Edit
+                                                            </Button>
+                                                            <Button
+                                                                variant="danger"
+                                                                size="sm"
+                                                                onClick={() => {
+                                                                    setDataForm(
+                                                                        item
+                                                                    );
+                                                                    confirmDelete(
+                                                                        item
+                                                                    );
+                                                                }}
+                                                            >
+                                                                Delete
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
+                                        </tbody>
+                                    </Table>
                                     {/* Phân trang */}
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
@@ -345,7 +374,6 @@ const ScheduleComponent = () => {
                 </div>
             </section>
 
-            {/* Modal xác nhận xóa */}
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
