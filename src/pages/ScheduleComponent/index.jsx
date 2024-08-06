@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import TableComponents from "../../components/TableComponent";
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
@@ -11,7 +11,7 @@ import API from "../../store/Api";
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
-    titleTable: "SubjectComponent", // Tiêu đề của bảng
+    titleTable: "ScheduleComponent", // Tiêu đề của bảng
     classTable: "table table-bordered table-hover", // Lớp CSS của bảng
     modalShow: false, // Trạng thái hiển thị modal
     modalProps: {
@@ -19,32 +19,43 @@ const INITIAL_STATE = {
         action: "",
         formFieldsProp: [
             {
-                name: "subject_name",
+                name: "schedule_name",
                 type: "text",
-                label: "Subject Name",
-                placeholder: "Enter the subject name",
+                label: "Môn Học",
+                placeholder: "Nhập tên môn học...",
             },
             {
-                name: "training_duration",
+                name: "classroom",
                 type: "text",
-                label: "Duration",
-                placeholder: "Enter duration",
+                label: "Phòng Học",
+                placeholder: "Nhập Phòng Học",
             },
             {
-                name: "training_program_id",
+                name: "start-time",
+                type: "date",
+                label: "Thời Gian Bắt Đầu",
+            },
+
+            {
+                name: "class_id",
                 type: "select",
-                label: "Program Name",
-                placeholder: "Select a program",
-                apiUrl: "/data/program.json", // Cập nhật URL này với API endpoint thực tế của bạn
-                defaultOption: { value: "", label: "Select a program" },
+                label: "Mã Lớp",
+                placeholder: "Chọn Mã Lớp",
+                apiUrl: "/data/IDClass.json", // Cập nhật URL này với API endpoint thực tế của bạn
+                defaultOption: { value: "", label: "Chọn Mã Lớp" },
             },
             {
-                name: "status",
+                name: "end-time",
+                type: "date",
+                label: "Thời Gian Kết Thúc",
+            },
+            {
+                name: "lecturers",
                 type: "select",
-                label: "Status",
-                placeholder: "Select status",
-                apiUrl: "/data/status.json", // Cập nhật URL này với API endpoint thực tế của bạn
-                defaultOption: { value: "", label: "Select status" },
+                label: "Giảng Viên",
+                placeholder: "Chọn Giảng Viên",
+                apiUrl: "/data/lecturers.json", // Cập nhật URL này với API endpoint thực tế của bạn
+                defaultOption: { value: "", label: "Chọn Giảng Viên" },
             },
         ],
         initialIsEdit: false,
@@ -57,13 +68,15 @@ const INITIAL_STATE = {
 const COLUMNS = [
     "STT",
     "Tên môn học",
-    "Thời lượng",
-    "Tên chương trình học",
-    "Trạng thái",
+    "Thời Gian Bắt Đầu",
+    "Thời Gian Kết Thúc",
+    "Mã Lớp",
+    "Phòng Học",
+    "Giảng Viên",
     "",
 ];
 
-const SubjectComponent2 = () => {
+const ScheduleComponent = () => {
     const [state, setState] = useState(INITIAL_STATE);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -74,16 +87,8 @@ const SubjectComponent2 = () => {
 
     const [program, setProgram] = useState("");
     const [status, setStatus] = useState("");
-    const [dataForm, setDataForm] = useState({
-        subject_id: "",
-        subject_name: "",
-        status: "",
-        training_duration: "",
-        training_program_id: "",
-    });
 
     const api = API.SUBJECT;
-
     // Fetch data with optional filters
     const fetchData = useCallback(
         async (search = "", page = 1) => {
@@ -128,13 +133,13 @@ const SubjectComponent2 = () => {
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
-    const handleProgramChange = useCallback((event) => {
-        setProgram(event.target.value);
-    }, []);
+    // const handleProgramChange = useCallback((event) => {
+    //     setProgram(event.target.value);
+    // }, []);
 
-    const handleStatusChange = useCallback((event) => {
-        setStatus(event.target.value);
-    }, []);
+    // const handleStatusChange = useCallback((event) => {
+    //     setStatus(event.target.value);
+    // }, []);
 
     useEffect(() => {
         fetchData("", currentPage);
@@ -145,31 +150,30 @@ const SubjectComponent2 = () => {
         setCurrentPage(pageNumber);
     }, []);
 
-    useEffect(() => {
-        // fetchData('', currentPage);
-        fetchOptions();
-    }, []);
+    // useEffect(() => {
+    //     // fetchData('', currentPage);
+    //     fetchOptions();
+    // }, []);
     const [statusOptions, setStatusOptions] = useState([]);
     const [programOptions, setProgramOptions] = useState([]);
     // Fetch options for filters
-    const fetchOptions = useCallback(async () => {
-        try {
-            const [statusResponse, programResponse] = await Promise.all([
-                axios.get("/data/status.json"),
-                axios.get("/data/program.json"),
-            ]);
-            setStatusOptions(statusResponse.data);
-            setProgramOptions(programResponse.data);
-        } catch (error) {
-            console.error("Error fetching options:", error);
-        }
-    }, []);
+    // const fetchOptions = useCallback(async () => {
+    //     try {
+    //         const [statusResponse, programResponse] = await Promise.all([
+    //             axios.get("/data/status.json"),
+    //             axios.get("/data/program.json"),
+    //         ]);
+    //         setStatusOptions(statusResponse.data);
+    //         setProgramOptions(programResponse.data);
+    //     } catch (error) {
+    //         console.error("Error fetching options:", error);
+    //     }
+    // }, []);
     // Hàm xử lý xác nhận xóa
     const confirmDelete = (item) => {
         setDeleteItemId(item.subject_id);
         setShowConfirmModal(true);
     };
-
     // Hàm xử lý xác nhận xóa và cập nhật dữ liệu
     const handleDeleteConfirmation = () => {
         fetchData();
@@ -181,7 +185,7 @@ const SubjectComponent2 = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Quản lý Môn học</h1>
+                            <h1>Quản lý Lịch Học</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
@@ -195,7 +199,7 @@ const SubjectComponent2 = () => {
                                     </button>
                                 </li>
                                 <li className="breadcrumb-item active">
-                                    Quản lý môn học
+                                    Quản lý Lịch Học
                                 </li>
                             </ol>
                         </div>
@@ -228,7 +232,6 @@ const SubjectComponent2 = () => {
                                             setActionModal("CREATE"); // Reset action if needed
                                         }}
                                         api={api}
-                                        dataForm={dataForm}
                                     />
                                 </div>
                             </div>
@@ -239,51 +242,8 @@ const SubjectComponent2 = () => {
                             <div className="card mb-4">
                                 <div className="card-body">
                                     <div className="row mb-4">
-                                        {/* Bộ lọc */}
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
-                                            >
-                                                <option value="">
-                                                    Chọn chương trình học
-                                                </option>
-                                                {programOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus1"
-                                                aria-label="Status"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={status}
-                                                onChange={handleStatusChange}
-                                            >
-                                                <option value="">
-                                                    Chọn trạng thái
-                                                </option>
-                                                {statusOptions.map((option) => (
-                                                    <option
-                                                        key={option.value}
-                                                        value={option.id}
-                                                    >
-                                                        {option.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-                                        </div>
+                                        {/* Bộ lọc*/}
+
                                         <div className="col-md-6 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
@@ -303,7 +263,7 @@ const SubjectComponent2 = () => {
                                                 <i className="bi bi-search"></i>
                                             </Button>
                                         </div>
-                                        {/*/!* Nút thêm mới *!/*/}
+                                        {/* /!* Nút thêm mới *!/*/}
                                         {/*<div className="col-md-4 d-flex align-items-center justify-content-end">*/}
                                         {/*    <Button*/}
                                         {/*        variant="primary"*/}
@@ -315,7 +275,7 @@ const SubjectComponent2 = () => {
                                         {/*        <i className="bi bi-plus-circle me-2"></i>*/}
                                         {/*        Add New*/}
                                         {/*    </Button>*/}
-                                        {/*</div>*/}
+                                        {/*</div> */}
                                     </div>
 
                                     {/* Bảng dữ liệu */}
@@ -333,14 +293,12 @@ const SubjectComponent2 = () => {
                                                 subject.subject_id
                                             );
                                             setActionModal("VIEW");
-                                            setDataForm(subject);
                                         }}
                                         actionEdit={(subject) => {
                                             setInitialIdCurrent(
                                                 subject.subject_id
                                             );
                                             setActionModal("EDIT");
-                                            setDataForm(subject);
                                         }}
                                         actionDelete={confirmDelete}
                                         useModal={false}
@@ -376,4 +334,4 @@ const SubjectComponent2 = () => {
     );
 };
 
-export default SubjectComponent2;
+export default ScheduleComponent;
