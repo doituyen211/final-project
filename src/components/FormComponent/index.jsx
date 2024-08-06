@@ -57,7 +57,7 @@ function FormComponent(props) {
     const renderField = (field) => {
         const commonProps = {
             key: field.name,
-            md: 6,
+            md: 12,
             className: 'mb-3'
         };
 
