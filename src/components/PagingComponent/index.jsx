@@ -1,22 +1,14 @@
-import { useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-function PagingComponent() {
-    const [totalPage, setTotalPage] = useState(5);
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
+function PagingComponent({ totalPage, currentPage, onPageChange }) {
     return (
         <Pagination>
             <Pagination.First
-                onClick={() => handlePageChange(1)}
+                onClick={() => onPageChange(1)}
                 disabled={currentPage === 1}
             />
             <Pagination.Prev
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
             />
 
@@ -34,11 +26,11 @@ function PagingComponent() {
             })}
 
             <Pagination.Next
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPage}
             />
             <Pagination.Last
-                onClick={() => handlePageChange(totalPage)}
+                onClick={() => onPageChange(totalPage)}
                 disabled={currentPage === totalPage}
             />
         </Pagination>
