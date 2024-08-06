@@ -46,7 +46,7 @@ const INITIAL_STATE = {
 // Các cột của bảng
 const COLUMNS = ['STT', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
 
-const SubjectComponent2 = () => {
+const SubjectComponentLayout2 = () => {
     const [state, setState] = useState(INITIAL_STATE);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -325,4 +325,4 @@ const SubjectComponent2 = () => {
     );
 }
 
-export default SubjectComponent2;
+export default SubjectComponentLayout2;
