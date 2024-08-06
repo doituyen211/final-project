@@ -1,19 +1,18 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
 const SearchComponent = () => {
   return (
-    <div class="input-group input-group-sm mb-3 w-25">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-sm">
-          Search
-        </span>
-      </div>
+    <div className="d-flex w-25 align-items-center gap-2">
       <input
         type="text"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
+        className="form-control"
+        placeholder="Search..."
+        aria-label="Search input"
       />
+      <Button variant="light" size="sm">
+        <i className="bi bi-search"></i>
+      </Button>
     </div>
   );
 };
