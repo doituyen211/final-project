@@ -6,8 +6,10 @@ const BASE_URL = "http://localhost:8080/api";
 
 // Common API endpoints
 const API = {
-    SUBJECT: `${BASE_URL}/subject`,
-    // Add other API endpoints here if needed
+  SUBJECT: `${BASE_URL}/subject`,
+  CLASS: `${BASE_URL}/class`,
+
+  // Add other API endpoints here if needed
 };
 
 export default API;
