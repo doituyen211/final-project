@@ -29,7 +29,7 @@ function FormComponent(props) {
             onClose();
             setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
             getData();
-            toast.success(`${action === 'EDIT' ? 'Updated' : 'Created'} successfully!`);  // Success toast
+            toast.success(`${action === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);  // Success toast
         } catch (error) {
             console.error(`Error ${action.toLowerCase()} item:`, error);
             toast.error(`Failed to ${action.toLowerCase()} item.`);  // Error toast
