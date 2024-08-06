@@ -1,5 +1,5 @@
 import React from "react";
-import SearchComponent from "./SearchComponent";
+import SearchComponent from "./SearchComponent"
 import { Button } from "react-bootstrap";
 
 const ToolsComponent = ({

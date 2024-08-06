@@ -5,6 +5,7 @@ import {
     UserComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
+import StudentCompoent from "../pages/StudentCompoent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 
 export const routeSideBar = [
@@ -37,6 +38,7 @@ export const routeSideBar = [
             {
                 name: "Quản lý học viên",
                 icon: "nav-icon fas fa-user",
+                component: StudentCompoent,
                 to: "/students",
             },
             {
