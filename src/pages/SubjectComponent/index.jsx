@@ -6,7 +6,7 @@ import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
-import FormComponent from "../../components/FormComponent";
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'; // Import Bootstrap icons
 
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
@@ -343,7 +343,7 @@ const SubjectComponent = () => {
                                                             setDataForm(row);
                                                         }}
                                                     >
-                                                        View
+                                                        <BsEye/>
                                                     </Button>
                                                     <Button
                                                         variant="primary"
@@ -356,14 +356,14 @@ const SubjectComponent = () => {
                                                             setDataForm(row);
                                                         }}
                                                     >
-                                                        Edit
+                                                        <BsPencil/>
                                                     </Button>
 
                                                     <Button
                                                         variant="danger"
                                                         onClick={() => confirmDelete(row)}
                                                     >
-                                                        Delete
+                                                        <BsTrash/>
                                                     </Button>
 
                                                 </td>

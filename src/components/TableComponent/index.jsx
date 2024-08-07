@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'; // Import Bootstrap icons
 
 function TableComponents(props) {
     const {
@@ -54,7 +55,7 @@ function TableComponents(props) {
                                         }
                                     }}
                                 >
-                                    View
+                                    <BsEye/>
                                 </Button>
                                 <Button
                                     variant="primary"
@@ -71,14 +72,14 @@ function TableComponents(props) {
                                         }
                                     }}
                                 >
-                                    Edit
+                                    <BsPencil/>
                                 </Button>
 
                                 <Button
                                     variant="danger"
                                     onClick={() => actionDelete(row)}
                                 >
-                                    Delete
+                                    <BsTrash/>
                                 </Button>
                             </td>
                         </tr>
