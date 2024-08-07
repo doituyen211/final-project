@@ -84,29 +84,4 @@ function TableComponents(props) {
   );
 }
 
-TableComponents.propTypes = {
-  cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-  titleTable: PropTypes.string.isRequired,
-  dataTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-  classTable: PropTypes.string,
-  formFieldsProp: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  actionView: PropTypes.func.isRequired,
-  actionEdit: PropTypes.func.isRequired,
-  useModal: PropTypes.bool,
-  actionDelete: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool, // Add propTypes for isLoading
-};
-
-TableComponents.defaultProps = {
-  classTable: "table table-bordered table-hover",
-  useModal: true,
-  isLoading: false, // Default value for isLoading
-};
-
 export default TableComponents;
