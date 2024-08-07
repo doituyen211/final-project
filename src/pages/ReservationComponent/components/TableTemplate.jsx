@@ -5,6 +5,15 @@ import useClassStore from "../useClassStore";
 const TableTemplate = ({ columns, dataTable }) => {
   const setMode = useClassStore((state) => state.setMode);
   const setShowModalCommon = useClassStore((state) => state.setShowModalCommon);
+  ///deleete
+  const setShowModalDelete = useClassStore((state) => state.setShowModalDelete);
+  const setItemToDelete = useClassStore((state) => state.setItemToDelete);
+
+  const openDeleteModal = (id) => {
+    setItemToDelete(id);
+    setShowModalDelete(true);
+  };
+  /////
 
   return (
     <Table bordered hover>
@@ -44,7 +53,12 @@ const TableTemplate = ({ columns, dataTable }) => {
                 Edit
               </Button>
 
-              <Button variant="danger">Delete</Button>
+              <Button
+                variant="danger"
+                onClick={() => openDeleteModal(row.id_hoc_vien)}
+              >
+                Delete
+              </Button>
             </td>
           </tr>
         ))}
