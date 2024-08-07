@@ -344,7 +344,7 @@ const SubjectComponent = () => {
                                                 <td>{item.status}</td>
                                                 <td>
                                                     <Button
-                                                        variant="primary"
+                                                        variant="light"
                                                         className="me-1"
                                                         onClick={() => {
                                                            setFormData(item)
@@ -355,7 +355,7 @@ const SubjectComponent = () => {
                                                         <BsEye />
                                                     </Button>
                                                     <Button
-                                                        variant="warning"
+                                                        variant="primary"
                                                         className="me-1"
                                                         onClick={() => {
                                                             setFormData(item)
