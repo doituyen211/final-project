@@ -6,6 +6,7 @@ import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
+import FormComponent from "../../components/FormComponent";
 
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
@@ -230,9 +231,10 @@ const SubjectComponent = () => {
                                         action={actionModal}
                                         idCurrent={initialIdCurrent}
                                         onClose={() => {
+                                            // Refresh page by fetching data again
                                             fetchData(searchTerm, currentPage);
-                                            setInitialIdCurrent(null);
-                                            setActionModal("CREATE");
+                                            setInitialIdCurrent(null); // Reset current ID if needed
+                                            setActionModal("CREATE"); // Reset action if needed
                                         }}
                                         api={api}
                                         dataForm={dataForm}
@@ -332,11 +334,12 @@ const SubjectComponent = () => {
                                                     <Button
                                                         variant="light"
                                                         className="me-2"
-                                                        onClick={(row) => {
+                                                        onClick={() => {
                                                             setInitialIdCurrent(
                                                                 row.subject_id
                                                             );
                                                             setActionModal("VIEW");
+                                                            // console.log("View"+JSON.stringify(row))
                                                             setDataForm(row);
                                                         }}
                                                     >
@@ -345,7 +348,7 @@ const SubjectComponent = () => {
                                                     <Button
                                                         variant="primary"
                                                         className="me-2"
-                                                        onClick={(row) => {
+                                                        onClick={() => {
                                                             setInitialIdCurrent(
                                                                 row.subject_id
                                                             );

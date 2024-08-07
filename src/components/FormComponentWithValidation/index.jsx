@@ -1,47 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+// import SelectDropdown from '../SelectDownButton';
 import axios from 'axios';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import {Button, Col, Form, Row} from 'react-bootstrap';
 import Input from '../InputComponents';
-import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+import {toast, ToastContainer} from 'react-toastify'; // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 function FormComponentWithValidation(props) {
-    const { fields, getData, action, idCurrent, onClose, api, title, dataForm } = props;
+    const {fields, getData, action, idCurrent, onClose, api, title, dataForm} = props;
 
-    // Function to create validation schema
-    const createValidationSchema = (fields) => {
-        const shape = {};
-        fields.forEach(field => {
-            if (field.validation) {
-                shape[field.name] = field.validation;
-            }
-        });
-        return Yup.object().shape(shape);
+    const [formData, setFormData] = useState(() =>
+        fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {})
+    );
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData(prev => ({...prev, [name]: value}));
     };
 
-    const validationSchema = createValidationSchema(fields);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            console.log("CREATE"+ JSON.stringify(formData));
+            const url = action === 'EDIT' ? `${api}/${idCurrent}` : api;
+            const method = action === 'EDIT' ? axios.put : axios.post;
+            await method(url, formData);
+            onClose();
+            setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+            getData();
+            toast.success(`${action === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);  // Success toast
+        } catch (error) {
+            console.error(`Error ${action.toLowerCase()} item:`, error);
+            toast.error(`Failed to ${action.toLowerCase()} item.`);  // Error toast
+        }
+    };
 
-    const formik = useFormik({
-        initialValues: dataForm,
-        validationSchema,
-        onSubmit: async (values) => {
-            try {
-                const url = action === 'EDIT' ? `${api}/${idCurrent}` : api;
-                const method = action === 'EDIT' ? axios.put : axios.post;
-                await method(url, values);
-                onClose();
-                getData();
-                toast.success(`${action === 'EDIT' ? 'Updated' : 'Created'} successfully!`);
-            } catch (error) {
-                console.error(`Error ${action.toLowerCase()} item:`, error);
-                toast.error(`Failed to ${action.toLowerCase()} item.`);
-            }
-        },
-    });
-
+    useEffect(() => {
+        setFormData(dataForm)
+        console.log("CREATE"+ JSON.stringify(formData));
+    }, [dataForm]);
     const [selectOptions, setSelectOptions] = useState({});
     useEffect(() => {
         fields.forEach(field => {
@@ -52,11 +50,10 @@ function FormComponentWithValidation(props) {
             }
         });
     }, [fields]);
-
     const renderField = (field) => {
         const commonProps = {
             key: field.name,
-            md: 6,
+            md: 6, // not edit
             className: 'mb-3'
         };
 
@@ -70,15 +67,12 @@ function FormComponentWithValidation(props) {
                                 type="text"
                                 id={field.name}
                                 name={field.name}
-                                value={formik.values[field.name] || ''}
-                                onChange={formik.handleChange}
+                                value={formData[field.name] || ''}
+                                onChange={handleChange}
                                 placeholder={field.placeholder}
                                 className="form-control"
                                 disabled={action === 'VIEW'}
                             />
-                            {formik.errors[field.name] && formik.touched[field.name] && (
-                                <div className="text-danger">{formik.errors[field.name]}</div>
-                            )}
                         </Form.Group>
                     </Col>
                 );
@@ -90,8 +84,8 @@ function FormComponentWithValidation(props) {
                             <Form.Select
                                 id={field.name}
                                 name={field.name}
-                                value={formik.values[field.name] || ''}
-                                onChange={formik.handleChange}
+                                value={formData[field.name] || ''}
+                                onChange={handleChange}
                                 disabled={action === 'VIEW'}
                             >
                                 {field.defaultOption && (
@@ -105,9 +99,6 @@ function FormComponentWithValidation(props) {
                                     </option>
                                 ))}
                             </Form.Select>
-                            {formik.errors[field.name] && formik.touched[field.name] && (
-                                <div className="text-danger">{formik.errors[field.name]}</div>
-                            )}
                         </Form.Group>
                     </Col>
                 );
@@ -120,13 +111,10 @@ function FormComponentWithValidation(props) {
                                 type="date"
                                 id={field.name}
                                 name={field.name}
-                                value={formik.values[field.name] || ''}
-                                onChange={formik.handleChange}
+                                value={formData[field.name]}
+                                onChange={handleChange}
                                 disabled={action === 'VIEW'}
                             />
-                            {formik.errors[field.name] && formik.touched[field.name] && (
-                                <div className="text-danger">{formik.errors[field.name]}</div>
-                            )}
                         </Form.Group>
                     </Col>
                 );
@@ -139,14 +127,11 @@ function FormComponentWithValidation(props) {
                                 type="number"
                                 id={field.name}
                                 name={field.name}
-                                value={formik.values[field.name] || ''}
-                                onChange={formik.handleChange}
+                                value={formData[field.name]}
+                                onChange={handleChange}
                                 placeholder={field.placeholder}
                                 disabled={action === 'VIEW'}
                             />
-                            {formik.errors[field.name] && formik.touched[field.name] && (
-                                <div className="text-danger">{formik.errors[field.name]}</div>
-                            )}
                         </Form.Group>
                     </Col>
                 );
@@ -156,29 +141,31 @@ function FormComponentWithValidation(props) {
     };
 
     return (
-        <Form onSubmit={formik.handleSubmit}>
-            <h3 className="text-start mb-4">{title}</h3>
+        <Form onSubmit={handleSubmit}>
+            <h3 className="text-start mb-4">{title}</h3> {/* Add form title here */}
             <Row>
                 {fields.map(renderField)}
             </Row>
             <div className="d-flex justify-content-center">
                 <Button variant="secondary" className="me-2" type="button" onClick={() => {
-                    formik.resetForm();
-                    onClose();
-                }}>Cancel</Button>
+                    setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+                    onClose()
+                }}>Huỷ bỏ</Button>
                 {action === 'VIEW'
-                    ? <Button variant="primary" type="button">Edit</Button>
-                    : <Button variant="primary" type="submit">Save</Button>
+                    ? <Button variant="primary" type="button">Chỉnh sửa</Button>
+                    : <Button variant="primary" type="submit">Lưu lại</Button>
                 }
             </div>
-            <ToastContainer />
+            <ToastContainer/> {/* Add ToastContainer here */}
+
         </Form>
     );
 }
 
 FormComponentWithValidation.defaultProps = {
     action: 'CREATE',
-    onClose: () => {},
+    onClose: () => {
+    },
 };
 
 FormComponentWithValidation.propTypes = {
@@ -193,7 +180,6 @@ FormComponentWithValidation.propTypes = {
                 value: PropTypes.string.isRequired,
                 label: PropTypes.string,
             }),
-            validation: PropTypes.object,
         })
     ).isRequired,
     getData: PropTypes.func.isRequired,
@@ -204,8 +190,6 @@ FormComponentWithValidation.propTypes = {
     ]),
     onClose: PropTypes.func,
     api: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    dataForm: PropTypes.object,
 };
 
 export default FormComponentWithValidation;

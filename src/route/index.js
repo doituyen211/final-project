@@ -3,6 +3,7 @@ import {
     ScheduleComponent3,
     SubjectComponent,
     UserComponent,
+    SubjectComponentLayout2
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
