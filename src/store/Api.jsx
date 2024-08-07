@@ -12,6 +12,7 @@ const API = {
 
   CLASS: `${BASE_URL}/class`,
   TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`,
+  RESER: `${BASE_URL}/Bao_luu`,
 
   // Add other API endpoints here if needed
 };
