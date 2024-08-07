@@ -1,13 +1,15 @@
 import { create } from "zustand";
 
 const useClassStore = create((set) => ({
-  showModalAdd: false,
-  setShowModalAdd: (value) => set({ showModalAdd: value }),
-  mode: false,
-  setMode: (value) => set({ mode: value }),
+  modeModal: false,
+  setModeModal: (value) => set({ modeModal: value }),
+  showModalView: false,
+  setShowModalView: (value) => set({ showModalView: value }),
   showModalCommon: false,
   setShowModalCommon: (value) => set({ showModalCommon: value }),
-  handleClose: () => set({ showModalAdd: false, showModalCommon: false }),
+  handleClose: () => set({ showModalView: false, showModalCommon: false }),
+  dataRow: {},
+  setDataRow: (value) => set({ dataRow: value }),
 }));
 
 export default useClassStore;

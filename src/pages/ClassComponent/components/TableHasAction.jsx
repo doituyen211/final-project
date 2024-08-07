@@ -1,45 +1,55 @@
-import React from "react";
 import { Button, Table } from "react-bootstrap";
+import { classListTableCols } from "../constants";
+import { useGetClassList } from "../hooks";
 import useClassStore from "../useClassStore";
 
-const TableTemplate = ({ columns, dataTable }) => {
-  const setMode = useClassStore((state) => state.setMode);
+const TableHasAction = () => {
+  const setShowModalView = useClassStore((state) => state.setShowModalView);
+  const setDataRow = useClassStore((state) => state.setDataRow);
+  const setModeModal = useClassStore((state) => state.setModeModal);
   const setShowModalCommon = useClassStore((state) => state.setShowModalCommon);
+
+  const { data } = useGetClassList();
+
+  const handleView = (row) => {
+    setShowModalView(true);
+    setDataRow(row);
+  };
+
+  const handleEdit = (row) => {
+    setModeModal(true);
+    setShowModalCommon(true);
+    setDataRow(row);
+  };
 
   return (
     <Table bordered hover>
       <thead>
         <tr>
-          {columns.map((column) => (
+          {classListTableCols.map((column) => (
             <th key={column.key}>{column.label}</th>
           ))}
         </tr>
       </thead>
 
       <tbody>
-        {dataTable?.map((row, rowIndex) => (
+        {data?.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {columns.map((column) => (
+            {classListTableCols.map((column) => (
               <td key={column.key}>{row[column.key]}</td>
             ))}
             <td>
               <Button
                 variant="light"
                 className="me-2"
-                onClick={() => {
-                  setMode(true);
-                  setShowModalCommon(true);
-                }}
+                onClick={() => handleView(row)}
               >
                 View
               </Button>
               <Button
                 variant="primary"
                 className="me-2"
-                onClick={() => {
-                  setMode(false);
-                  setShowModalCommon(true);
-                }}
+                onClick={() => handleEdit(row)}
               >
                 Edit
               </Button>
@@ -53,4 +63,4 @@ const TableTemplate = ({ columns, dataTable }) => {
   );
 };
 
-export default TableTemplate;
+export default TableHasAction;
