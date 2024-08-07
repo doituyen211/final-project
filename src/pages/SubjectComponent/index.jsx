@@ -26,8 +26,8 @@ const INITIAL_STATE = {
                 label: "Tên môn học",
                 placeholder: "Nhập tên môn học",
                 validation: Yup.string()
-                    .matches(/^[a-zA-Z0-9_-]+$/, 'Subject Name can only contain letters, numbers, underscores, and hyphens')
-                    .required('Subject Name is required'),
+                    .matches(/^[a-zA-Z0-9_\-\s]+$/, 'Subject Name can only contain letters, numbers, underscores, hyphens, and spaces')
+                                .required('Subject Name is required'),
             },
             {
                 name: "training_duration",
@@ -169,22 +169,13 @@ const SubjectComponent = () => {
         setShowConfirmModal(true);
     };
 
-
-    const handleDeleteConfirmation = async () => {
-        fetchData();
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (data) => {
+        // e.preventDefault();
         try {
+            console.log("FROM FORM : ", data)
             const url = actionModal === 'EDIT' ? `${api}/${initialIdCurrent}` : api;
             const method = actionModal === 'EDIT' ? axios.put : axios.post;
-            await method(url, formData);
+            await method(url,data );
             toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
             fetchData(searchTerm, currentPage);
             setFormData({
@@ -231,91 +222,24 @@ const SubjectComponent = () => {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
-                                    <Form onSubmit={handleSubmit}>
-                                        <h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>
-                                        <Row>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="subject_name">
-                                                    <Form.Label>Tên môn học</Form.Label>
-                                                    <Input
-                                                        type="text"
-                                                        name="subject_name"
-                                                        value={formData.subject_name || ''}
-                                                        onChange={handleChange}
-                                                        placeholder="Nhập tên môn học"
-                                                        className="form-control"
-                                                        disabled={actionModal === "VIEW"}
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="training_duration">
-                                                    <Form.Label>Thời lượng</Form.Label>
-                                                    <Input
-                                                        type="number"
-                                                        name="training_duration"
-                                                        value={formData.training_duration || ''}
-                                                        onChange={handleChange}
-                                                        placeholder="Nhập thời lượng"
-                                                        className="form-control"
-                                                        disabled={actionModal === "VIEW"}
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="training_program_id">
-                                                    <Form.Label>Chương trình đào tạo</Form.Label>
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="training_program_id"
-                                                        value={formData.training_program_id || ''}
-                                                        onChange={handleChange}
-                                                        disabled={actionModal === "VIEW"}
-                                                    >
-                                                        <option value="">Chọn chương trình đào tạo</option>
-                                                        {programOptions.map(option => (
-                                                            <option key={option.value} value={option.id}>
-                                                                {option.name}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Control>
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="status">
-                                                    <Form.Label>Trạng thái</Form.Label>
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="status"
-                                                        value={formData.status || ''}
-                                                        onChange={handleChange}
-                                                        disabled={actionModal === "VIEW"}
-                                                    >
-                                                        <option value="">Chọn trạng thái</option>
-                                                        {statusOptions.map(option => (
-                                                            <option key={option.value} value={option.id}>
-                                                                {option.name}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Control>
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                        <div className="d-flex justify-content-center">
-                                            <Button variant="secondary" className="me-2" type="button" onClick={() => setState(prev => ({ ...prev, modalShow: false }))}>Huỷ bỏ</Button>
-                                            {actionModal === 'VIEW'
-                                                ? <Button variant="primary" type="button">Chỉnh sửa</Button>
-                                                : <Button variant="primary" type="submit">Lưu lại</Button>
-                                            }
-                                        </div>
-                                        {/*<ToastContainer/> /!* Add ToastContainer here *!/*/}
-                                    </Form>
+                                    <FormComponentWithValidation
+                                        formFieldsProp={state.modalProps.formFieldsProp}
+                                        initialData={formData}
+                                        actionModal={actionModal}
+                                        onSubmit={handleSubmit}
+                                        onCancel={() => {
+                                            setState(prev => ({ ...prev, modalShow: false }));
+                                        }}
+                                        statusOptions={statusOptions}
+                                        programOptions={programOptions}
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
+                                    <h3 className="text-start mb-4">Danh sách môn học</h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
@@ -370,6 +294,12 @@ const SubjectComponent = () => {
                                                 aria-label="Search input"
                                                 value={searchTerm}
                                                 onChange={handleSearchChange}
+                                                onKeyDown={(event) => {
+                                                    if (event.key === 'Enter') {
+                                                        event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
+                                                        handleSearch(); // Gọi hàm tìm kiếm
+                                                    }
+                                                }}
                                             />
                                             <Button
                                                 variant="outline-secondary"
@@ -393,7 +323,7 @@ const SubjectComponent = () => {
                                         <tbody>
                                         {state.dataTable.map((item, index) => (
                                             <tr key={item.subject_id}>
-                                                <td>{index + 1}</td>
+                                                <td>{index + 10 * (currentPage - 1) + 1}</td>
                                                 <td>{item.subject_name}</td>
                                                 <td>{item.training_duration}</td>
                                                 <td>

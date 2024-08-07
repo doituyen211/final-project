@@ -22,14 +22,31 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
     }, [editData, isEditMode]);
     const validate = () => {
         const errors = [];
-        if (!programName) errors.push('Tên chương trình đào tạo không được để trống');
-        if (!course) errors.push('Khóa học không được để trống');
+        const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+        if (!programName) {
+            errors.push('Tên chương trình đào tạo không được để trống');
+        } else if (specialCharRegex.test(programName)) {
+            errors.push('Tên chương trình đào tạo không được chứa ký tự đặc biệt');
+        }
+
+        if (!course) {
+            errors.push('Khóa học không được để trống');
+        } else if (specialCharRegex.test(course)) {
+            errors.push('Khóa học không được chứa ký tự đặc biệt');
+        }
+
         if (!fee) {
             errors.push('Học phí không được để trống');
         } else if (isNaN(fee)) {
             errors.push('Học phí phải là một số');
         }
-        if (!duration) errors.push('Thời gian đào tạo không được để trống');
+
+        if (!duration) {
+            errors.push('Thời gian đào tạo không được để trống');
+        } else if (specialCharRegex.test(duration)) {
+            errors.push('Thời gian đào tạo không được chứa ký tự đặc biệt');
+        }
 
         if (errors.length > 0) {
             errors.forEach((error) => toast.error(error));
@@ -38,6 +55,7 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
 
         return true;
     };
+
     const handleSaveChanges = async () => {
 
         if (validate()) {
@@ -126,7 +144,7 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
                             />
                         </Col>
                     </Row>
-                    {editData && (
+                    {isEditMode && (
                         <Row>
                             <Col md={6}>
                                 <SelectField

@@ -3,19 +3,25 @@ import { deleteProgram } from '../../services/TrainingProgram';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmComponent from './ConfirmComponent';
-const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDeleteProgramSuccess, handleViewClick }) => {
+import DataTableDetailComponent from './TableDataDetailComponent';
+const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDeleteProgramSuccess }) => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedProgram, setSelectedProgram] = useState();
+    const [showDetail, setShowDetail] = useState(false);
+    const [selectedData, setSelectedData] = useState({});
     const handleShowConfirm = (data) => {
         setSelectedProgram(data);
         setShowConfirm(true);
     };
-
+    const handleViewClick = (data) => {
+        setSelectedData(data);
+        setShowDetail(true);
+    };
+    const handleCloseDetail = () => setShowDetail(false);
     const handleCloseConfirm = () => {
         setSelectedProgram(null);
         setShowConfirm(false);
     };
-
     const handleDelete = () => {
         if (selectedProgram) {
             deleteProgram(selectedProgram.id)
@@ -30,11 +36,12 @@ const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDelet
                 });
         }
     };
+
     return (
         <>
-            <table class="table table-bordered table-hover">
+            <table className="table table-bordered table-hover">
                 <thead>
-                    <tr className="text-truncate">
+                    <tr className="text-truncate text-center">
                         {headers.map((header, index) => (
                             <th key={index}>{header}</th>
                         ))}
@@ -42,12 +49,12 @@ const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDelet
                 </thead>
                 <tbody>
                     {dataTable.map((data, index) => (
-                        <tr key={`program-${data.id}`} className="text-truncate">
+                        <tr key={`program-${data.id}`} className="text-truncate text-center">
                             <td>{data.programName}</td>
                             <td>{data.courseName}</td>
                             <td>{data.fee}</td>
                             <td>{data.timeTrainning}</td>
-                            <td>{data.status ? (<span class="badge badge-primary">Đang hoạt động</span>) : (<span class="badge badge-danger">Tạm dừng</span>)}</td>
+                            <td>{data.status ? (<span className="badge badge-primary">Đang hoạt động</span>) : (<span className="badge badge-danger">Tạm dừng</span>)}</td>
                             <td>
                                 <button className='me-2 btn btn-light' onClick={() => handleViewClick(data)} >View</button>
                                 <button
@@ -60,6 +67,7 @@ const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDelet
 
                             </td>
                         </tr>
+
                     ))}
                 </tbody>
             </table>
@@ -67,6 +75,11 @@ const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDelet
                 show={showConfirm}
                 onHide={handleCloseConfirm}
                 handleDelete={handleDelete}
+            />
+            <DataTableDetailComponent
+                show={showDetail}
+                handleClose={handleCloseDetail}
+                data={selectedData}
             />
         </>
     );
