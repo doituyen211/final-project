@@ -316,6 +316,7 @@ const SubjectComponent = () => {
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
+                                    <h3 className="text-start mb-4">Danh sách môn học</h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
@@ -370,6 +371,12 @@ const SubjectComponent = () => {
                                                 aria-label="Search input"
                                                 value={searchTerm}
                                                 onChange={handleSearchChange}
+                                                onKeyDown={(event) => {
+                                                    if (event.key === 'Enter') {
+                                                        event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
+                                                        handleSearch(); // Gọi hàm tìm kiếm
+                                                    }
+                                                }}
                                             />
                                             <Button
                                                 variant="outline-secondary"
