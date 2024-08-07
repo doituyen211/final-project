@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Card, Row, Table } from "react-bootstrap";
+import React, { fetchedDates, useCallback, useEffect, useState } from "react";
+import { Button, Card, Form, Row, Table } from "react-bootstrap";
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
 import PagingComponent from "../../components/PagingComponent";
@@ -44,7 +44,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Mã Lớp",
                 placeholder: "Chọn Mã Lớp",
-                apiUrl: "/data/IDClass.json", // Cập nhật URL này với API endpoint thực tế của bạn
+                // apiUrl: "/data/IDClass.json", // Cập nhật URL này với API endpoint thực tế của bạn
                 defaultOption: { value: "", label: "Chọn Mã Lớp" },
             },
             {
@@ -52,7 +52,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Giảng Viên",
                 placeholder: "Chọn Giảng Viên",
-                apiUrl: "/data/lecturers.json", // Cập nhật URL này với API endpoint thực tế của bạn
+                // apiUrl: "/data/lecturers.json", // Cập nhật URL này với API endpoint thực tế của bạn
                 defaultOption: { value: "", label: "Chọn Giảng Viên" },
             },
         ],
@@ -74,7 +74,7 @@ const COLUMNS = [
     "",
 ];
 
-const ScheduleComponent = () => {
+const ScheduleComponent3 = () => {
     const [state, setState] = useState(INITIAL_STATE);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -211,34 +211,152 @@ const ScheduleComponent = () => {
                                 <Card.Body>
                                     {console.log(JSON.stringify(dataForm))}
                                     {console.log(action)}
+
                                     <Row>
-                                        <Row>
-                                            <div className="col-6"></div>
-                                            <div className="col-6"></div>
-                                        </Row>
+                                        <div className="col-6">
+                                            <Form.Group controlId="formMaMonHoc">
+                                                <Form.Label>Môn Học</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Nhập tên môn học..."
+                                                    className="mb-3"
+                                                    value={dataForm.ma_mon_hoc}
+                                                    onChange={(e) =>
+                                                        setDataForm({
+                                                            ...dataForm,
+                                                            ma_mon_hoc:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formThoiGianBatDau">
+                                                <Form.Label>
+                                                    Thời Gian Bắt Đầu
+                                                </Form.Label>
+                                                <Form.Control
+                                                    type="date"
+                                                    className="mb-3"
+                                                    value={
+                                                        dataForm.thoi_gian_bat_dau
+                                                    }
+                                                    onChange={(e) =>
+                                                        setDataForm({
+                                                            ...dataForm,
+                                                            thoi_gian_bat_dau:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </Form.Group>
+                                            <Form.Group
+                                                controlId="formMaLop"
+                                                className="mb-3"
+                                            >
+                                                <Form.Label>Mã Lớp</Form.Label>
+                                                <Form.Control
+                                                    as="select"
+                                                    value={dataForm.ma_lop}
+                                                    onChange={(e) =>
+                                                        setDataForm({
+                                                            ...dataForm,
+                                                            ma_lop: e.target
+                                                                .value,
+                                                        })
+                                                    }
+                                                >
+                                                    <option>Chọn Mã Lớp</option>
+                                                    {/* Fetch dữ liệu từ API và map vào đây */}
+                                                </Form.Control>
+                                            </Form.Group>
+                                        </div>
+                                        <div className="col-6">
+                                            <Form.Group controlId="formPhongHoc">
+                                                <Form.Label>
+                                                    Phòng Học
+                                                </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Nhập Phòng Học"
+                                                    className="mb-3"
+                                                    value={dataForm.phong_hoc}
+                                                    onChange={(e) =>
+                                                        setDataForm({
+                                                            ...dataForm,
+                                                            phong_hoc:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formThoiGianKetThuc">
+                                                <Form.Label>
+                                                    Thời Gian Kết Thúc
+                                                </Form.Label>
+                                                <Form.Control
+                                                    type="date"
+                                                    className="mb-3"
+                                                    value={
+                                                        dataForm.thoi_gian_ket_thuc
+                                                    }
+                                                    onChange={(e) =>
+                                                        setDataForm({
+                                                            ...dataForm,
+                                                            thoi_gian_ket_thuc:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formGiangVien">
+                                                <Form.Label>
+                                                    Giảng Viên
+                                                </Form.Label>
+                                                <Form.Control
+                                                    as="select"
+                                                    className="mb-3"
+                                                    value={dataForm.id_nhan_su}
+                                                    onChange={(e) =>
+                                                        setDataForm({
+                                                            ...dataForm,
+                                                            id_nhan_su:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                >
+                                                    <option>
+                                                        Chọn Giảng Viên
+                                                    </option>
+
+                                                    {/* Fetch dữ liệu từ API và map vào đây */}
+                                                </Form.Control>
+                                            </Form.Group>
+                                        </div>
                                     </Row>
-                                    <Row className="">
-                                        <Button
-                                            variant="light"
-                                            className="ms-3"
-                                        >
-                                            Huy bo
-                                        </Button>
-                                        <Button
-                                            variant="primary"
-                                            className="ms-3"
-                                        >
-                                            {action === "CREATE"
-                                                ? "Them moi"
-                                                : action === "VIEW"
-                                                ? "Chinh sua"
-                                                : "Cap nhat"}
-                                        </Button>
+
+                                    <Row className="d-flex flex-row justify-content-center">
+                                        <div className="d-flex  col-6 justify-content-end mt-2">
+                                            <Button variant="primary">
+                                                {action === "CREATE"
+                                                    ? "Thêm Mới"
+                                                    : action === "VIEW"
+                                                    ? "Chỉnh Sửa"
+                                                    : "Cập Nhật"}
+                                            </Button>
+                                        </div>
+                                        <div className="d-flex col-6 justify-content-start mt-2">
+                                            <Button
+                                                variant="light"
+                                                className="col-6 bg-secondary"
+                                            >
+                                                Hủy Bỏ
+                                            </Button>
+                                        </div>
                                     </Row>
+
                                     {/* <Form>
 
                                 </Form> */}
-                                    <div></div>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -272,7 +390,7 @@ const ScheduleComponent = () => {
                                     </div>
 
                                     {/* Bảng dữ liệu */}
-                                    <Table striped bordered hover>
+                                    <Table bordered hover>
                                         <thead>
                                             <tr>
                                                 {COLUMNS.map((col) => (
@@ -319,6 +437,11 @@ const ScheduleComponent = () => {
                                                                         "VIEW"
                                                                     );
                                                                 }}
+                                                                // onClick={() =>
+                                                                //     handleView(
+                                                                //         item
+                                                                //     )
+                                                                // }
                                                             >
                                                                 View
                                                             </Button>
@@ -385,4 +508,4 @@ const ScheduleComponent = () => {
     );
 };
 
-export default ScheduleComponent;
+export default ScheduleComponent3;

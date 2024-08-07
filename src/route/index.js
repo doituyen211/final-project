@@ -1,6 +1,7 @@
 import {
     CourseComponent,
     ScheduleComponent3,
+    // ScheduleComponent2,
     SubjectComponent2,
     UserComponent,
 } from "../pages";
