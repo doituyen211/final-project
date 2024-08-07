@@ -63,7 +63,7 @@ const COLUMNS = [
   "",
 ];
 
-const SubjectComponent2 = () => {
+const SubjectComponentLayout2 = () => {
   const [state, setState] = useState(INITIAL_STATE);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -352,4 +352,4 @@ const SubjectComponent2 = () => {
   );
 };
 
-export default SubjectComponent2;
+export default SubjectComponentLayout2;

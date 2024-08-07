@@ -1,5 +1,3 @@
-import React from "react";
-
 const PageHeader = ({ namePage }) => {
   return (
     <section className="content-header">
