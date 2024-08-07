@@ -11,6 +11,7 @@ const API = {
   SCHEDULE: `${BASE_URL}/lich_hoc`,
 
   CLASS: `${BASE_URL}/class`,
+  REVER: `${BASE_URL}/rever`,
 
   // Add other API endpoints here if needed
 };
