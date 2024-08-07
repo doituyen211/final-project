@@ -7,15 +7,15 @@ import axios from "axios";
 const StudentCompoent = () => {
     const [dataTable, setDataTable] = useState([]);
     const [classTable, setClassTable] = useState("");
-    const apiUpdate = "https://66ac5cccf009b9d5c731c682.mockapi.io";
-    const apiCreate ="https://66ac5cccf009b9d5c731c682.mockapi.io";
-    const apiDelete = "https://66ac5cccf009b9d5c731c682.mockapi.io";
-    const apiView = "https://66ac5cccf009b9d5c731c682.mockapi.io";
+    const apiUpdate = "https://66ac5cccf009b9d5c731c682.mockapi.io/api";
+    const apiCreate ="https://66ac5cccf009b9d5c731c682.mockapi.io/api";
+    const apiDelete = "https://66ac5cccf009b9d5c731c682.mockapi.io/api";
+    const apiView = "https://66ac5cccf009b9d5c731c682.mockapi.io/api";
 
     const getData = async () => {
         try {
             const res = await axios.get(
-                "https://66ac5cccf009b9d5c731c682.mockapi.io"
+                "https://66ac5cccf009b9d5c731c682.mockapi.io/api"
             ); // Get data from api
             setDataTable(res.data);
             setClassTable("table table-bordered table-hover");
