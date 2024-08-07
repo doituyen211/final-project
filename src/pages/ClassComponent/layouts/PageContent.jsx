@@ -1,9 +1,9 @@
 import NotificationComponent from "../../../components/NotificationComponent";
 import PagingComponent from "../../../components/PagingComponent";
-import TableTemplate from "../components/TableTemplate";
+import TableHasAction from "../components/TableHasAction";
 import ToolsComponent from "../components/ToolsComponent";
 
-const PageContent = ({ headerContent, dataTable, columns }) => {
+const PageContent = ({ headerContent }) => {
   return (
     <>
       <section className="content">
@@ -16,7 +16,7 @@ const PageContent = ({ headerContent, dataTable, columns }) => {
                   <ToolsComponent />
                   <div className="row">
                     <div className="col-12">
-                      <TableTemplate columns={columns} dataTable={dataTable} />
+                      <TableHasAction />
                     </div>
                   </div>
 
