@@ -1,12 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import SearchComponents from "../../components/SearchComponents";
 import PagingComponent from "../../components/PagingComponent";
-import TableComponents from "../../components/TableComponent";
-import ModalComponent from "../../components/ModalComponent";
-import { fetchAllExam } from "../../services/ExamService";
-import API from "../../store/Api";
-import DeleteComponent from "../../components/DeleteItemComponent";
+import TableExamComponent from "../../components/TableExamComponent";
+import {
+  getExams,
+  handleCreateExam,
+  handleEditExam,
+  handleDeleteExam,
+} from "../../controllers/ExamController";
+import ModalExamComponent from "../../components/ModalExamComponent";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import DeleteExamModal from "../../components/DeleteExamModal";
 
 const ExamComponent = () => {
   const cols = [
@@ -15,97 +21,125 @@ const ExamComponent = () => {
     "Mã lớp học",
     "Ngày thi",
     "Link bài thi",
-    "Hành động",
+    "Hành Động",
   ];
+
   const [totalPage, setTotalPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataTable, setDataTable] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
-  const [action, setAction] = useState("");
-  const [currentExam, setCurrentExam] = useState(null);
-  const [searchExam, setSearchExam] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [searchExam, setSearchExam] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalMode, setModalMode] = useState("create");
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalButtonTitle, setModalButtonTitle] = useState("");
+  const [selectedExam, setSelectedExam] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const perPage = 10;
 
-  const api = API.EXAM;
-
   useEffect(() => {
-    getExams();
+    getExams(
+      searchExam,
+      currentPage,
+      perPage,
+      setDataTable,
+      setTotalPage,
+      setIsLoading
+    );
   }, [currentPage, searchExam]);
-
-  const getExams = async () => {
-    try {
-      setIsLoading(true);
-      const res = await fetchAllExam();
-      console.log("->> Check res: ", res);
-      if (res && res.data) {
-        let formattedData = res.data.map((item, index) =>
-          formatData(item, index)
-        );
-        if (searchExam) {
-          formattedData = formattedData.filter((item) =>
-            item.ma_mon.toLowerCase().includes(searchExam.toLowerCase())
-          );
-        }
-        setTotalPage(Math.ceil(formattedData.length / perPage));
-        setDataTable(formattedData);
-      }
-    } catch (error) {
-      console.error("Error fetching exams:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const formatData = (data) => {
-    const { id, ma_mon, ma_lop, time, link_exam } = data;
-    const formattedTime = new Date(time * 1000).toLocaleDateString();
-    return {
-      id,
-      ma_mon,
-      ma_lop,
-      time: formattedTime,
-      link_exam,
-    };
-  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const indexOfLastRecord = currentPage * perPage;
-  const indexOfFirstRecord = indexOfLastRecord - perPage;
-  const currentData = dataTable.slice(indexOfFirstRecord, indexOfLastRecord);
-
-  const handleShowModal = (action, showModal, exam = null) => {
-    setAction(action);
-    setCurrentExam(exam);
-    setModalShow(showModal);
-    console.log(">>>>>>>>>>Check action: ", action);
-    console.log(">>>>>>>>>>Check exam: ", exam);
-  };
-
-  const handleCloseModal = () => {
-    setModalShow(false);
-    setCurrentExam(null);
-    getExams();
-  };
-
-  const confirmDelete = (exam) => {
-    setDeleteItemId(exam.id);
-    setShowConfirmModal(true);
-  };
-
-  const handleDeleteConfirmation = async () => {
-    setShowConfirmModal(false);
-    getExams();
-  };
-
   const handleSearch = (exam) => {
     setSearchExam(exam);
   };
+
+  const handleAdd = () => {
+    setModalMode("create");
+    setModalTitle("Thêm mới lịch thi");
+    setModalButtonTitle("Create");
+    setSelectedExam(null);
+    setShowModal(true);
+  };
+
+  const handleEdit = (exam) => {
+    setModalMode("edit");
+    setModalTitle("Chỉnh sửa lịch thi");
+    setModalButtonTitle("Edit");
+    setSelectedExam(exam);
+    setShowModal(true);
+  };
+
+  const handleView = (exam) => {
+    setModalMode("view");
+    setModalTitle("Xem chi tiết lịch thi");
+    setModalButtonTitle("");
+    setSelectedExam(exam);
+    setShowModal(true);
+    console.log("Check exam: ", exam);
+  };
+
+  const handleDelete = (exam) => {
+    setSelectedExam(exam);
+    setShowConfirmModal(true);
+    console.log("Check exam: ", exam);
+  };
+
+  const confirmDelete = async () => {
+    if (selectedExam) {
+      await handleDeleteExam(selectedExam.id, () =>
+        getExams(
+          searchExam,
+          currentPage,
+          perPage,
+          setDataTable,
+          setTotalPage,
+          setIsLoading
+        )
+      );
+      setSelectedExam(null);
+      setShowConfirmModal(false);
+    }
+  };
+
+  const handleModalAction = async (formData) => {
+    if (modalMode === "create") {
+      handleCreateExam(
+        formData,
+        () => setShowModal(false),
+        () =>
+          getExams(
+            searchExam,
+            currentPage,
+            perPage,
+            setDataTable,
+            setTotalPage,
+            setIsLoading
+          )
+      );
+    } else if (modalMode === "edit") {
+      handleEditExam(
+        selectedExam.id,
+        formData,
+        () => setShowModal(false),
+        () =>
+          getExams(
+            searchExam,
+            currentPage,
+            perPage,
+            setDataTable,
+            setTotalPage,
+            setIsLoading
+          )
+      );
+    }
+  };
+
+  const indexOfLastRecord = currentPage * perPage;
+  const indexOfFirstRecord = indexOfLastRecord - perPage;
+  const currentData = dataTable.slice(indexOfFirstRecord, indexOfLastRecord);
 
   return (
     <>
@@ -149,7 +183,7 @@ const ExamComponent = () => {
                       <Button
                         variant="primary"
                         className="align-items-center"
-                        onClick={() => handleShowModal("CREATE")}
+                        onClick={handleAdd}
                       >
                         <i className="bi bi-plus"></i>
                         Thêm mới
@@ -157,27 +191,14 @@ const ExamComponent = () => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-12">
-                      <TableComponents
+                    <div className="col-12 mt-8">
+                      <TableExamComponent
                         cols={cols}
-                        titleTable="Danh sách lịch thi"
-                        dataTable={currentData}
-                        classTable="table table-bordered table-hover"
-                        formFieldsProp={[
-                          { name: "ma_mon", type: "text", label: "Mã môn học" },
-                          { name: "ma_lop", type: "text", label: "Mã lớp học" },
-                          { name: "time", type: "date", label: "Ngày thi" },
-                          {
-                            name: "link_exam",
-                            type: "text",
-                            label: "Link bài thi",
-                          },
-                        ]}
-                        useModal={true}
-                        actionDelete={confirmDelete}
-                        openModal={handleShowModal}
-                        currentPage={currentPage}
+                        data={currentData}
                         isLoading={isLoading}
+                        onView={(exam) => handleView(exam)}
+                        onEdit={(exam) => handleEdit(exam)}
+                        onDelete={(id) => handleDelete(id)}
                       />
                     </div>
                   </div>
@@ -196,26 +217,30 @@ const ExamComponent = () => {
           </div>
         </div>
       </section>
-      <ModalComponent
-        show={modalShow}
-        onHide={handleCloseModal}
-        action={action}
-        formFieldsProp={[
-          { name: "ma_mon", type: "text", label: "Mã môn học" },
-          { name: "ma_lop", type: "text", label: "Mã lớp học" },
-          { name: "time", type: "date", label: "Ngày thi" },
-          { name: "link_exam", type: "text", label: "Link bài thi" },
-        ]}
-        initialIdCurrent={currentExam ? currentExam.id : null}
-        api={api}
-        getData={getExams}
+      <ModalExamComponent
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        title={modalTitle}
+        titleButton={modalButtonTitle}
+        action={handleModalAction}
+        examData={selectedExam || {}}
+        mode={modalMode}
       />
-      <DeleteComponent
+      <DeleteExamModal
         show={showConfirmModal}
-        onHide={() => setShowConfirmModal(false)}
-        onConfirm={handleDeleteConfirmation}
-        deleteItemID={deleteItemId}
-        apiDelete={api}
+        handleClose={() => setShowConfirmModal(false)}
+        handleConfirm={confirmDelete}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
     </>
   );

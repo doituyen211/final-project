@@ -1,314 +1,220 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import axios from 'axios';
-import {Button, Form} from 'react-bootstrap';
-import TableComponents from '../../components/TableComponent';
-// import SelectDropdown from '../../components/SelectDownButton';
-import PagingComponent from '../../components/PagingComponent';
-import API from '../../store/Api';
-import FormComponent from "../../components/FormComponent";
+import React, { useEffect, useState, useCallback } from "react";
+import { Button } from "react-bootstrap";
+import SearchComponents from "../../components/SearchComponents";
+import PagingComponent from "../../components/PagingComponent";
+import TableComponents from "../../components/TableComponent";
+import ModalComponent from "../../components/ModalComponent";
+import { fetchAllExam } from "../../services/ExamService";
+import API from "../../store/Api";
 import DeleteComponent from "../../components/DeleteItemComponent";
 
-// Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
-const INITIAL_STATE = {
-    dataTable: [], // Dữ liệu bảng
-    titleTable: 'SubjectComponent', // Tiêu đề của bảng
-    classTable: 'table table-bordered table-hover', // Lớp CSS của bảng
-    modalShow: false, // Trạng thái hiển thị modal
-    modalProps: {
-        show: false,
-        action: '',
-        formFieldsProp: [
-            {name: 'subject_name', type: 'text', label: 'Subject Name', placeholder: 'Enter the subject name'},
-            {name: 'training_duration', type: 'text', label: 'Duration', placeholder: 'Enter duration'},
-            {
-                name: 'training_program_id',
-                type: 'select',
-                label: 'Program Name',
-                placeholder: 'Select a program',
-                apiUrl: '/data/program.json', // Cập nhật URL này với API endpoint thực tế của bạn
-                defaultOption: {value: '', label: 'Select a program'}
-            },
-            {
-                name: 'status',
-                type: 'select',
-                label: 'Status',
-                placeholder: 'Select status',
-                apiUrl: '/data/status.json', // Cập nhật URL này với API endpoint thực tế của bạn
-                defaultOption: {value: '', label: 'Select status'}
-            }
-        ],
-        initialIsEdit: false,
-        initialIdCurrent: null,
-        api: API.SUBJECT
+const ExamComponent = () => {
+  const cols = [
+    "STT",
+    "Mã môn học",
+    "Mã lớp học",
+    "Ngày thi",
+    "Link bài thi",
+    "Hành động",
+  ];
+
+  const fieldProps = [
+    { name: "ma_mon", type: "text", label: "Mã môn học" },
+    { name: "ma_lop", type: "text", label: "Mã lớp học" },
+    { name: "thoi_gian", type: "date", label: "Ngày thi" },
+    { name: "link_bai_thi", type: "text", label: "Link bài thi" },
+  ];
+
+  const [totalPage, setTotalPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataTable, setDataTable] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [action, setAction] = useState("");
+  const [currentExam, setCurrentExam] = useState(null);
+  const [searchExam, setSearchExam] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const perPage = 10;
+
+  const api = API.EXAM;
+
+  useEffect(() => {
+    getExams();
+  }, [currentPage, searchExam]);
+
+  const getExams = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchAllExam();
+      console.log("->> Check res: ", res);
+      if (res && res.data.content) {
+        let formattedData = res.data.content.map((item, index) =>
+          formatData(item, index)
+        );
+        if (searchExam) {
+          formattedData = formattedData.filter((item) =>
+            item.ma_mon.toLowerCase().includes(searchExam.toLowerCase())
+          );
+        }
+        setTotalPage(Math.ceil(formattedData.length / perPage));
+        setDataTable(formattedData);
+      }
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const formatData = (data) => {
+    const { id, ma_mon, ma_lop, thoi_gian, link_bai_thi } = data;
+    const formattedTime = new Date(thoi_gian * 1000).toLocaleDateString();
+    return {
+      id,
+      ma_mon,
+      ma_lop,
+      thoi_gian: formattedTime,
+      link_bai_thi: link_bai_thi || "N/A",
+    };
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastRecord = currentPage * perPage;
+  const indexOfFirstRecord = indexOfLastRecord - perPage;
+  const currentData = dataTable.slice(indexOfFirstRecord, indexOfLastRecord);
+
+  const handleShowModal = (action, exam = null) => {
+    setAction(action);
+    setCurrentExam(exam);
+    setModalShow(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalShow(false);
+    setCurrentExam(null);
+    getExams();
+  };
+
+  const confirmDelete = (exam) => {
+    setDeleteItemId(exam.id);
+    setShowConfirmModal(true);
+  };
+
+  const handleDeleteConfirmation = async () => {
+    // Thực hiện xóa tại đây
+    setShowConfirmModal(false);
+    getExams();
+  };
+
+  const handleSearch = (exam) => {
+    setSearchExam(exam);
+  };
+
+  return (
+    <>
+      <section className="content-header">
+        <div className="container-fluid">
+          <div className="row mb-2">
+            <div className="col-sm-6">
+              <h1>Quản Lý Lịch Thi</h1>
+            </div>
+            <div className="col-sm-6">
+              <ol className="breadcrumb float-sm-right">
+                <li className="breadcrumb-item">
+                  <a href="#">Home</a>
+                </li>
+                <li className="breadcrumb-item active">Quản lý lịch thi</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="content">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col">
+              <div className="card card-primary">
+                <div className="card-body">
+                  <div
+                    style={{
+                      fontWeight: "500",
+                      fontSize: 18,
+                      marginBottom: 8,
+                    }}
+                  >
+                    Danh sách lịch thi
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="flex-grow-1">
+                      <SearchComponents onSearch={handleSearch} />
+                    </div>
+                    <div>
+                      <Button
+                        variant="primary"
+                        className="align-items-center"
+                        onClick={() => handleShowModal("CREATE")}
+                      >
+                        <i className="bi bi-plus"></i>
+                        Thêm mới
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-12">
+                      <TableComponents
+                        cols={cols}
+                        titleTable="Danh sách lịch thi"
+                        dataTable={currentData}
+                        classTable="table table-bordered table-hover"
+                        formFieldsProp={fieldProps}
+                        useModal={true}
+                        actionDelete={confirmDelete}
+                        openModal={handleShowModal}
+                        currentPage={currentPage}
+                        isLoading={isLoading}
+                      />
+                    </div>
+                  </div>
+                  <div className="row justify-content-center mt-3">
+                    <div className="col-auto">
+                      <PagingComponent
+                        totalPage={totalPage}
+                        currentPage={currentPage}
+                        onPageChange={handlePageChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {modalShow && (
+        <ModalComponent
+          show={modalShow}
+          onHide={handleCloseModal}
+          action={action}
+          formFieldsProp={fieldProps}
+          initialIdCurrent={currentExam ? currentExam.id : null}
+          api={api}
+          getData={getExams}
+          dataForm={currentExam || {}}
+        />
+      )}
+      <DeleteComponent
+        show={showConfirmModal}
+        onHide={() => setShowConfirmModal(false)}
+        onConfirm={handleDeleteConfirmation}
+        deleteItemID={deleteItemId}
+        apiDelete={api}
+      />
+    </>
+  );
 };
 
-// Các cột của bảng
-const COLUMNS = ['STT', 'Tên môn học', 'Thời lượng', 'Tên chương trình học', 'Trạng thái', ''];
-
-const SubjectComponent2 = () => {
-    const [state, setState] = useState(INITIAL_STATE);
-    const [deleteItemId, setDeleteItemId] = useState(null);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [actionModal, setActionModal] = useState('CREATE');
-    const [initialIdCurrent, setInitialIdCurrent] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-
-    const [program, setProgram] = useState('');
-    const [status, setStatus] = useState('');
-
-    const api = API.SUBJECT;
-
-    // Fetch data with optional filters
-    const fetchData = useCallback(async (search = '', page = 1) => {
-        try {
-            console.log("RENDER with", {
-                page: page,
-                pageSize: 10,
-                search,
-                status,
-                program
-            });
-            const {data} = await axios.get(api, {
-                params: {
-                    page: page,
-                    pageSize: 10,
-                    search,
-                    status,
-                    program
-                }
-            });
-            setState(prevState => ({
-                ...prevState,
-                dataTable: data.content
-            }));
-            setCurrentPage(data.page);
-            setTotalPages(data.totalPages);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }, [api, status, program]);
-
-    //Search
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const handleSearchChange = useCallback((event) => {
-        setSearchTerm(event.target.value);
-    }, []);
-
-    const handleSearch = useCallback(() => {
-        fetchData(searchTerm);
-    }, [fetchData, searchTerm]);
-
-    const handleProgramChange = useCallback((event) => {
-        setProgram(event.target.value);
-    }, []);
-
-    const handleStatusChange = useCallback((event) => {
-        setStatus(event.target.value);
-    }, []);
-
-    useEffect(() => {
-        fetchData('', currentPage);
-        console.log('Render SubjectComponent');
-    }, [fetchData, currentPage]);
-
-    const handlePageChange = useCallback(pageNumber => {
-        setCurrentPage(pageNumber);
-    }, []);
-
-    useEffect(() => {
-        // fetchData('', currentPage);
-        fetchOptions();
-    }, []);
-    const [statusOptions, setStatusOptions] = useState([]);
-    const [programOptions, setProgramOptions] = useState([]);
-    // Fetch options for filters
-    const fetchOptions = useCallback(async () => {
-        try {
-            const [statusResponse, programResponse] = await Promise.all([
-                axios.get('/data/status.json'),
-                axios.get('/data/program.json')
-            ]);
-            setStatusOptions(statusResponse.data);
-            setProgramOptions(programResponse.data);
-        } catch (error) {
-            console.error('Error fetching options:', error);
-        }
-    }, []);
-    // Hàm xử lý xác nhận xóa
-    const confirmDelete = (item) => {
-        setDeleteItemId(item.subject_id);
-        setShowConfirmModal(true);
-    };
-
-    // Hàm xử lý xác nhận xóa và cập nhật dữ liệu
-    const handleDeleteConfirmation = () => {
-        fetchData();
-    };
-
-    return (
-        <>
-            <section className="content-header">
-                <div className="container-fluid">
-                    <div className="row mb-2">
-                        <div className="col-sm-6">
-                            <h1>Quản lý Môn học</h1>
-                        </div>
-                        <div className="col-sm-6">
-                            <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item">
-                                    <button onClick={() => console.log('Home clicked')}>Home</button>
-                                </li>
-                                <li className="breadcrumb-item active">Quản lý môn học</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section className="content">
-                <div className="container-fluid">
-                    <div className="row justify-content-center">
-                        {/* Card cho Form Component */}
-                        <div className="col-md-4">
-                            <div className="card">
-                                <div className="card-body">
-                                    <FormComponent
-                                        title={actionModal === 'EDIT' ? 'Cập Nhật' : actionModal === 'CREATE' ? 'Thêm Mới' : 'Chi tiết'}
-                                        fields={state.modalProps.formFieldsProp}
-                                        getData={fetchData}
-                                        action={actionModal}
-                                        idCurrent={initialIdCurrent}
-                                        onClose={() => {
-                                        }}
-                                        api={api}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Card cho các bộ lọc, ô tìm kiếm và nút thêm mới */}
-                        <div className="col-md-8">
-                            <div className="card mb-4">
-                                <div className="card-body">
-                                    <div className="row mb-4">
-                                        {/* Bộ lọc */}
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
-                                            >
-                                                <option value="">Chọn chương trình học</option>
-                                                {programOptions.map(option => (
-                                                    <option key={option.value} value={option.id}>
-                                                        {option.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-                                        </div>
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus1"
-                                                aria-label="Status"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={status}
-                                                onChange={handleStatusChange}
-                                            >
-                                                <option value="">Chọn trạng thái</option>
-                                                {statusOptions.map(option => (
-                                                    <option key={option.value} value={option.id}>
-                                                        {option.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-                                        </div>
-                                        <div className="col-md-6 d-flex align-items-center gap-3">
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-pill border-secondary flex-fill"
-                                                placeholder="Search..."
-                                                aria-label="Search input"
-                                                value={searchTerm}
-                                                onChange={handleSearchChange}
-                                            />
-                                            <Button
-                                                variant="outline-secondary"
-                                                size="sm"
-                                                aria-label="Search"
-                                                className="d-flex align-items-center px-3 rounded-pill"
-                                                onClick={handleSearch}
-                                            >
-                                                <i className="bi bi-search"></i>
-                                            </Button>
-                                        </div>
-                                        {/*/!* Nút thêm mới *!/*/}
-                                        {/*<div className="col-md-4 d-flex align-items-center justify-content-end">*/}
-                                        {/*    <Button*/}
-                                        {/*        variant="primary"*/}
-                                        {/*        size="sm"*/}
-                                        {/*        onClick={handleModalShow}*/}
-                                        {/*        aria-label="Add new item"*/}
-                                        {/*        className="d-flex align-items-center px-3 rounded-pill"*/}
-                                        {/*    >*/}
-                                        {/*        <i className="bi bi-plus-circle me-2"></i>*/}
-                                        {/*        Add New*/}
-                                        {/*    </Button>*/}
-                                        {/*</div>*/}
-                                    </div>
-
-                                    {/* Bảng dữ liệu */}
-                                    <TableComponents
-                                        cols={COLUMNS}
-                                        dataTable={state.dataTable}
-                                        classTable={state.classTable}
-                                        api={api}
-                                        formFieldsProp={state.modalProps.formFieldsProp}
-                                        getData={fetchData}
-                                        actionView={(subject) => {
-                                            setInitialIdCurrent(subject.subject_id);
-                                            setActionModal('VIEW');
-                                        }}
-                                        actionEdit={(subject) => {
-                                            setInitialIdCurrent(subject.subject_id);
-                                            setActionModal('EDIT');
-                                        }}
-                                        actionDelete={confirmDelete}
-                                        useModal={false}
-                                        currentPage={currentPage}
-                                    />
-
-                                    {/* Phân trang */}
-                                    <div className="row justify-content-center mt-3">
-                                        <div className="col-auto">
-                                            <PagingComponent
-                                                totalPage={totalPages}
-                                                currentPage={currentPage}
-                                                onPageChange={handlePageChange}
-                                            />
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Modal xác nhận xóa */}
-            <DeleteComponent
-                show={showConfirmModal}
-                onHide={() => setShowConfirmModal(false)}
-                onConfirm={handleDeleteConfirmation}
-                deleteItemID={deleteItemId}
-                apiDelete={api}
-            />
-        </>
-    );
-}
-
-export default SubjectComponent2;
+export default ExamComponent;

@@ -1,60 +1,54 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-// import SelectDropdown from '../SelectDownButton';
 import axios from "axios";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "../InputComponents";
-import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
-import "react-toastify/dist/ReactToastify.css"; // Import toast styles
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FormComponent(props) {
-  const { fields, getData, action, idCurrent, onClose, api, title } = props;
+  const { fields, getData, action, idCurrent, onClose, api, title, dataForm } =
+    props;
 
-  const [formData, setFormData] = useState(() =>
-    fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
+  const initialFormData = fields.reduce(
+    (acc, field) => ({ ...acc, [field.name]: "" }),
+    {}
   );
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => {
-      const field = fields.find((field) => field.name === name);
-      if (field && field.type === "date") {
-        const timestamp = new Date(value).getTime() / 1000;
-        return { ...prev, [name]: timestamp };
-      }
-      return { ...prev, [name]: value };
-    });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
       const url = action === "EDIT" ? `${api}/${idCurrent}` : api;
       const method = action === "EDIT" ? axios.put : axios.post;
       await method(url, formData);
       onClose();
-      setFormData(
-        fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
-      );
+      setFormData(initialFormData);
       getData();
       toast.success(
         `${action === "EDIT" ? "Updated" : "Created"} successfully!`
-      ); // Success toast
+      );
     } catch (error) {
       console.error(`Error ${action.toLowerCase()} item:`, error);
-      toast.error(`Failed to ${action.toLowerCase()} item.`); // Error toast
+      toast.error(`Failed to ${action.toLowerCase()} item.`);
     }
   };
 
   useEffect(() => {
-    if (action === "EDIT" || action === "VIEW") {
-      axios
-        .get(`${api}/${idCurrent}`)
-        .then((res) => setFormData(res.data))
-        .catch((err) => console.error("Error fetching data:", err));
-    }
-  }, [action, idCurrent, api]);
+    const newFormData = fields.reduce((acc, field) => {
+      acc[field.name] =
+        dataForm && dataForm[field.name] ? dataForm[field.name] : "";
+      return acc;
+    }, {});
+    setFormData(newFormData);
+  }, [dataForm, fields]);
+
   const [selectOptions, setSelectOptions] = useState({});
   useEffect(() => {
     fields.forEach((field) => {
@@ -68,6 +62,7 @@ function FormComponent(props) {
       }
     });
   }, [fields]);
+
   const renderField = (field) => {
     const commonProps = {
       key: field.name,
@@ -131,13 +126,7 @@ function FormComponent(props) {
                 type="date"
                 id={field.name}
                 name={field.name}
-                value={
-                  formData[field.name]
-                    ? new Date(formData[field.name] * 1000)
-                        .toISOString()
-                        .split("T")[0]
-                    : ""
-                }
+                value={formData[field.name]}
                 onChange={handleChange}
                 disabled={action === "VIEW"}
               />
@@ -168,24 +157,31 @@ function FormComponent(props) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h3 className="text-start mb-4">{title}</h3> {/* Add form title here */}
-      <Row>{fields.map(renderField)}</Row>
+      <h3 className="text-start mb-4">{title}</h3>
+      <Row>{fields && fields.map(renderField)}</Row>
       <div className="d-flex justify-content-center">
         <Button
           variant="secondary"
           className="me-2"
           type="button"
-          onClick={onClose}
+          onClick={() => {
+            setFormData(initialFormData);
+            onClose();
+          }}
         >
           Huỷ bỏ
         </Button>
-        {action !== "VIEW" && (
+        {action === "VIEW" ? (
+          <Button variant="primary" type="button">
+            Chỉnh sửa
+          </Button>
+        ) : (
           <Button variant="primary" type="submit">
             Lưu lại
           </Button>
         )}
       </div>
-      <ToastContainer /> {/* Add ToastContainer here */}
+      <ToastContainer />
     </Form>
   );
 }
@@ -214,6 +210,8 @@ FormComponent.propTypes = {
   idCurrent: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onClose: PropTypes.func,
   api: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  dataForm: PropTypes.object,
 };
 
 export default FormComponent;
