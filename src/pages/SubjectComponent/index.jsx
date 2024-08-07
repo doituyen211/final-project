@@ -393,7 +393,7 @@ const SubjectComponent = () => {
                                         <tbody>
                                         {state.dataTable.map((item, index) => (
                                             <tr key={item.subject_id}>
-                                                <td>{index + 1}</td>
+                                                <td>{index + 10 * (currentPage - 1) + 1}</td>
                                                 <td>{item.subject_name}</td>
                                                 <td>{item.training_duration}</td>
                                                 <td>
