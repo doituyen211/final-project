@@ -1,31 +1,50 @@
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { getConfigInput } from "../constants";
 import useClassStore from "../useClassStore";
 
 const ModalCommon = () => {
-  const mode = useClassStore((state) => state.mode);
+  const modeModal = useClassStore((state) => state.modeModal);
   const showModalCommon = useClassStore((state) => state.showModalCommon);
   const handleClose = useClassStore((state) => state.handleClose);
-  const configInput = getConfigInput(mode);
+  const configInput = getConfigInput(modeModal);
+  const dataRow = useClassStore((state) => state.dataRow);
+
+  const [formData, setFormData] = useState(dataRow);
+
+  useEffect(() => {
+    setFormData(dataRow);
+  }, [dataRow]);
 
   return (
     <Modal show={showModalCommon} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
-          {mode ? "Chi tiết lớp học" : "Cập nhật thông tin lớp học"}
+          {modeModal ? "Cập nhật thông tin lớp học" : "Thêm mới lớp học"}
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Form>
           {configInput.map((item) => (
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" key={item.name}>
               <Form.Label>{item.label}</Form.Label>
-              <Form.Control
-                disabled={item.disabled}
-                placeholder={item.placeholder}
-                type={item.type}
-              />
+              {modeModal ? (
+                <Form.Control
+                  name={item.name}
+                  type={item.type}
+                  placeholder={item.placeholder}
+                  disabled={item.disabled}
+                  value={formData[item.name] || ""}
+                />
+              ) : (
+                <Form.Control
+                  name={item.name}
+                  type={item.type}
+                  placeholder={item.placeholder}
+                  disabled={item.disabled}
+                />
+              )}
             </Form.Group>
           ))}
         </Form>
@@ -35,13 +54,13 @@ const ModalCommon = () => {
         <Button variant="secondary" onClick={handleClose}>
           Đóng
         </Button>
-        {mode ? (
-          ""
-        ) : (
-          <Button variant="primary" onClick={handleClose}>
-            Cập nhật
-          </Button>
-        )}
+
+        <Button
+          variant="primary"
+          // onClick={handleUpdate}
+        >
+          {modeModal ? " Cập nhật" : "Thêm mới"}
+        </Button>
       </Modal.Footer>
     </Modal>
   );
