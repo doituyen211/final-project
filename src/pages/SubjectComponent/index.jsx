@@ -7,7 +7,7 @@ import API from "../../store/Api";
 import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'; // Import Bootstrap icons
-
+import "./SubjectComponent.scss"
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
     titleTable: "SubjectComponent", // Tiêu đề của bảng
@@ -20,17 +20,17 @@ const INITIAL_STATE = {
             {
                 name: "subject_name",
                 type: "text",
-                label: "Subject Name",
-                placeholder: "Enter the subject name",
+                label: "Tên môn học",
+                placeholder: "Nhập tên môn học",
                 validation: Yup.string()
                     .matches(/^[a-zA-Z0-9_-]+$/, 'Subject Name can only contain letters, numbers, underscores, and hyphens')
                     .required('Subject Name is required'),
             },
             {
                 name: "training_duration",
-                type: "text",
-                label: "Duration",
-                placeholder: "Enter duration",
+                type: "number",
+                label: "Thời lượng đào tạo",
+                placeholder: "Nhập thời lượng đào tạo",
                 validation: Yup.number()
                     .typeError('Duration must be a number')
                     .required('Duration is required')
@@ -40,19 +40,19 @@ const INITIAL_STATE = {
             {
                 name: "training_program_id",
                 type: "select",
-                label: "Program Name",
-                placeholder: "Select a program",
+                label: "Chương trình đào tạo",
+                placeholder: "Chọn 1 chương trình đào tạo",
                 apiUrl: "/data/program.json",
-                defaultOption: { value: "", label: "Select a program" },
+                defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
                 validation: Yup.string().required('Program Name is required'),
             },
             {
                 name: "status",
                 type: "select",
                 label: "Status",
-                placeholder: "Select status",
+                placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
-                defaultOption: { value: "", label: "Select status" },
+                defaultOption: { value: "", label: "Chọn trạng thái" },
                 validation: Yup.string().required('Status is required'),
             },
         ],
@@ -194,14 +194,14 @@ const SubjectComponent = () => {
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item">
-                                    <button
-                                        onClick={() =>
-                                            console.log("Home clicked")
-                                        }
-                                    >
+                                <li className="breadcrumb-item active">
+                                    {/*<button*/}
+                                    {/*    onClick={() =>*/}
+                                    {/*        console.log("Home clicked")*/}
+                                    {/*    }*/}
+                                    {/*>*/}
                                         Home
-                                    </button>
+                                    {/*</button>*/}
                                 </li>
                                 <li className="breadcrumb-item active">
                                     Quản lý môn học
@@ -247,6 +247,7 @@ const SubjectComponent = () => {
                         <div className="col-md-8">
                             <div className="card mb-4">
                                 <div className="card-body">
+                                    <h3 className="text-start mb-4">Danh sách môn học</h3> {/* Add form title here */}
                                     <div className="row mb-4">
                                         {/* Bộ lọc */}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
@@ -328,8 +329,13 @@ const SubjectComponent = () => {
                                                 <td>{index + 10 * (currentPage - 1) + 1}</td>
                                                 <td>{row.subject_name}</td>
                                                 <td>{row.training_duration}</td>
-                                                <td>{row.training_program_id}</td>
-                                                <td>{row.status}</td>
+                                                <td>
+                                                    {programOptions.find(program => program.id === row.training_program_id)?.name || 'N/A'}
+                                                </td>
+                                                <td className={row.status === 0 ? "text-success": row.status === 1 ? "text-secondary" : ""}>
+                                                    {statusOptions.find(status => status.id === row.status)?.name || 'N/A'}
+                                                </td>
+
                                                 <td className="text-center">
                                                     <Button
                                                         variant="light"

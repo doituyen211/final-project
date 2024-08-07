@@ -37,8 +37,12 @@ function FormComponentWithValidation(props) {
     };
 
     useEffect(() => {
+        // if (action === 'EDIT' || action === 'VIEW') {
+        //     axios.get(`${api}/${idCurrent}`)
+        //         .then(res => setFormData(res.data))
+        //         .catch(err => console.error('Error fetching data:', err));
+        // }
         setFormData(dataForm)
-        console.log("CREATE"+ JSON.stringify(formData));
     }, [dataForm]);
     const [selectOptions, setSelectOptions] = useState({});
     useEffect(() => {
