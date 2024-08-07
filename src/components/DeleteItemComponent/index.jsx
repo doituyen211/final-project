@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
 
 function DeleteComponent(props) {
     const { show, onHide, onConfirm, deleteItemID, apiDelete } = props;
@@ -13,10 +14,13 @@ function DeleteComponent(props) {
                     console.log(
                         "Delete Successful: " + JSON.stringify(deleteItemID)
                     );
+                    toast.success(  "Xoá thành công!");
                     if (onConfirm) onConfirm(); // Call onConfirm to notify parent
                 })
                 .catch((error) => {
-                    console.error("Error deleting item:", error);
+                    console.error("Error deleting item: ", error);
+                    toast.error("Xoá đối tượng bị lỗi: ", error);
+
                 })
                 .finally(() => {
                     onHide(); // Close modal
@@ -41,7 +45,9 @@ function DeleteComponent(props) {
                     Xoá
                 </Button>
             </Modal.Footer>
+            <ToastContainer />
         </Modal>
+
     );
 }
 
