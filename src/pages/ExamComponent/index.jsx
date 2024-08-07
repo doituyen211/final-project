@@ -175,7 +175,7 @@ const ExamComponent = () => {
                   >
                     Danh sách lịch thi
                   </div>
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
                     <div className="flex-grow-1">
                       <SearchComponents onSearch={handleSearch} />
                     </div>

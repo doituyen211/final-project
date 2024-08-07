@@ -19,6 +19,7 @@ const getExams = async (
     const res = await fetchAllExam();
     if (res) {
       let filteredData = res.filter((item) => item.status === false);
+      console.log("Check Data: ", filteredData);
       let formattedData = filteredData.map((item, index) =>
         formatData(item, index)
       );

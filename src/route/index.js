@@ -8,7 +8,6 @@ import {
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
-
 export const routeSideBar = [
   {
     name: "Dashboard",
@@ -96,7 +95,6 @@ export const routeSideBar = [
         name: "Quản lý điểm số",
         icon: "nav-icon fas fa-chart-line",
         to: "/grades",
-        component: ExamComponent,
       },
     ],
   },

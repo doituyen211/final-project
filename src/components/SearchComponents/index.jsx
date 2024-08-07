@@ -1,33 +1,38 @@
 import React, { useState } from "react";
+import { Button, InputGroup, FormControl } from "react-bootstrap";
 
 const SearchComponents = ({ onSearch }) => {
-  const [searchItem, setSearchItem] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleInputChange = (e) => {
-    setSearchItem(e.target.value);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleSearch = () => {
-    onSearch(searchItem);
+    if (onSearch) {
+      onSearch(searchTerm);
+    }
   };
 
   return (
-    <div className="input-group w-50" style={{ marginTop: 8, marginBottom: 8 }}>
+    <div className="input-group search-container" style={{ width: "50%" }}>
       <input
-        className="form-control"
-        placeholder="Search by mã môn học..."
-        value={searchItem}
-        onChange={handleInputChange}
-        style={{ borderColor: "#ddd" }}
+        type="text"
+        className="form-control search-input"
+        placeholder="Search"
+        aria-label="Search"
+        aria-describedby="search-button"
+        onChange={handleSearchChange}
       />
       <div className="input-group-append">
         <button
-          className="btn btn-outline-secondary"
+          className="btn btn-outline-secondary search-button"
           type="button"
-          onClick={handleSearch}
+          id="search-button"
           style={{ borderColor: "#ddd" }}
+          onClick={handleSearch}
         >
-          <i className="bi bi-search"></i>
+          <i className="bi bi-search search-icon"></i>
         </button>
       </div>
     </div>
