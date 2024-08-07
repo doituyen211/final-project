@@ -316,15 +316,71 @@ const SubjectComponent = () => {
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
-                                    <div className="d-flex mb-3">
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Tìm kiếm"
-                                            value={searchTerm}
-                                            onChange={handleSearchChange}
-                                            className="me-2"
-                                        />
-                                        <Button onClick={handleSearch}>Tìm kiếm</Button>
+                                    <div className="d-flex mb-4">
+                                        {/* Bộ lọc */}
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus2"
+                                                aria-label="Program"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={program}
+                                                onChange={handleProgramChange}
+                                            >
+                                                <option value="">
+                                                    Chọn chương trình học
+                                                </option>
+                                                {programOptions.map(
+                                                    (option) => (
+                                                        <option
+                                                            key={option.value}
+                                                            value={option.id}
+                                                        >
+                                                            {option.name}
+                                                        </option>
+                                                    )
+                                                )}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus1"
+                                                aria-label="Status"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={status}
+                                                onChange={handleStatusChange}
+                                            >
+                                                <option value="">
+                                                    Chọn trạng thái
+                                                </option>
+                                                {statusOptions.map((option) => (
+                                                    <option
+                                                        key={option.value}
+                                                        value={option.id}
+                                                    >
+                                                        {option.name}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-6 d-flex align-items-center gap-3">
+                                            <input
+                                                type="text"
+                                                className="form-control rounded-pill border-secondary flex-fill"
+                                                placeholder="Search..."
+                                                aria-label="Search input"
+                                                value={searchTerm}
+                                                onChange={handleSearchChange}
+                                            />
+                                            <Button
+                                                variant="outline-secondary"
+                                                size="sm"
+                                                aria-label="Search"
+                                                className="d-flex align-items-center px-3 rounded-pill"
+                                                onClick={handleSearch}
+                                            >
+                                                <i className="bi bi-search"></i>
+                                            </Button>
+                                        </div>
                                     </div>
                                     <Table className={state.classTable}>
                                         <thead>
@@ -340,8 +396,12 @@ const SubjectComponent = () => {
                                                 <td>{index + 1}</td>
                                                 <td>{item.subject_name}</td>
                                                 <td>{item.training_duration}</td>
-                                                <td>{item.training_program_id}</td>
-                                                <td>{item.status}</td>
+                                                <td>
+                                                    {programOptions.find(program => program.id === item.training_program_id)?.name || 'N/A'}
+                                                </td>
+                                                <td className={item.status === 0 ? "text-success": item.status === 1 ? "text-secondary" : ""}>
+                                                    {statusOptions.find(status => status.id === item.status)?.name || 'N/A'}
+                                                </td>
                                                 <td>
                                                     <Button
                                                         variant="light"
