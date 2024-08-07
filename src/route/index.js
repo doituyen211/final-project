@@ -90,6 +90,7 @@ export const routeSideBar = [
         name: "Quản lý lịch thi",
         icon: "nav-icon fas fa-calendar-plus",
         to: "/exams",
+        component: ExamComponent,
       },
       {
         name: "Quản lý điểm số",

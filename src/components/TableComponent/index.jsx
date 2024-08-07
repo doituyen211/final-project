@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs"; // Import Bootstrap icons
+import PropTypes from "prop-types";
 
 function TableComponents(props) {
   const {
