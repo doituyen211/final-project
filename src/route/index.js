@@ -1,5 +1,12 @@
-import { SubjectComponent2, UserComponent } from "../pages";
+import {
+  CourseComponent,
+  ScheduleComponent3,
+  SubjectComponent,
+  UserComponent,
+  SubjectComponentLayout2,
+} from "../pages";
 import ClassComponent from "../pages/ClassComponent";
+import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
 
 export const routeSideBar = [
@@ -37,7 +44,7 @@ export const routeSideBar = [
       {
         name: "Quản lý môn học",
         icon: "nav-icon fas fa-book",
-        component: SubjectComponent2,
+        component: SubjectComponent,
         to: "/subjects",
       },
       {
@@ -60,6 +67,7 @@ export const routeSideBar = [
         name: "Quản lý chương trình đào tạo",
         icon: "nav-icon fas fa-cogs",
         to: "/programs",
+        component: TrainningProgramComponent,
       },
       {
         name: "Quản lý điểm danh",
@@ -69,23 +77,25 @@ export const routeSideBar = [
       {
         name: "Quản lý khoá học",
         icon: "nav-icon fas fa-clipboard-list",
+        component: CourseComponent,
         to: "/courses",
       },
       {
         name: "Quản lý lịch học",
         icon: "nav-icon fas fa-calendar-alt",
         to: "/schedules",
+        component: ScheduleComponent3,
       },
       {
         name: "Quản lý lịch thi",
         icon: "nav-icon fas fa-calendar-plus",
         to: "/exams",
-        component: ExamComponent,
       },
       {
         name: "Quản lý điểm số",
         icon: "nav-icon fas fa-chart-line",
         to: "/grades",
+        component: ExamComponent,
       },
     ],
   },

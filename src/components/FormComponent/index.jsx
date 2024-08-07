@@ -25,30 +25,32 @@ function FormComponent(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("CREATE" + JSON.stringify(formData));
       const url = action === "EDIT" ? `${api}/${idCurrent}` : api;
       const method = action === "EDIT" ? axios.put : axios.post;
       await method(url, formData);
       onClose();
-      setFormData(initialFormData);
+      setFormData(
+        fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
+      );
       getData();
       toast.success(
-        `${action === "EDIT" ? "Updated" : "Created"} successfully!`
-      );
+        `${action === "EDIT" ? "Cập nhật" : "Thêm mới"} thành công!`
+      ); // Success toast
     } catch (error) {
       console.error(`Error ${action.toLowerCase()} item:`, error);
-      toast.error(`Failed to ${action.toLowerCase()} item.`);
+      toast.error(`Failed to ${action.toLowerCase()} item.`); // Error toast
     }
   };
 
   useEffect(() => {
-    const newFormData = fields.reduce((acc, field) => {
-      acc[field.name] =
-        dataForm && dataForm[field.name] ? dataForm[field.name] : "";
-      return acc;
-    }, {});
-    setFormData(newFormData);
-  }, [dataForm, fields]);
-
+    // if (action === 'EDIT' || action === 'VIEW') {
+    //     axios.get(`${api}/${idCurrent}`)
+    //         .then(res => setFormData(res.data))
+    //         .catch(err => console.error('Error fetching data:', err));
+    // }
+    setFormData(dataForm);
+  }, [dataForm]);
   const [selectOptions, setSelectOptions] = useState({});
   useEffect(() => {
     fields.forEach((field) => {
@@ -62,11 +64,10 @@ function FormComponent(props) {
       }
     });
   }, [fields]);
-
   const renderField = (field) => {
     const commonProps = {
       key: field.name,
-      md: 6,
+      md: 6, // not edit
       className: "mb-3",
     };
 
@@ -157,15 +158,17 @@ function FormComponent(props) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h3 className="text-start mb-4">{title}</h3>
-      <Row>{fields && fields.map(renderField)}</Row>
+      <h3 className="text-start mb-4">{title}</h3> {/* Add form title here */}
+      <Row>{fields.map(renderField)}</Row>
       <div className="d-flex justify-content-center">
         <Button
           variant="secondary"
           className="me-2"
           type="button"
           onClick={() => {
-            setFormData(initialFormData);
+            setFormData(
+              fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
+            );
             onClose();
           }}
         >
@@ -181,7 +184,7 @@ function FormComponent(props) {
           </Button>
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer /> {/* Add ToastContainer here */}
     </Form>
   );
 }
