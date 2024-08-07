@@ -21,20 +21,37 @@ function FormComponent(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         try {
-            console.log(formData);
+            console.log('Submitting form data:', formData);
+            
+            // Remove empty fields from formData
+            const cleanedFormData = Object.fromEntries(
+                Object.entries(formData).filter(([_, value]) => value !== '')
+            );
+    
             const url = action === 'EDIT' ? `${api}/${idCurrent}` : api;
             const method = action === 'EDIT' ? axios.put : axios.post;
-            await method(url, formData);
+            
+            console.log('Request URL:', url);
+            console.log('HTTP Method:', method === axios.put ? 'PUT' : 'POST');
+            
+            await method(url, cleanedFormData);
+            
             onClose();
-            setFormData(fields.reduce((acc, field) => ({...acc, [field.name]: ''}), {}));
+            
+            setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
+            
             getData();
-            toast.success(`${action === 'EDIT' ? 'Updated' : 'Created'} successfully!`);  // Success toast
+            
+            toast.success(`${action === 'EDIT' ? 'Updated' : 'Created'} successfully!`);
         } catch (error) {
-            console.error(`Error ${action.toLowerCase()} item:`, error);
-            toast.error(`Failed to ${action.toLowerCase()} item.`);  // Error toast
+            console.error('Error submitting form:', error.response ? error.response.data : error.message);
+            toast.error(`Failed to ${action.toLowerCase()} item.`);
         }
     };
+    
+    
 
     useEffect(() => {
         // if (action === 'EDIT' || action === 'VIEW') {
