@@ -7,7 +7,7 @@ import Input from '../InputComponents';
 import {toast, ToastContainer} from 'react-toastify'; // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
-function FormComponent(props) {
+function FormComponentWithValidation(props) {
     const {fields, getData, action, idCurrent, onClose, api, title, dataForm} = props;
 
     const [formData, setFormData] = useState(() =>
@@ -166,13 +166,13 @@ function FormComponent(props) {
     );
 }
 
-FormComponent.defaultProps = {
+FormComponentWithValidation.defaultProps = {
     action: 'CREATE',
     onClose: () => {
     },
 };
 
-FormComponent.propTypes = {
+FormComponentWithValidation.propTypes = {
     fields: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string.isRequired,
@@ -196,4 +196,4 @@ FormComponent.propTypes = {
     api: PropTypes.string.isRequired,
 };
 
-export default FormComponent;
+export default FormComponentWithValidation;
