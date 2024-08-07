@@ -4,7 +4,7 @@ import SubjectComponent from "./SubjectComponent";
 import CourseComponent from "./CourseComponent";
 import LoginComponent from "./LoginComponent";
 import ScheduleComponent3 from "./ScheduleComponent3";
-
+import SubjectComponentLayout2 from "./SubjectComponentLayout2"
 export {
     BookComponent,
     CourseComponent,
@@ -12,4 +12,5 @@ export {
     SubjectComponent,
     LoginComponent,
     UserComponent,
+    SubjectComponentLayout2
 };
