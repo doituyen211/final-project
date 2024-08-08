@@ -19,7 +19,7 @@ const fetchSubjectsByProgramId = (page, id) => {
 
 }
 const fetchClassesByProgramId = (page, id) => {
-    return axios.get(`https://64dc81fbe64a8525a0f699a1.mockapi.io/api/v1/subjects?page=${page}&limit=5`, { id })
+    return axios.get(`https://66b2e5997fba54a5b7eabca6.mockapi.io/Class?page=${page}&limit=5`, { id })
 
 
 }

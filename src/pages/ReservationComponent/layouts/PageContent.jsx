@@ -1,9 +1,9 @@
 import NotificationComponent from "../../../components/NotificationComponent";
 import PagingComponent from "../../../components/PagingComponent";
-import TableHasAction from "../components/TableHasAction";
+import TableTemplate from "../components/TableTemplate";
 import ToolsComponent from "../components/ToolsComponent";
-
-const PageContent = ({ headerContent }) => {
+import SearchComponent from "../components/SearchComponent";
+const PageContent = ({ headerContent, dataTable, columns, setSearchTerm }) => {
   return (
     <>
       <section className="content">
@@ -13,10 +13,10 @@ const PageContent = ({ headerContent }) => {
               <div className="card card-primary">
                 <div className="card-body">
                   <div className="mb-3 text-lg">{headerContent}</div>
-                  <ToolsComponent />
+                  <ToolsComponent setSearchTerm={setSearchTerm} />
                   <div className="row">
                     <div className="col-12">
-                      <TableHasAction />
+                      <TableTemplate columns={columns} dataTable={dataTable} />
                     </div>
                   </div>
 
