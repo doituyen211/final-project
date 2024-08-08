@@ -1,15 +1,14 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 import DeleteComponent from "../../components/DeleteItemComponent";
+import Input from "../../components/InputComponents";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
-import FormComponentWithValidation from "../../components/FormComponentWithValidation";
-import * as Yup from 'yup';
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 import "./SubjectComponent.scss";
-import { toast, ToastContainer } from "react-toastify";
-import Input from "../../components/InputComponents";
 
 const INITIAL_STATE = {
     dataTable: [],
@@ -26,8 +25,11 @@ const INITIAL_STATE = {
                 label: "Tên môn học",
                 placeholder: "Nhập tên môn học",
                 validation: Yup.string()
-                    .matches(/^[a-zA-Z0-9_-]+$/, 'Subject Name can only contain letters, numbers, underscores, and hyphens')
-                    .required('Subject Name is required'),
+                    .matches(
+                        /^[a-zA-Z0-9_-]+$/,
+                        "Subject Name can only contain letters, numbers, underscores, and hyphens"
+                    )
+                    .required("Subject Name is required"),
             },
             {
                 name: "training_duration",
@@ -35,10 +37,10 @@ const INITIAL_STATE = {
                 label: "Thời lượng đào tạo",
                 placeholder: "Nhập thời lượng đào tạo",
                 validation: Yup.number()
-                    .typeError('Duration must be a number')
-                    .required('Duration is required')
-                    .positive('Duration must be a positive number')
-                    .integer('Duration must be an integer'),
+                    .typeError("Duration must be a number")
+                    .required("Duration is required")
+                    .positive("Duration must be a positive number")
+                    .integer("Duration must be an integer"),
             },
             {
                 name: "training_program_id",
@@ -46,8 +48,11 @@ const INITIAL_STATE = {
                 label: "Chương trình đào tạo",
                 placeholder: "Chọn 1 chương trình đào tạo",
                 apiUrl: "/data/program.json",
-                defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
-                validation: Yup.string().required('Program Name is required'),
+                defaultOption: {
+                    value: "",
+                    label: "Chọn 1 chương trình đào tạo",
+                },
+                validation: Yup.string().required("Program Name is required"),
             },
             {
                 name: "status",
@@ -56,7 +61,7 @@ const INITIAL_STATE = {
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
                 defaultOption: { value: "", label: "Chọn trạng thái" },
-                validation: Yup.string().required('Status is required'),
+                validation: Yup.string().required("Status is required"),
             },
         ],
         initialIsEdit: false,
@@ -112,7 +117,7 @@ const SubjectComponent = () => {
                         program,
                     },
                 });
-                setState(prevState => ({
+                setState((prevState) => ({
                     ...prevState,
                     dataTable: data.content,
                 }));
@@ -169,23 +174,27 @@ const SubjectComponent = () => {
         setShowConfirmModal(true);
     };
 
-
     const handleDeleteConfirmation = async () => {
         fetchData();
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = actionModal === 'EDIT' ? `${api}/${initialIdCurrent}` : api;
-            const method = actionModal === 'EDIT' ? axios.put : axios.post;
+            const url =
+                actionModal === "EDIT" ? `${api}/${initialIdCurrent}` : api;
+            const method = actionModal === "EDIT" ? axios.put : axios.post;
             await method(url, formData);
-            toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
+            toast.success(
+                `${
+                    actionModal === "EDIT" ? "Cập nhật" : "Thêm mới"
+                } thành công!`
+            );
             fetchData(searchTerm, currentPage);
             setFormData({
                 subject_id: "",
@@ -201,10 +210,11 @@ const SubjectComponent = () => {
     };
 
     useEffect(() => {
-        if (actionModal === 'EDIT' || actionModal === 'VIEW') {
-            axios.get(`${api}/${initialIdCurrent}`)
-                .then(res => setFormData(res.data))
-                .catch(err => console.error('Error fetching data:', err));
+        if (actionModal === "EDIT" || actionModal === "VIEW") {
+            axios
+                .get(`${api}/${initialIdCurrent}`)
+                .then((res) => setFormData(res.data))
+                .catch((err) => console.error("Error fetching data:", err));
         }
     }, [actionModal, initialIdCurrent]);
 
@@ -219,7 +229,9 @@ const SubjectComponent = () => {
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item active">Home</li>
-                                <li className="breadcrumb-item active">Quản lý môn học</li>
+                                <li className="breadcrumb-item active">
+                                    Quản lý môn học
+                                </li>
                             </ol>
                         </div>
                     </div>
@@ -232,81 +244,167 @@ const SubjectComponent = () => {
                             <div className="card">
                                 <div className="card-body">
                                     <Form onSubmit={handleSubmit}>
-                                        <h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>
+                                        <h3 className="text-start mb-4">
+                                            {actionModal === "EDIT"
+                                                ? "Cập Nhật"
+                                                : "Thêm Mới"}
+                                        </h3>
                                         <Row>
-                                            <Col md={6} className='mb-3'>
+                                            <Col md={6} className="mb-3">
                                                 <Form.Group controlId="subject_name">
-                                                    <Form.Label>Tên môn học</Form.Label>
+                                                    <Form.Label>
+                                                        Tên môn học
+                                                    </Form.Label>
                                                     <Input
                                                         type="text"
                                                         name="subject_name"
-                                                        value={formData.subject_name || ''}
+                                                        value={
+                                                            formData.subject_name ||
+                                                            ""
+                                                        }
                                                         onChange={handleChange}
                                                         placeholder="Nhập tên môn học"
                                                         className="form-control"
-                                                        disabled={actionModal === "VIEW"}
+                                                        disabled={
+                                                            actionModal ===
+                                                            "VIEW"
+                                                        }
                                                     />
                                                 </Form.Group>
                                             </Col>
-                                            <Col md={6} className='mb-3'>
+                                            <Col md={6} className="mb-3">
                                                 <Form.Group controlId="training_duration">
-                                                    <Form.Label>Thời lượng</Form.Label>
+                                                    <Form.Label>
+                                                        Thời lượng
+                                                    </Form.Label>
                                                     <Input
                                                         type="number"
                                                         name="training_duration"
-                                                        value={formData.training_duration || ''}
+                                                        value={
+                                                            formData.training_duration ||
+                                                            ""
+                                                        }
                                                         onChange={handleChange}
                                                         placeholder="Nhập thời lượng"
                                                         className="form-control"
-                                                        disabled={actionModal === "VIEW"}
+                                                        disabled={
+                                                            actionModal ===
+                                                            "VIEW"
+                                                        }
                                                     />
                                                 </Form.Group>
                                             </Col>
-                                            <Col md={6} className='mb-3'>
+                                            <Col md={6} className="mb-3">
                                                 <Form.Group controlId="training_program_id">
-                                                    <Form.Label>Chương trình đào tạo</Form.Label>
+                                                    <Form.Label>
+                                                        Chương trình đào tạo
+                                                    </Form.Label>
                                                     <Form.Control
                                                         as="select"
                                                         name="training_program_id"
-                                                        value={formData.training_program_id || ''}
+                                                        value={
+                                                            formData.training_program_id ||
+                                                            ""
+                                                        }
                                                         onChange={handleChange}
-                                                        disabled={actionModal === "VIEW"}
+                                                        disabled={
+                                                            actionModal ===
+                                                            "VIEW"
+                                                        }
                                                     >
-                                                        <option value="">Chọn chương trình đào tạo</option>
-                                                        {programOptions.map(option => (
-                                                            <option key={option.value} value={option.id}>
-                                                                {option.name}
-                                                            </option>
-                                                        ))}
+                                                        <option value="">
+                                                            Chọn chương trình
+                                                            đào tạo
+                                                        </option>
+                                                        {programOptions.map(
+                                                            (option) => (
+                                                                <option
+                                                                    key={
+                                                                        option.value
+                                                                    }
+                                                                    value={
+                                                                        option.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        option.name
+                                                                    }
+                                                                </option>
+                                                            )
+                                                        )}
                                                     </Form.Control>
                                                 </Form.Group>
                                             </Col>
-                                            <Col md={6} className='mb-3'>
+                                            <Col md={6} className="mb-3">
                                                 <Form.Group controlId="status">
-                                                    <Form.Label>Trạng thái</Form.Label>
+                                                    <Form.Label>
+                                                        Trạng thái
+                                                    </Form.Label>
                                                     <Form.Control
                                                         as="select"
                                                         name="status"
-                                                        value={formData.status || ''}
+                                                        value={
+                                                            formData.status ||
+                                                            ""
+                                                        }
                                                         onChange={handleChange}
-                                                        disabled={actionModal === "VIEW"}
+                                                        disabled={
+                                                            actionModal ===
+                                                            "VIEW"
+                                                        }
                                                     >
-                                                        <option value="">Chọn trạng thái</option>
-                                                        {statusOptions.map(option => (
-                                                            <option key={option.value} value={option.id}>
-                                                                {option.name}
-                                                            </option>
-                                                        ))}
+                                                        <option value="">
+                                                            Chọn trạng thái
+                                                        </option>
+                                                        {statusOptions.map(
+                                                            (option) => (
+                                                                <option
+                                                                    key={
+                                                                        option.value
+                                                                    }
+                                                                    value={
+                                                                        option.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        option.name
+                                                                    }
+                                                                </option>
+                                                            )
+                                                        )}
                                                     </Form.Control>
                                                 </Form.Group>
                                             </Col>
                                         </Row>
                                         <div className="d-flex justify-content-center">
-                                            <Button variant="secondary" className="me-2" type="button" onClick={() => setState(prev => ({ ...prev, modalShow: false }))}>Huỷ bỏ</Button>
-                                            {actionModal === 'VIEW'
-                                                ? <Button variant="primary" type="button">Chỉnh sửa</Button>
-                                                : <Button variant="primary" type="submit">Lưu lại</Button>
-                                            }
+                                            <Button
+                                                variant="secondary"
+                                                className="me-2"
+                                                type="button"
+                                                onClick={() =>
+                                                    setState((prev) => ({
+                                                        ...prev,
+                                                        modalShow: false,
+                                                    }))
+                                                }
+                                            >
+                                                Huỷ bỏ
+                                            </Button>
+                                            {actionModal === "VIEW" ? (
+                                                <Button
+                                                    variant="primary"
+                                                    type="button"
+                                                >
+                                                    Chỉnh sửa
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                >
+                                                    Lưu lại
+                                                </Button>
+                                            )}
                                         </div>
                                         {/*<ToastContainer/> /!* Add ToastContainer here *!/*/}
                                     </Form>
@@ -316,7 +414,9 @@ const SubjectComponent = () => {
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="text-start mb-4">Danh sách môn học</h3>
+                                    <h3 className="text-start mb-4">
+                                        Danh sách môn học
+                                    </h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
@@ -372,7 +472,7 @@ const SubjectComponent = () => {
                                                 value={searchTerm}
                                                 onChange={handleSearchChange}
                                                 onKeyDown={(event) => {
-                                                    if (event.key === 'Enter') {
+                                                    if (event.key === "Enter") {
                                                         event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
                                                         handleSearch(); // Gọi hàm tìm kiếm
                                                     }
@@ -391,56 +491,104 @@ const SubjectComponent = () => {
                                     </div>
                                     <Table className={state.classTable}>
                                         <thead>
-                                        <tr>
-                                            {COLUMNS.map((col, index) => (
-                                                <th key={index}>{col}</th>
-                                            ))}
-                                        </tr>
+                                            <tr>
+                                                {COLUMNS.map((col, index) => (
+                                                    <th key={index}>{col}</th>
+                                                ))}
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        {state.dataTable.map((item, index) => (
-                                            <tr key={item.subject_id}>
-                                                <td>{index + 10 * (currentPage - 1) + 1}</td>
-                                                <td>{item.subject_name}</td>
-                                                <td>{item.training_duration}</td>
-                                                <td>
-                                                    {programOptions.find(program => program.id === item.training_program_id)?.name || 'N/A'}
-                                                </td>
-                                                <td className={item.status === 0 ? "text-success": item.status === 1 ? "text-secondary" : ""}>
-                                                    {statusOptions.find(status => status.id === item.status)?.name || 'N/A'}
-                                                </td>
-                                                <td>
-                                                    <Button
-                                                        variant="light"
-                                                        className="me-1"
-                                                        onClick={() => {
-                                                           setFormData(item)
-                                                            setInitialIdCurrent(item.subject_id);
-                                                           setActionModal('VIEW')
-                                                        }}
-                                                    >
-                                                        <BsEye />
-                                                    </Button>
-                                                    <Button
-                                                        variant="primary"
-                                                        className="me-1"
-                                                        onClick={() => {
-                                                            setFormData(item)
-                                                            setInitialIdCurrent(item.subject_id);
-                                                            setActionModal('EDIT')
-                                                        }}
-                                                    >
-                                                        <BsPencil />
-                                                    </Button>
-                                                    <Button
-                                                        variant="danger"
-                                                        onClick={() => confirmDelete(item)}
-                                                    >
-                                                        <BsTrash/>
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                            {state.dataTable.map(
+                                                (item, index) => (
+                                                    <tr key={item.subject_id}>
+                                                        <td>
+                                                            {index +
+                                                                10 *
+                                                                    (currentPage -
+                                                                        1) +
+                                                                1}
+                                                        </td>
+                                                        <td>
+                                                            {item.subject_name}
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                item.training_duration
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {programOptions.find(
+                                                                (program) =>
+                                                                    program.id ===
+                                                                    item.training_program_id
+                                                            )?.name || "N/A"}
+                                                        </td>
+                                                        <td
+                                                            className={
+                                                                item.status ===
+                                                                0
+                                                                    ? "text-success"
+                                                                    : item.status ===
+                                                                      1
+                                                                    ? "text-secondary"
+                                                                    : ""
+                                                            }
+                                                        >
+                                                            {statusOptions.find(
+                                                                (status) =>
+                                                                    status.id ===
+                                                                    item.status
+                                                            )?.name || "N/A"}
+                                                        </td>
+                                                        <td>
+                                                            <Button
+                                                                variant="light"
+                                                                className="me-1"
+                                                                onClick={() => {
+                                                                    setFormData(
+                                                                        item
+                                                                    );
+                                                                    setInitialIdCurrent(
+                                                                        item.subject_id
+                                                                    );
+                                                                    setActionModal(
+                                                                        "VIEW"
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <BsEye />
+                                                            </Button>
+                                                            <Button
+                                                                variant="primary"
+                                                                className="me-1"
+                                                                onClick={() => {
+                                                                    setFormData(
+                                                                        item
+                                                                    );
+                                                                    setInitialIdCurrent(
+                                                                        item.subject_id
+                                                                    );
+                                                                    setActionModal(
+                                                                        "EDIT"
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <BsPencil />
+                                                            </Button>
+                                                            <Button
+                                                                variant="danger"
+                                                                onClick={() =>
+                                                                    confirmDelete(
+                                                                        item
+                                                                    )
+                                                                }
+                                                            >
+                                                                <BsTrash />
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
                                         </tbody>
                                     </Table>
                                     {/* Phân trang */}

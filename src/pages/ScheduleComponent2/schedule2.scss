@@ -1,0 +1,16 @@
+.divSearch {
+    border: 1px solid;
+    border-radius: 40px;
+    width: 20%;
+    button {
+        border: none;
+    }
+    input {
+        width: 350px;
+        line-height: 2;
+        border: none;
+    }
+    input:focus {
+        outline: none;
+    }
+}

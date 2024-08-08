@@ -1,6 +1,7 @@
 import {
     CourseComponent,
-    ScheduleComponent3,
+    ScheduleComponent2,
+    // ScheduleComponent3,
     SubjectComponent,
     UserComponent,
 } from "../pages";
@@ -82,7 +83,7 @@ export const routeSideBar = [
                 name: "Quản lý lịch học",
                 icon: "nav-icon fas fa-calendar-alt",
                 to: "/schedules",
-                component: ScheduleComponent3,
+                component: ScheduleComponent2,
             },
             {
                 name: "Quản lý lịch thi",

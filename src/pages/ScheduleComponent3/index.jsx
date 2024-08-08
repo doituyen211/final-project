@@ -3,6 +3,7 @@ import React, { fetchedDates, useCallback, useEffect, useState } from "react";
 import { Button, Card, Form, Row, Table } from "react-bootstrap";
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
+import * as Yup from "yup";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
@@ -54,6 +55,7 @@ const INITIAL_STATE = {
                 placeholder: "Chọn Giảng Viên",
                 // apiUrl: "/data/lecturers.json", // Cập nhật URL này với API endpoint thực tế của bạn
                 defaultOption: { value: "", label: "Chọn Giảng Viên" },
+                validation: Yup.string().required("Status is required"),
             },
         ],
         initialIsEdit: false,
