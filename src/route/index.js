@@ -6,7 +6,7 @@ import {
     SubjectComponentLayout2
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import StudentCompoent from "../pages/StudentCompoent";
+import StudentComponent from "../pages/StudentComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 
 export const routeSideBar = [
@@ -39,7 +39,7 @@ export const routeSideBar = [
             {
                 name: "Quản lý học viên",
                 icon: "nav-icon fas fa-user",
-                component: StudentCompoent,
+                component: StudentComponent,
                 to: "/students",
             },
             {
