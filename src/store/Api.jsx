@@ -7,7 +7,6 @@ const BASE_URL_TP = "https://64dc81fbe64a8525a0f699a1.mockapi.io/api/v1";
 // Common API endpoints
 const API = {
   SUBJECT: `${BASE_URL}/subject`,
-  STUDENT: `${BASE_URL_STUDENT}/student`,
   COURSE: `${BASE_URL}/khoa_hoc`,
   SCHEDULE: `${BASE_URL}/lich_hoc`,
 
