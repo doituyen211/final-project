@@ -26,8 +26,9 @@ const INITIAL_STATE = {
                 label: "Tên môn học",
                 placeholder: "Nhập tên môn học",
                 validation: Yup.string()
-                    .matches(/^[a-zA-Z0-9_-]+$/, 'Tên môn học chỉ chứa kí tự, số, dấu gạch dưới và khoảng tắng')
+                    .matches(/^[a-zA-Z0-9_\-\s]+$/, 'Tên môn học chỉ chứa kí tự, số, dấu gạch dưới và khoảng tắng')
                     .required('Tên môn học là bắt buộc '),
+
             },
             {
                 name: "training_duration",
@@ -39,6 +40,7 @@ const INITIAL_STATE = {
                     .required('Thời lượng đào tạo là bắt buộc')
                     .positive('Thời lượng đào tạo là một số dương')
                     .integer('Thời lượng đào tạo phải là 1 số nguyên'),
+
             },
             {
                 name: "training_program_id",
@@ -47,8 +49,7 @@ const INITIAL_STATE = {
                 placeholder: "Chọn 1 chương trình đào tạo",
                 apiUrl: "/data/program.json",
                 defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
-                validation: Yup.string().required('Tên chương trình là bắt buộc '),
-            },
+                validation: Yup.string().required('Tên chương trình là bắt buộc '),            },
             {
                 name: "status",
                 type: "select",
@@ -56,8 +57,7 @@ const INITIAL_STATE = {
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
                 defaultOption: { value: "", label: "Chọn trạng thái" },
-                validation: Yup.string().required('Trạng thái là bắt buộc'),
-            },
+                validation: Yup.string().required('Trạng thái là bắt buộc'),            },
         ],
         initialIsEdit: false,
         initialIdCurrent: null,
@@ -170,22 +170,13 @@ const SubjectComponent = () => {
         setShowConfirmModal(true);
     };
 
-
-    const handleDeleteConfirmation = async () => {
-        fetchData();
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (data) => {
+        // e.preventDefault();
         try {
+            console.log("FROM FORM : ", data)
             const url = actionModal === 'EDIT' ? `${api}/${initialIdCurrent}` : api;
             const method = actionModal === 'EDIT' ? axios.put : axios.post;
-            await method(url, formData);
+            await method(url,data );
             toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
             fetchData(searchTerm, currentPage);
             setFormData({
@@ -232,85 +223,17 @@ const SubjectComponent = () => {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
-                                    <Form onSubmit={handleSubmit}>
-                                        <h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>
-                                        <Row>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="subject_name">
-                                                    <Form.Label>Tên môn học</Form.Label>
-                                                    <Input
-                                                        type="text"
-                                                        name="subject_name"
-                                                        value={formData.subject_name || ''}
-                                                        onChange={handleChange}
-                                                        placeholder="Nhập tên môn học"
-                                                        className="form-control"
-                                                        disabled={actionModal === "VIEW"}
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="training_duration">
-                                                    <Form.Label>Thời lượng</Form.Label>
-                                                    <Input
-                                                        type="number"
-                                                        name="training_duration"
-                                                        value={formData.training_duration || ''}
-                                                        onChange={handleChange}
-                                                        placeholder="Nhập thời lượng"
-                                                        className="form-control"
-                                                        disabled={actionModal === "VIEW"}
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="training_program_id">
-                                                    <Form.Label>Chương trình đào tạo</Form.Label>
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="training_program_id"
-                                                        value={formData.training_program_id || ''}
-                                                        onChange={handleChange}
-                                                        disabled={actionModal === "VIEW"}
-                                                    >
-                                                        <option value="">Chọn chương trình đào tạo</option>
-                                                        {programOptions.map(option => (
-                                                            <option key={option.value} value={option.id}>
-                                                                {option.name}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Control>
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className='mb-3'>
-                                                <Form.Group controlId="status">
-                                                    <Form.Label>Trạng thái</Form.Label>
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="status"
-                                                        value={formData.status || ''}
-                                                        onChange={handleChange}
-                                                        disabled={actionModal === "VIEW"}
-                                                    >
-                                                        <option value="">Chọn trạng thái</option>
-                                                        {statusOptions.map(option => (
-                                                            <option key={option.value} value={option.id}>
-                                                                {option.name}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Control>
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                        <div className="d-flex justify-content-center">
-                                            <Button variant="secondary" className="me-2" type="button" onClick={() => setState(prev => ({ ...prev, modalShow: false }))}>Huỷ bỏ</Button>
-                                            {actionModal === 'VIEW'
-                                                ? <Button variant="primary" type="button">Chỉnh sửa</Button>
-                                                : <Button variant="primary" type="submit">Lưu lại</Button>
-                                            }
-                                        </div>
-                                        {/*<ToastContainer/> /!* Add ToastContainer here *!/*/}
-                                    </Form>
+                                    <FormComponentWithValidation
+                                        formFieldsProp={state.modalProps.formFieldsProp}
+                                        initialData={formData}
+                                        actionModal={actionModal}
+                                        onSubmit={handleSubmit}
+                                        onCancel={() => {
+                                            setState(prev => ({ ...prev, modalShow: false }));
+                                        }}
+                                        statusOptions={statusOptions}
+                                        programOptions={programOptions}
+                                    />
                                 </div>
                             </div>
                         </div>
