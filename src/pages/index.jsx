@@ -5,6 +5,7 @@ import CourseComponent from "./CourseComponent";
 import LoginComponent from "./LoginComponent";
 import ReservationComponent from "./ReservationComponent";
 import ScheduleComponent3 from "./ScheduleComponent3";
+import ClassMembersComponent from "./ClassMembersComponent"
 export {
   BookComponent,
   CourseComponent,
@@ -13,4 +14,5 @@ export {
   LoginComponent,
   UserComponent,
   ReservationComponent,
+  ClassMembersComponent,
 };
