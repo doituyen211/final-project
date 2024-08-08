@@ -5,7 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import TableComponents from '../../components/TableComponent';
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../../components/FormComponent";
+import FormComponent from "../../pages/CourseComponent/FormComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
@@ -196,8 +196,7 @@ const CourseComponent = () => {
                                 <div className="card-body">
                                     <div className="row mb-4">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-2 d-flex align-items-center gap-3">
-                                        </div>
+                                        
                                         <div className="col-md-6 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
@@ -219,16 +218,6 @@ const CourseComponent = () => {
                                         </div>
                                         {/*/!* Nút thêm mới *!/*/}
                                         <div className="col-md-3 d-flex align-items-center justify-content-end">
-                                           <Button
-                                                variant="primary"
-                                                size="m"
-                                                onClick={setShowConfirmModal}
-                                                aria-label="Add new item"
-                                                className="d-flex align-items-center px-3 rounded-pill"
-                                           >
-                                               <i className="bi bi-plus-circle me-2"></i>
-                                               Thêm mới
-                                            </Button>
                                         </div>
                                     </div>
 
@@ -289,5 +278,6 @@ const CourseComponent = () => {
         </>
     );
 };
+
 
 export default CourseComponent;
