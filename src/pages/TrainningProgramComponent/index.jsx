@@ -17,12 +17,13 @@ const TrainningProgramComponent = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [isShowModal, setIsShowModal] = useState(false);
     const [editData, setEditData] = useState(null);
+    const [searchItem, setSearchItem] = useState('');
     useEffect(() => {
         //call api
-        getAllTrainningProgram(1);
+        getAllTrainningProgram(1, searchItem);
     }, []);
-    const getAllTrainningProgram = async (page) => {
-        let response = await fetchAllTrainingPrograms(page);
+    const getAllTrainningProgram = async (page, searchItem) => {
+        let response = await fetchAllTrainingPrograms(page, searchItem);
         if (response || response.data) {
             // console.log("DATA" + JSON.stringify(response))
             setDataTable(response);
@@ -48,16 +49,18 @@ const TrainningProgramComponent = () => {
     };
     const handleDeleteProgramSuccess = (id) => {
         // setDataTable(dataTable.filter((item) => item.id !== id));
-        getAllTrainningProgram(currentPage);
+        getAllTrainningProgram(currentPage, searchItem);
     };
     const handlePageClick = (event) => {
         setCurrentPage(event.selected + 1);
-        getAllTrainningProgram(+event.selected + 1);
+        getAllTrainningProgram(+event.selected + 1, searchItem);
     };
 
-    const viewProgram = () => {
+    const handleSearch = () => {
 
-    }
+        getAllTrainningProgram(currentPage, searchItem);
+
+    };
     return (
         <>
             <section className="content-header">
@@ -88,7 +91,11 @@ const TrainningProgramComponent = () => {
                                             </Button>
                                         </div>
                                         <div className="col-md-10 d-flex align-items-center gap-3 justify-content-end">
-                                            <SearchComponent></SearchComponent>
+                                            <SearchComponent
+                                                searchItem={searchItem}
+                                                handleSearch={handleSearch}
+                                                onChange={setSearchItem}
+                                            />
                                         </div>
 
                                     </div>
