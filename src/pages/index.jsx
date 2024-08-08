@@ -6,6 +6,7 @@ import LoginComponent from "./LoginComponent";
 import ScheduleComponent3 from "./ScheduleComponent3";
 import SubjectComponentLayout2 from "./SubjectComponentLayout2"
 import TuitionFeeComponent from "./TuitionFeeComponent"
+import MarketingCampaignComponent from "./MarketingCampaignComponent"
 export {
     BookComponent,
     CourseComponent,
@@ -14,5 +15,6 @@ export {
     LoginComponent,
     UserComponent,
     SubjectComponentLayout2,
-    TuitionFeeComponent
+    TuitionFeeComponent,
+    MarketingCampaignComponent
 };

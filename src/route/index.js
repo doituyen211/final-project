@@ -1,5 +1,5 @@
 import {
-  CourseComponent,
+  CourseComponent, MarketingCampaignComponent,
   ScheduleComponent3,
   SubjectComponent, TuitionFeeComponent,
   UserComponent,
@@ -108,6 +108,12 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-money-bill-wave",
         to: "/tuitionfee",
         component: TuitionFeeComponent
+      },
+      {
+        name: "Chến dịch quảng cáo",
+        icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
+        to: "/marketing-campaigns", // Define the route for the new component
+        component: MarketingCampaignComponent, // Add your new component here
       },
     ]
   },
