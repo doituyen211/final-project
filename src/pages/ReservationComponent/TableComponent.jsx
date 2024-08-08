@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
 import DeleteComponent from "./DeleteComponent";
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 
 function TableComponents({
   cols,
@@ -77,7 +78,7 @@ function TableComponents({
                     setModalShow(true);
                   }}
                 >
-                  View
+                  <BsEye />
                 </Button>
                 <Button
                   variant="primary"
@@ -96,10 +97,10 @@ function TableComponents({
                     setModalShow(true);
                   }}
                 >
-                  Edit
+                    <BsPencil />
                 </Button>
                 <Button variant="danger" onClick={() => confirmDelete(row)}>
-                  Delete
+                <BsTrash />
                 </Button>
               </td>
             </tr>
