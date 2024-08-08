@@ -24,14 +24,12 @@ const TrainningProgramComponent = () => {
     const getAllTrainningProgram = async (page) => {
         let response = await fetchAllTrainingPrograms(page);
         if (response || response.data) {
+            // console.log("DATA" + JSON.stringify(response))
             setDataTable(response);
             setTotalPages(10);
 
         }
     };
-    const handleViewClick = () => {
-
-    }
     const handleClose = () => {
         setIsShowModal(false)
         setIsEditMode(false);
@@ -83,16 +81,16 @@ const TrainningProgramComponent = () => {
                         <div className="col">
                             <div className="card card-primary">
                                 <div className="card-body">
-                                    <div className="row align-items-center">
-                                        <div className="col-md-10 d-flex align-items-center gap-3">
-
-                                            <SearchComponent></SearchComponent>
-                                        </div>
-                                        <div className="col-md-2 d-flex align-items-center justify-content-end">
-                                            <Button variant="primary" size="lg" onClick={() => setIsShowModal(true)}>
-                                                <i className="bi bi-plus-circle"></i>
+                                    <div className="row align-items-center ">
+                                        <div className="col-md-2 d-flex align-items-center justify-content-start">
+                                            <Button variant="primary btn-sm" size="lg" onClick={() => setIsShowModal(true)}>
+                                                {/* <i className="bi bi-plus-circle"></i> */}Thêm mới
                                             </Button>
                                         </div>
+                                        <div className="col-md-10 d-flex align-items-center gap-3 justify-content-end">
+                                            <SearchComponent></SearchComponent>
+                                        </div>
+
                                     </div>
 
                                     <div className="row">
@@ -101,7 +99,7 @@ const TrainningProgramComponent = () => {
                                                 dataTable={dataTable}
                                                 handleEditProgram={handleEditProgram}
                                                 handleDeleteProgramSuccess={handleDeleteProgramSuccess}
-                                                viewProgram={viewProgram}
+
                                             />
 
                                         </div>

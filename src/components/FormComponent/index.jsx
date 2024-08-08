@@ -23,13 +23,7 @@ function FormComponent(props) {
         e.preventDefault();
         
         try {
-            console.log('Submitting form data:', formData);
-            
-            // Remove empty fields from formData
-            const cleanedFormData = Object.fromEntries(
-                Object.entries(formData).filter(([_, value]) => value !== '')
-            );
-    
+            console.log("CREATE"+ JSON.stringify(formData));
             const url = action === 'EDIT' ? `${api}/${idCurrent}` : api;
             const method = action === 'EDIT' ? axios.put : axios.post;
             
@@ -43,8 +37,7 @@ function FormComponent(props) {
             setFormData(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {}));
             
             getData();
-            
-            toast.success(`${action === 'EDIT' ? 'Updated' : 'Created'} successfully!`);
+            toast.success(`${action === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);  // Success toast
         } catch (error) {
             console.error('Error submitting form:', error.response ? error.response.data : error.message);
             toast.error(`Failed to ${action.toLowerCase()} item.`);
@@ -74,7 +67,7 @@ function FormComponent(props) {
     const renderField = (field) => {
         const commonProps = {
             key: field.name,
-            md: 12,
+            md: 6, // not edit
             className: 'mb-3'
         };
 

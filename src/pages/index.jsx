@@ -1,13 +1,16 @@
 import UserComponent from "./UserComponent";
-import SubjectComponent from "./SubjectComponent";
 import BookComponent from "./BookComponent";
-import SubjectComponent2 from "./SubjectComponent2";
+import SubjectComponent from "./SubjectComponent";
 import CourseComponent from "./CourseComponent";
-
+import LoginComponent from "./LoginComponent";
+import ReservationComponent from "./ReservationComponent";
+import ScheduleComponent3 from "./ScheduleComponent3";
 export {
-    UserComponent,
-    SubjectComponent,
-    SubjectComponent2,
-    BookComponent,
-    CourseComponent,
-}
+  BookComponent,
+  CourseComponent,
+  ScheduleComponent3,
+  SubjectComponent,
+  LoginComponent,
+  UserComponent,
+  ReservationComponent,
+};
