@@ -6,7 +6,6 @@ import {
   SubjectComponentLayout2,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import StudentComponent from "../pages/StudentComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
 import ReservationComponent from "../pages/ReservationComponent";
@@ -42,7 +41,6 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
-          component: StudentComponent,
       },
       {
         name: "Quản lý môn học",
@@ -104,4 +102,3 @@ export const routeSideBar = [
     ],
   },
 ];
-
