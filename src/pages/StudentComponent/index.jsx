@@ -137,7 +137,6 @@ const StudentComponent = () => {
             console.error("Error fetching options:", error);
         }
     }, []);
-
     const confirmDelete = (item) => {
         setDeleteItemId(item.id);
         setShowConfirmModal(true);
