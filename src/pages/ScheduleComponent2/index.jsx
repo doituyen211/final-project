@@ -505,10 +505,9 @@ const ScheduleComponent2 = () => {
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
 
-                                        <div className="col-md-6 d-flex align-items-start gap-3 divSearch">
+                                        <div className="col-md-5 d-flex align-items-start divSearch">
                                             <input
                                                 type="text"
-                                                className=""
                                                 placeholder="Search..."
                                                 aria-label="Search input"
                                                 value={searchTerm}
@@ -524,7 +523,6 @@ const ScheduleComponent2 = () => {
                                                 variant="outline-secondary"
                                                 size="sm"
                                                 aria-label="Search"
-                                                className="d-flex align-items-center px-4 rounded-pill p-2"
                                                 onClick={handleSearch}
                                             >
                                                 <i className="bi bi-search"></i>
