@@ -1,9 +1,8 @@
 import {
   CourseComponent,
   ScheduleComponent3,
-  SubjectComponent,
+  SubjectComponent, TuitionFeeComponent,
   UserComponent,
-  SubjectComponentLayout2,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -99,4 +98,18 @@ export const routeSideBar = [
       },
     ],
   },
+  {
+    name: "Sales",
+    icon: "nav-icon fas fa-dollar-sign",
+    to: "#",
+    child: [
+      {
+        name: "Quản lý học phí",
+        icon: "nav-icon fas fa-money-bill-wave",
+        to: "/tuitionfee",
+        component: TuitionFeeComponent
+      },
+    ]
+  },
+
 ];
