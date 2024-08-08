@@ -4,6 +4,7 @@ import PagingComponent from "./PagingComponent";
 import ModalComponent from "./ModalComponent";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 
 const ReservationComponent = () => {
   const [keyword, setKeyword] = useState("");
