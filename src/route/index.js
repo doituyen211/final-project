@@ -3,6 +3,7 @@ import {
   ScheduleComponent3,
   SubjectComponent,
   UserComponent,
+  ScoreComponent,
   SubjectComponentLayout2,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
@@ -42,7 +43,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
-          component: StudentComponent,
+        component: StudentComponent,
       },
       {
         name: "Quản lý môn học",
@@ -100,8 +101,8 @@ export const routeSideBar = [
         name: "Quản lý điểm số",
         icon: "nav-icon fas fa-chart-line",
         to: "/grades",
+        component: ScoreComponent,
       },
     ],
   },
 ];
-
