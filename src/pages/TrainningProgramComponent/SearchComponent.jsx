@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-const SearchComponent = () => {
+const SearchComponent = ({ searchItem, onChange, handleSearch }) => {
     return (
         <>
             <div
@@ -11,8 +11,10 @@ const SearchComponent = () => {
                     className="form-control"
                     placeholder="Search..."
                     aria-label="Search input"
+                    value={searchItem}
+                    onChange={(e) => onChange(e.target.value)}
                 />
-                <Button variant="light" size="">
+                <Button variant="light" size="" onClick={() => handleSearch(searchItem)}>
                     <i className="bi bi-search"></i>
                 </Button>
             </div>
