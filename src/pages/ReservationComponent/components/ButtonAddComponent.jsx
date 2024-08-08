@@ -1,17 +1,18 @@
+import React from "react";
 import { Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 import useClassStore from "../useClassStore";
 
 const ButtonAddComponent = () => {
-  const setShowModalCommon = useClassStore((state) => state.setShowModalCommon);
-  const setModeModal = useClassStore((state) => state.setModeModal);
+  const setShowModalAdd = useClassStore((state) => state.setShowModalAdd);
+  const setMode = useClassStore((state) => state.setMode);
 
   return (
     <Button
       variant="primary"
       onClick={() => {
-        setShowModalCommon(true);
-        setModeModal(false);
+        setShowModalAdd(true);
+        setMode(false);
       }}
       className="float-right mb-3 d-flex align-items-center"
     >

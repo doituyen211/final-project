@@ -26,8 +26,8 @@ const INITIAL_STATE = {
                 label: "Tên môn học",
                 placeholder: "Nhập tên môn học",
                 validation: Yup.string()
-                    .matches(/^[a-zA-Z0-9_-]+$/, 'Subject Name can only contain letters, numbers, underscores, and hyphens')
-                    .required('Subject Name is required'),
+                    .matches(/^[a-zA-Z0-9_-]+$/, 'Tên môn học chỉ chứa kí tự, số, dấu gạch dưới và khoảng tắng')
+                    .required('Tên môn học là bắt buộc '),
             },
             {
                 name: "training_duration",
@@ -35,10 +35,10 @@ const INITIAL_STATE = {
                 label: "Thời lượng đào tạo",
                 placeholder: "Nhập thời lượng đào tạo",
                 validation: Yup.number()
-                    .typeError('Duration must be a number')
-                    .required('Duration is required')
-                    .positive('Duration must be a positive number')
-                    .integer('Duration must be an integer'),
+                    .typeError('Thời lượng đào tạo phải là một số')
+                    .required('Thời lượng đào tạo là bắt buộc')
+                    .positive('Thời lượng đào tạo là một số dương')
+                    .integer('Thời lượng đào tạo phải là 1 số nguyên'),
             },
             {
                 name: "training_program_id",
@@ -47,7 +47,7 @@ const INITIAL_STATE = {
                 placeholder: "Chọn 1 chương trình đào tạo",
                 apiUrl: "/data/program.json",
                 defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
-                validation: Yup.string().required('Program Name is required'),
+                validation: Yup.string().required('Tên chương trình là bắt buộc '),
             },
             {
                 name: "status",
@@ -56,7 +56,7 @@ const INITIAL_STATE = {
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
                 defaultOption: { value: "", label: "Chọn trạng thái" },
-                validation: Yup.string().required('Status is required'),
+                validation: Yup.string().required('Trạng thái là bắt buộc'),
             },
         ],
         initialIsEdit: false,
@@ -103,6 +103,7 @@ const SubjectComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
+                if (search !== "" || status !== "" || program !== "") page = 1;
                 const { data } = await axios.get(api, {
                     params: {
                         page: page,

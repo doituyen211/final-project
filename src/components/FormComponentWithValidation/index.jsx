@@ -32,7 +32,7 @@ function FormComponentWithValidation(props) {
             toast.success(`${action === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);  // Success toast
         } catch (error) {
             console.error(`Error ${action.toLowerCase()} item:`, error);
-            toast.error(`Failed to ${action.toLowerCase()} item.`);  // Error toast
+            toast.error(`Lỗi  ${action.toLowerCase()} .`);  // Error toast
         }
     };
 
