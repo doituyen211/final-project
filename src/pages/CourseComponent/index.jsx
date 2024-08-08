@@ -5,7 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import TableComponents from '../../components/TableComponent';
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../../pages/CourseComponent/FormComponent";
+import FormComponent from "./FormComponent"
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
