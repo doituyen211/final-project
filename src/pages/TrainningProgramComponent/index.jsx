@@ -22,14 +22,24 @@ const TrainningProgramComponent = () => {
         //call api
         getAllTrainningProgram(1, searchItem);
     }, []);
+
+
     const getAllTrainningProgram = async (page, searchItem) => {
-        let response = await fetchAllTrainingPrograms(page, searchItem);
-        if (response || response.data) {
-            // console.log("DATA" + JSON.stringify(response))
-            setDataTable(response);
-            setTotalPages(10);
+        try {
+            let response = await fetchAllTrainingPrograms(page, searchItem);
+            console.log(response)
+            if (response || response.data) {
+                // console.log("DATA" + JSON.stringify(response))
+                setDataTable(response);
+                setTotalPages(10);
+
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+
 
         }
+
     };
     const handleClose = () => {
         setIsShowModal(false)

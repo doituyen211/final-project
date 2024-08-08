@@ -5,6 +5,7 @@ import { Button, Col, Modal, ModalBody, Row } from 'react-bootstrap';
 import { createProgram, updateProgram } from '../../services/TrainingProgram';
 import { toast } from 'react-toastify';
 
+
 const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, editData }) => {
     const [programName, setProgramName] = useState('');
     const [course, setCourse] = useState('');
@@ -60,9 +61,8 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
 
         if (validate()) {
             if (isEditMode) {
-
-
-                let response = await updateProgram(editData.id, programName, course, parseFloat(fee), duration, status);
+                // alert(Boolean(status))
+                let response = await updateProgram(editData.id, programName, course, parseFloat(fee), duration, status == 'true' ? true : false);
                 if (response) {
                     handleClose();
                     setProgramName('');
@@ -70,7 +70,7 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
                     setFee('');
                     setDuration('');
                     toast.success("Cập nhật dữ liệu thành công !");
-                    handleUpdateTable({ id: editData.id, programName: programName, courseName: course, fee: fee, timeTrainning: duration, status: status });
+                    handleUpdateTable({ id: editData.id, programName: programName, courseName: course, fee: fee, timeTrainning: duration, status: status == 'true' ? true : false });
                 } else {
                     toast.error("Lỗi cập nhật")
                 }
@@ -85,7 +85,7 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
                     setDuration('');
                     setStatus(true)
                     toast.success("Thêm dữ liệu thành công !");
-                    handleUpdateTable({ programName: programName, courseName: course, fee: fee, timeTrainning: duration, status: status });
+                    handleUpdateTable({ programName: programName, courseName: course, fee: fee, timeTrainning: duration, status: status = true });
                 } else {
                     toast.error("Lỗi cập nhật");
                 }
