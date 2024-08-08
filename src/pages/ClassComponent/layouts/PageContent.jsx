@@ -1,4 +1,3 @@
-import NotificationComponent from "../../../components/NotificationComponent";
 import PagingComponent from "../../../components/PagingComponent";
 import TableHasAction from "../components/TableHasAction";
 import ToolsComponent from "../components/ToolsComponent";
@@ -31,7 +30,6 @@ const PageContent = ({ headerContent }) => {
           </div>
         </div>
       </section>
-      <NotificationComponent />
     </>
   );
 };

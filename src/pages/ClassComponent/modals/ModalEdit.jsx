@@ -1,15 +1,30 @@
 import { DatePicker, Form, Input, Modal } from "antd";
+import moment from "moment";
+import { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { useAddNewClass } from "../hooks";
+import { useEditClass } from "../hooks";
 import useClassStore from "../useClassStore";
 
-const ModalAdd = () => {
+const ModalEdit = () => {
   const [form] = Form.useForm();
-  const showModalAdd = useClassStore((state) => state.showModalAdd);
+  const showModalEdit = useClassStore((state) => state.showModalEdit);
+  const dataRow = useClassStore((state) => state.dataRow);
   const handleClose = useClassStore((state) => state.handleClose);
-  const { mutation } = useAddNewClass();
+  const { mutation } = useEditClass(dataRow.id);
 
-  const handleAddNew = () => {
+  useEffect(() => {
+    if (dataRow) {
+      form.setFieldsValue({
+        trProgramName: dataRow.trProgramName,
+        name: dataRow.name,
+        size: dataRow.size,
+        startDate: moment(dataRow.startDate),
+        endDate: moment(dataRow.endDate),
+      });
+    }
+  }, [dataRow, form]);
+
+  const handleEditClass = () => {
     const values = form.getFieldsValue();
     const formattedValues = {
       ...values,
@@ -17,35 +32,36 @@ const ModalAdd = () => {
       endDate: values.endDate.format("YYYY-MM-DD"),
     };
     mutation.mutate(formattedValues);
-    form.resetFields();
   };
 
   return (
     <Modal
-      title="Thêm mới lớp học"
-      open={showModalAdd}
+      title="Chỉnh sửa lớp học"
+      open={showModalEdit}
       onCancel={handleClose}
       footer={
         <>
-          <Button className="btn btn-secondary mr-2">Đóng</Button>
-          <Button className="btn btn-success" onClick={handleAddNew}>
-            Thêm mới
+          <Button className="btn btn-secondary mr-2" onClick={handleClose}>
+            Đóng
+          </Button>
+          <Button className="btn btn-success" onClick={handleEditClass}>
+            Cập nhật
           </Button>
         </>
       }
     >
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
         <Form.Item label="Tên chương trình đào tạo" name="trProgramName">
-          <Input placeholder="Nhập tên chương trình đào tạo" />
+          <Input />
         </Form.Item>
         <Form.Item label="Tên lớp" name="name">
-          <Input placeholder="Nhập tên lớp" />
+          <Input />
         </Form.Item>
         <Form.Item label="Sĩ số" name="size">
-          <Input placeholder="Nhập sĩ số" />
+          <Input disabled />
         </Form.Item>
         <Form.Item label="Ngày bắt đầu" name="startDate">
-          <DatePicker />
+          <DatePicker disabled />
         </Form.Item>
         <Form.Item label="Ngày kết thúc" name="endDate">
           <DatePicker />
@@ -55,4 +71,4 @@ const ModalAdd = () => {
   );
 };
 
-export default ModalAdd;
+export default ModalEdit;

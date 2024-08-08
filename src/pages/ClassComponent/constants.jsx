@@ -1,38 +1,3 @@
-export const getConfigInput = (mode) => [
-  {
-    label: "Tên chương trình đào tạo",
-    placeholder: "Nhập tên chương trình đào tạo",
-    type: "text",
-    name: "trProgramName",
-  },
-  {
-    label: "Tên lớp",
-    placeholder: "Nhập tên lớp",
-    type: "text",
-    name: "name",
-  },
-  {
-    label: "Sĩ số",
-    placeholder: "Nhập sĩ số",
-    disabled: mode,
-    type: "text",
-    name: "size",
-  },
-  {
-    label: "Ngày bắt đầu",
-    placeholder: "",
-    disabled: mode,
-    type: "date",
-    name: "startDate",
-  },
-  {
-    label: "Ngày kết thúc",
-    placeholder: "",
-    type: "date",
-    name: "endDate",
-  },
-];
-
 // export const columns = [
 //   {
 //     key: "ma_lop",
