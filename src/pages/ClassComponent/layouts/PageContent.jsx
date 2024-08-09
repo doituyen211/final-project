@@ -1,4 +1,3 @@
-import PagingComponent from "../../../components/PagingComponent";
 import TableHasAction from "../components/TableHasAction";
 import ToolsComponent from "../components/ToolsComponent";
 
@@ -16,12 +15,6 @@ const PageContent = ({ headerContent }) => {
                   <div className="row">
                     <div className="col-12">
                       <TableHasAction />
-                    </div>
-                  </div>
-
-                  <div className="row justify-content-center mt-3">
-                    <div className="col-auto">
-                      <PagingComponent />
                     </div>
                   </div>
                 </div>

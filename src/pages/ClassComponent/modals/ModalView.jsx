@@ -20,8 +20,11 @@ const ModalView = () => {
       onCancel={handleClose}
       footer={<Button onClick={handleClose}>Đóng</Button>}
     >
-      <div className="d-flex justify-content-between mb-3">
-        <div>Tên lớp: {formViewData.name} </div>
+      <div className="d-flex justify-content-between">
+        <div className=" mb-3">
+          <div>Tên lớp: {formViewData.name} </div>
+          <div>Tên chương trình đào tạo: {formViewData.trProgramName}</div>
+        </div>
         <div>Sĩ số: {formViewData.size}</div>
       </div>
       <TableNoActions />
