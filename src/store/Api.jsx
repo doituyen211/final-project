@@ -11,7 +11,7 @@ const API = {
   SCHEDULE: `${BASE_URL}/lich_hoc`,
 
   CLASS: `${BASE_URL}/class`,
-    TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`
+  TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`
 
   // Add other API endpoints here if needed
 };
