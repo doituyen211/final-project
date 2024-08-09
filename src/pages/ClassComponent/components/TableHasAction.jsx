@@ -4,10 +4,10 @@ import { useGetClassList } from "../hooks";
 import useClassStore from "../useClassStore";
 
 const TableHasAction = () => {
-  const setShowModalView = useClassStore((state) => state.setShowModalView);
   const setDataRow = useClassStore((state) => state.setDataRow);
-  const setModeModal = useClassStore((state) => state.setModeModal);
-  const setShowModalCommon = useClassStore((state) => state.setShowModalCommon);
+  const setShowModalView = useClassStore((state) => state.setShowModalView);
+  const setShowModalDelete = useClassStore((state) => state.setShowModalDelete);
+  const setShowModalEdit = useClassStore((state) => state.setShowModalEdit);
 
   const { data } = useGetClassList();
 
@@ -17,8 +17,12 @@ const TableHasAction = () => {
   };
 
   const handleEdit = (row) => {
-    setModeModal(true);
-    setShowModalCommon(true);
+    setDataRow(row);
+    setShowModalEdit(true);
+  };
+
+  const handleDelete = (row) => {
+    setShowModalDelete(true);
     setDataRow(row);
   };
 
@@ -54,7 +58,9 @@ const TableHasAction = () => {
                 Edit
               </Button>
 
-              <Button variant="danger">Delete</Button>
+              <Button variant="danger" onClick={() => handleDelete(row)}>
+                Delete
+              </Button>
             </td>
           </tr>
         ))}
