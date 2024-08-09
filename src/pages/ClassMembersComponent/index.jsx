@@ -1,17 +1,18 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import TableComponents from "../../components/TableComponent";
+//import {useModal,actionEdit,row,openModal,row}  from "../../components/TableComponent";
+import TableComponents from '../../components/TableComponent';
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../../components/FormComponent";
+import FormComponent from "../../pages/CourseComponent/FormComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
     dataTable: [], // Dữ liệu bảng
-    titleTable: "SubjectComponent", // Tiêu đề của bảng
+    titleTable: "CourseComponent", // Tiêu đề của bảng
     classTable: "table table-bordered table-hover", // Lớp CSS của bảng
     modalShow: false, // Trạng thái hiển thị modal
     modalProps: {
@@ -19,51 +20,41 @@ const INITIAL_STATE = {
         action: "",
         formFieldsProp: [
             {
-                name: "subject_name",
+                name: "ma_hoc_vien",
                 type: "text",
-                label: "Subject Name",
-                placeholder: "Enter the subject name",
+                label: "Mã học viên",
+                placeholder: "Nhập mã học viên",
             },
             {
-                name: "training_duration",
+                name: "ma_lop",
                 type: "text",
-                label: "Duration",
-                placeholder: "Enter duration",
+                label: "Mã lớp",
+                placeholder: "Nhập mã lớp",
             },
             {
-                name: "training_program_id",
+                name: "trang_thai",
                 type: "select",
-                label: "Program Name",
-                placeholder: "Select a program",
-                apiUrl: "/data/program.json", // Cập nhật URL này với API endpoint thực tế của bạn
-                defaultOption: { value: "", label: "Select a program" },
-            },
-            {
-                name: "status",
-                type: "select",
-                label: "Status",
-                placeholder: "Select status",
-                apiUrl: "/data/status.json", // Cập nhật URL này với API endpoint thực tế của bạn
-                defaultOption: { value: "", label: "Select status" },
+                label: "Trạng thái",
+                placeholder: "Chọn trạng thái",
+                apiUrl: "/data/status.json",
             },
         ],
         initialIsEdit: false,
         initialIdCurrent: null,
-        api: API.SUBJECT,
+        api: API.CLASSMEMBERS,
     },
 };
 
 // Các cột của bảng
 const COLUMNS = [
     "STT",
-    "Tên môn học",
-    "Thời lượng",
-    "Tên chương trình học",
+    "Mã học viên",
+    "Mã lớp",
     "Trạng thái",
     "",
 ];
 
-const SubjectComponentLayout2 = () => {
+const ClassMembersComponent = () => {
     const [state, setState] = useState(INITIAL_STATE);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -75,14 +66,13 @@ const SubjectComponentLayout2 = () => {
     const [program, setProgram] = useState("");
     const [status, setStatus] = useState("");
     const [dataForm, setDataForm] = useState({
-        subject_id: "",
-        subject_name: "",
-        status: "",
-        training_duration: "",
-        training_program_id: "",
+        id: "",
+        ma_hoc_vien: "",
+        ma_lop: "",
+        trang_thai: "",
     });
 
-    const api = API.SUBJECT;
+    const api = API.CLASSMEMBERS;
 
     // Fetch data with optional filters
     const fetchData = useCallback(
@@ -117,6 +107,7 @@ const SubjectComponentLayout2 = () => {
         [api, status, program]
     );
 
+
     //Search
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -135,38 +126,22 @@ const SubjectComponentLayout2 = () => {
     const handleStatusChange = useCallback((event) => {
         setStatus(event.target.value);
     }, []);
+    
 
     useEffect(() => {
         fetchData("", currentPage);
-        console.log("Render SubjectComponent");
+        console.log("Render ClassMembersComponent");
     }, [fetchData, currentPage]);
+
+    
 
     const handlePageChange = useCallback((pageNumber) => {
         setCurrentPage(pageNumber);
     }, []);
-
-    useEffect(() => {
-        // fetchData('', currentPage);
-        fetchOptions();
-    }, []);
-    const [statusOptions, setStatusOptions] = useState([]);
-    const [programOptions, setProgramOptions] = useState([]);
-    // Fetch options for filters
-    const fetchOptions = useCallback(async () => {
-        try {
-            const [statusResponse, programResponse] = await Promise.all([
-                axios.get("/data/status.json"),
-                axios.get("/data/program.json"),
-            ]);
-            setStatusOptions(statusResponse.data);
-            setProgramOptions(programResponse.data);
-        } catch (error) {
-            console.error("Error fetching options:", error);
-        }
-    }, []);
+    
     // Hàm xử lý xác nhận xóa
     const confirmDelete = (item) => {
-        setDeleteItemId(item.subject_id);
+        setDeleteItemId(item.id);
         setShowConfirmModal(true);
     };
 
@@ -181,7 +156,7 @@ const SubjectComponentLayout2 = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Quản lý Môn học</h1>
+                            <h1>Quản lý khóa học</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
@@ -195,7 +170,7 @@ const SubjectComponentLayout2 = () => {
                                     </button>
                                 </li>
                                 <li className="breadcrumb-item active">
-                                    Quản lý môn học
+                                Quản lý khóa học
                                 </li>
                             </ol>
                         </div>
@@ -206,7 +181,7 @@ const SubjectComponentLayout2 = () => {
                 <div className="container-fluid">
                     <div className="row justify-content-center">
                         {/* Card cho Form Component */}
-                        <div className="col-md-4">
+                        <div className="col-md-3">
                             <div className="card">
                                 <div className="card-body">
                                     <FormComponent
@@ -235,55 +210,12 @@ const SubjectComponentLayout2 = () => {
                         </div>
 
                         {/* Card cho các bộ lọc, ô tìm kiếm và nút thêm mới */}
-                        <div className="col-md-8">
+                        <div className="col-md-9">
                             <div className="card mb-4">
                                 <div className="card-body">
                                     <div className="row mb-4">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
-                                            >
-                                                <option value="">
-                                                    Chọn chương trình học
-                                                </option>
-                                                {programOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus1"
-                                                aria-label="Status"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={status}
-                                                onChange={handleStatusChange}
-                                            >
-                                                <option value="">
-                                                    Chọn trạng thái
-                                                </option>
-                                                {statusOptions.map((option) => (
-                                                    <option
-                                                        key={option.value}
-                                                        value={option.id}
-                                                    >
-                                                        {option.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-                                        </div>
+                                        
                                         <div className="col-md-6 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
@@ -295,7 +227,7 @@ const SubjectComponentLayout2 = () => {
                                             />
                                             <Button
                                                 variant="outline-secondary"
-                                                size="sm"
+                                                size="m"
                                                 aria-label="Search"
                                                 className="d-flex align-items-center px-3 rounded-pill"
                                                 onClick={handleSearch}
@@ -304,18 +236,8 @@ const SubjectComponentLayout2 = () => {
                                             </Button>
                                         </div>
                                         {/*/!* Nút thêm mới *!/*/}
-                                        {/*<div className="col-md-4 d-flex align-items-center justify-content-end">*/}
-                                        {/*    <Button*/}
-                                        {/*        variant="primary"*/}
-                                        {/*        size="sm"*/}
-                                        {/*        onClick={handleModalShow}*/}
-                                        {/*        aria-label="Add new item"*/}
-                                        {/*        className="d-flex align-items-center px-3 rounded-pill"*/}
-                                        {/*    >*/}
-                                        {/*        <i className="bi bi-plus-circle me-2"></i>*/}
-                                        {/*        Add New*/}
-                                        {/*    </Button>*/}
-                                        {/*</div>*/}
+                                        <div className="col-md-3 d-flex align-items-center justify-content-end">
+                                        </div>
                                     </div>
 
                                     {/* Bảng dữ liệu */}
@@ -328,19 +250,19 @@ const SubjectComponentLayout2 = () => {
                                             state.modalProps.formFieldsProp
                                         }
                                         getData={fetchData}
-                                        actionView={(subject) => {
+                                        actionView={(thanh_vien_lop) => {
                                             setInitialIdCurrent(
-                                                subject.subject_id
+                                                thanh_vien_lop.id
                                             );
                                             setActionModal("VIEW");
-                                            setDataForm(subject);
+                                            setDataForm(thanh_vien_lop);
                                         }}
-                                        actionEdit={(subject) => {
+                                        actionEdit={(thanh_vien_lop) => {
                                             setInitialIdCurrent(
-                                                subject.subject_id
+                                                thanh_vien_lop.id
                                             );
                                             setActionModal("EDIT");
-                                            setDataForm(subject);
+                                            setDataForm(thanh_vien_lop);
                                         }}
                                         actionDelete={confirmDelete}
                                         useModal={false}
@@ -376,4 +298,5 @@ const SubjectComponentLayout2 = () => {
     );
 };
 
-export default SubjectComponentLayout2;
+
+export default ClassMembersComponent;

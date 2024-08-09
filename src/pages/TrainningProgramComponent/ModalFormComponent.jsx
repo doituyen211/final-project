@@ -4,6 +4,7 @@ import SelectField from './SelectField';
 import { Button, Col, Modal, ModalBody, Row } from 'react-bootstrap';
 import { createProgram, updateProgram } from '../../services/TrainingProgram';
 import { toast } from 'react-toastify';
+import { Empty } from 'antd';
 
 
 const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, editData }) => {
@@ -12,13 +13,23 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
     const [fee, setFee] = useState('');
     const [duration, setDuration] = useState('');
     const [status, setStatus] = useState(true);
+    const emptyData = () => {
+        setProgramName("");
+        setCourse("");
+        setFee("");
+        setDuration("");
+    }
     useEffect(() => {
         if (editData && isEditMode) {
+            console.log("tap là nhân")
             setProgramName(editData.programName);
             setCourse(editData.courseName);
             setFee(editData.fee);
             setDuration(editData.timeTrainning);
             setStatus(editData.status);
+            console.log("tap là nhân")
+        } else {
+            emptyData()
         }
     }, [editData, isEditMode]);
     const validate = () => {
@@ -65,10 +76,7 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
                 let response = await updateProgram(editData.id, programName, course, parseFloat(fee), duration, status == 'true' ? true : false);
                 if (response) {
                     handleClose();
-                    setProgramName('');
-                    setCourse('');
-                    setFee('');
-                    setDuration('');
+                    emptyData();
                     toast.success("Cập nhật dữ liệu thành công !");
                     handleUpdateTable({ id: editData.id, programName: programName, courseName: course, fee: fee, timeTrainning: duration, status: status == 'true' ? true : false });
                 } else {
@@ -79,20 +87,17 @@ const ModalFormComponent = ({ show, handleClose, handleUpdateTable, isEditMode, 
                 let response = await createProgram(programName, course, parseFloat(fee), duration);
                 if (response && response.id) {
                     handleClose();
-                    setProgramName('')
-                    setCourse('');
-                    setFee('')
-                    setDuration('');
+                    emptyData();
                     setStatus(true)
                     toast.success("Thêm dữ liệu thành công !");
-                    handleUpdateTable({ programName: programName, courseName: course, fee: fee, timeTrainning: duration, status: status = true });
+                    handleUpdateTable({ id: response.id, programName: programName, courseName: course, fee: fee, timeTrainning: duration, status });
                 } else {
                     toast.error("Lỗi cập nhật");
                 }
             }
         }
     }
-
+    console.log(isEditMode)
     return (
         <Modal show={show} onHide={handleClose} size="lg"
             aria-labelledby="contained-modal-title-vcenter"

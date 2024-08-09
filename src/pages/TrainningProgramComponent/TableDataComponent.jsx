@@ -36,7 +36,6 @@ const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDelet
                 });
         }
     };
-
     return (
         <>
             <table className="table table-bordered table-hover">

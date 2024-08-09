@@ -3,10 +3,13 @@ import BookComponent from "./BookComponent";
 import SubjectComponent from "./SubjectComponent";
 import CourseComponent from "./CourseComponent";
 import LoginComponent from "./LoginComponent";
-import ReservationComponent from "./ReservationComponent";
 import ScheduleComponent3 from "./ScheduleComponent3";
 import ScoreComponent from "./ScoreComponent";
 
+import SubjectComponentLayout2 from "./SubjectComponentLayout2";
+import TuitionFeeComponent from "./TuitionFeeComponent";
+import MarketingCampaignComponent from "./MarketingCampaignComponent";
+import ClassMembersComponent from "./ClassMembersComponent";
 export {
   BookComponent,
   CourseComponent,
@@ -16,4 +19,14 @@ export {
   UserComponent,
   ReservationComponent,
   ScoreComponent,
+  BookComponent,
+  CourseComponent,
+  ScheduleComponent3,
+  SubjectComponent,
+  LoginComponent,
+  UserComponent,
+  SubjectComponentLayout2,
+  TuitionFeeComponent,
+  MarketingCampaignComponent,
+  ClassMembersComponent,
 };

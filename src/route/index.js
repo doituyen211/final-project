@@ -1,16 +1,17 @@
 import {
-  CourseComponent,
+  CourseComponent, MarketingCampaignComponent,
   ScheduleComponent3,
-  SubjectComponent,
+  SubjectComponent, TuitionFeeComponent,
   UserComponent,
   ScoreComponent,
   SubjectComponentLayout2,
+  ClassMembersComponent,
+
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import StudentComponent from "../pages/StudentComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
-import ReservationComponent from "../pages/ReservationComponent";
+
 
 export const routeSideBar = [
   {
@@ -61,12 +62,12 @@ export const routeSideBar = [
         name: "Quản lý bảo lưu",
         icon: "nav-icon fas fa-pause-circle",
         to: "/reservations",
-        component: ReservationComponent,
       },
       {
         name: "Quản lý thành viên lớp",
         icon: "nav-icon fas fa-users",
         to: "/class-members",
+        component: ClassMembersComponent,
       },
       {
         name: "Quản lý chương trình đào tạo",
@@ -105,4 +106,31 @@ export const routeSideBar = [
       },
     ],
   },
+];
+  {
+    name: "Sales",
+    icon: "nav-icon fas fa-dollar-sign",
+    to: "#",
+    child: [
+      {
+        name: "Quản lý học phí",
+        icon: "nav-icon fas fa-money-bill-wave",
+        to: "/tuitionfee",
+        component: TuitionFeeComponent
+      },
+      {
+        name: "Chến dịch quảng cáo",
+        icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
+        to: "/marketing-campaigns", // Define the route for the new component
+        component: MarketingCampaignComponent, // Add your new component here
+      },
+      {
+        name: "Quản lý chương trình đào tạo",
+        icon: "nav-icon fas fa-cogs",
+        to: "/programs",
+        component: TrainningProgramComponent,
+      },
+    ]
+  },
+
 ];

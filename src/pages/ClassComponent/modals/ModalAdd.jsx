@@ -1,42 +1,99 @@
-import { Button, Form, Modal } from "react-bootstrap";
-import { getConfigInput } from "../constants";
+import { DatePicker, Form, Input, Modal } from "antd";
+import { Button } from "react-bootstrap";
+import { useAddNewClass } from "../hooks";
 import useClassStore from "../useClassStore";
 
 const ModalAdd = () => {
-  const mode = useClassStore((state) => state.mode);
+  const [form] = Form.useForm();
   const showModalAdd = useClassStore((state) => state.showModalAdd);
   const handleClose = useClassStore((state) => state.handleClose);
-  const configInput1 = getConfigInput(mode);
+  const { mutation } = useAddNewClass();
+
+  const handleAddNew = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        const formattedValues = {
+          ...values,
+          startDate: values.startDate.format("YYYY-MM-DD"),
+          endDate: values.endDate.format("YYYY-MM-DD"),
+        };
+        mutation.mutate(formattedValues);
+        form.resetFields();
+      })
+      .catch((errorInfo) => {
+        console.log("Validation Failed:", errorInfo);
+      });
+  };
 
   return (
-    <Modal show={showModalAdd} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Thêm mới lớp</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form>
-            {configInput1.map((item) => (
-              <Form.Group className="mb-3">
-                <Form.Label>{item.label}</Form.Label>
-                <Form.Control
-                  disabled={item.disabled}
-                  placeholder={item.placeholder}
-                  type={item.type}
-                />
-              </Form.Group>
-            ))}
-          </Form>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Đóng
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Thêm mới
-        </Button>
-      </Modal.Footer>
+    <Modal
+      title="Thêm mới lớp học"
+      open={showModalAdd}
+      onCancel={handleClose}
+      footer={
+        <>
+          <Button className="btn btn-secondary mr-2" onClick={handleClose}>
+            Đóng
+          </Button>
+          <Button className="btn btn-success" onClick={handleAddNew}>
+            Thêm mới
+          </Button>
+        </>
+      }
+    >
+      <Form form={form} labelCol={{ span: 10 }} className="mt-4">
+        <Form.Item
+          label="Tên chương trình đào tạo"
+          name="trProgramName"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập tên chương trình đào tạo",
+            },
+          ]}
+        >
+          <Input placeholder="Nhập tên chương trình đào tạo" />
+        </Form.Item>
+        <Form.Item
+          label="Tên lớp"
+          name="name"
+          rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
+        >
+          <Input placeholder="Nhập tên lớp" />
+        </Form.Item>
+        <Form.Item
+          label="Sĩ số"
+          name="size"
+          rules={[
+            { required: true, message: "Vui lòng nhập sĩ số" },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || !isNaN(Number(value))) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("Sĩ số phải là số"));
+              },
+            }),
+          ]}
+        >
+          <Input placeholder="Nhập sĩ số" />
+        </Form.Item>
+        <Form.Item
+          label="Ngày bắt đầu"
+          name="startDate"
+          rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu" }]}
+        >
+          <DatePicker />
+        </Form.Item>
+        <Form.Item
+          label="Ngày kết thúc"
+          name="endDate"
+          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc" }]}
+        >
+          <DatePicker />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
