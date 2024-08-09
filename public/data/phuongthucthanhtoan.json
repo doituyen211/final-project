@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Chuyển khoản"
+  },
+  {
+    "id": 2,
+    "name": "Tiền mặt"
+  },
+  {
+    "id": 3,
+    "name": "Thẻ tín dụng"
+  },
+  {
+    "id": 4,
+    "name": "Ví điện tử"
+  },
+  {
+    "id": 5,
+    "name": "Chuyển khoản qua ngân hàng"
+  }
+]
+

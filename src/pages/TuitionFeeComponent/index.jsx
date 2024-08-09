@@ -22,25 +22,21 @@ const INITIAL_STATE = {
         formFieldsProp: [
             {
                 name: "id_hoc_vien",
-                type: "number",
+                type: "select",
                 label: "ID Học viên",
                 placeholder: "Nhập ID học viên",
-                validation: Yup.number()
-                    .typeError('ID học viên phải là một số')
-                    .required('ID học viên là bắt buộc')
-                    .positive('ID học viên phải là một số dương')
-                    .integer('ID học viên phải là một số nguyên'),
+                apiUrl: "/data/hocvien.json",
+                defaultOption: { value: "", label: "Chọn hoc vien" },
+                validation: Yup.string().required('Hoc vien là bắt buộc'),
             },
             {
                 name: "id_ctdt",
-                type: "number",
+                type: "select",
                 label: "ID Chương trình đào tạo",
                 placeholder: "Nhập ID chương trình đào tạo",
-                validation: Yup.number()
-                    .typeError('ID chương trình đào tạo phải là một số')
-                    .required('ID chương trình đào tạo là bắt buộc')
-                    .positive('ID chương trình đào tạo phải là một số dương')
-                    .integer('ID chương trình đào tạo phải là một số nguyên'),
+                apiUrl: "/data/program.json",
+                defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
+                validation: Yup.string().required('Tên chương trình là bắt buộc '),
             },
             {
                 name: "so_tien",
@@ -54,11 +50,12 @@ const INITIAL_STATE = {
             },
             {
                 name: "phuong_thuc_thanh_toan",
-                type: "text",
+                type: "select",
                 label: "Phương thức thanh toán",
-                placeholder: "Nhập phương thức thanh toán",
-                validation: Yup.string()
-                    .required('Phương thức thanh toán là bắt buộc'),
+                placeholder: "Chon phương thức thanh toán",
+                apiUrl: "/data/phuongthucthanhtoan.json",
+                defaultOption: { value: "", label: "Chon phương thức thanh toán" },
+                validation: Yup.string().required('Phuong thuc thanh toan là bắt buộc '),
             },
             {
                 name: "ngay_thanh_toan",
@@ -70,12 +67,10 @@ const INITIAL_STATE = {
             },
             {
                 name: "trang_thai",
-                type: "select",
+                type: "text",
                 label: "Trạng thái",
-                placeholder: "Chọn trạng thái",
-                apiUrl: "/data/status.json",  // Adjust API endpoint as needed
-                defaultOption: { value: "", label: "Chọn trạng thái" },
-                validation: Yup.string().required('Trạng thái là bắt buộc'),
+                placeholder: "Nhập ghi chú",
+                validation: Yup.string(),
             },
             {
                 name: "ghi_chu",
@@ -118,6 +113,8 @@ const TuitionFeeComponent = () => {
 
     const [statusOptions, setStatusOptions] = useState([]);
     const [programOptions, setProgramOptions] = useState([]);
+    const [hocvienOptions, setHocvienOptions] = useState([]);
+    const [paymentOptions, setPaymentOptions] = useState([]);
     const [formData, setFormData] = useState({
         subject_id: "",
         subject_name: "",
@@ -142,13 +139,7 @@ const TuitionFeeComponent = () => {
                 //         program,
                 //     },
                 // });
-                const { data } = await axios.get("https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee", {
-                    params: {
-                        page: page,
-                        limit: 10,
-                        search,
-                    },
-                });
+                const { data } = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
                 setState(prevState => ({
                     ...prevState,
                     dataTable: data,
@@ -189,12 +180,16 @@ const TuitionFeeComponent = () => {
 
     const fetchOptions = useCallback(async () => {
         try {
-            const [statusResponse, programResponse] = await Promise.all([
+            const [statusResponse, programResponse,hocvienResponse, paymentResponse] = await Promise.all([
                 axios.get("/data/status.json"),
                 axios.get("/data/program.json"),
+                axios.get("/data/hocvien.json"),
+                axios.get("/data/phuongthucthanhtoan.json")
             ]);
             setStatusOptions(statusResponse.data);
             setProgramOptions(programResponse.data);
+            setHocvienOptions(hocvienResponse.data);
+            setPaymentOptions(paymentResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
         }
@@ -361,16 +356,22 @@ const TuitionFeeComponent = () => {
                                         {state.dataTable.map((item, index) => (
                                             <tr key={item.subject_id}>
                                                 <td>{index + 10 * (currentPage - 1) + 1}</td>
-                                                <td>{item.id_hoc_vien}</td>
-                                                <td>{item.id_ctdt}</td>
-                                                <td>{item.so_tien}</td>
-                                                <td>{item.phuong_thuc_thanh_toan}</td>
-                                                <td>{item.ngay_thanh_toan ? new Date(item.ngay_thanh_toan).toLocaleDateString() : 'N/A'}</td>
-                                                <td className={item.trang_thai === 0 ? "text-success" : item.trang_thai === 1 ? "text-secondary" : ""}>
-                                                    {statusOptions.find(status => status.id === item.trang_thai)?.name || 'N/A'}
-                                                </td>
-                                                <td>{item.ghi_chu || 'N/A'}</td>
                                                 <td>
+                                                    {hocvienOptions.find(hocvien => hocvien.id === item.id_hoc_vien)?.name || 'N/A'}
+                                                </td>
+                                                <td>
+                                                    {programOptions.find(program => program.id === item.id_ctdt)?.name || 'N/A'}
+                                                </td>
+                                                <td>{item.so_tien}</td>
+                                                <td>
+                                                    {paymentOptions.find(payment => payment.id === item.phuong_thuc_thanh_toan)?.name || 'N/A'}
+                                                </td>
+                                                <td>{item.ngay_thanh_toan ? new Date(item.ngay_thanh_toan).toLocaleDateString() : 'N/A'}</td>
+                                                <td >
+                                                    {item.trang_thai}
+                                                </td>
+                                                <td>{item.ghi_chu || ''}</td>
+                                                <td className="d-flex col-2">
                                                     <Button
                                                         variant="light"
                                                         className="me-1"
