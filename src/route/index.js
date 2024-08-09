@@ -4,11 +4,7 @@ import {
   SubjectComponent, TuitionFeeComponent,
   UserComponent,
   ClassMembersComponent,
-<<<<<<< src/route/index.js
-  SubjectComponentLayout2,
-  ClassMembersComponent,
-=======
->>>>>>> src/route/index.js
+
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
