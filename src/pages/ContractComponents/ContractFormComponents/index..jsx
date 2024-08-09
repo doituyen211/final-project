@@ -147,6 +147,7 @@ const ContractForm = ({ onSubmit, contracts }) => {
                 />
                 {errors.salary && <div className="text-danger">{errors.salary}</div>}
             </div>
+        
             <div className="form-group">
                 <label>Ngày bắt đầu</label>
                 <InputComponents
