@@ -333,7 +333,7 @@ const SubjectComponent = () => {
                                                 <td className={item.status === 0 ? "text-success": item.status === 1 ? "text-secondary" : ""}>
                                                     {statusOptions.find(status => status.id === item.status)?.name || 'N/A'}
                                                 </td>
-                                                <td>
+                                                <td className="col-2">
                                                     <Button
                                                         variant="light"
                                                         className="me-1"
