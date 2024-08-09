@@ -3,10 +3,17 @@ import {
   ScheduleComponent3,
   SubjectComponent, TuitionFeeComponent,
   UserComponent,
+  ClassMembersComponent,
+<<<<<<< src/route/index.js
+  SubjectComponentLayout2,
+  ClassMembersComponent,
+=======
+>>>>>>> src/route/index.js
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
+
 
 export const routeSideBar = [
   {
@@ -61,6 +68,7 @@ export const routeSideBar = [
         name: "Quản lý thành viên lớp",
         icon: "nav-icon fas fa-users",
         to: "/class-members",
+        component: ClassMembersComponent,
       },
       {
         name: "Quản lý chương trình đào tạo",
