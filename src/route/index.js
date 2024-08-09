@@ -119,6 +119,12 @@ export const routeSideBar = [
         to: "/marketing-campaigns", // Define the route for the new component
         component: MarketingCampaignComponent, // Add your new component here
       },
+      {
+        name: "Quản lý chương trình đào tạo",
+        icon: "nav-icon fas fa-cogs",
+        to: "/programs",
+        component: TrainningProgramComponent,
+      },
     ]
   },
 
