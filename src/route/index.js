@@ -1,15 +1,14 @@
 import {
     CourseComponent,
-    // ScheduleComponent3,
     ScheduleComponent2,
     SubjectComponent,
     UserComponent,
     SubjectComponentLayout2,
+    ReservationComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
-import ReservationComponent from "../pages/ReservationComponent";
 
 export const routeSideBar = [
     {

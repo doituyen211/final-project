@@ -504,6 +504,73 @@ const ScheduleComponent2 = () => {
                                     </h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
+                                        <div className="col-md-2 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus2"
+                                                aria-label="Program"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={program}
+                                                onChange={handleProgramChange}
+                                            >
+                                                <option value="">
+                                                    Chọn phòng học
+                                                </option>
+                                                {programOptions.map(
+                                                    (option) => (
+                                                        <option
+                                                            key={option.value}
+                                                            value={option.id}
+                                                        >
+                                                            {option.name}
+                                                        </option>
+                                                    )
+                                                )}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-2 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus2"
+                                                aria-label="Program"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={program}
+                                                onChange={handleProgramChange}
+                                            >
+                                                <option value="">
+                                                    Chọn mã lớp
+                                                </option>
+                                                {programOptions.map(
+                                                    (option) => (
+                                                        <option
+                                                            key={option.value}
+                                                            value={option.id}
+                                                        >
+                                                            {option.name}
+                                                        </option>
+                                                    )
+                                                )}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-2 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus1"
+                                                aria-label="Status"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={status}
+                                                onChange={handleStatusChange}
+                                            >
+                                                <option value="">
+                                                    Chọn giảng viên
+                                                </option>
+                                                {statusOptions.map((option) => (
+                                                    <option
+                                                        key={option.value}
+                                                        value={option.id}
+                                                    >
+                                                        {option.name}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </div>
 
                                         <div className="col-md-5 d-flex align-items-start divSearch">
                                             <input
