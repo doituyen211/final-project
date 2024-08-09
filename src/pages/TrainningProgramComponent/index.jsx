@@ -11,6 +11,7 @@ import NotificationComponent from '../../components/NotificationComponent';
 
 const TrainningProgramComponent = () => {
     const [dataTable, setDataTable] = useState([]);
+    const [role, setRole] = useState('ADMIN')
     const cols = ['Tên chương trình', 'Khóa học', 'Học phí', 'Thời gian đào tạo', 'Trạng thái', '']
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +28,6 @@ const TrainningProgramComponent = () => {
     const getAllTrainningProgram = async (page, searchItem) => {
         try {
             let response = await fetchAllTrainingPrograms(page, searchItem);
-            console.log(response)
             if (response || response.data) {
                 // console.log("DATA" + JSON.stringify(response))
                 setDataTable(response);
@@ -42,8 +42,12 @@ const TrainningProgramComponent = () => {
 
     };
     const handleClose = () => {
+
         setIsShowModal(false)
         setIsEditMode(false);
+        setEditData(null);
+        console.log(editData)
+
     }
     const handleUpdateTable = (data) => {
         if (isEditMode == true) {
