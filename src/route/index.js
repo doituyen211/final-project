@@ -1,14 +1,17 @@
 import {
     CourseComponent,
+    MarketingCampaignComponent,
     ScheduleComponent2,
     SubjectComponent,
+    TuitionFeeComponent,
     UserComponent,
+    ClassMembersComponent,
     SubjectComponentLayout2,
     ReservationComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
+import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 
 export const routeSideBar = [
     {
@@ -58,12 +61,12 @@ export const routeSideBar = [
                 name: "Quản lý bảo lưu",
                 icon: "nav-icon fas fa-pause-circle",
                 to: "/reservations",
-                component: ReservationComponent,
             },
             {
                 name: "Quản lý thành viên lớp",
                 icon: "nav-icon fas fa-users",
                 to: "/class-members",
+                component: ClassMembersComponent,
             },
             {
                 name: "Quản lý chương trình đào tạo",
@@ -98,6 +101,25 @@ export const routeSideBar = [
                 name: "Quản lý điểm số",
                 icon: "nav-icon fas fa-chart-line",
                 to: "/grades",
+            },
+        ],
+    },
+    {
+        name: "Sales",
+        icon: "nav-icon fas fa-dollar-sign",
+        to: "#",
+        child: [
+            {
+                name: "Quản lý học phí",
+                icon: "nav-icon fas fa-money-bill-wave",
+                to: "/tuitionfee",
+                component: TuitionFeeComponent,
+            },
+            {
+                name: "Chến dịch quảng cáo",
+                icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
+                to: "/marketing-campaigns", // Define the route for the new component
+                component: MarketingCampaignComponent, // Add your new component here
             },
         ],
     },
