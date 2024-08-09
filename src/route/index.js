@@ -1,15 +1,18 @@
 import {
-  CourseComponent, MarketingCampaignComponent,
+  CourseComponent,
+  MarketingCampaignComponent,
   ScheduleComponent3,
-  SubjectComponent, TuitionFeeComponent,
+  SubjectComponent,
+  TuitionFeeComponent,
   UserComponent,
+  ScoreComponent,
+  StudentComponent,
+  SubjectComponentLayout2,
   ClassMembersComponent,
-
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
-
 
 export const routeSideBar = [
   {
@@ -42,6 +45,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
+        component: StudentComponent,
       },
       {
         name: "Quản lý môn học",
@@ -99,6 +103,7 @@ export const routeSideBar = [
         name: "Quản lý điểm số",
         icon: "nav-icon fas fa-chart-line",
         to: "/grades",
+        component: ScoreComponent,
       },
     ],
   },
@@ -111,7 +116,7 @@ export const routeSideBar = [
         name: "Quản lý học phí",
         icon: "nav-icon fas fa-money-bill-wave",
         to: "/tuitionfee",
-        component: TuitionFeeComponent
+        component: TuitionFeeComponent,
       },
       {
         name: "Chến dịch quảng cáo",
@@ -125,7 +130,6 @@ export const routeSideBar = [
         to: "/programs",
         component: TrainningProgramComponent,
       },
-    ]
+    ],
   },
-
 ];
