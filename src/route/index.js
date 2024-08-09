@@ -1,10 +1,17 @@
 import {
-  CourseComponent,
-  MarketingCampaignComponent,
-  ScheduleComponent3,
-  SubjectComponent,
-  TuitionFeeComponent,
-  UserComponent,
+    BookComponent,
+    ContractComponents,
+    CourseComponent,
+    DecisionComponent,
+    DepartmentComponent,
+    LiabilityComponents,
+    MarketingCampaignComponent,
+    PersonelComponents,
+    QualificationComponents,
+    ScheduleComponent3,
+    SubjectComponent,
+    TuitionFeeComponent,
+    UserComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -91,28 +98,33 @@ export const routeSideBar = [
                 name: "Quản lý học viên",
                 icon: "nav-icon fas fa-user",
                 to: "/students",
+                component: BookComponent,
             },
             {
                 name: "Quản lý môn học",
                 icon: "nav-icon fas fa-book",
-                component: SubjectComponent,
                 to: "/subjects",
+                component: SubjectComponent,
+
             },
             {
                 name: "Quản lý lớp",
                 icon: "nav-icon fas fa-chalkboard-teacher",
-                component: ClassComponent,
                 to: "/classes",
+                component: ClassComponent,
+
             },
             {
                 name: "Quản lý bảo lưu",
                 icon: "nav-icon fas fa-pause-circle",
                 to: "/reservations",
+                component: BookComponent,
             },
             {
                 name: "Quản lý thành viên lớp",
                 icon: "nav-icon fas fa-users",
                 to: "/class-members",
+                component: BookComponent,
             },
             {
                 name: "Quản lý chương trình đào tạo",
@@ -124,6 +136,7 @@ export const routeSideBar = [
                 name: "Quản lý điểm danh",
                 icon: "nav-icon fas fa-calendar-check",
                 to: "/attendance",
+                component: BookComponent,
             },
             {
                 name: "Quản lý khoá học",
@@ -147,6 +160,7 @@ export const routeSideBar = [
                 name: "Quản lý điểm số",
                 icon: "nav-icon fas fa-chart-line",
                 to: "/grades",
+                component: BookComponent,
             },
         ],
     },
