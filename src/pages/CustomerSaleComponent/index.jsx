@@ -7,9 +7,10 @@ import API from "../../store/Api";
 import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
-import "./SubjectComponent.scss";
+import "./TuitionFeeComponent.scss";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/InputComponents";
+import TuitionFeeForm from "./TuitionFeeForm";
 
 const INITIAL_STATE = {
     dataTable: [],
@@ -21,60 +22,66 @@ const INITIAL_STATE = {
         action: "",
         formFieldsProp: [
             {
-                name: "subject_name",
-                type: "text",
-                label: "Tên môn học",
-                placeholder: "Nhập tên môn học",
-                validation: Yup.string()
-                    .matches(/^[a-zA-Z0-9_\-\s]+$/, 'Tên môn học chỉ chứa kí tự, số, dấu gạch dưới và khoảng tắng')
-                    .required('Tên môn học là bắt buộc '),
-
-            },
-            {
-                name: "training_duration",
-                type: "number",
-                label: "Thời lượng đào tạo",
-                placeholder: "Nhập thời lượng đào tạo",
-                validation: Yup.number()
-                    .typeError('Thời lượng đào tạo phải là một số')
-                    .required('Thời lượng đào tạo là bắt buộc')
-                    .positive('Thời lượng đào tạo là một số dương')
-                    .integer('Thời lượng đào tạo phải là 1 số nguyên'),
-
-            },
-            {
-                name: "training_program_id",
+                name: "id_ctdt",
                 type: "select",
                 label: "Chương trình đào tạo",
-                placeholder: "Chọn 1 chương trình đào tạo",
+                placeholder: "Nhập ID chương trình đào tạo",
                 apiUrl: "/data/program.json",
                 defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
-                validation: Yup.string().required('Tên chương trình là bắt buộc '),            },
+                validation: Yup.string().required('Tên chương trình là bắt buộc '),
+            },
             {
-                name: "status",
-                type: "select",
+                name: "so_tien",
+                type: "number",
+                label: "Số tiền",
+                placeholder: "Nhập số tiền",
+                validation: Yup.number()
+                    .typeError('Số tiền phải là một số')
+                    .required('Số tiền là bắt buộc')
+                    .positive('Số tiền phải là một số dương'),
+            },
+            {
+                name: "phuong_thuc_thanh_toan",
+                type: "checkbox",
+                label: "Phương thức thanh toán",
+                placeholder: "Chon phương thức thanh toán",
+                apiUrl: "/data/phuongthucthanhtoan.json",
+                defaultOption: { value: "", label: "Chon phương thức thanh toán" },
+                validation: Yup.string().required('Phuong thuc thanh toan là bắt buộc '),
+            },
+
+            {
+                name: "trang_thai",
+                type: "text",
                 label: "Trạng thái",
-                placeholder: "Chọn trạng thái",
-                apiUrl: "/data/status.json",
-                defaultOption: { value: "", label: "Chọn trạng thái" },
-                validation: Yup.string().required('Trạng thái là bắt buộc'),            },
+                placeholder: "Nhập ghi chú",
+                validation: Yup.string(),
+            },
+            {
+                name: "ghi_chu",
+                type: "textarea",
+                label: "Ghi chú",
+                placeholder: "Nhập ghi chú",
+                validation: Yup.string(),
+            },
         ],
         initialIsEdit: false,
         initialIdCurrent: null,
         api: API.SUBJECT,
     },
 };
-
 const COLUMNS = [
-    "STT",
-    "Tên môn học",
-    "Thời lượng",
-    "Tên chương trình học",
-    "Trạng thái",
-    "",
+    "STT",                    // Serial number or index
+    "ID Chương trình đào tạo", // ID of the training program
+    "Số tiền",                // Amount of payment
+    "Phương thức thanh toán chấp nhận",  // Payment method
+    "Trạng thái",             // Status
+    "Ghi chú",                // Notes or comments
+    "",                       // Empty column for actions or additional features
 ];
 
-const SubjectComponent = () => {
+
+const CustomerSaleComponent = () => {
     const [state, setState] = useState(INITIAL_STATE);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -89,6 +96,8 @@ const SubjectComponent = () => {
 
     const [statusOptions, setStatusOptions] = useState([]);
     const [programOptions, setProgramOptions] = useState([]);
+    const [hocvienOptions, setHocvienOptions] = useState([]);
+    const [paymentOptions, setPaymentOptions] = useState([]);
     const [formData, setFormData] = useState({
         subject_id: "",
         subject_name: "",
@@ -103,21 +112,22 @@ const SubjectComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                // if (search !== "" || status !== "" || program !== "") page = 1;
-                const { data } = await axios.get(api, {
-                    params: {
-                        page: page,
-                        pageSize: 10,
-                        search,
-                        status,
-                        program,
-                    },
-                });
+                if (search !== "" || status !== "" || program !== "") page = 1;
+                // const { data } = await axios.get(api, {
+                //     params: {
+                //         page: page,
+                //         pageSize: 10,
+                //         search,
+                //         status,
+                //         program,
+                //     },
+                // });
+                const { data } = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
                 setState(prevState => ({
                     ...prevState,
-                    dataTable: data.content,
+                    dataTable: data,
                 }));
-                setCurrentPage(data.page);
+                setCurrentPage(page);
                 setTotalPages(data.totalPages);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -153,12 +163,14 @@ const SubjectComponent = () => {
 
     const fetchOptions = useCallback(async () => {
         try {
-            const [statusResponse, programResponse] = await Promise.all([
+            const [statusResponse, programResponse, paymentResponse] = await Promise.all([
                 axios.get("/data/status.json"),
                 axios.get("/data/program.json"),
+                axios.get("/data/phuongthucthanhtoan.json")
             ]);
             setStatusOptions(statusResponse.data);
             setProgramOptions(programResponse.data);
+            setPaymentOptions(paymentResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
         }
@@ -206,12 +218,12 @@ const SubjectComponent = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Quản lý Môn học</h1>
+                            <h1>Quản lý học phí</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item active">Home</li>
-                                <li className="breadcrumb-item active">Quản lý môn học</li>
+                                <li className="breadcrumb-item active">Quản lý học phí</li>
                             </ol>
                         </div>
                     </div>
@@ -223,7 +235,7 @@ const SubjectComponent = () => {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
-                                    <FormComponentWithValidation
+                                    <TuitionFeeForm
                                         formFieldsProp={state.modalProps.formFieldsProp}
                                         initialData={formData}
                                         actionModal={actionModal}
@@ -240,32 +252,32 @@ const SubjectComponent = () => {
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="text-start mb-4">Danh sách môn học</h3>
+                                    <h3 className="text-start mb-4">Danh sách học phí</h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
-                                            >
-                                                <option value="">
-                                                    Chọn chương trình học
-                                                </option>
-                                                {programOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
+                                        {/*<div className="col-md-3 d-flex align-items-center gap-3">*/}
+                                        {/*    <Form.Select*/}
+                                        {/*        id="programStatus2"*/}
+                                        {/*        aria-label="Program"*/}
+                                        {/*        className="form-select rounded-pill border-secondary flex-fill"*/}
+                                        {/*        value={program}*/}
+                                        {/*        onChange={handleProgramChange}*/}
+                                        {/*    >*/}
+                                        {/*        <option value="">*/}
+                                        {/*            Chọn chương trình học*/}
+                                        {/*        </option>*/}
+                                        {/*        {programOptions.map(*/}
+                                        {/*            (option) => (*/}
+                                        {/*                <option*/}
+                                        {/*                    key={option.value}*/}
+                                        {/*                    value={option.id}*/}
+                                        {/*                >*/}
+                                        {/*                    {option.name}*/}
+                                        {/*                </option>*/}
+                                        {/*            )*/}
+                                        {/*        )}*/}
+                                        {/*    </Form.Select>*/}
+                                        {/*</div>*/}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
                                             <Form.Select
                                                 id="programStatus1"
@@ -325,22 +337,31 @@ const SubjectComponent = () => {
                                         {state.dataTable.map((item, index) => (
                                             <tr key={item.subject_id}>
                                                 <td>{index + 10 * (currentPage - 1) + 1}</td>
-                                                <td>{item.subject_name}</td>
-                                                <td>{item.training_duration}</td>
                                                 <td>
-                                                    {programOptions.find(program => program.id === item.training_program_id)?.name || 'N/A'}
+                                                    {programOptions.find(program => program.id === item.id_ctdt)?.name || 'N/A'}
                                                 </td>
-                                                <td className={item.status === 0 ? "text-success": item.status === 1 ? "text-secondary" : ""}>
-                                                    {statusOptions.find(status => status.id === item.status)?.name || 'N/A'}
+                                                <td>{item.so_tien}</td>
+                                                <td>
+                                                    {item.phuong_thuc_thanh_toan
+                                                        .map(value => {
+                                                            const paymentMethod = paymentOptions.find(payment => payment.id === value);
+                                                            return paymentMethod ? paymentMethod.name : 'N/A';
+                                                        })
+                                                        .join(', ')}
                                                 </td>
-                                                <td className="col-2">
+                                                {/*<td>{item.ngay_thanh_toan ? new Date(item.ngay_thanh_toan).toLocaleDateString() : 'N/A'}</td>*/}
+                                                <td >
+                                                    {item.trang_thai}
+                                                </td>
+                                                <td>{item.ghi_chu || ''}</td>
+                                                <td className="d-flex col-2">
                                                     <Button
                                                         variant="light"
                                                         className="me-1"
                                                         onClick={() => {
-                                                           setFormData(item)
+                                                            setFormData(item)
                                                             setInitialIdCurrent(item.subject_id);
-                                                           setActionModal('VIEW')
+                                                            setActionModal('VIEW')
                                                         }}
                                                     >
                                                         <BsEye />
@@ -397,4 +418,6 @@ const SubjectComponent = () => {
     );
 };
 
-export default SubjectComponent;
+export default CustomerSaleComponent;
+
+
