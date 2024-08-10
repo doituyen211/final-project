@@ -6,8 +6,8 @@ import {
   TuitionFeeComponent,
   UserComponent,
   ScoreComponent,
-  // StudentComponent,
-  ClassMembersComponent,
+  CustomerSaleComponent,
+  ClassMembersComponent, StudentComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -44,7 +44,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
-        // component: StudentComponent,
+        component: StudentComponent,
       },
       {
         name: "Quản lý môn học",
@@ -122,8 +122,16 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
         to: "/marketing-campaigns", // Define the route for the new component
         component: MarketingCampaignComponent, // Add your new component here
-      },
-      {
+      }
+      ,
+        {
+            name: "Quản lý khách hàng",
+            icon: "nav-icon fas fa-user",  // Updated icon class
+            to: "/khach-hang",
+            component: CustomerSaleComponent,
+        }
+,
+        {
         name: "Quản lý chương trình đào tạo",
         icon: "nav-icon fas fa-cogs",
         to: "/programs",
