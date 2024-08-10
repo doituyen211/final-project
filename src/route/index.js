@@ -124,13 +124,14 @@ export const routeSideBar = [
         component: MarketingCampaignComponent, // Add your new component here
       }
       ,
-      {
-        name: "Quản lý chương trình đào tạo",
-        icon: "nav-icon fas fa-cogs",
-        to: "/programs",
-        component: CustomerSaleComponent,
-      },
-      {
+        {
+            name: "Quản lý khách hàng",
+            icon: "nav-icon fas fa-user",  // Updated icon class
+            to: "/khach-hang",
+            component: CustomerSaleComponent,
+        }
+,
+        {
         name: "Quản lý chương trình đào tạo",
         icon: "nav-icon fas fa-cogs",
         to: "/programs",

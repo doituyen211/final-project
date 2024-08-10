@@ -7,11 +7,10 @@ import API from "../../store/Api";
 import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
-import "./TuitionFeeComponent.scss";
+import "./CustomerSaleComponent.scss";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/InputComponents";
-import TuitionFeeForm from "./TuitionFeeForm";
-
+import CustomerSaleForm from "./CustomerSaleForm" ;
 const INITIAL_STATE = {
     dataTable: [],
     titleTable: "SubjectComponent",
@@ -218,12 +217,12 @@ const CustomerSaleComponent = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Quản lý học phí</h1>
+                            <h1>Quản lý khách hàng</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item active">Home</li>
-                                <li className="breadcrumb-item active">Quản lý học phí</li>
+                                <li className="breadcrumb-item active">Quản lý khách hàng</li>
                             </ol>
                         </div>
                     </div>
@@ -235,7 +234,7 @@ const CustomerSaleComponent = () => {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
-                                    <TuitionFeeForm
+                                    <CustomerSaleForm
                                         formFieldsProp={state.modalProps.formFieldsProp}
                                         initialData={formData}
                                         actionModal={actionModal}
@@ -252,7 +251,7 @@ const CustomerSaleComponent = () => {
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="text-start mb-4">Danh sách học phí</h3>
+                                    <h3 className="text-start mb-4">Danh sách khách hàng</h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
                                         {/*<div className="col-md-3 d-flex align-items-center gap-3">*/}
