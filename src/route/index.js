@@ -1,8 +1,13 @@
 import {
-  CourseComponent, MarketingCampaignComponent,
+  CourseComponent,
+  MarketingCampaignComponent,
   ScheduleComponent3,
-  SubjectComponent, TuitionFeeComponent,
+  SubjectComponent,
+  TuitionFeeComponent,
   UserComponent,
+  ScoreComponent,
+  // StudentComponent,
+  ClassMembersComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -39,6 +44,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
+        // component: StudentComponent,
       },
       {
         name: "Quản lý môn học",
@@ -61,6 +67,7 @@ export const routeSideBar = [
         name: "Quản lý thành viên lớp",
         icon: "nav-icon fas fa-users",
         to: "/class-members",
+        component: ClassMembersComponent,
       },
       {
         name: "Quản lý chương trình đào tạo",
@@ -95,6 +102,7 @@ export const routeSideBar = [
         name: "Quản lý điểm số",
         icon: "nav-icon fas fa-chart-line",
         to: "/grades",
+        component: ScoreComponent,
       },
     ],
   },
@@ -107,7 +115,7 @@ export const routeSideBar = [
         name: "Quản lý học phí",
         icon: "nav-icon fas fa-money-bill-wave",
         to: "/tuitionfee",
-        component: TuitionFeeComponent
+        component: TuitionFeeComponent,
       },
       {
         name: "Chến dịch quảng cáo",
@@ -115,7 +123,12 @@ export const routeSideBar = [
         to: "/marketing-campaigns", // Define the route for the new component
         component: MarketingCampaignComponent, // Add your new component here
       },
-    ]
+      {
+        name: "Quản lý chương trình đào tạo",
+        icon: "nav-icon fas fa-cogs",
+        to: "/programs",
+        component: TrainningProgramComponent,
+      },
+    ],
   },
-
 ];

@@ -9,6 +9,7 @@ const API = {
   SUBJECT: `${BASE_URL}/subject`,
   COURSE: `${BASE_URL}/khoa_hoc`,
   SCHEDULE: `${BASE_URL}/lich_hoc`,
+  CLASSMEMBERS:`${BASE_URL}/thanh_vien_lop`,
 
   CLASS: `${BASE_URL}/class`,
     TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`
