@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Table, Modal, Form, ModalHeader, ModalBody } from "react-bootstrap";
+import {Table, Modal, Form, ModalHeader, ModalBody, Button} from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -230,24 +230,24 @@ function General({ data, handleViewData, handleDelete, handleShowUpdateForm }) {
               </td>
               <td style={{ border: "1px solid black" }}>{item.status}</td>
               <td style={{ border: "1px solid black" }}>
-                <button
+                <Button
                   className="m-2 btn btn-secondary btn-sm"
                   onClick={() => handleViewData(item.id)}
                 >
                   <i className="bi bi-eye"></i>
-                </button>
-                <button
+                </Button>
+                <Button
                   className="m-2 btn btn-success btn-sm"
                   onClick={() => handleShowUpdateForm(item)}
                 >
                   <i className="bi bi-pencil-square"></i>
-                </button>
-                <button
+                </Button>
+                <Button
                   className="m-2 btn btn-danger btn-sm"
                   onClick={() => handleDelete(item.id)}
                 >
                   <i className="bi bi-x-octagon"></i>
-                </button>
+                </Button>
               </td>
             </tr>
           ))}

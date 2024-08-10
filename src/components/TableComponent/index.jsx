@@ -42,7 +42,7 @@ function TableComponents(props) {
               ))}
               <td className="text-center">
                 <Button
-                  variant="light"
+                  variant="link"
                   className="me-2"
                   onClick={() => {
                     if (!useModal) {
@@ -54,10 +54,10 @@ function TableComponents(props) {
                     }
                   }}
                 >
-                  <BsEye />
+                  <BsEye className="text-secondary"/>
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="link"
                   className="me-2"
                   onClick={() => {
                     if (!useModal) {
@@ -69,11 +69,11 @@ function TableComponents(props) {
                     }
                   }}
                 >
-                  <BsPencil />
+                  <BsPencil className="text-primary" />
                 </Button>
 
-                <Button variant="danger" onClick={() => actionDelete(row)}>
-                  <BsTrash />
+                <Button variant="link" onClick={() => actionDelete(row)}>
+                  <BsTrash  className="text-danger"/>
                 </Button>
               </td>
             </tr>
