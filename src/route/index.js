@@ -7,7 +7,7 @@ import {
   UserComponent,
   ScoreComponent,
   CustomerSaleComponent,
-  ClassMembersComponent,
+  ClassMembersComponent, StudentComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -44,7 +44,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
-        // component: StudentComponent,
+        component: StudentComponent,
       },
       {
         name: "Quản lý môn học",

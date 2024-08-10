@@ -10,6 +10,7 @@ import SubjectComponentLayout2 from "./SubjectComponentLayout2";
 import TuitionFeeComponent from "./TuitionFeeComponent";
 import MarketingCampaignComponent from "./MarketingCampaignComponent";
 import ClassMembersComponent from "./ClassMembersComponent";
+import StudentComponent from "./StudentComponent" ;
 export {
   BookComponent,
   CourseComponent,
@@ -23,4 +24,5 @@ export {
   MarketingCampaignComponent,
   ClassMembersComponent,
   CustomerSaleComponent,
+  StudentComponent,
 };
