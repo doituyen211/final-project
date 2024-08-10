@@ -7,11 +7,12 @@ import {
   UserComponent,
   ScoreComponent,
   CustomerSaleComponent,
-  ClassMembersComponent, StudentComponent,
+  ClassMembersComponent, StudentComponent, ReservationsComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
+import AttendanceComponent from "../pages/AttendanceComponent";
 
 export const routeSideBar = [
   {
@@ -62,6 +63,7 @@ export const routeSideBar = [
         name: "Quản lý bảo lưu",
         icon: "nav-icon fas fa-pause-circle",
         to: "/reservations",
+        component: ReservationsComponent
       },
       {
         name: "Quản lý thành viên lớp",
@@ -79,6 +81,7 @@ export const routeSideBar = [
         name: "Quản lý điểm danh",
         icon: "nav-icon fas fa-calendar-check",
         to: "/attendance",
+        component: AttendanceComponent,
       },
       {
         name: "Quản lý khoá học",
