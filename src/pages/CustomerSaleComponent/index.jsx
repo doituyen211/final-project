@@ -11,6 +11,11 @@ import "./CustomerSaleComponent.scss";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/InputComponents";
 import CustomerSaleForm from "./CustomerSaleForm" ;
+import {FaArrowRight, FaFileExport, FaFileImport, FaPlus, FaSync} from "react-icons/fa";
+import {Modal} from "react-bootstrap";
+import ImportExcelForm from "./ImportExcelForm";
+import ExportExcelForm from "./ExportExcelForm";
+import AssignDataForm from "./AssignDataForm";
 const INITIAL_STATE = {
     dataTable: [],
     titleTable: "SubjectComponent",
@@ -19,49 +24,84 @@ const INITIAL_STATE = {
     modalProps: {
         show: false,
         action: "",
-        formFieldsProp: [
+        formFieldsProp : [
             {
-                name: "id_ctdt",
-                type: "select",
-                label: "Chương trình đào tạo",
-                placeholder: "Nhập ID chương trình đào tạo",
-                apiUrl: "/data/program.json",
-                defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
-                validation: Yup.string().required('Tên chương trình là bắt buộc '),
-            },
-            {
-                name: "so_tien",
-                type: "number",
-                label: "Số tiền",
-                placeholder: "Nhập số tiền",
-                validation: Yup.number()
-                    .typeError('Số tiền phải là một số')
-                    .required('Số tiền là bắt buộc')
-                    .positive('Số tiền phải là một số dương'),
-            },
-            {
-                name: "phuong_thuc_thanh_toan",
-                type: "checkbox",
-                label: "Phương thức thanh toán",
-                placeholder: "Chon phương thức thanh toán",
-                apiUrl: "/data/phuongthucthanhtoan.json",
-                defaultOption: { value: "", label: "Chon phương thức thanh toán" },
-                validation: Yup.string().required('Phuong thuc thanh toan là bắt buộc '),
-            },
-
-            {
-                name: "trang_thai",
+                name: "customer_name",
                 type: "text",
-                label: "Trạng thái",
-                placeholder: "Nhập ghi chú",
+                label: "Tên khách hàng",
+                placeholder: "Nhập tên khách hàng",
+                validation: Yup.string().required('Tên khách hàng là bắt buộc'),
+            },
+            {
+                name: "gender",
+                type: "select",
+                label: "Giới tính",
+                placeholder: "Chọn giới tính",
+                apiUrl: "/data/gender.json",
+                defaultOption: { value: "", label: "Chọn giới tính" },
+                validation: Yup.string().required('Giới tính là bắt buộc'),
+            },
+            {
+                name: "program_interest",
+                type: "select",
+                label: "Chương trình học quan tâm",
+                placeholder: "Chọn chương trình học",
+                apiUrl: "/data/program.json",
+                defaultOption: { value: "", label: "Chọn chương trình học" },
+                validation: Yup.string().required('Chương trình học là bắt buộc'),
+            },
+            {
+                name: "record_time",
+                type: "datetime",
+                label: "Thời gian ghi nhận",
+                placeholder: "Chọn thời gian",
+                validation: Yup.date().required('Thời gian ghi nhận là bắt buộc'),
+            },
+            {
+                name: "responsible_person",
+                type: "select",
+                label: "Người phụ trách",
+                placeholder: "Chọn người phụ trách",
+                apiUrl: "/data/responsible_person.json", // URL to fetch options for responsible persons
+                defaultOption: { value: "", label: "Chọn người phụ trách" },
+                validation: Yup.string().required('Người phụ trách là bắt buộc'),
+            },
+            {
+                name: "phone_number",
+                type: "text",
+                label: "Số điện thoại",
+                placeholder: "Nhập số điện thoại",
+                validation: Yup.string().matches(/^[0-9]+$/, 'Số điện thoại không hợp lệ').required('Số điện thoại là bắt buộc'),
+            },
+            {
+                name: "source",
+                type: "text",
+                label: "Nguồn",
+                placeholder: "Nhập nguồn",
+                validation: Yup.string().required('Nguồn là bắt buộc'),
+            },
+            {
+                name: "address",
+                type: "text",
+                label: "Địa chỉ (nếu cần)",
+                placeholder: "Nhập địa chỉ",
                 validation: Yup.string(),
             },
             {
-                name: "ghi_chu",
+                name: "note",
                 type: "textarea",
                 label: "Ghi chú",
                 placeholder: "Nhập ghi chú",
                 validation: Yup.string(),
+            },
+            {
+                name: "trang_thai",
+                type: "select",
+                label: "Trạng thái",
+                placeholder: "Chọn trạng thái",
+                apiUrl: "/data/status.json", // URL to fetch options for status
+                defaultOption: { value: "", label: "Chọn trạng thái" },
+                validation: Yup.string().required('Trạng thái là bắt buộc'),
             },
         ],
         initialIsEdit: false,
@@ -70,13 +110,18 @@ const INITIAL_STATE = {
     },
 };
 const COLUMNS = [
-    "STT",                    // Serial number or index
-    "ID Chương trình đào tạo", // ID of the training program
-    "Số tiền",                // Amount of payment
-    "Phương thức thanh toán chấp nhận",  // Payment method
-    "Trạng thái",             // Status
-    "Ghi chú",                // Notes or comments
-    "",                       // Empty column for actions or additional features
+    "STT",
+    "Tên khách hàng",
+    "Giới tính",
+    "Chương trình học quan tâm",
+    "Thời gian ghi nhận",
+    "Người phụ trách",
+    "Số điện thoại",
+    "Nguồn",
+    "Địa chỉ (nếu cần)",
+    "Ghi chú",
+    "Trạng thái",
+    "",
 ];
 
 
@@ -88,39 +133,27 @@ const CustomerSaleComponent = () => {
     const [initialIdCurrent, setInitialIdCurrent] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
-    const [program, setProgram] = useState("");
-    const [status, setStatus] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-
     const [statusOptions, setStatusOptions] = useState([]);
     const [programOptions, setProgramOptions] = useState([]);
-    const [hocvienOptions, setHocvienOptions] = useState([]);
     const [paymentOptions, setPaymentOptions] = useState([]);
     const [formData, setFormData] = useState({
-        subject_id: "",
-        subject_name: "",
-        status: "",
-        training_duration: "",
-        training_program_id: "",
+        id: "",
+        customer_name: "",
+        gender: "",
+        program_interest: "",
+        record_time: "",
+        responsible_person: "",
+        phone_number: "",
+        source: "",
+        address: "",
+        note: "",
+        trang_thai: "",
     });
-
     const api = API.SUBJECT;
 
-    // Fetch data with optional filters
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                if (search !== "" || status !== "" || program !== "") page = 1;
-                // const { data } = await axios.get(api, {
-                //     params: {
-                //         page: page,
-                //         pageSize: 10,
-                //         search,
-                //         status,
-                //         program,
-                //     },
-                // });
                 const { data } = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
                 setState(prevState => ({
                     ...prevState,
@@ -132,33 +165,8 @@ const CustomerSaleComponent = () => {
                 console.error("Error fetching data:", error);
             }
         },
-        [api, status, program]
+        [api]
     );
-
-    const handleSearchChange = useCallback((event) => {
-        setSearchTerm(event.target.value);
-    }, []);
-
-    const handleSearch = useCallback(() => {
-        fetchData(searchTerm);
-    }, [fetchData, searchTerm]);
-
-    const handleProgramChange = useCallback((event) => {
-        setProgram(event.target.value);
-    }, []);
-
-    const handleStatusChange = useCallback((event) => {
-        setStatus(event.target.value);
-    }, []);
-
-    useEffect(() => {
-        fetchData("", currentPage);
-        fetchOptions();
-    }, [fetchData, currentPage]);
-
-    const handlePageChange = useCallback((pageNumber) => {
-        setCurrentPage(pageNumber);
-    }, []);
 
     const fetchOptions = useCallback(async () => {
         try {
@@ -175,21 +183,41 @@ const CustomerSaleComponent = () => {
         }
     }, []);
 
-    // Hàm xử lý xác nhận xóa
-    const confirmDelete = (item) => {
-        setDeleteItemId(item.subject_id);
-        setShowConfirmModal(true);
+    useEffect(() => {
+        fetchData("", currentPage);
+        fetchOptions();
+    }, [fetchData, currentPage, fetchOptions]);
+    const handleSearch = () => {
+        fetchData(state.searchTerm, currentPage);
     };
-
-    const handleSubmit = async (data) => {
-        // e.preventDefault();
+    const handleEdit = (id) => {
+        setInitialIdCurrent(id);
+        setActionModal("EDIT");
+        setState(prevState => ({
+            ...prevState,
+            modalShow: true
+        }));
+    };
+    const handleDelete = async (id) => {
         try {
-            console.log("FROM FORM : ", data)
+            await axios.delete(`${api}/${id}`);
+            toast.success("Xóa thành công!");
+            fetchData();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            toast.error("Failed to delete item.");
+        } finally {
+            setShowConfirmModal(false);
+        }
+    };
+    const handleSubmit = async (data) => {
+        try {
             const url = actionModal === 'EDIT' ? `${api}/${initialIdCurrent}` : api;
             const method = actionModal === 'EDIT' ? axios.put : axios.post;
-            await method(url,data );
+            await method(url, data);
             toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
-            fetchData(searchTerm, currentPage);
+            fetchData();
+            setState(prevState => ({ ...prevState, modalShow: false }));
             setFormData({
                 subject_id: "",
                 subject_name: "",
@@ -211,6 +239,15 @@ const CustomerSaleComponent = () => {
         }
     }, [actionModal, initialIdCurrent]);
 
+    const handlePageChange = useCallback((pageNumber) => {
+        setCurrentPage(pageNumber);
+    }, []);
+
+    const confirmDelete = (item) => {
+        setDeleteItemId(item.subject_id);
+        setShowConfirmModal(true);
+    };
+
     return (
         <>
             <section className="content-header">
@@ -231,85 +268,90 @@ const CustomerSaleComponent = () => {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row justify-content-center">
-                        <div className="col-md-4">
+                        <div className="col-md-12">
                             <div className="card">
                                 <div className="card-body">
-                                    <CustomerSaleForm
-                                        formFieldsProp={state.modalProps.formFieldsProp}
-                                        initialData={formData}
-                                        actionModal={actionModal}
-                                        onSubmit={handleSubmit}
-                                        onCancel={() => {
-                                            setState(prev => ({ ...prev, modalShow: false }));
-                                        }}
-                                        statusOptions={statusOptions}
-                                        programOptions={programOptions}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-8">
-                            <div className="card">
-                                <div className="card-body">
-                                    <h3 className="text-start mb-4">Danh sách khách hàng</h3>
+                                    <div className="d-flex align-items-start justify-content-between">
+                                        <h3 className="text-start mb-4">Danh sách khách hàng</h3>
+                                        <div className="d-flex align-items-center gap-3 mb-4">
+                                            <Button variant="primary" className="d-flex align-items-center" onClick={() => {
+                                                setActionModal("CREATE");
+                                                setState(prevState => ({
+                                                    ...prevState,
+                                                    modalShow: true
+                                                }));
+                                            }}>
+                                                <FaPlus className="me-2" /> Add
+                                            </Button>
+                                            <div className="vr mx-2" />
+                                            <Button variant="warning" className="d-flex align-items-center"
+                                                    onClick={() => {
+                                                        setActionModal('ASSIGN');
+                                                        setState(prevState => ({
+                                                            ...prevState,
+                                                            modalShow: true
+                                                        }));
+                                                    }}>
+                                                <FaSync className="me-2" /> Giao việc
+                                            </Button>
+                                            <div className="vr mx-2" />
+                                            <Button variant="secondary" className="d-flex align-items-center"
+                                                    onClick={() => {
+                                                        setActionModal("IMPORT");
+                                                        setState(prevState => ({
+                                                            ...prevState,
+                                                            modalShow: true
+                                                        }));
+                                                    }}>
+                                                <FaFileImport className="me-2" /> Import
+                                            </Button>
+                                            <Button variant="success" className="d-flex align-items-center"
+                                                    onClick={() => {
+                                                        setActionModal("EXPORT");
+                                                        setState(prevState => ({
+                                                            ...prevState,
+                                                            modalShow: true
+                                                        }));
+                                                    }}>
+                                                <FaFileExport className="me-2" /> Export
+                                            </Button>
+
+
+                                        </div>
+                                    </div>
                                     <div className="d-flex mb-4">
-                                        {/* Bộ lọc */}
-                                        {/*<div className="col-md-3 d-flex align-items-center gap-3">*/}
-                                        {/*    <Form.Select*/}
-                                        {/*        id="programStatus2"*/}
-                                        {/*        aria-label="Program"*/}
-                                        {/*        className="form-select rounded-pill border-secondary flex-fill"*/}
-                                        {/*        value={program}*/}
-                                        {/*        onChange={handleProgramChange}*/}
-                                        {/*    >*/}
-                                        {/*        <option value="">*/}
-                                        {/*            Chọn chương trình học*/}
-                                        {/*        </option>*/}
-                                        {/*        {programOptions.map(*/}
-                                        {/*            (option) => (*/}
-                                        {/*                <option*/}
-                                        {/*                    key={option.value}*/}
-                                        {/*                    value={option.id}*/}
-                                        {/*                >*/}
-                                        {/*                    {option.name}*/}
-                                        {/*                </option>*/}
-                                        {/*            )*/}
-                                        {/*        )}*/}
-                                        {/*    </Form.Select>*/}
-                                        {/*</div>*/}
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                        <div className="col-md-2 d-flex align-items-center gap-3">
                                             <Form.Select
                                                 id="programStatus1"
                                                 aria-label="Status"
                                                 className="form-select rounded-pill border-secondary flex-fill"
-                                                value={status}
-                                                onChange={handleStatusChange}
+                                                value={state.modalProps.formFieldsProp.status}
+                                                onChange={(e) => setState(prevState => ({
+                                                    ...prevState,
+                                                    modalProps: {
+                                                        ...prevState.modalProps,
+                                                        status: e.target.value
+                                                    }
+                                                }))}
                                             >
-                                                <option value="">
-                                                    Chọn trạng thái
-                                                </option>
+                                                <option value="">Chọn trạng thái</option>
                                                 {statusOptions.map((option) => (
-                                                    <option
-                                                        key={option.value}
-                                                        value={option.id}
-                                                    >
-                                                        {option.name}
-                                                    </option>
+                                                    <option key={option.value} value={option.id}>{option.name}</option>
                                                 ))}
                                             </Form.Select>
                                         </div>
-                                        <div className="col-md-6 d-flex align-items-center gap-3">
+                                        <div className="col-md-4  d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
                                                 className="form-control rounded-pill border-secondary flex-fill"
                                                 placeholder="Search..."
                                                 aria-label="Search input"
-                                                value={searchTerm}
-                                                onChange={handleSearchChange}
+                                                value={state.searchTerm}
+                                                onChange={(e) => setState(prevState => ({ ...prevState, searchTerm: e.target.value }))}
                                                 onKeyDown={(event) => {
                                                     if (event.key === 'Enter') {
-                                                        event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
-                                                        handleSearch(); // Gọi hàm tìm kiếm
+                                                        event.preventDefault();
+                                                        handleSearch();
                                                     }
                                                 }}
                                             />
@@ -342,45 +384,19 @@ const CustomerSaleComponent = () => {
                                                 <td>{item.so_tien}</td>
                                                 <td>
                                                     {item.phuong_thuc_thanh_toan
-                                                        .map(value => {
-                                                            const paymentMethod = paymentOptions.find(payment => payment.id === value);
-                                                            return paymentMethod ? paymentMethod.name : 'N/A';
-                                                        })
-                                                        .join(', ')}
+                                                        .map(value => paymentOptions.find(option => option.id === value)?.name || 'N/A')
+                                                        .join(', ')
+                                                    }
                                                 </td>
-                                                {/*<td>{item.ngay_thanh_toan ? new Date(item.ngay_thanh_toan).toLocaleDateString() : 'N/A'}</td>*/}
-                                                <td >
-                                                    {item.trang_thai}
-                                                </td>
-                                                <td>{item.ghi_chu || ''}</td>
-                                                <td className="d-flex col-2">
-                                                    <Button
-                                                        variant="light"
-                                                        className="me-1"
-                                                        onClick={() => {
-                                                            setFormData(item)
-                                                            setInitialIdCurrent(item.subject_id);
-                                                            setActionModal('VIEW')
-                                                        }}
-                                                    >
+                                                <td className="text-center">
+                                                    <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
                                                         <BsEye />
                                                     </Button>
-                                                    <Button
-                                                        variant="primary"
-                                                        className="me-1"
-                                                        onClick={() => {
-                                                            setFormData(item)
-                                                            setInitialIdCurrent(item.subject_id);
-                                                            setActionModal('EDIT')
-                                                        }}
-                                                    >
+                                                    <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
                                                         <BsPencil />
                                                     </Button>
-                                                    <Button
-                                                        variant="danger"
-                                                        onClick={() => confirmDelete(item)}
-                                                    >
-                                                        <BsTrash/>
+                                                    <Button variant="link" onClick={() => confirmDelete(item)}>
+                                                        <BsTrash />
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -391,32 +407,63 @@ const CustomerSaleComponent = () => {
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
-                                                totalPage={totalPages}
-                                                currentPage={currentPage}
+                                                page={currentPage}
+                                                totalPages={totalPages}
                                                 onPageChange={handlePageChange}
                                             />
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <ToastContainer />
-            {/* Modal xác nhận xóa */}
-            {/* Modal xác nhận xóa */}
+
+            {/* Modal for Form */}
+            <Modal show={state.modalShow} onHide={() => setState(prevState => ({ ...prevState, modalShow: false }))}
+                   size="lg"
+                   aria-labelledby="contained-modal-title-vcenter"
+                   centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                       {actionModal === "EDIT" ? "Cập Nhật" : actionModal === 'IMPORT'? "Nhập từ Excel" :
+                           actionModal === 'EXPORT'? "Xuất file Excel" :
+                               actionModal === 'ASSIGN'? "Phân chia dữ liệu cho nhân viên" : "Thêm mới"
+                       }
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {actionModal === 'IMPORT'? <ImportExcelForm/> :
+                        actionModal === 'EXPORT'? <ExportExcelForm /> :
+                            actionModal === 'ASSIGN'? <AssignDataForm /> :<CustomerSaleForm
+                        formFieldsProp={state.modalProps.formFieldsProp}
+                        initialData={formData}
+                        actionModal={actionModal}
+                        onSubmit={handleSubmit}
+                        onCancel={() => {
+                            setState(prev => ({ ...prev, modalShow: false }));
+                        }}
+                        statusOptions={statusOptions}
+                        programOptions={programOptions}
+                    />}
+                </Modal.Body>
+                <Modal.Footer>
+
+                </Modal.Footer>
+            </Modal>
+
+            {/* Confirmation Modal */}
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
-                onConfirm={() => fetchData()}
-                deleteItemID={deleteItemId}
-                apiDelete={api}
+                onDelete={() => handleDelete(deleteItemId)}
             />
+
+            <ToastContainer />
         </>
     );
 };
 
 export default CustomerSaleComponent;
-
-
