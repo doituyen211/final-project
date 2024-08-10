@@ -11,6 +11,7 @@ import TuitionFeeComponent from "./TuitionFeeComponent";
 import MarketingCampaignComponent from "./MarketingCampaignComponent";
 import ClassMembersComponent from "./ClassMembersComponent";
 import StudentComponent from "./StudentComponent" ;
+import ReservationsComponent from "./ReservationsComponent" ;
 export {
   BookComponent,
   CourseComponent,
@@ -25,4 +26,5 @@ export {
   ClassMembersComponent,
   CustomerSaleComponent,
   StudentComponent,
+  ReservationsComponent
 };
