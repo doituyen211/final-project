@@ -6,8 +6,7 @@ import {
   TuitionFeeComponent,
   UserComponent,
   ScoreComponent,
-  StudentComponent,
-  SubjectComponentLayout2,
+  // StudentComponent,
   ClassMembersComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
@@ -45,7 +44,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
-        component: StudentComponent,
+        // component: StudentComponent,
       },
       {
         name: "Quản lý môn học",

@@ -10,6 +10,7 @@ import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 import "./TuitionFeeComponent.scss";
 import { toast, ToastContainer } from "react-toastify";
 import Input from "../../components/InputComponents";
+import TuitionFeeForm from "./TuitionFeeForm";
 
 const INITIAL_STATE = {
     dataTable: [],
@@ -21,18 +22,9 @@ const INITIAL_STATE = {
         action: "",
         formFieldsProp: [
             {
-                name: "id_hoc_vien",
-                type: "select",
-                label: "ID Học viên",
-                placeholder: "Nhập ID học viên",
-                apiUrl: "/data/hocvien.json",
-                defaultOption: { value: "", label: "Chọn hoc vien" },
-                validation: Yup.string().required('Hoc vien là bắt buộc'),
-            },
-            {
                 name: "id_ctdt",
                 type: "select",
-                label: "ID Chương trình đào tạo",
+                label: "Chương trình đào tạo",
                 placeholder: "Nhập ID chương trình đào tạo",
                 apiUrl: "/data/program.json",
                 defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
@@ -50,21 +42,14 @@ const INITIAL_STATE = {
             },
             {
                 name: "phuong_thuc_thanh_toan",
-                type: "select",
+                type: "checkbox",
                 label: "Phương thức thanh toán",
                 placeholder: "Chon phương thức thanh toán",
                 apiUrl: "/data/phuongthucthanhtoan.json",
                 defaultOption: { value: "", label: "Chon phương thức thanh toán" },
                 validation: Yup.string().required('Phuong thuc thanh toan là bắt buộc '),
             },
-            {
-                name: "ngay_thanh_toan",
-                type: "date",
-                label: "Ngày thanh toán",
-                placeholder: "Chọn ngày thanh toán",
-                validation: Yup.date()
-                    .required('Ngày thanh toán là bắt buộc'),
-            },
+
             {
                 name: "trang_thai",
                 type: "text",
@@ -87,11 +72,9 @@ const INITIAL_STATE = {
 };
 const COLUMNS = [
     "STT",                    // Serial number or index
-    "ID Học viên",            // ID of the student
     "ID Chương trình đào tạo", // ID of the training program
     "Số tiền",                // Amount of payment
-    "Phương thức thanh toán",  // Payment method
-    "Ngày thanh toán",        // Payment date
+    "Phương thức thanh toán chấp nhận",  // Payment method
     "Trạng thái",             // Status
     "Ghi chú",                // Notes or comments
     "",                       // Empty column for actions or additional features
@@ -180,15 +163,13 @@ const TuitionFeeComponent = () => {
 
     const fetchOptions = useCallback(async () => {
         try {
-            const [statusResponse, programResponse,hocvienResponse, paymentResponse] = await Promise.all([
+            const [statusResponse, programResponse, paymentResponse] = await Promise.all([
                 axios.get("/data/status.json"),
                 axios.get("/data/program.json"),
-                axios.get("/data/hocvien.json"),
                 axios.get("/data/phuongthucthanhtoan.json")
             ]);
             setStatusOptions(statusResponse.data);
             setProgramOptions(programResponse.data);
-            setHocvienOptions(hocvienResponse.data);
             setPaymentOptions(paymentResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
@@ -254,7 +235,7 @@ const TuitionFeeComponent = () => {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-body">
-                                    <FormComponentWithValidation
+                                    <TuitionFeeForm
                                         formFieldsProp={state.modalProps.formFieldsProp}
                                         initialData={formData}
                                         actionModal={actionModal}
@@ -274,29 +255,29 @@ const TuitionFeeComponent = () => {
                                     <h3 className="text-start mb-4">Danh sách học phí</h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-3 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
-                                            >
-                                                <option value="">
-                                                    Chọn chương trình học
-                                                </option>
-                                                {programOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
+                                        {/*<div className="col-md-3 d-flex align-items-center gap-3">*/}
+                                        {/*    <Form.Select*/}
+                                        {/*        id="programStatus2"*/}
+                                        {/*        aria-label="Program"*/}
+                                        {/*        className="form-select rounded-pill border-secondary flex-fill"*/}
+                                        {/*        value={program}*/}
+                                        {/*        onChange={handleProgramChange}*/}
+                                        {/*    >*/}
+                                        {/*        <option value="">*/}
+                                        {/*            Chọn chương trình học*/}
+                                        {/*        </option>*/}
+                                        {/*        {programOptions.map(*/}
+                                        {/*            (option) => (*/}
+                                        {/*                <option*/}
+                                        {/*                    key={option.value}*/}
+                                        {/*                    value={option.id}*/}
+                                        {/*                >*/}
+                                        {/*                    {option.name}*/}
+                                        {/*                </option>*/}
+                                        {/*            )*/}
+                                        {/*        )}*/}
+                                        {/*    </Form.Select>*/}
+                                        {/*</div>*/}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
                                             <Form.Select
                                                 id="programStatus1"
@@ -357,16 +338,18 @@ const TuitionFeeComponent = () => {
                                             <tr key={item.subject_id}>
                                                 <td>{index + 10 * (currentPage - 1) + 1}</td>
                                                 <td>
-                                                    {hocvienOptions.find(hocvien => hocvien.id === item.id_hoc_vien)?.name || 'N/A'}
-                                                </td>
-                                                <td>
                                                     {programOptions.find(program => program.id === item.id_ctdt)?.name || 'N/A'}
                                                 </td>
                                                 <td>{item.so_tien}</td>
                                                 <td>
-                                                    {paymentOptions.find(payment => payment.id === item.phuong_thuc_thanh_toan)?.name || 'N/A'}
+                                                    {item.phuong_thuc_thanh_toan
+                                                        .map(value => {
+                                                            const paymentMethod = paymentOptions.find(payment => payment.id === value);
+                                                            return paymentMethod ? paymentMethod.name : 'N/A';
+                                                        })
+                                                        .join(', ')}
                                                 </td>
-                                                <td>{item.ngay_thanh_toan ? new Date(item.ngay_thanh_toan).toLocaleDateString() : 'N/A'}</td>
+                                                {/*<td>{item.ngay_thanh_toan ? new Date(item.ngay_thanh_toan).toLocaleDateString() : 'N/A'}</td>*/}
                                                 <td >
                                                     {item.trang_thai}
                                                 </td>
