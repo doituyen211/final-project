@@ -388,15 +388,22 @@ const CustomerSaleComponent = () => {
                                                         .join(', ')
                                                     }
                                                 </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td className="text-center">
                                                     <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsEye />
+                                                        <BsEye className="text-secondary"/>
                                                     </Button>
                                                     <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsPencil />
+                                                        <BsPencil className="text-primary" />
                                                     </Button>
                                                     <Button variant="link" onClick={() => confirmDelete(item)}>
-                                                        <BsTrash />
+                                                        <BsTrash  className="text-danger"/>
                                                     </Button>
                                                 </td>
                                             </tr>

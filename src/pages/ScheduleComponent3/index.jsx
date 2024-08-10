@@ -5,6 +5,7 @@ import { Button, Card, Row, Table } from "react-bootstrap";
 import DeleteComponent from "../../components/DeleteItemComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
+import {BsEye, BsPencil, BsTrash} from "react-icons/bs";
 
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
@@ -308,7 +309,7 @@ const ScheduleComponent = () => {
                                                         </td>
                                                         <td>
                                                             <Button
-                                                                variant="light"
+                                                                variant="link"
                                                                 size="sm"
                                                                 className="me-2"
                                                                 onClick={() => {
@@ -320,10 +321,10 @@ const ScheduleComponent = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                View
+                                                                <BsEye className="text-secondary"/>
                                                             </Button>
                                                             <Button
-                                                                variant="primary"
+                                                                variant="link"
                                                                 size="sm"
                                                                 className="me-2"
                                                                 onClick={() => {
@@ -335,10 +336,10 @@ const ScheduleComponent = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                Edit
+                                                                <BsPencil className="text-primary" />
                                                             </Button>
                                                             <Button
-                                                                variant="danger"
+                                                                variant="link"
                                                                 size="sm"
                                                                 onClick={() => {
                                                                     setDataForm(
@@ -349,7 +350,7 @@ const ScheduleComponent = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                Delete
+                                                                <BsTrash  className="text-danger"/>
                                                             </Button>
                                                         </td>
                                                     </tr>

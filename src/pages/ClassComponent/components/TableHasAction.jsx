@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import { useGetClassList } from "../hooks";
 import useClassStore from "../useClassStore";
+import React from "react";
 
 const TableHasAction = () => {
   const setDataRow = useClassStore((state) => state.setDataRow);
@@ -53,22 +54,22 @@ const TableHasAction = () => {
       render: (_, record) => (
         <>
           <Button
-            variant="light"
+            variant="link"
             className="me-2"
             onClick={() => handleView(record)}
           >
-            <BsEye />
+            <BsEye className="text-secondary"/>
           </Button>
           <Button
-            variant="primary"
+            variant="link"
             className="me-2"
             onClick={() => handleEdit(record)}
           >
-            <BsPencil />
+            <BsPencil className="text-primary" />
           </Button>
 
-          <Button variant="danger" onClick={() => handleDelete(record)}>
-            <BsTrash />
+          <Button variant="link" onClick={() => handleDelete(record)}>
+            <BsTrash  className="text-danger"/>
           </Button>
         </>
       ),
