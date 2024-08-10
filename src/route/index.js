@@ -6,7 +6,7 @@ import {
   TuitionFeeComponent,
   UserComponent,
   ScoreComponent,
-  // StudentComponent,
+  CustomerSaleComponent,
   ClassMembersComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
@@ -122,6 +122,13 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
         to: "/marketing-campaigns", // Define the route for the new component
         component: MarketingCampaignComponent, // Add your new component here
+      }
+      ,
+      {
+        name: "Quản lý chương trình đào tạo",
+        icon: "nav-icon fas fa-cogs",
+        to: "/programs",
+        component: CustomerSaleComponent,
       },
       {
         name: "Quản lý chương trình đào tạo",
