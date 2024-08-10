@@ -45,7 +45,7 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
         >
             {({ handleChange, values, errors, touched }) => (
                 <FormikForm>
-                    <h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>
+                    {/*<h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>*/}
                     <Row>
                         {formFieldsProp.map((field, index) => {
                             const { name, label, type,placeholder, defaultOption,apiUrl } = field;
