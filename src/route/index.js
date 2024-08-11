@@ -1,15 +1,18 @@
 import {
   CourseComponent,
+  MarketingCampaignComponent,
   ScheduleComponent3,
   SubjectComponent,
+  TuitionFeeComponent,
   UserComponent,
-  SubjectComponentLayout2,
+  ScoreComponent,
+  CustomerSaleComponent,
+  ClassMembersComponent, StudentComponent, ReservationsComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import StudentComponent from "../pages/StudentComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
-import ReservationComponent from "../pages/ReservationComponent";
+import AttendanceComponent from "../pages/AttendanceComponent";
 
 export const routeSideBar = [
   {
@@ -42,7 +45,7 @@ export const routeSideBar = [
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
-          component: StudentComponent,
+        component: StudentComponent,
       },
       {
         name: "Quản lý môn học",
@@ -60,12 +63,13 @@ export const routeSideBar = [
         name: "Quản lý bảo lưu",
         icon: "nav-icon fas fa-pause-circle",
         to: "/reservations",
-        component: ReservationComponent,
+        component: ReservationsComponent
       },
       {
         name: "Quản lý thành viên lớp",
         icon: "nav-icon fas fa-users",
         to: "/class-members",
+        component: ClassMembersComponent,
       },
       {
         name: "Quản lý chương trình đào tạo",
@@ -77,6 +81,7 @@ export const routeSideBar = [
         name: "Quản lý điểm danh",
         icon: "nav-icon fas fa-calendar-check",
         to: "/attendance",
+        component: AttendanceComponent,
       },
       {
         name: "Quản lý khoá học",
@@ -100,8 +105,41 @@ export const routeSideBar = [
         name: "Quản lý điểm số",
         icon: "nav-icon fas fa-chart-line",
         to: "/grades",
+        component: ScoreComponent,
+      },
+    ],
+  },
+  {
+    name: "Sales",
+    icon: "nav-icon fas fa-dollar-sign",
+    to: "#",
+    child: [
+      {
+        name: "Quản lý học phí",
+        icon: "nav-icon fas fa-money-bill-wave",
+        to: "/tuitionfee",
+        component: TuitionFeeComponent,
+      },
+      {
+        name: "Chến dịch quảng cáo",
+        icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
+        to: "/marketing-campaigns", // Define the route for the new component
+        component: MarketingCampaignComponent, // Add your new component here
+      }
+      ,
+        {
+            name: "Quản lý khách hàng",
+            icon: "nav-icon fas fa-user",  // Updated icon class
+            to: "/khach-hang",
+            component: CustomerSaleComponent,
+        }
+,
+        {
+        name: "Quản lý chương trình đào tạo",
+        icon: "nav-icon fas fa-cogs",
+        to: "/programs",
+        component: TrainningProgramComponent,
       },
     ],
   },
 ];
-

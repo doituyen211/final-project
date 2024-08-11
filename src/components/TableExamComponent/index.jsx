@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
+import {BsEye, BsPencil, BsTrash} from "react-icons/bs";
 
 const TableExamComponent = ({
   data = [],
@@ -51,27 +52,27 @@ const TableExamComponent = ({
                 <td>{row.link_bai_thi}</td>
                 <td>
                   <Button
-                    variant="light"
+                    variant="link"
                     size="sm"
                     className="me-2"
                     onClick={() => onView(row)}
                   >
-                    View
+                    <BsEye className="text-secondary"/>
                   </Button>
                   <Button
-                    variant="primary"
+                    variant="link"
                     size="sm"
                     className="me-2"
                     onClick={() => onEdit(row)}
                   >
-                    Edit
+                    <BsPencil className="text-primary" />
                   </Button>
                   <Button
-                    variant="danger"
+                    variant="link"
                     size="sm"
                     onClick={() => onDelete(row)}
                   >
-                    Delete
+                    <BsTrash  className="text-danger"/>
                   </Button>
                 </td>
               </tr>

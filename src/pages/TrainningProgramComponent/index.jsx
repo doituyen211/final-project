@@ -11,28 +11,43 @@ import NotificationComponent from '../../components/NotificationComponent';
 
 const TrainningProgramComponent = () => {
     const [dataTable, setDataTable] = useState([]);
+    const [role, setRole] = useState('ADMIN')
     const cols = ['Tên chương trình', 'Khóa học', 'Học phí', 'Thời gian đào tạo', 'Trạng thái', '']
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isShowModal, setIsShowModal] = useState(false);
     const [editData, setEditData] = useState(null);
+    const [searchItem, setSearchItem] = useState('');
     useEffect(() => {
         //call api
-        getAllTrainningProgram(1);
+        getAllTrainningProgram(1, searchItem);
     }, []);
-    const getAllTrainningProgram = async (page) => {
-        let response = await fetchAllTrainingPrograms(page);
-        if (response || response.data) {
-            // console.log("DATA" + JSON.stringify(response))
-            setDataTable(response);
-            setTotalPages(10);
+
+
+    const getAllTrainningProgram = async (page, searchItem) => {
+        try {
+            let response = await fetchAllTrainingPrograms(page, searchItem);
+            if (response || response.data) {
+                // console.log("DATA" + JSON.stringify(response))
+                setDataTable(response);
+                setTotalPages(10);
+
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+
 
         }
+
     };
     const handleClose = () => {
+
         setIsShowModal(false)
         setIsEditMode(false);
+        setEditData(null);
+        console.log(editData)
+
     }
     const handleUpdateTable = (data) => {
         if (isEditMode == true) {
@@ -48,16 +63,18 @@ const TrainningProgramComponent = () => {
     };
     const handleDeleteProgramSuccess = (id) => {
         // setDataTable(dataTable.filter((item) => item.id !== id));
-        getAllTrainningProgram(currentPage);
+        getAllTrainningProgram(currentPage, searchItem);
     };
     const handlePageClick = (event) => {
         setCurrentPage(event.selected + 1);
-        getAllTrainningProgram(+event.selected + 1);
+        getAllTrainningProgram(+event.selected + 1, searchItem);
     };
 
-    const viewProgram = () => {
+    const handleSearch = () => {
 
-    }
+        getAllTrainningProgram(currentPage, searchItem);
+
+    };
     return (
         <>
             <section className="content-header">
@@ -88,7 +105,11 @@ const TrainningProgramComponent = () => {
                                             </Button>
                                         </div>
                                         <div className="col-md-10 d-flex align-items-center gap-3 justify-content-end">
-                                            <SearchComponent></SearchComponent>
+                                            <SearchComponent
+                                                searchItem={searchItem}
+                                                handleSearch={handleSearch}
+                                                onChange={setSearchItem}
+                                            />
                                         </div>
 
                                     </div>
