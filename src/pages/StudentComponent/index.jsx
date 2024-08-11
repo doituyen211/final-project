@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button, Col, Form, Row, Table} from "react-bootstrap";
 import DeleteComponent from "../../components/DeleteItemComponent";
 import PagingComponent from "../../components/PagingComponent";
 import Input from "../../components/InputComponents";
-import { BsEye, BsPencil, BsTrash, BsPlus } from "react-icons/bs";
+import {BsEye, BsPencil, BsTrash} from "react-icons/bs";
 // import "./StudentComponent.scss";
-import { toast, ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import * as Yup from "yup";
 
 const MOCKAPI_URL = "https://66b437f79f9169621ea21d35.mockapi.io/students";
@@ -55,7 +55,7 @@ const INITIAL_STATE = {
                 label: "Trạng thái",
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
-                defaultOption: { value: "", label: "Chọn trạng thái" },
+                defaultOption: {value: "", label: "Chọn trạng thái"},
                 validation: Yup.string().required("Status is required"),
             },
         ],
@@ -92,7 +92,7 @@ const StudentComponent = () => {
         async (search = "", page = 1) => {
             try {
                 console.log("kfgnfgdkjnngffjndg");
-                const { data } = await axios.get(`${api}?search=${search}&page=${page}&limit=5`);
+                const {data} = await axios.get(`${api}?search=${search}&page=${page}&limit=5`);
                 setState((prevState) => ({
                     ...prevState,
                     dataTable: data,
@@ -113,7 +113,7 @@ const StudentComponent = () => {
 
     const handleSearch = useCallback(() => {
         fetchData(searchTerm, currentPage);
-    }, [fetchData,searchTerm, currentPage]);
+    }, [fetchData, searchTerm, currentPage]);
 
     // const handleStatusChange = useCallback((event) => {
     //     setStatus(event.target.value);
@@ -131,7 +131,7 @@ const StudentComponent = () => {
 
     const fetchOptions = useCallback(async () => {
         try {
-            const { data } = await axios.get("/data/status.json");
+            const {data} = await axios.get("/data/status.json");
             setStatusOptions(data);
         } catch (error) {
             console.error("Error fetching options:", error);
@@ -144,13 +144,13 @@ const StudentComponent = () => {
 
     const handleDeleteConfirmation = async () => {
 
-            fetchData(searchTerm, currentPage);
+        fetchData(searchTerm, currentPage);
 
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        const {name, value} = e.target;
+        setFormData((prev) => ({...prev, [name]: value}));
     };
 
     const handleSubmit = async (e) => {
@@ -277,12 +277,13 @@ const StudentComponent = () => {
                                                 variant="secondary"
                                                 className="me-2"
                                                 type="button"
-                                                onClick={() => setState((prev) => ({ ...prev, modalShow: false }))}
+                                                onClick={() => setState((prev) => ({...prev, modalShow: false}))}
                                             >
                                                 Huỷ bỏ
                                             </Button>
                                             {actionModal === "VIEW" ? (
-                                                <Button variant="primary" type="button" onClick={() => setActionModal("EDIT")}>
+                                                <Button variant="primary" type="button"
+                                                        onClick={() => setActionModal("EDIT")}>
                                                     Chỉnh sửa
                                                 </Button>
                                             ) : (
@@ -352,7 +353,7 @@ const StudentComponent = () => {
                                                 </td>
                                                 <td>
                                                     <Button
-                                                        variant="light"
+                                                        variant="link"
                                                         className="me-1"
                                                         onClick={() => {
                                                             setFormData(item);
@@ -360,10 +361,10 @@ const StudentComponent = () => {
                                                             setActionModal("VIEW");
                                                         }}
                                                     >
-                                                        <BsEye />
+                                                        <BsEye className="text-secondary"/>
                                                     </Button>
                                                     <Button
-                                                        variant="primary"
+                                                        variant="link"
                                                         className="me-1"
                                                         onClick={() => {
                                                             setFormData(item);
@@ -371,13 +372,13 @@ const StudentComponent = () => {
                                                             setActionModal("EDIT");
                                                         }}
                                                     >
-                                                        <BsPencil />
+                                                        <BsPencil className="text-primary"/>
                                                     </Button>
                                                     <Button
-                                                        variant="danger"
+                                                        variant="link"
                                                         onClick={() => confirmDelete(item)}
                                                     >
-                                                        <BsTrash />
+                                                        <BsTrash className="text-danger"/>
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -399,7 +400,7 @@ const StudentComponent = () => {
                     </div>
                 </div>
             </section>
-            <ToastContainer />
+            <ToastContainer/>
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
