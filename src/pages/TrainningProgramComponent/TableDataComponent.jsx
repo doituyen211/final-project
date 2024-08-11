@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { deleteProgram } from '../../services/TrainingProgram';
-import { toast } from 'react-toastify';
+import React, {useState} from 'react';
+import {deleteProgram} from '../../services/TrainingProgram';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmComponent from './ConfirmComponent';
 import DataTableDetailComponent from './TableDataDetailComponent';
-const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDeleteProgramSuccess }) => {
+import {BsEye, BsPencil, BsTrash} from "react-icons/bs";
+import {Button} from "react-bootstrap";
+
+const TableDataComponent = ({headers, dataTable, handleEditProgram, handleDeleteProgramSuccess}) => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedProgram, setSelectedProgram] = useState();
     const [showDetail, setShowDetail] = useState(false);
@@ -40,34 +43,43 @@ const TableDataComponent = ({ headers, dataTable, handleEditProgram, handleDelet
         <>
             <table className="table table-bordered table-hover">
                 <thead>
-                    <tr className="text-truncate text-center">
-                        {headers.map((header, index) => (
-                            <th key={index}>{header}</th>
-                        ))}
-                    </tr>
+                <tr className="text-truncate text-center">
+                    {headers.map((header, index) => (
+                        <th key={index}>{header}</th>
+                    ))}
+                </tr>
                 </thead>
                 <tbody>
-                    {dataTable.map((data, index) => (
-                        <tr key={`program-${data.id}`} className="text-truncate text-center">
-                            <td>{data.programName}</td>
-                            <td>{data.courseName}</td>
-                            <td>{data.fee}</td>
-                            <td>{data.timeTrainning}</td>
-                            <td>{data.status ? (<span className="badge badge-primary">Đang hoạt động</span>) : (<span className="badge badge-danger">Tạm dừng</span>)}</td>
-                            <td>
-                                <button className='me-2 btn btn-light' onClick={() => handleViewClick(data)} >View</button>
-                                <button
-                                    className='me-2 btn btn-primary'
-                                    onClick={() => handleEditProgram(data)}
-                                >
-                                    Edit
-                                </button>
-                                <button className='btn btn-danger' onClick={() => handleShowConfirm(data)}>Delete</button>
+                {dataTable.map((data, index) => (
+                    <tr key={`program-${data.id}`} className="text-truncate text-center">
+                        <td>{data.programName}</td>
+                        <td>{data.courseName}</td>
+                        <td>{data.fee}</td>
+                        <td>{data.timeTrainning}</td>
+                        <td>{data.status ? (<span className="badge badge-primary">Đang hoạt động</span>) : (
+                            <span className="badge badge-danger">Tạm dừng</span>)}</td>
+                        <td>
+                            <Button variant='link' className='me-2 '
+                                    onClick={() => handleViewClick(data)}>
+                                <BsEye className="text-secondary"/>
+                            </Button>
+                            <Button
+                                className='me-2 '
+                                variant='link'
+                                onClick={() => handleEditProgram(data)}
+                            >
+                                <BsPencil className="text-primary"/>
+                            </Button>
+                            <Button
+                                variant='link'
+                                className='' onClick={() => handleShowConfirm(data)}>
+                                <BsTrash className="text-danger"/>
+                            </Button>
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
-                    ))}
+                ))}
                 </tbody>
             </table>
             <ConfirmComponent

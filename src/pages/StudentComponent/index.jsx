@@ -5,7 +5,7 @@ import DeleteComponent from "../../components/DeleteItemComponent";
 import PagingComponent from "../../components/PagingComponent";
 import Input from "../../components/InputComponents";
 import { BsEye, BsPencil, BsTrash, BsPlus } from "react-icons/bs";
-import "./StudentComponent.scss";
+// import "./StudentComponent.scss";
 import { toast, ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 
