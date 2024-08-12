@@ -314,7 +314,7 @@ const CustomerSaleComponent = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex mb-4">
-                                        <div className="col-md-4 d-flex align-items-center gap-3">
+                                        <div className="col-md-5 d-flex align-items-center gap-3">
                                             <Form.Select
                                                 id="programStatus1"
                                                 aria-label="Status"
@@ -329,6 +329,24 @@ const CustomerSaleComponent = () => {
                                                 }))}
                                             >
                                                 <option value="">Chọn trạng thái</option>
+                                                {statusOptions.map((option) => (
+                                                    <option key={option.value} value={option.id}>{option.name}</option>
+                                                ))}
+                                            </Form.Select>
+                                            <Form.Select
+                                                id="staff"
+                                                aria-label="staff"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={state.modalProps.formFieldsProp.status}
+                                                onChange={(e) => setState(prevState => ({
+                                                    ...prevState,
+                                                    modalProps: {
+                                                        ...prevState.modalProps,
+                                                        status: e.target.value
+                                                    }
+                                                }))}
+                                            >
+                                                <option value="">Chọn nhân viên</option>
                                                 {statusOptions.map((option) => (
                                                     <option key={option.value} value={option.id}>{option.name}</option>
                                                 ))}
