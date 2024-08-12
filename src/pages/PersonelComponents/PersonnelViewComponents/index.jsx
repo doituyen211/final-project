@@ -1,8 +1,19 @@
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import InputComponents from "../../../components/InputComponents";
 
-const PersonnelViewComponents = ({show, handleClose, personnel}) => {
+const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes}:${seconds} / ${day}-${month}-${year}`;
+};
+const PersonnelViewComponents = ({ show, handleClose, personnel }) => {
     if (!personnel) return null;
 
     return (
@@ -59,20 +70,20 @@ const PersonnelViewComponents = ({show, handleClose, personnel}) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Chức vụ</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={personnel.positionName}
-                                readOnly
-                            />
-                        </div>
-                        <div className="form-group">
                             <label>Phòng ban</label>
                             <input
                                 type="text"
                                 className="form-control"
                                 value={personnel.departmentName}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Chức vụ</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={personnel.positionName}
                                 readOnly
                             />
                         </div>
@@ -124,22 +135,22 @@ const PersonnelViewComponents = ({show, handleClose, personnel}) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Ngày bắt đầu</label>
+                            <label>Ngày tạo</label>
                             <InputComponents
                                 type="text"
-                                name="startDate"
-                                value={personnel.startDate}
+                                name="created_at"
+                                value={formatDateTime(personnel.created_at)}
                                 onChange={() => {
                                 }}
                                 disabled
                             />
                         </div>
                         <div className="form-group">
-                            <label>Ngày kết thúc</label>
+                            <label>Ngày cập nhật</label>
                             <InputComponents
                                 type="text"
-                                name="endDate"
-                                value={personnel.endDate}
+                                name="updated_at"
+                                value={formatDateTime(personnel.updated_at)}
                                 onChange={() => {
                                 }}
                                 disabled
@@ -160,7 +171,7 @@ const PersonnelViewComponents = ({show, handleClose, personnel}) => {
                                 <div className="mt-2">
                                     {personnel.image.map((image, index) => (
                                         <img key={index} src={image.url} alt={image.name} className="img-thumbnail mb-2"
-                                             style={{width: '100px', height: '100px'}}/>
+                                            style={{ width: '100px', height: '100px' }} />
                                     ))}
                                 </div>
                             ) : (

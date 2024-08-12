@@ -12,10 +12,13 @@ import {
     SubjectComponent,
     TuitionFeeComponent,
     UserComponent,
+    TimesheetComponent,
+    TrainningProgramComponent,
+    AllowanceComponents,
+    ClassComponent,
+    ExamComponent
+
 } from "../pages";
-import ClassComponent from "../pages/ClassComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-import ExamComponent from "../pages/ExamComponent";
 
 export const routeSideBar = [
     {
@@ -29,7 +32,7 @@ export const routeSideBar = [
     {
         name: "Form",
         icon: "nav-icon fas fa-edit",
-        to: "#",
+        to: "/form",
         child: [
             {
                 name: "List",
@@ -42,7 +45,7 @@ export const routeSideBar = [
     {
         name: "Personnel",
         icon: "nav-icon fas fa-user-friends ",
-        to: "#",
+        to: "/personal",
         child: [
             {
                 name: "Personnel-List",
@@ -62,7 +65,7 @@ export const routeSideBar = [
                 name: "Allowance-List",
                 icon: "nav-icon fas fa-file-contract",
                 to: "/allowances",
-                component: BookComponent,
+                component: AllowanceComponents,
                 child: [],
             },
             {
@@ -86,13 +89,20 @@ export const routeSideBar = [
                 component: DecisionComponent,
                 child: [],
             },
+            {
+                name: "Checkin-List",
+                icon: "nav-icon fas fa-solid fa-check-to-slot",
+                to: "/checkins",
+                component: TimesheetComponent,
+                child: [],
+            },
         ],
     },
 
     {
         name: "Education",
         icon: "nav-icon fas fa-book",
-        to: "#",
+        to: "/education",
         child: [
             {
                 name: "Quản lý học viên",
@@ -167,7 +177,7 @@ export const routeSideBar = [
     {
         name: "Sales",
         icon: "nav-icon fas fa-dollar-sign",
-        to: "#",
+        to: "/sale",
         child: [
             {
                 name: "Quản lý học phí",
@@ -186,7 +196,7 @@ export const routeSideBar = [
     {
         name: "Liability",
         icon: "nav-icon fas fa-edit",
-        to: "#",
+        to: "/liability",
         child: [
             {
                 name: "Liability-List",
