@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Modal, Button, Table, Spinner } from 'react-bootstrap';
 import { fetchClassesByProgramId, fetchSubjectsByProgramId } from '../../services/TrainingProgram';
 import ReactPaginate from 'react-paginate';
 
@@ -9,16 +9,31 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
     const [classes, setClasses] = useState([]);
     const [pageCount, setPageCount] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const getClasses = async (currentPage, id) => {
-        let response = await fetchClassesByProgramId(currentPage, id);
-        if (response) {
-            setClasses(response)
+        try {
+            setIsLoading(true)
+            let response = await fetchClassesByProgramId(currentPage, id);
+            if (response) {
+                setClasses(response)
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setIsLoading(false)
         }
     }
     const getSubjects = async (currentPage, id) => {
-        let response = await fetchSubjectsByProgramId(currentPage, id);
-        if (response) {
-            setSubjects(response)
+        try {
+            setIsLoading(true);
+            let response = await fetchSubjectsByProgramId(currentPage, id);
+            if (response) {
+                setSubjects(response)
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setIsLoading(false)
         }
     }
     const handlePageClick = (event) => {
@@ -65,12 +80,22 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {subjects.map((subject, index) => (
-                                    <tr key={index}>
-                                        <td>{subject.name}</td>
-                                        <td>{subject.time}</td>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="2" style={{ textAlign: "center" }}>
+                                            <Spinner animation="border" role="status">
+                                                <span className="sr-only">Loading...</span>
+                                            </Spinner>
+                                        </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    subjects.map((subject, index) => (
+                                        <tr key={index}>
+                                            <td>{subject.name}</td>
+                                            <td>{subject.time}</td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </Table>
                         <div className='d-flex justify-content-center'>
@@ -110,16 +135,24 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {classes.map((classItem, index) => (
-                                    <tr key={index}>
-                                        <td>{classItem.className}</td>
-                                        <td>{classItem.number}</td>
-                                        <td>{classItem.timeStart}</td>
-                                        <td>{classItem.endStart}</td>
-
-
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="4" style={{ textAlign: "center" }}>
+                                            <Spinner animation="border" role="status">
+                                                <span className="sr-only">Loading...</span>
+                                            </Spinner>
+                                        </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    classes.map((classItem, index) => (
+                                        <tr key={index}>
+                                            <td>{classItem.className}</td>
+                                            <td>{classItem.number}</td>
+                                            <td>{classItem.timeStart}</td>
+                                            <td>{classItem.endStart}</td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </Table>
                         <div className='d-flex justify-content-center'>
