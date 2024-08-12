@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import SearchComponent from '../TrainningProgramComponent/SearchComponent';
+import SearchComponent from './ProgramFormComponents/SearchComponent';
 import { fetchAllTrainingPrograms } from '../../services/TrainingProgram';
-import TableDataComponent from './TableDataComponent';
+import TableDataComponent from '../../components/TableProgramComponent/ProgramTableDataComponent';
 import ReactPaginate from 'react-paginate';
-import ModalFormComponent from './ModalFormComponent';
-import { ToastContainer, toast } from 'react-toastify';
+import ModalFormComponent from '../../components/ModalProgramComponents/ModalFormComponent';
 import NotificationComponent from '../../components/NotificationComponent';
+import { useLocation } from 'react-router-dom';
 
 
 const TrainningProgramComponent = () => {
     const [dataTable, setDataTable] = useState([]);
-    const [role, setRole] = useState('ADMIN')
     const cols = ['Tên chương trình', 'Khóa học', 'Học phí', 'Thời gian đào tạo', 'Trạng thái', '']
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +18,9 @@ const TrainningProgramComponent = () => {
     const [isShowModal, setIsShowModal] = useState(false);
     const [editData, setEditData] = useState(null);
     const [searchItem, setSearchItem] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const location = useLocation();
+    const currentPath = location.pathname;
     useEffect(() => {
         //call api
         getAllTrainningProgram(1, searchItem);
@@ -27,6 +29,7 @@ const TrainningProgramComponent = () => {
 
     const getAllTrainningProgram = async (page, searchItem) => {
         try {
+            setIsLoading(true);
             let response = await fetchAllTrainingPrograms(page, searchItem);
             if (response || response.data) {
                 // console.log("DATA" + JSON.stringify(response))
@@ -36,8 +39,8 @@ const TrainningProgramComponent = () => {
             }
         } catch (error) {
             console.error("Error fetching data:", error);
-
-
+        } finally {
+            setIsLoading(false)
         }
 
     };
@@ -75,6 +78,7 @@ const TrainningProgramComponent = () => {
         getAllTrainningProgram(currentPage, searchItem);
 
     };
+
     return (
         <>
             <section className="content-header">
@@ -99,19 +103,21 @@ const TrainningProgramComponent = () => {
                             <div className="card card-primary">
                                 <div className="card-body">
                                     <div className="row align-items-center ">
-                                        <div className="col-md-2 d-flex align-items-center justify-content-start">
-                                            <Button variant="primary btn-sm" size="lg" onClick={() => setIsShowModal(true)}>
-                                                {/* <i className="bi bi-plus-circle"></i> */}Thêm mới
-                                            </Button>
-                                        </div>
-                                        <div className="col-md-10 d-flex align-items-center gap-3 justify-content-end">
+
+                                        <div className="col-md-10 d-flex align-items-center gap-3 justify-content-start">
                                             <SearchComponent
                                                 searchItem={searchItem}
                                                 handleSearch={handleSearch}
                                                 onChange={setSearchItem}
                                             />
                                         </div>
-
+                                        <div className="col-md-2 d-flex align-items-center justify-content-start">
+                                            {currentPath === '/programs' &&
+                                                <Button variant="primary btn-sm" size="lg" onClick={() => setIsShowModal(true)}>
+                                                    Thêm mới
+                                                </Button>
+                                            }
+                                        </div>
                                     </div>
 
                                     <div className="row">
@@ -120,7 +126,8 @@ const TrainningProgramComponent = () => {
                                                 dataTable={dataTable}
                                                 handleEditProgram={handleEditProgram}
                                                 handleDeleteProgramSuccess={handleDeleteProgramSuccess}
-
+                                                pathName={currentPath}
+                                                isLoading={isLoading}
                                             />
 
                                         </div>
