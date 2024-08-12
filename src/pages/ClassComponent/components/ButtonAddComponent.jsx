@@ -10,7 +10,7 @@ const ButtonAddComponent = () => {
       onClick={() => {
         setShowModalAdd(true);
       }}
-      className="float-right mb-3 d-flex align-items-center btn btn-success"
+      className="float-right d-flex align-items-center btn btn-success"
     >
       Thêm mới
       <div className="ml-1">

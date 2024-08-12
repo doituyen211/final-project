@@ -24,10 +24,21 @@ export const useGetStudentByClassId = (id) => {
   };
 };
 
-export const useAddNewClass = () => {
+export const useGetTrainingProgram = () => {
+  const { data } = useQuery({
+    queryKey: ["trainingProgram-list"],
+    queryFn: classApi.getTrainingProgram,
+  });
+
+  return {
+    data: data?.data,
+  };
+};
+
+export const useAddNewClass = (form) => {
   const queryClient = useQueryClient();
   const setShowModalAdd = useClassStore((state) => state.setShowModalAdd);
-
+  const { data: trainingPrograms } = useGetTrainingProgram();
   const mutation = useMutation({
     mutationFn: (values) => classApi.addClass(values),
     onSuccess: () => {
@@ -41,7 +52,29 @@ export const useAddNewClass = () => {
       toast.error("Thêm thất bại!");
     },
   });
-  return { mutation };
+
+  const handleAddNew = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        const selectedProgram = trainingPrograms.find(
+          (program) => program.id === values.trProgramName
+        );
+
+        const formattedValues = {
+          ...values,
+          startDate: values.startDate.format("YYYY-MM-DD"),
+          endDate: values.endDate.format("YYYY-MM-DD"),
+          trProgramName: selectedProgram?.programName,
+        };
+        mutation.mutate(formattedValues);
+        form.resetFields();
+      })
+      .catch((errorInfo) => {
+        console.log("Validation Failed:", errorInfo);
+      });
+  };
+  return { handleAddNew };
 };
 
 export const useDeleteClass = (classId) => {
@@ -64,9 +97,10 @@ export const useDeleteClass = (classId) => {
   return { mutation };
 };
 
-export const useEditClass = (classId) => {
+export const useEditClass = (classId, form) => {
   const queryClient = useQueryClient();
   const setShowModalEdit = useClassStore((state) => state.setShowModalEdit);
+  const { data: trainingPrograms } = useGetTrainingProgram();
 
   const mutation = useMutation({
     mutationFn: (values) => classApi.editClass(classId, values),
@@ -81,5 +115,25 @@ export const useEditClass = (classId) => {
       toast.error("Cập nhật thất bại!");
     },
   });
-  return { mutation };
+
+  const handleEditClass = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        const selectedProgram = trainingPrograms.find(
+          (program) => program.id === values.trProgramName
+        );
+        const formattedValues = {
+          ...values,
+          startDate: values.startDate.format("YYYY-MM-DD"),
+          endDate: values.endDate.format("YYYY-MM-DD"),
+          trProgramName: selectedProgram?.programName,
+        };
+        mutation.mutate(formattedValues);
+      })
+      .catch((errorInfo) => {
+        console.log("Validation Failed:", errorInfo);
+      });
+  };
+  return { handleEditClass };
 };
