@@ -26,14 +26,19 @@ const ModalAdd = () => {
       });
   };
 
+  const handleCloseAll = () => {
+    form.resetFields();
+    handleClose();
+  };
+
   return (
     <Modal
       title="Thêm mới lớp học"
       open={showModalAdd}
-      onCancel={handleClose}
+      onCancel={handleCloseAll}
       footer={
         <>
-          <Button className="btn btn-secondary mr-2" onClick={handleClose}>
+          <Button className="btn btn-secondary mr-2" onClick={handleCloseAll}>
             Đóng
           </Button>
           <Button className="btn btn-success" onClick={handleAddNew}>

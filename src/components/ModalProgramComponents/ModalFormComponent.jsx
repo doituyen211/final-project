@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import InputField from './InputField';
-import SelectField from './SelectField';
+import InputField from '../../pages/TrainningProgramComponent/ProgramFormComponents/InputField';
+import SelectField from '../../pages/TrainningProgramComponent/ProgramFormComponents/SelectField';
 import { Button, Col, Modal, ModalBody, Row } from 'react-bootstrap';
 import { createProgram, updateProgram } from '../../services/TrainingProgram';
 import { toast } from 'react-toastify';
