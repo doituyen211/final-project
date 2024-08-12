@@ -2,8 +2,7 @@ import React from 'react';
 import FormInput from './../../../components/FormInputComponents/index';
 
 
-
-const DepartmentForm = ({ formValue, handleChange, handleSubmit, isEditing, statuses, errors }) => (
+const DepartmentForm = ({formValue, handleChange, handleSubmit, isEditing, statuses, errors}) => (
 
     <div className="col-6">
         <div className="card">
@@ -49,14 +48,6 @@ const DepartmentForm = ({ formValue, handleChange, handleSubmit, isEditing, stat
                         value={formValue.createDate || ""}
                         onChange={e => handleChange(e)}
                         error={errors?.createDate}
-                    />
-                    <FormInput
-                        type="date"
-                        name="updateDate"
-                        label="Thời gian cập nhật"
-                        value={formValue.updateDate || ""}
-                        onChange={e => handleChange(e)}
-                        error={errors?.updateDate}
                     />
                     <button type="submit" className="btn btn-primary">
                         {isEditing ? "Cập nhật" : "Thêm mới"}

@@ -25,14 +25,14 @@ export const validateDepartmentForm = (formValue, departments, editingDepartment
     if (!formValue.createDate) {
         errors.createDate = "Ngày tạo không được bỏ trống.";
     }
-    if (!formValue.updateDate) {
-        errors.updateDate = "Ngày cập nhật không được bỏ trống.";
-    } else {
-        const createDate = new Date(formValue.createDate);
-        const updateDate = new Date(formValue.updateDate);
-        if (updateDate < createDate) {
-            errors.updateDate = "Ngày cập nhật không được nhỏ hơn ngày tạo.";
-        }
-    }
+    // if (!formValue.updateDate) {
+    //     errors.updateDate = "Ngày cập nhật không được bỏ trống.";
+    // } else {
+    //     const createDate = new Date(formValue.createDate);
+    //     const updateDate = new Date(formValue.updateDate);
+    //     if (updateDate < createDate) {
+    //         errors.updateDate = "Ngày cập nhật không được nhỏ hơn ngày tạo.";
+    //     }
+    // }
     return errors;
 };

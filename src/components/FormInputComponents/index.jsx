@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormInput = ({label, type, name, value, onChange, placeholder, error}) => {
+const FormInput = ({label, type, name, value, onChange, placeholder, error, disabled}) => {
     return (
         <div className="form-group">
             <label>{label}</label>
@@ -13,6 +13,7 @@ const FormInput = ({label, type, name, value, onChange, placeholder, error}) => 
                 onChange={onChange}
                 placeholder={placeholder}
                 className={`form-control ${error ? 'is-invalid' : ''}`}
+                disabled={disabled}
             />
             {error && <div className="invalid-feedback">{error}</div>}
         </div>

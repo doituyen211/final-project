@@ -13,15 +13,25 @@
     padding-bottom: 0.5rem;
   }
 
-  .list_info_Student,.list_info_Liability{
-    .title_info{
+  .list_info_Student, .list_info_Liability {
+    .title_info {
       display: flex;
       align-items: center;
       margin-bottom: 1rem;
-      .title_Student{
+
+      .title_Student {
         width: 145px;
       }
     }
   }
 }
 
+.dataTables_filter {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  .search-input {
+    flex: 1;
+  }
+}
