@@ -2,9 +2,9 @@ import React from 'react';
 import '../Personnel.scss';
 import { CSVLink } from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
-import ButtonComponents from "../../../components/ButtonComponents"; // Import ButtonComponents
+import ButtonComponents from "../../../components/ButtonComponents";
 
-const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Default personnels to an empty array
+const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick }) => {
     const handleSearch = (searchTerm) => {
         const searchValue = searchTerm.toLowerCase();
 
@@ -34,8 +34,6 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Defaul
         document.getElementById('import').click();
     };
 
-    console.log(personnels); // Debugging: Log the personnels array to check its structure
-
     // Format the data for CSV export
     const formattedPersonnels = Array.isArray(personnels) ? personnels.map(personnel => ({
         employeeId: personnel.employeeId,
@@ -49,11 +47,17 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch }) => { // Defaul
 
     return (
         <div className="row personnel-tittle d-flex justify-content-between align-items-center">
-            <div className="col-sm-6">
+            <div className="col-sm-4">
                 <h2>DANH SÁCH NHÂN VIÊN</h2>
             </div>
-            <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
+            <div className="action-button col-sm-8 d-flex justify-content-end align-items-center">
                 <SearchComponents onSearch={handleSearch} />
+                <ButtonComponents
+                    className='btn btn-success d-flex align-items-center'
+                    onClick={onAddNewClick}
+                >
+                    <i className=""></i>&nbsp;Thêm mới
+                </ButtonComponents>
                 <ButtonComponents
                     className='btn btn-danger d-flex align-items-center'
                     onClick={handleImportClick}

@@ -7,9 +7,17 @@ const apiEndpoint = 'https://66b080af6a693a95b538f138.mockapi.io/API/Personnels/
 export const fetchContracts = async () => {
     try {
         const response = await axios.get(apiEndpoint);
-        return response.data.sort((a, b) => b.status - a.status);
+        // Sắp xếp theo `status` (true trước) và `updated_at` (giảm dần)
+        const sortedContracts = response.data.sort((a, b) => {
+            if (b.status === a.status) {
+                return new Date(b.updated_at) - new Date(a.updated_at);
+            }
+            return b.status - a.status;
+        });
+
+        return sortedContracts;
     } catch (error) {
-        console.error('Có lỗi xảy ra khi lấy dữ liệu!', error);
+        console.error("Có lỗi xảy ra khi lấy dữ liệu!", error);
         throw error;
     }
 };

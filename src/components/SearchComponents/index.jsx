@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button, InputGroup, FormControl } from "react-bootstrap";
 
 const SearchComponents = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
