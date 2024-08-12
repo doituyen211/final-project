@@ -1,21 +1,18 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button, Form, Modal, Table} from "react-bootstrap";
 import DeleteComponent from "../../components/DeleteItemComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
-import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
+import {BsEye, BsPencil, BsTrash} from 'react-icons/bs';
 import "./CustomerSaleComponent.scss";
-import { toast, ToastContainer } from "react-toastify";
-import Input from "../../components/InputComponents";
-import CustomerSaleForm from "./CustomerSaleForm" ;
-import {FaArrowRight, FaFileExport, FaFileImport, FaPlus, FaSync} from "react-icons/fa";
-import {Modal} from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
+import CustomerSaleForm from "./CustomerSaleForm";
+import {FaFileExport, FaFileImport, FaPlus, FaSync} from "react-icons/fa";
 import ImportExcelForm from "./ImportExcelForm";
-import ExportExcelForm from "./ExportExcelForm";
 import AssignDataForm from "./AssignDataForm";
+
 const INITIAL_STATE = {
     dataTable: [],
     titleTable: "SubjectComponent",
@@ -24,7 +21,7 @@ const INITIAL_STATE = {
     modalProps: {
         show: false,
         action: "",
-        formFieldsProp : [
+        formFieldsProp: [
             {
                 name: "customer_name",
                 type: "text",
@@ -38,7 +35,7 @@ const INITIAL_STATE = {
                 label: "Giới tính",
                 placeholder: "Chọn giới tính",
                 apiUrl: "/data/gender.json",
-                defaultOption: { value: "", label: "Chọn giới tính" },
+                defaultOption: {value: "", label: "Chọn giới tính"},
                 validation: Yup.string().required('Giới tính là bắt buộc'),
             },
             {
@@ -47,7 +44,7 @@ const INITIAL_STATE = {
                 label: "Chương trình học quan tâm",
                 placeholder: "Chọn chương trình học",
                 apiUrl: "/data/program.json",
-                defaultOption: { value: "", label: "Chọn chương trình học" },
+                defaultOption: {value: "", label: "Chọn chương trình học"},
                 validation: Yup.string().required('Chương trình học là bắt buộc'),
             },
             {
@@ -63,7 +60,7 @@ const INITIAL_STATE = {
                 label: "Người phụ trách",
                 placeholder: "Chọn người phụ trách",
                 apiUrl: "/data/responsible_person.json", // URL to fetch options for responsible persons
-                defaultOption: { value: "", label: "Chọn người phụ trách" },
+                defaultOption: {value: "", label: "Chọn người phụ trách"},
                 validation: Yup.string().required('Người phụ trách là bắt buộc'),
             },
             {
@@ -100,7 +97,7 @@ const INITIAL_STATE = {
                 label: "Trạng thái",
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json", // URL to fetch options for status
-                defaultOption: { value: "", label: "Chọn trạng thái" },
+                defaultOption: {value: "", label: "Chọn trạng thái"},
                 validation: Yup.string().required('Trạng thái là bắt buộc'),
             },
         ],
@@ -154,7 +151,7 @@ const CustomerSaleComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                const { data } = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
+                const {data} = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
                 setState(prevState => ({
                     ...prevState,
                     dataTable: data,
@@ -217,7 +214,7 @@ const CustomerSaleComponent = () => {
             await method(url, data);
             toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
             fetchData();
-            setState(prevState => ({ ...prevState, modalShow: false }));
+            setState(prevState => ({...prevState, modalShow: false}));
             setFormData({
                 subject_id: "",
                 subject_name: "",
@@ -274,16 +271,17 @@ const CustomerSaleComponent = () => {
                                     <div className="d-flex align-items-start justify-content-between">
                                         <h3 className="text-start mb-4">Danh sách khách hàng</h3>
                                         <div className="d-flex align-items-center gap-3 mb-4">
-                                            <Button variant="primary" className="d-flex align-items-center" onClick={() => {
-                                                setActionModal("CREATE");
-                                                setState(prevState => ({
-                                                    ...prevState,
-                                                    modalShow: true
-                                                }));
-                                            }}>
-                                                <FaPlus className="me-2" /> Add
+                                            <Button variant="primary" className="d-flex align-items-center"
+                                                    onClick={() => {
+                                                        setActionModal("CREATE");
+                                                        setState(prevState => ({
+                                                            ...prevState,
+                                                            modalShow: true
+                                                        }));
+                                                    }}>
+                                                <FaPlus className="me-2"/> Add
                                             </Button>
-                                            <div className="vr mx-2" />
+                                            <div className="vr mx-2"/>
                                             <Button variant="warning" className="d-flex align-items-center"
                                                     onClick={() => {
                                                         setActionModal('ASSIGN');
@@ -292,9 +290,9 @@ const CustomerSaleComponent = () => {
                                                             modalShow: true
                                                         }));
                                                     }}>
-                                                <FaSync className="me-2" /> Giao việc
+                                                <FaSync className="me-2"/> Giao việc
                                             </Button>
-                                            <div className="vr mx-2" />
+                                            <div className="vr mx-2"/>
                                             <Button variant="secondary" className="d-flex align-items-center"
                                                     onClick={() => {
                                                         setActionModal("IMPORT");
@@ -303,17 +301,13 @@ const CustomerSaleComponent = () => {
                                                             modalShow: true
                                                         }));
                                                     }}>
-                                                <FaFileImport className="me-2" /> Import
+                                                <FaFileImport className="me-2"/> Import
                                             </Button>
                                             <Button variant="success" className="d-flex align-items-center"
-                                                    onClick={() => {
-                                                        setActionModal("EXPORT");
-                                                        setState(prevState => ({
-                                                            ...prevState,
-                                                            modalShow: true
-                                                        }));
-                                                    }}>
-                                                <FaFileExport className="me-2" /> Export
+                                                    href="/path/to/sample-file.xlsx"
+                                                    download
+                                            >
+                                                <FaFileExport className="me-2"/> Export
                                             </Button>
 
 
@@ -347,7 +341,10 @@ const CustomerSaleComponent = () => {
                                                 placeholder="Search..."
                                                 aria-label="Search input"
                                                 value={state.searchTerm}
-                                                onChange={(e) => setState(prevState => ({ ...prevState, searchTerm: e.target.value }))}
+                                                onChange={(e) => setState(prevState => ({
+                                                    ...prevState,
+                                                    searchTerm: e.target.value
+                                                }))}
                                                 onKeyDown={(event) => {
                                                     if (event.key === 'Enter') {
                                                         event.preventDefault();
@@ -400,10 +397,10 @@ const CustomerSaleComponent = () => {
                                                         <BsEye className="text-secondary"/>
                                                     </Button>
                                                     <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsPencil className="text-primary" />
+                                                        <BsPencil className="text-primary"/>
                                                     </Button>
                                                     <Button variant="link" onClick={() => confirmDelete(item)}>
-                                                        <BsTrash  className="text-danger"/>
+                                                        <BsTrash className="text-danger"/>
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -429,32 +426,31 @@ const CustomerSaleComponent = () => {
             </section>
 
             {/* Modal for Form */}
-            <Modal show={state.modalShow} onHide={() => setState(prevState => ({ ...prevState, modalShow: false }))}
+            <Modal show={state.modalShow} onHide={() => setState(prevState => ({...prevState, modalShow: false}))}
                    size="lg"
                    aria-labelledby="contained-modal-title-vcenter"
                    centered>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                       {actionModal === "EDIT" ? "Cập Nhật" : actionModal === 'IMPORT'? "Nhập từ Excel" :
-                           actionModal === 'EXPORT'? "Xuất file Excel" :
-                               actionModal === 'ASSIGN'? "Phân chia dữ liệu cho nhân viên" : "Thêm mới"
-                       }
+                        {actionModal === "EDIT" ? "Cập Nhật" : actionModal === 'IMPORT' ? "Nhập từ Excel" :
+                            actionModal === 'EXPORT' ? "Xuất file Excel" :
+                                actionModal === 'ASSIGN' ? "Phân chia dữ liệu cho nhân viên" : "Thêm mới"
+                        }
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {actionModal === 'IMPORT'? <ImportExcelForm/> :
-                        actionModal === 'EXPORT'? <ExportExcelForm /> :
-                            actionModal === 'ASSIGN'? <AssignDataForm /> :<CustomerSaleForm
-                        formFieldsProp={state.modalProps.formFieldsProp}
-                        initialData={formData}
-                        actionModal={actionModal}
-                        onSubmit={handleSubmit}
-                        onCancel={() => {
-                            setState(prev => ({ ...prev, modalShow: false }));
-                        }}
-                        statusOptions={statusOptions}
-                        programOptions={programOptions}
-                    />}
+                    {actionModal === 'IMPORT' ? <ImportExcelForm/> :
+                        actionModal === 'ASSIGN' ? <AssignDataForm/> : <CustomerSaleForm
+                            formFieldsProp={state.modalProps.formFieldsProp}
+                            initialData={formData}
+                            actionModal={actionModal}
+                            onSubmit={handleSubmit}
+                            onCancel={() => {
+                                setState(prev => ({...prev, modalShow: false}));
+                            }}
+                            statusOptions={statusOptions}
+                            programOptions={programOptions}
+                        />}
                 </Modal.Body>
                 <Modal.Footer>
 
@@ -468,7 +464,7 @@ const CustomerSaleComponent = () => {
                 onDelete={() => handleDelete(deleteItemId)}
             />
 
-            <ToastContainer />
+            <ToastContainer/>
         </>
     );
 };
