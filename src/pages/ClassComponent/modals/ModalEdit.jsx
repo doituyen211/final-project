@@ -22,16 +22,22 @@ const ModalEdit = () => {
         endDate: moment(dataRow.endDate),
       });
     }
-  }, [dataRow, form]);
+  }, [dataRow, form, showModalEdit]);
 
   const handleEditClass = () => {
-    const values = form.getFieldsValue();
-    const formattedValues = {
-      ...values,
-      startDate: values.startDate.format("YYYY-MM-DD"),
-      endDate: values.endDate.format("YYYY-MM-DD"),
-    };
-    mutation.mutate(formattedValues);
+    form
+      .validateFields()
+      .then((values) => {
+        const formattedValues = {
+          ...values,
+          startDate: values.startDate.format("YYYY-MM-DD"),
+          endDate: values.endDate.format("YYYY-MM-DD"),
+        };
+        mutation.mutate(formattedValues);
+      })
+      .catch((errorInfo) => {
+        console.log("Validation Failed:", errorInfo);
+      });
   };
 
   return (
@@ -51,10 +57,23 @@ const ModalEdit = () => {
       }
     >
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
-        <Form.Item label="Tên chương trình đào tạo" name="trProgramName">
+        <Form.Item
+          label="Tên chương trình đào tạo"
+          name="trProgramName"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập tên chương trình đào tạo",
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Tên lớp" name="name">
+        <Form.Item
+          label="Tên lớp"
+          name="name"
+          rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item label="Sĩ số" name="size">
@@ -63,7 +82,11 @@ const ModalEdit = () => {
         <Form.Item label="Ngày bắt đầu" name="startDate">
           <DatePicker disabled />
         </Form.Item>
-        <Form.Item label="Ngày kết thúc" name="endDate">
+        <Form.Item
+          label="Ngày kết thúc"
+          name="endDate"
+          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc" }]}
+        >
           <DatePicker />
         </Form.Item>
       </Form>

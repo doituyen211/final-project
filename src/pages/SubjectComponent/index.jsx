@@ -5,10 +5,10 @@ import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import { toast, ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 import DeleteComponent from "../../components/DeleteItemComponent";
+import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 import "./SubjectComponent.scss";
-import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 const INITIAL_STATE = {
     dataTable: [],
     titleTable: "SubjectComponent",
@@ -108,7 +108,7 @@ const SubjectComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                if (search !== "" || status !== "" || program !== "") page = 1;
+                // if (search !== "" || status !== "" || program !== "") page = 1;
                 const { data } = await axios.get(api, {
                     params: {
                         page: page,
@@ -384,9 +384,9 @@ const SubjectComponent = () => {
                                                                     item.status
                                                             )?.name || "N/A"}
                                                         </td>
-                                                        <td>
+                                                        <td className="col-2">
                                                             <Button
-                                                                variant="light"
+                                                                variant="link"
                                                                 className="me-1"
                                                                 onClick={() => {
                                                                     setFormData(
@@ -400,10 +400,10 @@ const SubjectComponent = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                <BsEye />
+                                                                <BsEye className="text-secondary" />
                                                             </Button>
                                                             <Button
-                                                                variant="primary"
+                                                                variant="link"
                                                                 className="me-1"
                                                                 onClick={() => {
                                                                     setFormData(
@@ -417,17 +417,17 @@ const SubjectComponent = () => {
                                                                     );
                                                                 }}
                                                             >
-                                                                <BsPencil />
+                                                                <BsPencil className="text-primary" />
                                                             </Button>
                                                             <Button
-                                                                variant="danger"
+                                                                variant="link"
                                                                 onClick={() =>
                                                                     confirmDelete(
                                                                         item
                                                                     )
                                                                 }
                                                             >
-                                                                <BsTrash />
+                                                                <BsTrash className="text-danger" />
                                                             </Button>
                                                         </td>
                                                     </tr>

@@ -5,13 +5,17 @@ import {
     SubjectComponent,
     TuitionFeeComponent,
     UserComponent,
+    ScoreComponent,
+    CustomerSaleComponent,
     ClassMembersComponent,
-    SubjectComponentLayout2,
-    ReservationComponent,
+    StudentComponent,
+    ReservationsComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
+
+import AttendanceComponent from "../pages/AttendanceComponent";
 
 export const routeSideBar = [
     {
@@ -44,6 +48,7 @@ export const routeSideBar = [
                 name: "Quản lý học viên",
                 icon: "nav-icon fas fa-user",
                 to: "/students",
+                component: StudentComponent,
             },
             {
                 name: "Quản lý môn học",
@@ -61,6 +66,7 @@ export const routeSideBar = [
                 name: "Quản lý bảo lưu",
                 icon: "nav-icon fas fa-pause-circle",
                 to: "/reservations",
+                component: ReservationsComponent,
             },
             {
                 name: "Quản lý thành viên lớp",
@@ -78,6 +84,7 @@ export const routeSideBar = [
                 name: "Quản lý điểm danh",
                 icon: "nav-icon fas fa-calendar-check",
                 to: "/attendance",
+                component: AttendanceComponent,
             },
             {
                 name: "Quản lý khoá học",
@@ -101,6 +108,7 @@ export const routeSideBar = [
                 name: "Quản lý điểm số",
                 icon: "nav-icon fas fa-chart-line",
                 to: "/grades",
+                component: ScoreComponent,
             },
         ],
     },
@@ -120,6 +128,18 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
                 to: "/marketing-campaigns", // Define the route for the new component
                 component: MarketingCampaignComponent, // Add your new component here
+            },
+            {
+                name: "Quản lý khách hàng",
+                icon: "nav-icon fas fa-user", // Updated icon class
+                to: "/khach-hang",
+                component: CustomerSaleComponent,
+            },
+            {
+                name: "Chương trình đào tạo",
+                icon: "nav-icon fas fa-cogs",
+                to: "/sale-program",
+                component: TrainningProgramComponent,
             },
         ],
     },
