@@ -7,13 +7,15 @@ import {
   UserComponent,
   ScoreComponent,
   CustomerSaleComponent,
-  ClassMembersComponent, StudentComponent, ReservationsComponent,
+  ClassMembersComponent,
+  StudentComponent,
+  ReservationComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
 import AttendanceComponent from "../pages/AttendanceComponent";
-
+import StudenInforComponent from "../pages/StudentInforComponent";
 export const routeSideBar = [
   {
     name: "Dashboard",
@@ -63,7 +65,13 @@ export const routeSideBar = [
         name: "Quản lý bảo lưu",
         icon: "nav-icon fas fa-pause-circle",
         to: "/reservations",
-        component: ReservationsComponent
+        component: ReservationComponent,
+      },
+      {
+        name: "Thông tin học viên",
+        icon: "nav-icon fas fa-pause-circle",
+        to: "/studeninformation",
+        component: StudenInforComponent,
       },
       {
         name: "Quản lý thành viên lớp",
@@ -125,15 +133,13 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
         to: "/marketing-campaigns", // Define the route for the new component
         component: MarketingCampaignComponent, // Add your new component here
-      }
-      ,
+      },
       {
         name: "Quản lý khách hàng",
-        icon: "nav-icon fas fa-user",  // Updated icon class
+        icon: "nav-icon fas fa-user", // Updated icon class
         to: "/khach-hang",
         component: CustomerSaleComponent,
-      }
-      ,
+      },
       {
         name: "Chương trình đào tạo",
         icon: "nav-icon fas fa-cogs",
