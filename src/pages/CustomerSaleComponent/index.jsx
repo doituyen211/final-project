@@ -314,7 +314,7 @@ const CustomerSaleComponent = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex mb-4">
-                                        <div className="col-md-2 d-flex align-items-center gap-3">
+                                        <div className="col-md-4 d-flex align-items-center gap-3">
                                             <Form.Select
                                                 id="programStatus1"
                                                 aria-label="Status"
@@ -333,7 +333,50 @@ const CustomerSaleComponent = () => {
                                                     <option key={option.value} value={option.id}>{option.name}</option>
                                                 ))}
                                             </Form.Select>
+                                            <div className="d-flex align-items-center gap-2">
+                                                <h6 className="mb-0">Từ:</h6>
+                                                <div className="flex-fill">
+                                                    <label htmlFor="fromDate" className="form-label sr-only">Ngày bắt
+                                                        đầu</label>
+                                                    <input
+                                                        type="date"
+                                                        id="fromDate"
+                                                        className="form-control rounded-pill border-secondary"
+                                                        value={state.modalProps.formFieldsProp.fromDate}
+                                                        onChange={(e) => setState(prevState => ({
+                                                            ...prevState,
+                                                            modalProps: {
+                                                                ...prevState.modalProps,
+                                                                fromDate: e.target.value
+                                                            }
+                                                        }))}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="d-flex align-items-center gap-2">
+                                                <h6 className="mb-0">Đến:</h6>
+                                                <div className="flex-fill">
+                                                    <label htmlFor="toDate" className="form-label sr-only">Ngày kết
+                                                        thúc</label>
+                                                    <input
+                                                        type="date"
+                                                        id="toDate"
+                                                        className="form-control rounded-pill border-secondary"
+                                                        value={state.modalProps.formFieldsProp.toDate}
+                                                        onChange={(e) => setState(prevState => ({
+                                                            ...prevState,
+                                                            modalProps: {
+                                                                ...prevState.modalProps,
+                                                                toDate: e.target.value
+                                                            }
+                                                        }))}
+                                                    />
+                                                </div>
+                                            </div>
+
                                         </div>
+
                                         <div className="col-md-4  d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
