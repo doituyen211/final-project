@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API_LIABILITY = "https://66b2f5cb7fba54a5b7eaec0b.mockapi.io/list_debt";
-
+const API_OPTION = "https://66b2f5cb7fba54a5b7eaec0b.mockapi.io/options";
 
 export const fetch_ListLiability = async () => {
     try {
@@ -15,7 +15,6 @@ export const fetch_ListLiability = async () => {
 export const get_LiabilityById = async (id) => {
     try {
         const response = await axios.get(`${API_LIABILITY}/${id}`);
-        console.log("data", response);
         return response.data;
     } catch (e) {
         console.log("error", e);
@@ -43,5 +42,14 @@ export const delete_Liability = async (id) => {
         await axios.delete(`${API_LIABILITY}/${id}`);
     } catch (e) {
         console.log("error", e);
+    }
+}
+
+export const fetch_option_Liability = async () => {
+    try {
+        const response = await axios.get(API_OPTION);
+        return response.data;
+    } catch (error) {
+        console.log("error",error)
     }
 }

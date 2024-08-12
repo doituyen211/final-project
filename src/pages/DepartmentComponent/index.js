@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import './sass/main.scss'
 import InfoModal from './ModalDepartment/InfoDepartment';
-import { createDepartment, deleteDepartment, fetchDepartmentById, fetchDepartments, fetchStatus, updateDepartment } from './service/DepartmentService';
-import { convertDateToISO, formatDate } from './Utils/Date';
+import {
+    createDepartment,
+    deleteDepartment,
+    fetchDepartmentById,
+    fetchDepartments,
+    fetchStatus,
+    updateDepartment
+} from './service/DepartmentService';
+import {convertDateToISO, formatDate} from './Utils/Date';
 import DepartmentForm from './Utils/DepartmentForm';
 import DepartmentTable from './Utils/DepartmentTable';
-import { NavLink } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { validateDepartmentForm } from './Utils/ValidationDepartment';
-
+import {NavLink} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import {validateDepartmentForm} from './Utils/ValidationDepartment';
 
 
 export default function DepartmentComponent() {
@@ -16,7 +22,7 @@ export default function DepartmentComponent() {
     const [departments, setDepartments] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState({ title: '', content: '' });
+    const [modalContent, setModalContent] = useState({title: '', content: ''});
     const [formValue, setFormValue] = useState({
         departmentName: "",
         description: "",
@@ -47,7 +53,7 @@ export default function DepartmentComponent() {
     const closeModal = () => setModalOpen(false);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormValue({
             ...formValue,
             [name]: value
@@ -55,13 +61,24 @@ export default function DepartmentComponent() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const validationErrors = validateDepartmentForm(formValue, departments,editingDepartmentId);
+        const validationErrors = validateDepartmentForm(formValue, departments, editingDepartmentId);
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
-        const createDateISO = formatDate(formValue.createDate);
-        const updateDateISO = formatDate(formValue.updateDate);
+        const nowISO = new Date().toISOString();
+        const nowFormat = formatDate(nowISO);
+
+        let createDateISO;
+        let updateDateISO;
+        if (isEditing) {
+            createDateISO = formatDate(formValue.createDate);
+            updateDateISO = nowFormat;
+        } else {
+            createDateISO = formatDate(formValue.createDate);
+            updateDateISO = createDateISO
+        }
+
         const departmentData = {
             departmentName: formValue.departmentName,
             description: formValue.description,
@@ -69,6 +86,7 @@ export default function DepartmentComponent() {
             createDate: createDateISO,
             updateDate: updateDateISO
         };
+
         try {
             let res;
             if (isEditing) {
@@ -105,27 +123,33 @@ export default function DepartmentComponent() {
                     <div>
                         <div className="form-group">
                             <label htmlFor="department_Id">ID:</label>
-                            <input type="number" id="department_Id" className="form-control" value={department.id} disabled />
+                            <input type="number" id="department_Id" className="form-control" value={department.id}
+                                   disabled/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_Name">Tên phòng ban:</label>
-                            <input type="text" id="department_Name" className="form-control" value={department.departmentName} disabled />
+                            <input type="text" id="department_Name" className="form-control"
+                                   value={department.departmentName} disabled/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_Status">Trạng thái:</label>
-                            <input type="text" id="department_Status" className="form-control" value={department.status} disabled />
+                            <input type="text" id="department_Status" className="form-control" value={department.status}
+                                   disabled/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_Description">Mô tả:</label>
-                            <input type="text" id="department_Description" className="form-control" value={department.description} disabled />
+                            <input type="text" id="department_Description" className="form-control"
+                                   value={department.description} disabled/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_CreateDate">Ngày tạo:</label>
-                            <input type="text" id="department_CreateDate" className="form-control" value={department.createDate} disabled />
+                            <input type="text" id="department_CreateDate" className="form-control"
+                                   value={department.createDate} disabled/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="department_UpdateDate">Ngày cập nhật:</label>
-                            <input type="text" id="department_UpdateDate" className="form-control" value={department.updateDate} disabled />
+                            <input type="text" id="department_UpdateDate" className="form-control"
+                                   value={department.updateDate} disabled/>
                         </div>
                     </div>
                 )
@@ -178,22 +202,23 @@ export default function DepartmentComponent() {
     const paginatedDepartments = departments.slice(offset, offset + ITEMS_PER_PAGE);
     const filteredDepartments = paginatedDepartments.filter(department => department.departmentName.toLowerCase().startsWith(search.toLowerCase()));
 
+
     const header = ["ID", "Tên phòng ban", "Trạng thái", "Chức năng"];
     const row = filteredDepartments.map((department) => ({
         data: [String(department.id), department.departmentName, department.status],
         actions: [
-            { className: 'btn-info', icon: 'fa-eye', onClick: handleModalInfo },
-            { className: "btn-warning", icon: "fa-pen", onClick: handleUpdateDepartment },
-            { className: 'btn-danger', icon: 'fa-trash', onClick: handleDeleteDepartment }
+            {className: 'btn-info', icon: 'fa-eye', onClick: handleModalInfo},
+            {className: "btn-warning", icon: "fa-pen", onClick: handleUpdateDepartment},
+            {className: 'btn-danger', icon: 'fa-trash', onClick: handleDeleteDepartment}
         ]
     }))
 
     return (
         <div>
             <section className="content-header">
-                <div className="container-fluid" >
-                    <div className="row mb-2" >
-                        <div className="col-sm-6" >
+                <div className="container-fluid">
+                    <div className="row mb-2">
+                        <div className="col-sm-6">
                             <h1>Quản lý phòng ban</h1>
                         </div>
                         <div className="col-sm-6">
@@ -207,15 +232,18 @@ export default function DepartmentComponent() {
             </section>
             <section className="content">
                 <div className="container-fluid">
-                    <div className="row" >
+                    <div className="row">
                         {/* FROM INOUT */}
-                        <DepartmentForm formValue={formValue} handleChange={handleChange} handleSubmit={handleSubmit} isEditing={isEditing} statuses={statuses} errors={errors} />
+                        <DepartmentForm formValue={formValue} handleChange={handleChange} handleSubmit={handleSubmit}
+                                        isEditing={isEditing} statuses={statuses} errors={errors}/>
                         {/* LIST DEPARTMENT */}
-                        <DepartmentTable header={header} row={row} pageCount={pageCount} handlePageClick={handlePageClick} search={search} handleSearch={handleSearch} />
+                        <DepartmentTable header={header} row={row} pageCount={pageCount}
+                                         handlePageClick={handlePageClick} search={search} handleSearch={handleSearch}/>
                     </div>
-                </div >
-            </section >
-            <InfoModal isOpen={isModalOpen} onClose={closeModal} title={modalContent.title} content={modalContent.content} />
-        </div >
+                </div>
+            </section>
+            <InfoModal isOpen={isModalOpen} onClose={closeModal} title={modalContent.title}
+                       content={modalContent.content}/>
+        </div>
     )
 }
