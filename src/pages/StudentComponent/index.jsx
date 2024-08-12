@@ -91,7 +91,7 @@ const StudentComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                console.log("kfgnfgdkjnngffjndg");
+                console.log("");
                 const {data} = await axios.get(`${api}?search=${search}&page=${page}&limit=5`);
                 setState((prevState) => ({
                     ...prevState,
