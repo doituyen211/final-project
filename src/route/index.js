@@ -7,7 +7,7 @@ import {
   UserComponent,
   ScoreComponent,
   CustomerSaleComponent,
-  ClassMembersComponent, StudentComponent, ReservationsComponent,
+  ClassMembersComponent, StudentComponent, ReservationsComponent, LoginComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
@@ -139,6 +139,12 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-cogs",
         to: "/programs",
         component: TrainningProgramComponent,
+      },
+      {
+        name: "Login (Sau nay xoa)",
+        icon: "nav-icon fas fa-cogs",
+        to: "/Login",
+        component: LoginComponent,
       },
     ],
   },
