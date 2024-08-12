@@ -130,10 +130,12 @@ const ScheduleComponent2 = () => {
 
     const [program, setProgram] = useState("");
     const [status, setStatus] = useState("");
+    const [classR, setClassR] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
 
-    const [statusOptions, setStatusOptions] = useState([]);
-    const [programOptions, setProgramOptions] = useState([]);
+    const [LecturerOptions, setLecturerOptions] = useState([]);
+    const [IDClassOptions, setIDClassOptions] = useState([]);
+    const [ClassRoomOptions, setClassRoomResponse] = useState([]);
     const [formData, setFormData] = useState({
         id: "",
         ma_mon_hoc: "",
@@ -155,6 +157,7 @@ const ScheduleComponent2 = () => {
                         page: page,
                         pageSize: 10,
                         search,
+                        classR,
                         status,
                         program,
                     },
@@ -169,7 +172,7 @@ const ScheduleComponent2 = () => {
                 console.error("Error fetching data:", error);
             }
         },
-        [api, status, program]
+        [api, classR, status, program]
     );
 
     const handleSearchChange = useCallback((event) => {
@@ -179,6 +182,10 @@ const ScheduleComponent2 = () => {
     const handleSearch = useCallback(() => {
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
+
+    const handleClassRChange = useCallback((event) => {
+        setClassR(event.target.value);
+    }, []);
 
     const handleProgramChange = useCallback((event) => {
         setProgram(event.target.value);
@@ -199,12 +206,15 @@ const ScheduleComponent2 = () => {
 
     const fetchOptions = useCallback(async () => {
         try {
-            const [statusResponse, programResponse] = await Promise.all([
-                axios.get("/data/lecturers.json"),
-                axios.get("/data/IDClass.json"),
-            ]);
-            setStatusOptions(statusResponse.data);
-            setProgramOptions(programResponse.data);
+            const [ClassRoomResponse, LecturerResponse, IDClassResponse] =
+                await Promise.all([
+                    axios.get("/data/ClassRoom.json"),
+                    axios.get("/data/lecturers.json"),
+                    axios.get("/data/IDClass.json"),
+                ]);
+            setClassRoomResponse(ClassRoomResponse.data);
+            setLecturerOptions(LecturerResponse.data);
+            setIDClassOptions(IDClassResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
         }
@@ -401,7 +411,7 @@ const ScheduleComponent2 = () => {
                                                         <option value="">
                                                             Chọn mã lớp
                                                         </option>
-                                                        {programOptions.map(
+                                                        {IDClassOptions.map(
                                                             (option) => (
                                                                 <option
                                                                     key={
@@ -441,7 +451,7 @@ const ScheduleComponent2 = () => {
                                                         <option value="">
                                                             Chọn giảng viên
                                                         </option>
-                                                        {statusOptions.map(
+                                                        {LecturerOptions.map(
                                                             (option) => (
                                                                 <option
                                                                     key={
@@ -502,20 +512,20 @@ const ScheduleComponent2 = () => {
                                     <h3 className="text-start mb-4">
                                         Danh sách lịch học
                                     </h3>
-                                    <div className="d-flex mb-4">
+                                    <div className="d-flex mb-4 gap-2">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-2 d-flex align-items-center gap-3">
+                                        <div className="col-md-2.5 d-flex align-items-center gap-3">
                                             <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
+                                                id="programClassR"
+                                                aria-label="ClassR"
                                                 className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
+                                                value={classR}
+                                                onChange={handleClassRChange}
                                             >
                                                 <option value="">
                                                     Chọn phòng học
                                                 </option>
-                                                {programOptions.map(
+                                                {ClassRoomOptions.map(
                                                     (option) => (
                                                         <option
                                                             key={option.value}
@@ -538,7 +548,7 @@ const ScheduleComponent2 = () => {
                                                 <option value="">
                                                     Chọn mã lớp
                                                 </option>
-                                                {programOptions.map(
+                                                {IDClassOptions.map(
                                                     (option) => (
                                                         <option
                                                             key={option.value}
@@ -550,7 +560,7 @@ const ScheduleComponent2 = () => {
                                                 )}
                                             </Form.Select>
                                         </div>
-                                        <div className="col-md-2 d-flex align-items-center gap-3">
+                                        <div className="col-md-2.8 d-flex align-items-center gap-3">
                                             <Form.Select
                                                 id="programStatus1"
                                                 aria-label="Status"
@@ -561,14 +571,16 @@ const ScheduleComponent2 = () => {
                                                 <option value="">
                                                     Chọn giảng viên
                                                 </option>
-                                                {statusOptions.map((option) => (
-                                                    <option
-                                                        key={option.value}
-                                                        value={option.id}
-                                                    >
-                                                        {option.name}
-                                                    </option>
-                                                ))}
+                                                {LecturerOptions.map(
+                                                    (option) => (
+                                                        <option
+                                                            key={option.value}
+                                                            value={option.id}
+                                                        >
+                                                            {option.name}
+                                                        </option>
+                                                    )
+                                                )}
                                             </Form.Select>
                                         </div>
 
@@ -642,7 +654,7 @@ const ScheduleComponent2 = () => {
                                                                     : ""
                                                             }
                                                         >
-                                                            {programOptions.find(
+                                                            {IDClassOptions.find(
                                                                 (program) =>
                                                                     program.id ===
                                                                     item.ma_lop
@@ -660,7 +672,7 @@ const ScheduleComponent2 = () => {
                                                                     : ""
                                                             }
                                                         >
-                                                            {statusOptions.find(
+                                                            {LecturerOptions.find(
                                                                 (status) =>
                                                                     status.id ===
                                                                     item.id_nhan_su
@@ -676,7 +688,6 @@ const ScheduleComponent2 = () => {
                                                                             ...item,
                                                                         }
                                                                     );
-
                                                                     setInitialIdCurrent(
                                                                         item.id
                                                                     );
@@ -737,7 +748,6 @@ const ScheduleComponent2 = () => {
                 </div>
             </section>
             <ToastContainer />
-            {/* Modal xác nhận xóa */}
             {/* Modal xác nhận xóa */}
             <DeleteComponent
                 show={showConfirmModal}
