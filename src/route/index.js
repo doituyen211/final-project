@@ -1,19 +1,24 @@
 import {
+  ClassMembersComponent,
   CourseComponent,
+  CustomerSaleComponent,
+  DashboardSalesComponent,
   MarketingCampaignComponent,
-  ScheduleComponent3,
+  ReservationComponent,
+  ScheduleComponent2,
+  ScoreComponent,
+  StudenInforComponent,
+  StudentComponent,
   SubjectComponent,
   TuitionFeeComponent,
   UserComponent,
-  ScoreComponent,
-  CustomerSaleComponent,
-  ClassMembersComponent, StudentComponent, ReservationsComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
+import TrainningProgramComponent from "../pages/TrainningProgramComponent";
+import DashboardEducationComponent from "../pages/DashboardEducationComponent";
 import AttendanceComponent from "../pages/AttendanceComponent";
-import AttendanceStudent from "../pages/AttendanceStudentComponent";
+
 export const routeSideBar = [
   {
     name: "Dashboard",
@@ -42,6 +47,12 @@ export const routeSideBar = [
     to: "#",
     child: [
       {
+        name: "Dashboard",
+        icon: "nav-icon fas fa-tachometer-alt",
+        to: "/dashboard-education",
+        component: DashboardEducationComponent,
+      },
+      {
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
         to: "/students",
@@ -63,8 +74,15 @@ export const routeSideBar = [
         name: "Quản lý bảo lưu",
         icon: "nav-icon fas fa-pause-circle",
         to: "/reservations",
-        component: ReservationsComponent
+        component: ReservationComponent,
       },
+      {
+        name: "Thông tin học viên (sau xoa)",
+        icon: "nav-icon fas fa-pause-circle",
+        to: "/studentinfomation",
+        component: StudenInforComponent,
+      },
+
       {
         name: "Quản lý thành viên lớp",
         icon: "nav-icon fas fa-users",
@@ -93,7 +111,7 @@ export const routeSideBar = [
         name: "Quản lý lịch học",
         icon: "nav-icon fas fa-calendar-alt",
         to: "/schedules",
-        component: ScheduleComponent3,
+        component: ScheduleComponent2,
       },
       {
         name: "Quản lý lịch thi",
@@ -115,6 +133,12 @@ export const routeSideBar = [
     to: "#",
     child: [
       {
+        name: "Dashboard",
+        icon: "nav-icon fas fa-tachometer-alt",
+        to: "/dashboard-sales",
+        component: DashboardSalesComponent,
+      },
+      {
         name: "Quản lý học phí",
         icon: "nav-icon fas fa-money-bill-wave",
         to: "/tuitionfee",
@@ -125,15 +149,13 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
         to: "/marketing-campaigns", // Define the route for the new component
         component: MarketingCampaignComponent, // Add your new component here
-      }
-      ,
+      },
       {
         name: "Quản lý khách hàng",
-        icon: "nav-icon fas fa-user",  // Updated icon class
+        icon: "nav-icon fas fa-user", // Updated icon class
         to: "/khach-hang",
         component: CustomerSaleComponent,
-      }
-      ,
+      },
       {
         name: "Chương trình đào tạo",
         icon: "nav-icon fas fa-cogs",

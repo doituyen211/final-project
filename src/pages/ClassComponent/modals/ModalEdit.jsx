@@ -1,8 +1,8 @@
-import { DatePicker, Form, Input, Modal } from "antd";
+import { DatePicker, Form, Input, Modal, Select } from "antd";
 import moment from "moment";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { useEditClass } from "../hooks";
+import { useEditClass, useGetTrainingProgram } from "../hooks";
 import useClassStore from "../useClassStore";
 
 const ModalEdit = () => {
@@ -10,7 +10,8 @@ const ModalEdit = () => {
   const showModalEdit = useClassStore((state) => state.showModalEdit);
   const dataRow = useClassStore((state) => state.dataRow);
   const handleClose = useClassStore((state) => state.handleClose);
-  const { mutation } = useEditClass(dataRow.id);
+  const { handleEditClass } = useEditClass(dataRow.id, form);
+  const { data } = useGetTrainingProgram();
 
   useEffect(() => {
     if (dataRow) {
@@ -22,17 +23,7 @@ const ModalEdit = () => {
         endDate: moment(dataRow.endDate),
       });
     }
-  }, [dataRow, form]);
-
-  const handleEditClass = () => {
-    const values = form.getFieldsValue();
-    const formattedValues = {
-      ...values,
-      startDate: values.startDate.format("YYYY-MM-DD"),
-      endDate: values.endDate.format("YYYY-MM-DD"),
-    };
-    mutation.mutate(formattedValues);
-  };
+  }, [dataRow, form, showModalEdit]);
 
   return (
     <Modal
@@ -51,10 +42,29 @@ const ModalEdit = () => {
       }
     >
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
-        <Form.Item label="Tên chương trình đào tạo" name="trProgramName">
-          <Input />
+        <Form.Item
+          label="Tên chương trình đào tạo"
+          name="trProgramName"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập tên chương trình đào tạo",
+            },
+          ]}
+        >
+          <Select
+            placeholder="Chọn chương trình đào tạo"
+            options={data?.map((option) => ({
+              value: option.id,
+              label: option.programName,
+            }))}
+          />
         </Form.Item>
-        <Form.Item label="Tên lớp" name="name">
+        <Form.Item
+          label="Tên lớp"
+          name="name"
+          rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item label="Sĩ số" name="size">
@@ -63,7 +73,11 @@ const ModalEdit = () => {
         <Form.Item label="Ngày bắt đầu" name="startDate">
           <DatePicker disabled />
         </Form.Item>
-        <Form.Item label="Ngày kết thúc" name="endDate">
+        <Form.Item
+          label="Ngày kết thúc"
+          name="endDate"
+          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc" }]}
+        >
           <DatePicker />
         </Form.Item>
       </Form>
