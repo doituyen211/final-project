@@ -4,6 +4,8 @@
 // const BASE_URL = 'https://66aa0b5b613eced4eba7559a.mockapi.io';
 const BASE_URL = "http://localhost:8080/api";
 const BASE_URL_TP = "https://64dc81fbe64a8525a0f699a1.mockapi.io/api/v1";
+const BASE_URL_INFOR_STU =
+  "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/thongtinhocvien";
 // Common API endpoints
 const API = {
   SUBJECT: `${BASE_URL}/subject`,
@@ -13,6 +15,7 @@ const API = {
 
   CLASS: `${BASE_URL}/class`,
   TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`,
+  INFOR_STU: `${BASE_URL_INFOR_STU}/class`,
 
   // Add other API endpoints here if needed
 };

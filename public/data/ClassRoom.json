@@ -1,22 +1,22 @@
 [
     {
         "id": 1,
-        "name": "IT.001"
+        "name": "Room 101"
     },
     {
         "id": 2,
-        "name": "IT.002"
+        "name": "Room 102"
     },
     {
         "id": 3,
-        "name": "IT.003"
+        "name": "Room 103"
     },
     {
         "id": 4,
-        "name": "IT.004"
+        "name": "Room 104"
     },
     {
         "id": 5,
-        "name": "IT.005"
+        "name": "Room 105"
     }
 ]
