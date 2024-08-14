@@ -31,4 +31,10 @@ export const classApi = {
       newData
     );
   },
+
+  getTrainingProgram() {
+    return axios.get(
+      `https://64dc81fbe64a8525a0f699a1.mockapi.io/api/v1/trainin_program`
+    );
+  },
 };

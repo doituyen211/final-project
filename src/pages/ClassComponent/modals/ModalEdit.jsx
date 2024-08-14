@@ -1,8 +1,8 @@
-import { DatePicker, Form, Input, Modal } from "antd";
+import { DatePicker, Form, Input, Modal, Select } from "antd";
 import moment from "moment";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { useEditClass } from "../hooks";
+import { useEditClass, useGetTrainingProgram } from "../hooks";
 import useClassStore from "../useClassStore";
 
 const ModalEdit = () => {
@@ -10,7 +10,8 @@ const ModalEdit = () => {
   const showModalEdit = useClassStore((state) => state.showModalEdit);
   const dataRow = useClassStore((state) => state.dataRow);
   const handleClose = useClassStore((state) => state.handleClose);
-  const { mutation } = useEditClass(dataRow.id);
+  const { handleEditClass } = useEditClass(dataRow.id, form);
+  const { data } = useGetTrainingProgram();
 
   useEffect(() => {
     if (dataRow) {
@@ -23,22 +24,6 @@ const ModalEdit = () => {
       });
     }
   }, [dataRow, form, showModalEdit]);
-
-  const handleEditClass = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        const formattedValues = {
-          ...values,
-          startDate: values.startDate.format("YYYY-MM-DD"),
-          endDate: values.endDate.format("YYYY-MM-DD"),
-        };
-        mutation.mutate(formattedValues);
-      })
-      .catch((errorInfo) => {
-        console.log("Validation Failed:", errorInfo);
-      });
-  };
 
   return (
     <Modal
@@ -67,7 +52,13 @@ const ModalEdit = () => {
             },
           ]}
         >
-          <Input />
+          <Select
+            placeholder="Chọn chương trình đào tạo"
+            options={data?.map((option) => ({
+              value: option.id,
+              label: option.programName,
+            }))}
+          />
         </Form.Item>
         <Form.Item
           label="Tên lớp"
