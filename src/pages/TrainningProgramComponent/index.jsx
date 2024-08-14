@@ -102,7 +102,7 @@ const TrainningProgramComponent = () => {
                         <div className="col">
                             <div className="card card-primary">
                                 <div className="card-body">
-                                    <div className="row align-items-center ">
+                                    <div className="row align-items-center mb-3">
 
                                         <div className="col-md-10 d-flex align-items-center gap-3 justify-content-start">
                                             <SearchComponent
@@ -111,7 +111,7 @@ const TrainningProgramComponent = () => {
                                                 onChange={setSearchItem}
                                             />
                                         </div>
-                                        <div className="col-md-2 d-flex align-items-center justify-content-start">
+                                        <div className="col-md-2 d-flex align-items-center justify-content-end">
                                             {currentPath === '/programs' &&
                                                 <Button variant="primary btn-sm" size="lg" onClick={() => setIsShowModal(true)}>
                                                     Thêm mới
@@ -173,7 +173,7 @@ const TrainningProgramComponent = () => {
                 editData={editData}
                 isEditMode={isEditMode}
             />
-            <NotificationComponent></NotificationComponent>
+            <NotificationComponent />
 
 
         </>
