@@ -13,7 +13,7 @@ import ClassComponent from "../pages/ClassComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
 import ExamComponent from "../pages/ExamComponent";
 import AttendanceComponent from "../pages/AttendanceComponent";
-
+import AttendanceStudent from "../pages/AttendanceStudentComponent";
 export const routeSideBar = [
   {
     name: "Dashboard",
@@ -139,6 +139,12 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-cogs",
         to: "/sale-program",
         component: TrainningProgramComponent,
+      },
+      {
+        name: "Điểm danh của tao",
+        icon: "nav-icon fas fa-cogs",
+        to: "/my-attendance",
+        component: AttendanceStudent,
       },
     ],
   },
