@@ -1,22 +1,25 @@
 import {
+  ClassMembersComponent,
   CourseComponent,
+  CustomerSaleComponent,
+  DashboardSalesComponent,
   MarketingCampaignComponent,
+  ReservationComponent,
   ScheduleComponent2,
+  ScoreComponent,
+  StudenInforComponent,
+  StudentComponent,
   SubjectComponent,
   TuitionFeeComponent,
   UserComponent,
-  ScoreComponent,
-  CustomerSaleComponent,
-  ClassMembersComponent,
-  StudentComponent,
-  ReservationComponent,
-  StudenInforComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-
+import DashboardEducationComponent from "../pages/DashboardEducationComponent";
 import AttendanceComponent from "../pages/AttendanceComponent";
+import AttendanceStudent from "../pages/AttendanceStudentComponent";
+
 export const routeSideBar = [
   {
     name: "Dashboard",
@@ -44,6 +47,12 @@ export const routeSideBar = [
     icon: "nav-icon fas fa-book",
     to: "#",
     child: [
+      {
+        name: "Dashboard",
+        icon: "nav-icon fas fa-tachometer-alt",
+        to: "/dashboard-education",
+        component: DashboardEducationComponent,
+      },
       {
         name: "Quản lý học viên",
         icon: "nav-icon fas fa-user",
@@ -125,6 +134,12 @@ export const routeSideBar = [
     to: "#",
     child: [
       {
+        name: "Dashboard",
+        icon: "nav-icon fas fa-tachometer-alt",
+        to: "/dashboard-sales",
+        component: DashboardSalesComponent,
+      },
+      {
         name: "Quản lý học phí",
         icon: "nav-icon fas fa-money-bill-wave",
         to: "/tuitionfee",
@@ -147,6 +162,12 @@ export const routeSideBar = [
         icon: "nav-icon fas fa-cogs",
         to: "/sale-program",
         component: TrainningProgramComponent,
+      },
+      {
+        name: "Điểm danh của tao",
+        icon: "nav-icon fas fa-cogs",
+        to: "/my-attendance",
+        component: AttendanceStudent,
       },
     ],
   },
