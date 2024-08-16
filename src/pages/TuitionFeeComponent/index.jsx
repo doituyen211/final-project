@@ -1,15 +1,13 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button, Form, Table} from "react-bootstrap";
 import DeleteComponent from "../../components/DeleteItemComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
-import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import * as Yup from 'yup';
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
+import {BsEye, BsPencil, BsTrash} from 'react-icons/bs';
 import "./TuitionFeeComponent.scss";
-import { toast, ToastContainer } from "react-toastify";
-import Input from "../../components/InputComponents";
+import {toast, ToastContainer} from "react-toastify";
 import TuitionFeeForm from "./TuitionFeeForm";
 
 const INITIAL_STATE = {
@@ -356,7 +354,7 @@ const TuitionFeeComponent = () => {
                                                 <td>{item.ghi_chu || ''}</td>
                                                 <td className="d-flex col-2">
                                                     <Button
-                                                        variant="light"
+                                                        variant="link"
                                                         className="me-1"
                                                         onClick={() => {
                                                             setFormData(item)
@@ -364,10 +362,10 @@ const TuitionFeeComponent = () => {
                                                             setActionModal('VIEW')
                                                         }}
                                                     >
-                                                        <BsEye />
+                                                        <BsEye className="text-secondary"/>
                                                     </Button>
                                                     <Button
-                                                        variant="primary"
+                                                        variant="link"
                                                         className="me-1"
                                                         onClick={() => {
                                                             setFormData(item)
@@ -375,13 +373,13 @@ const TuitionFeeComponent = () => {
                                                             setActionModal('EDIT')
                                                         }}
                                                     >
-                                                        <BsPencil />
+                                                        <BsPencil className="text-primary" />
                                                     </Button>
                                                     <Button
-                                                        variant="danger"
+                                                        variant="link"
                                                         onClick={() => confirmDelete(item)}
                                                     >
-                                                        <BsTrash/>
+                                                        <BsTrash  className="text-danger"/>
                                                     </Button>
                                                 </td>
                                             </tr>

@@ -13,20 +13,23 @@ import ReservationComponent from "./ReservationComponent";
 import SubjectComponent from "./SubjectComponent";
 import UserComponent from "./UserComponent";
 import StudenInforComponent from "./StudentInforComponent";
+import DashboardSalesComponent from "./DashboardSalesComponent";
+
 export {
-  BookComponent,
-  CourseComponent,
-  ScheduleComponent2,
-  SubjectComponent,
-  LoginComponent,
-  UserComponent,
-  ScoreComponent,
-  SubjectComponentLayout2,
-  TuitionFeeComponent,
-  MarketingCampaignComponent,
-  ClassMembersComponent,
-  CustomerSaleComponent,
-  StudentComponent,
-  ReservationComponent,
-  StudenInforComponent,
+    BookComponent,
+    CourseComponent,
+    ScheduleComponent2,
+    SubjectComponent,
+    LoginComponent,
+    UserComponent,
+    ScoreComponent,
+    SubjectComponentLayout2,
+    TuitionFeeComponent,
+    MarketingCampaignComponent,
+    ClassMembersComponent,
+    CustomerSaleComponent,
+    StudentComponent,
+    ReservationComponent,
+    StudenInforComponent,
+    DashboardSalesComponent,
 };
