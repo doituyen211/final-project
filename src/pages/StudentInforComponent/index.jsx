@@ -1,18 +1,12 @@
-import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
-//import {useModal,actionEdit,row,openModal,row}  from "../../components/TableComponent";
-import TableComponents from "../../components/TableComponent";
-// import SelectDropdown from '../../components/SelectDownButton';
-import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../CourseComponent/FormComponent";
-import PagingComponent from "../../components/PagingComponent";
+import React, { useState } from "react";
+import { Button, Modal, Form } from "react-bootstrap";
+import FormComponent from "./formStuInforcomponent";
 import API from "../../store/Api";
 
 // Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
   dataTable: [], // Dữ liệu bảng
-  titleTable: "CourseComponent", // Tiêu đề của bảng
+  titleTable: "StudentInfor", // Tiêu đề của bảng
   classTable: "table table-bordered table-hover", // Lớp CSS của bảng
   modalShow: false, // Trạng thái hiển thị modal
   modalProps: {
@@ -20,48 +14,76 @@ const INITIAL_STATE = {
     action: "",
     formFieldsProp: [
       {
-        name: "username",
+        name: "ma_hoc_vien",
         type: "text",
-        label: "Tên đăng nhập",
+        label: "Mã học viên",
         placeholder: "",
-      },
-      {
-        name: "namestudent",
-        type: "text",
-        label: "Họ và tên",
-        placeholder: "Nhập họ và tên",
+        value: "", // Add current value if needed
+        readOnly: true, // Set to true if you don't want to allow editing
       },
       {
         name: "email",
         type: "text",
-        label: "Gmail",
-        placeholder: "Nhập gmail",
+        label: "Email",
+        placeholder: "",
+        value: "",
       },
       {
-        name: "phonenumber",
+        name: "ho_ten",
+        type: "text",
+        label: "Họ tên",
+        placeholder: "Nhập họ và tên",
+        value: "",
+      },
+      {
+        name: "so_dien_thoai",
         type: "text",
         label: "Số điện thoại",
         placeholder: "Nhập số điện thoại",
+        value: "",
       },
       {
-        name: "birthdate",
+        name: "nguon",
+        type: "text",
+        label: "Nguồn",
+        placeholder: "nguồn",
+        value: "",
+      },
+      {
+        name: "ngay_sinh",
         type: "date",
         label: "Ngày sinh",
+        placeholder: "Chọn ngày sinh",
+        value: "",
       },
-
       {
-        name: "andress",
+        name: "year",
+        type: "text",
+        label: "Năm thứ",
+        placeholder: "Nhập năm thứ",
+        value: "",
+      },
+      {
+        name: "face",
+        type: "text",
+        label: "Link facebook",
+        placeholder: "Nhập link facebook",
+        value: "",
+      },
+      {
+        name: "dia_chi",
         type: "text",
         label: "Địa chỉ",
-        placeholder: "Nhập địa chỉ",
+        placeholder: "Nhập tỉnh thành",
+        value: "",
       },
-      //   {
-      //     name: "trang_thai",
-      //     type: "select",
-      //     label: "Trạng thái",
-      //     placeholder: "Chọn trạng thái",
-      //     apiUrl: "/data/status.json",
-      //   },
+      {
+        name: "Id_ctdd",
+        type: "text",
+        label: "Id Chương trình đào tạo",
+        value: "",
+        readOnly: true, // Set to true if you don't want to allow editing
+      },
     ],
     initialIsEdit: false,
     initialIdCurrent: null,
@@ -69,100 +91,34 @@ const INITIAL_STATE = {
   },
 };
 
-// Các cột của bảng
-// const COLUMNS = ["STT", "Mã học viên", "Mã lớp", "Trạng thái", ""];
-
 const StudenInforComponent = () => {
   const [state, setState] = useState(INITIAL_STATE);
-  const [deleteItemId, setDeleteItemId] = useState(null);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [actionModal, setActionModal] = useState("CREATE");
-  const [initialIdCurrent, setInitialIdCurrent] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
-  const [program, setProgram] = useState("");
-  const [status, setStatus] = useState("");
-  const [dataForm, setDataForm] = useState({
-    id: "",
-    ma_hoc_vien: "",
-    ma_lop: "",
-    trang_thai: "",
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
-  const api = API.CLASSMEMBERS;
+  // Handle the input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordForm({
+      ...passwordForm,
+      [name]: value,
+    });
+  };
 
-  // Fetch data with optional filters
-  // const fetchData = useCallback(
-  //   async (search = "", page = 1) => {
-  //     try {
-  //       console.log("RENDER with", {
-  //         page: page,
-  //         pageSize: 10,
-  //         search,
-  //         status,
-  //         program,
-  //       });
-  //       const { data } = await axios.get(api, {
-  //         params: {
-  //           page: page,
-  //           pageSize: 10,
-  //           search,
-  //           status,
-  //           program,
-  //         },
-  //       });
-  //       setState((prevState) => ({
-  //         ...prevState,
-  //         dataTable: data.content,
-  //       }));
-  //       setCurrentPage(data.page);
-  //       setTotalPages(data.totalPages);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   },
-  //   [api, status, program]
-  // );
-
-  // //Search
-  // const [searchTerm, setSearchTerm] = useState("");
-
-  // const handleSearchChange = useCallback((event) => {
-  //   setSearchTerm(event.target.value);
-  // }, []);
-
-  // const handleSearch = useCallback(() => {
-  //   fetchData(searchTerm);
-  // }, [fetchData, searchTerm]);
-
-  // const handleProgramChange = useCallback((event) => {
-  //   setProgram(event.target.value);
-  // }, []);
-
-  // const handleStatusChange = useCallback((event) => {
-  //   setStatus(event.target.value);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchData("", currentPage);
-  //   console.log("Render StudenInforComponent");
-  // }, [fetchData, currentPage]);
-
-  // const handlePageChange = useCallback((pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // }, []);
-
-  // // Hàm xử lý xác nhận xóa
-  // const confirmDelete = (item) => {
-  //   setDeleteItemId(item.id);
-  //   setShowConfirmModal(true);
-  // };
-
-  // // Hàm xử lý xác nhận xóa và cập nhật dữ liệu
-  // const handleDeleteConfirmation = () => {
-  //   fetchData();
-  // };
+  // Handle form submission (e.g., validate and submit to API)
+  const handleSubmit = () => {
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      alert("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+      return;
+    }
+    // Perform further validation and submit to API
+    console.log("Password change form submitted:", passwordForm);
+    setShowPasswordModal(false); // Close the modal
+  };
 
   return (
     <>
@@ -192,32 +148,20 @@ const StudenInforComponent = () => {
             <div className="col-md-3">
               <div className="card">
                 <div className="card-body">
-                  <Form
-                    title={"Thông tin"}
-                    fields={state.modalProps.formFieldsProp}
-                  />
-
-                  {/* <FormComponent
-                    title={
-                      actionModal === "EDIT"
-                        ? "Cập Nhật"
-                        : actionModal === "CREATE"
-                        ? "Thêm Mới"
-                        : "Chi tiết"
-                    }
-                    fields={state.modalProps.formFieldsProp}
-                    getData={fetchData}
-                    action={actionModal}
-                    idCurrent={initialIdCurrent}
-                    onClose={() => {
-                      // Refresh page by fetching data again
-                      fetchData(searchTerm, currentPage);
-                      setInitialIdCurrent(null); // Reset current ID if needed
-                      setActionModal("CREATE"); // Reset action if needed
-                    }}
-                    api={api}
-                    dataForm={dataForm}
-                  /> */}
+                  <button
+                    type="button"
+                    className="btn btn-primary w-100"
+                    style={{ marginBottom: "10px" }}
+                  >
+                    Thông tin chi tiết
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary w-100"
+                    onClick={() => setShowPasswordModal(true)}
+                  >
+                    Đổi mật khẩu
+                  </button>
                 </div>
               </div>
             </div>
@@ -229,84 +173,9 @@ const StudenInforComponent = () => {
                   <div className="row mb-4">
                     <FormComponent
                       title={"Thông tin"}
-                      //   title={
-                      //     actionModal === "EDIT"
-                      //       ? "Cập Nhật"
-                      //       : actionModal === "CREATE"
-                      //       ? "Thêm Mới"
-                      //       : "Chi tiết"
-                      //   }
                       fields={state.modalProps.formFieldsProp}
-                      action={actionModal}
-                      idCurrent={initialIdCurrent}
-                      onClose={() => {
-                        // Refresh page by fetching data again
-                        // fetchData(searchTerm, currentPage);
-                        // setInitialIdCurrent(null); // Reset current ID if needed
-                        // setActionModal("CREATE"); // Reset action if needed
-                      }}
-                      api={api}
-                      dataForm={dataForm}
                     />
-
-                    {/* Bộ lọc */}
-
-                    <div className="col-md-6 d-flex align-items-center gap-3">
-                      {/* <input
-                        type="text"
-                        className="form-control rounded-pill border-secondary flex-fill"
-                        placeholder="Search..."
-                        aria-label="Search input"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                      />
-                      <Button
-                        variant="outline-secondary"
-                        size="m"
-                        aria-label="Search"
-                        className="d-flex align-items-center px-3 rounded-pill"
-                        onClick={handleSearch}
-                      >
-                        <i className="bi bi-search"></i>
-                      </Button> */}
-                    </div>
-                    {/*/!* Nút thêm mới *!/*/}
-                    <div className="col-md-3 d-flex align-items-center justify-content-end"></div>
                   </div>
-
-                  {/* Bảng dữ liệu */}
-                  {/* <TableComponents
-                    cols={COLUMNS}
-                    dataTable={state.dataTable}
-                    classTable={state.classTable}
-                    api={api}
-                    formFieldsProp={state.modalProps.formFieldsProp}
-                    getData={fetchData}
-                    actionView={(thanh_vien_lop) => {
-                      setInitialIdCurrent(thanh_vien_lop.id);
-                      setActionModal("VIEW");
-                      setDataForm(thanh_vien_lop);
-                    }}
-                    actionEdit={(thanh_vien_lop) => {
-                      setInitialIdCurrent(thanh_vien_lop.id);
-                      setActionModal("EDIT");
-                      setDataForm(thanh_vien_lop);
-                    }}
-                    actionDelete={confirmDelete}
-                    useModal={false}
-                    currentPage={currentPage}
-                  /> */}
-
-                  {/* Phân trang */}
-                  {/* <div className="row justify-content-center mt-3">
-                    <div className="col-auto">
-                      <PagingComponent
-                        totalPage={totalPages}
-                        currentPage={currentPage}
-                        onPageChange={handlePageChange}
-                      />
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -314,14 +183,63 @@ const StudenInforComponent = () => {
         </div>
       </section>
 
-      {/* Modal xác nhận xóa */}
-      {/* <DeleteComponent
-        show={showConfirmModal}
-        onHide={() => setShowConfirmModal(false)}
-        onConfirm={handleDeleteConfirmation}
-        deleteItemID={deleteItemId}
-        apiDelete={api}
-      /> */}
+      {/* Modal for password change */}
+      <Modal
+        show={showPasswordModal}
+        onHide={() => setShowPasswordModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Đổi mật khẩu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="currentPassword">
+              <Form.Label>Mật khẩu hiện tại</Form.Label>
+              <Form.Control
+                type="password"
+                name="currentPassword"
+                placeholder="Nhập mật khẩu hiện tại"
+                value={passwordForm.currentPassword}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="newPassword">
+              <Form.Label>Mật khẩu mới</Form.Label>
+              <Form.Control
+                type="password"
+                name="newPassword"
+                placeholder="Nhập mật khẩu mới"
+                value={passwordForm.newPassword}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="confirmPassword">
+              <Form.Label>Xác nhận mật khẩu mới</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                placeholder="Nhập lại mật khẩu mới"
+                value={passwordForm.confirmPassword}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowPasswordModal(false)}
+          >
+            Hủy
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Xác nhận
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
