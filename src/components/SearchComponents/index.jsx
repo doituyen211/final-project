@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button, InputGroup, FormControl } from "react-bootstrap";
 
 const SearchComponents = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +19,7 @@ const SearchComponents = ({ onSearch }) => {
       <input
         type="text"
         className="form-control search-input"
-        placeholder="Search..."
+        placeholder="Search"
         aria-label="Search"
         aria-describedby="search-button"
         onChange={handleSearchChange}
