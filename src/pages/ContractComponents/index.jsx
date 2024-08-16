@@ -19,7 +19,7 @@ import {
 import { toast } from "react-toastify";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 
-const itemsPerPage = 10;
+const itemsPerPage = 12;
 
 const ContractComponents = () => {
   const [contracts, setContracts] = useState([]);
@@ -32,13 +32,22 @@ const ContractComponents = () => {
   const [totalPage, setTotalPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
+  const contractTypeMap = {
+    fulltime: "Hợp đồng lao động chính thức",
+    parttime: "Hợp đồng lao động parttime",
+    freelance: "Hợp đồng Freelance",
+    probationary: "Hợp đồng thử việc",
+    intern: "Hợp đồng thực tập",
+  };
+
   const headerContract = [
-    "ID",
+    // "ID",
+    "Mã hợp đồng",
     "Mã nhân viên",
     "Loại hợp đồng",
     "Mức lương",
-    "Ngày bắt đầu",
-    "Ngày kết thúc",
+    // "Ngày bắt đầu",
+    // "Ngày kết thúc",
     "Trạng thái",
     "Action",
   ];
@@ -50,6 +59,7 @@ const ContractComponents = () => {
     setIsLoading(true);
     try {
       const contractsData = await fetchContracts();
+      // console.log(contractsData);
       setContracts(contractsData);
       setFilteredContracts(contractsData);
       setTotalPage(Math.ceil(contractsData.length / itemsPerPage));
@@ -92,6 +102,7 @@ const ContractComponents = () => {
 
   const handleSaveEdit = async (updatedContract) => {
     setIsLoading(true);
+
     try {
       const savedContract = await updateContract(updatedContract);
       const updatedContracts = contracts
@@ -156,6 +167,7 @@ const ContractComponents = () => {
 
   const handleView = (contract) => {
     setSelectedContract(contract);
+    console.log(contract);
     setViewModalShow(true);
   };
 
@@ -168,19 +180,20 @@ const ContractComponents = () => {
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     .map((contract) => ({
       data: [
-        contract.id,
-        contract.employeeId,
-        contract.contractType,
+        // contract.id,
+        contract.contract_id,
+        contract.employee_id,
+        contractTypeMap[contract.contract_type],
         <NumericFormat
-          value={contract.salary}
+          value={contract.luongCB}
           displayType={"text"}
           thousandSeparator="."
           decimalSeparator=","
           prefix=""
           renderText={(value) => value}
         />,
-        formatDate(contract.startDate),
-        formatDate(contract.endDate),
+        // formatDate(contract.start_date),
+        // formatDate(contract.end_date),
         contract.status ? "Active" : "Inactive",
       ],
       actions: [

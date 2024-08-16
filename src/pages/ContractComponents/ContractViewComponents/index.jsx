@@ -15,7 +15,13 @@ const formatDateTime = (dateTime) => {
 
   return `${hours}:${minutes}:${seconds} / ${day}-${month}-${year}`;
 };
-
+const contractTypeMap = {
+  fulltime: "Hợp đồng lao động chính thức",
+  parttime: "Hợp đồng lao động parttime",
+  freelance: "Hợp đồng Freelance",
+  probationary: "Hợp đồng thử việc",
+  intern: "Hợp đồng thực tập",
+};
 const ContractViewComponents = ({ show, handleClose, contract }) => {
   if (!contract) return null;
 
@@ -33,7 +39,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                   label="Mã nhân viên"
                   type="text"
                   name="employeeId"
-                  value={contract.employeeId}
+                  value={contract.employee_id}
                   disabled
                 />
               </div>
@@ -41,10 +47,33 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
             <div className="col-md-6">
               <div className="form-group">
                 <InputComponents
+                  label="Mã hợp đồng"
+                  type="text"
+                  name="contract_id"
+                  value={contract.contract_id}
+                  disabled
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <InputComponents
+                  label="Số hợp đồng"
+                  type="text"
+                  name="contract_id"
+                  value={contract.contract_code}
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <div className="form-group">
+                <InputComponents
                   label="Loại hợp đồng"
                   type="text"
                   name="contractType"
-                  value={contract.contractType}
+                  value={contractTypeMap[contract.contract_type] || ""}
                   disabled
                 />
               </div>
@@ -53,7 +82,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
               <div className="form-group">
                 <label>Mức lương</label>
                 <NumericFormat
-                  value={contract.salary}
+                  value={contract.luongCB}
                   displayType={"text"}
                   thousandSeparator="."
                   decimalSeparator=","
@@ -69,7 +98,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                   label="Ngày bắt đầu"
                   type="text"
                   name="startDate"
-                  value={contract.startDate}
+                  value={contract.start_date}
                   disabled
                 />
               </div>
@@ -80,7 +109,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
                   label="Ngày kết thúc"
                   type="text"
                   name="endDate"
-                  value={contract.endDate}
+                  value={contract.end_date}
                   disabled
                 />
               </div>
@@ -122,9 +151,10 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
 
           <div className="form-group">
             <label>Hồ sơ hợp đồng</label>
-            {contract.files && contract.files.length > 0 ? (
+            <p>Có {contract.description.length} hồ sơ</p>
+            {contract.description && contract.description.length > 0 ? (
               <ul className="list-group mt-2">
-                {contract.files.map((file, index) => (
+                {contract.description.map((file, index) => (
                   <li key={index} className="list-group-item">
                     <a href={file.url} download={file.name}>
                       {file.name}
@@ -140,7 +170,11 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <ButtonComponents variant="secondary" onClick={handleClose}>
+        <ButtonComponents
+          variant="secondary"
+          onClick={handleClose}
+          className="btn btn-danger"
+        >
           Đóng
         </ButtonComponents>
       </Modal.Footer>

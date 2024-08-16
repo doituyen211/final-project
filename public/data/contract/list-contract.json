@@ -1,691 +1,472 @@
 [
   {
-<<<<<<< HEAD
-    "id": "2",
-    "employeeId": "EMP002",
-    "contractType": "Part-time",
-    "salary": 3000000001,
-    "startDate": "2024-02-01",
-    "endDate": "2024-08-31",
-    "files": [
-      {
-        "name": "file3.pdf",
-        "url": "http://example.com/file3.pdf"
-      },
-      {
-        "name": "file4.docx",
-        "url": "http://example.com/file4.docx"
-      }
+    "id": 1,
+    "contract_type": "Hợp đồng lao động chính thức",
+    "contract_id": "HD_0001",
+    "start_date": "2024-01-01",
+    "end_date": "2025-12-31",
+    "contract_code": "SD0001",
+    "description": [
+      "contract1.doc",
+      "contract2.pdf"
     ],
-    "status": true
+    "employee_id": "NS_0001",
+    "status": 1,
+    "created_at": "2024-01-01",
+    "updated_at": "2024-01-01",
+    "luongCB": 1000000
   },
   {
-    "id": "4",
-    "employeeId": "EMP004",
-    "contractType": "Internship",
-    "salary": 100000000,
-    "startDate": "2024-04-01",
-    "endDate": "2024-07-31",
-    "files": [
-      {
-        "name": "file7.pdf",
-        "url": "http://example.com/file7.pdf"
-      },
-      {
-        "name": "file8.docx",
-        "url": "http://example.com/file8.docx"
-      }
+    "id": 2,
+    "contract_type": "Hợp đồng lao động parttime",
+    "contract_id": "HD_0002",
+    "start_date": "2024-02-01",
+    "end_date": "2024-08-01",
+    "contract_code": "SD0002",
+    "description": [
+      "contract2.doc"
     ],
-    "status": true
+    "employee_id": "NS_0002",
+    "status": 1,
+    "created_at": "2024-02-01",
+    "updated_at": "2024-02-01",
+    "luongCB": 800000
   },
   {
-    "id": "5",
-    "employeeId": "EMP005",
-    "contractType": "Full-time",
-    "salary": 700000000,
-    "startDate": "2024-05-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file9.pdf",
-        "url": "http://example.com/file9.pdf"
-      },
-      {
-        "name": "file10.docx",
-        "url": "http://example.com/file10.docx"
-      }
+    "id": 3,
+    "contract_type": "Hợp đồng Freelance",
+    "contract_id": "HD_0003",
+    "start_date": "2024-03-01",
+    "end_date": "2024-12-31",
+    "contract_code": "SD0003",
+    "description": [
+      "contract3.docx"
     ],
-    "status": false
+    "employee_id": "NS_0003",
+    "status": 1,
+    "created_at": "2024-03-01",
+    "updated_at": "2024-03-01",
+    "luongCB": 1200000
   },
   {
-    "id": "6",
-    "employeeId": "EMP006",
-    "contractType": "Part-time",
-    "salary": 250000000,
-    "startDate": "2024-06-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file11.pdf",
-        "url": "http://example.com/file11.pdf"
-      },
-      {
-        "name": "file12.docx",
-        "url": "http://example.com/file12.docx"
-      }
+    "id": 4,
+    "contract_type": "Hợp đồng thử việc",
+    "contract_id": "HD_0004",
+    "start_date": "2024-04-01",
+    "end_date": "2024-09-30",
+    "contract_code": "SD0004",
+    "description": [
+      "contract4.pdf"
     ],
-    "status": true
+    "employee_id": "NS_0004",
+    "status": 1,
+    "created_at": "2024-04-01",
+    "updated_at": "2024-04-01",
+    "luongCB": 900000
   },
   {
-    "id": "7",
-    "employeeId": "EMP007",
-    "contractType": "Full-time",
-    "salary": 550000000,
-    "startDate": "2024-07-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file13.pdf",
-        "url": "http://example.com/file13.pdf"
-      },
-      {
-        "name": "file14.docx",
-        "url": "http://example.com/file14.docx"
-      }
+    "id": 5,
+    "contract_type": "Hợp đồng thực tập",
+    "contract_id": "HD_0005",
+    "start_date": "2024-05-01",
+    "end_date": "2024-10-31",
+    "contract_code": "SD0005",
+    "description": [
+      "contract5.doc"
     ],
-    "status": false
+    "employee_id": "NS_0005",
+    "status": 1,
+    "created_at": "2024-05-01",
+    "updated_at": "2024-05-01",
+    "luongCB": 500000
   },
   {
-    "id": "8",
-    "employeeId": "EMP008",
-    "contractType": "Internship",
-    "salary": 150000000,
-    "startDate": "2024-08-01",
-    "endDate": "2024-11-30",
-    "files": [
-      {
-        "name": "file15.pdf",
-        "url": "http://example.com/file15.pdf"
-      },
-      {
-        "name": "file16.docx",
-        "url": "http://example.com/file16.docx"
-      }
+    "id": 6,
+    "contract_type": "Hợp đồng lao động chính thức",
+    "contract_id": "HD_0006",
+    "start_date": "2024-06-01",
+    "end_date": "2025-06-01",
+    "contract_code": "SD0006",
+    "description": [
+      "contract6.docx",
+      "contract7.pdf"
     ],
-    "status": true
+    "employee_id": "NS_0006",
+    "status": 1,
+    "created_at": "2024-06-01",
+    "updated_at": "2024-06-01",
+    "luongCB": 1100000
   },
   {
-    "id": "9",
-    "employeeId": "EMP009",
-    "contractType": "Part-time",
-    "salary": 200000000,
-    "startDate": "2024-09-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file17.pdf",
-        "url": "http://example.com/file17.pdf"
-      },
-      {
-        "name": "file18.docx",
-        "url": "http://example.com/file18.docx"
-      }
+    "id": 7,
+    "contract_type": "Hợp đồng lao động parttime",
+    "contract_id": "HD_0007",
+    "start_date": "2024-07-01",
+    "end_date": "2024-12-31",
+    "contract_code": "SD0007",
+    "description": [
+      "contract8.doc"
     ],
-    "status": false
+    "employee_id": "NS_0007",
+    "status": 1,
+    "created_at": "2024-07-01",
+    "updated_at": "2024-07-01",
+    "luongCB": 850000
   },
   {
-    "id": "10",
-    "employeeId": "EMP010",
-    "contractType": "Full-time",
-    "salary": 800000000,
-    "startDate": "2024-10-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file19.pdf",
-        "url": "http://example.com/file19.pdf"
-      },
-      {
-        "name": "file20.docx",
-        "url": "http://example.com/file20.docx"
-      }
+    "id": 8,
+    "contract_type": "Hợp đồng Freelance",
+    "contract_id": "HD_0008",
+    "start_date": "2024-08-01",
+    "end_date": "2024-12-31",
+    "contract_code": "SD0008",
+    "description": [
+      "contract9.docx"
     ],
-    "status": true
+    "employee_id": "NS_0008",
+    "status": 1,
+    "created_at": "2024-08-01",
+    "updated_at": "2024-08-01",
+    "luongCB": 1300000
   },
   {
-    "id": "11",
-    "employeeId": "EMP011",
-    "contractType": "Internship",
-    "salary": 120000000,
-    "startDate": "2024-11-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file21.pdf",
-        "url": "http://example.com/file21.pdf"
-      },
-      {
-        "name": "file22.docx",
-        "url": "http://example.com/file22.docx"
-      }
+    "id": 9,
+    "contract_type": "Hợp đồng thử việc",
+    "contract_id": "HD_0009",
+    "start_date": "2024-09-01",
+    "end_date": "2024-12-31",
+    "contract_code": "SD0009",
+    "description": [
+      "contract10.pdf"
     ],
-    "status": false
+    "employee_id": "NS_0009",
+    "status": 1,
+    "created_at": "2024-09-01",
+    "updated_at": "2024-09-01",
+    "luongCB": 950000
   },
   {
-    "id": "12",
-    "employeeId": "EMP012",
-    "contractType": "Part-time",
-    "salary": 280000000,
-    "startDate": "2024-12-01",
-    "endDate": "2025-06-30",
-    "files": [
-      {
-        "name": "file23.pdf",
-        "url": "http://example.com/file23.pdf"
-      },
-      {
-        "name": "file24.docx",
-        "url": "http://example.com/file24.docx"
-      }
+    "id": 10,
+    "contract_type": "Hợp đồng thực tập",
+    "contract_id": "HD_0010",
+    "start_date": "2024-10-01",
+    "end_date": "2024-12-31",
+    "contract_code": "SD0010",
+    "description": [
+      "contract11.doc"
     ],
-    "status": true
+    "employee_id": "NS_0010",
+    "status": 1,
+    "created_at": "2024-10-01",
+    "updated_at": "2024-10-01",
+    "luongCB": 600000
   },
   {
-    "id": "13",
-    "employeeId": "EMP013",
-    "contractType": "Full-time",
-    "salary": 650000000,
-    "startDate": "2024-01-15",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file25.pdf",
-        "url": "http://example.com/file25.pdf"
-      },
-      {
-        "name": "file26.docx",
-        "url": "http://example.com/file26.docx"
-      }
+    "id": 11,
+    "contract_type": "Hợp đồng lao động chính thức",
+    "contract_id": "HD_0011",
+    "start_date": "2024-11-01",
+    "end_date": "2025-11-01",
+    "contract_code": "SD0011",
+    "description": [
+      "contract12.docx",
+      "contract13.pdf"
     ],
-    "status": true
+    "employee_id": "NS_0011",
+    "status": 1,
+    "created_at": "2024-11-01",
+    "updated_at": "2024-11-01",
+    "luongCB": 1050000
   },
   {
-    "id": "14",
-    "employeeId": "EMP014",
-    "contractType": "Internship",
-    "salary": 140000000,
-    "startDate": "2024-02-15",
-    "endDate": "2024-08-15",
-    "files": [
-      {
-        "name": "file27.pdf",
-        "url": "http://example.com/file27.pdf"
-      },
-      {
-        "name": "file28.docx",
-        "url": "http://example.com/file28.docx"
-      }
+    "id": 12,
+    "contract_type": "Hợp đồng lao động parttime",
+    "contract_id": "HD_0012",
+    "start_date": "2024-12-01",
+    "end_date": "2025-06-01",
+    "contract_code": "SD0012",
+    "description": [
+      "contract14.doc"
     ],
-    "status": false
+    "employee_id": "NS_0012",
+    "status": 1,
+    "created_at": "2024-12-01",
+    "updated_at": "2024-12-01",
+    "luongCB": 800000
   },
   {
-    "id": "15",
-    "employeeId": "EMP015",
-    "contractType": "Part-time",
-    "salary": 220000000,
-    "startDate": "2024-03-15",
-    "endDate": "2024-12-15",
-    "files": [
-      {
-        "name": "file29.pdf",
-        "url": "http://example.com/file29.pdf"
-      },
-      {
-        "name": "file30.docx",
-        "url": "http://example.com/file30.docx"
-      }
+    "id": 13,
+    "contract_type": "Hợp đồng Freelance",
+    "contract_id": "HD_0013",
+    "start_date": "2025-01-01",
+    "end_date": "2025-06-30",
+    "contract_code": "SD0013",
+    "description": [
+      "contract15.docx"
     ],
-    "status": true
+    "employee_id": "NS_0013",
+    "status": 1,
+    "created_at": "2025-01-01",
+    "updated_at": "2025-01-01",
+    "luongCB": 1150000
   },
   {
-    "id": "16",
-    "employeeId": "EMP016",
-    "contractType": "Full-time",
-    "salary": 550000000,
-    "startDate": "2024-05-15",
-    "endDate": "2024-12-15",
-=======
-    "employeeId": "B18DCCN112",
-    "contractType": "fulltime",
-    "salary": "15000000",
-    "startDate": "2024-08-10",
-    "endDate": "2025-02-10",
-    "status": true,
-    "id": "30",
->>>>>>> origin/crm-hr
-    "files": [
-      {
-        "name": "file31.pdf",
-        "url": "http://example.com/file31.pdf"
-<<<<<<< HEAD
-      },
-      {
-        "name": "file32.docx",
-        "url": "http://example.com/file32.docx"
-      }
+    "id": 14,
+    "contract_type": "Hợp đồng thử việc",
+    "contract_id": "HD_0014",
+    "start_date": "2025-02-01",
+    "end_date": "2025-07-31",
+    "contract_code": "SD0014",
+    "description": [
+      "contract16.pdf"
     ],
-    "status": true
+    "employee_id": "NS_0014",
+    "status": 1,
+    "created_at": "2025-02-01",
+    "updated_at": "2025-02-01",
+    "luongCB": 950000
   },
   {
-    "id": "17",
-    "employeeId": "EMP017",
-    "contractType": "Internship",
-    "salary": 160000000,
-    "startDate": "2024-07-15",
-    "endDate": "2024-12-15",
-=======
-      }
+    "id": 15,
+    "contract_type": "Hợp đồng thực tập",
+    "contract_id": "HD_0015",
+    "start_date": "2025-03-01",
+    "end_date": "2025-08-31",
+    "contract_code": "SD0015",
+    "description": [
+      "contract17.doc"
     ],
-    "created_at": "2024-08-07T07:00",
-    "updated_at": "2024-08-07T07:00"
+    "employee_id": "NS_0015",
+    "status": 1,
+    "created_at": "2025-03-01",
+    "updated_at": "2025-03-01",
+    "luongCB": 550000
   },
   {
-    "employeeId": "B18DCCN113",
-    "contractType": "parttime",
-    "salary": "12000000",
-    "startDate": "2024-08-15",
-    "endDate": "2024-12-15",
-    "status": false,
-    "id": "31",
-    "files": [
-      {
-        "name": "file32.pdf",
-        "url": "http://example.com/file32.pdf"
-      }
+    "id": 16,
+    "contract_type": "Hợp đồng lao động chính thức",
+    "contract_id": "HD_0016",
+    "start_date": "2025-04-01",
+    "end_date": "2026-04-01",
+    "contract_code": "SD0016",
+    "description": [
+      "contract18.docx",
+      "contract19.pdf"
     ],
-    "created_at": "2024-08-07T07:15",
-    "updated_at": "2024-08-07T07:15"
+    "employee_id": "NS_0016",
+    "status": 1,
+    "created_at": "2025-04-01",
+    "updated_at": "2025-04-01",
+    "luongCB": 1100000
   },
   {
-    "employeeId": "B18DCCN114",
-    "contractType": "fulltime",
-    "salary": "20000000",
-    "startDate": "2024-09-01",
-    "endDate": "2025-03-01",
-    "status": true,
-    "id": "32",
->>>>>>> origin/crm-hr
-    "files": [
-      {
-        "name": "file33.pdf",
-        "url": "http://example.com/file33.pdf"
-<<<<<<< HEAD
-      },
-      {
-        "name": "file34.docx",
-        "url": "http://example.com/file34.docx"
-      }
+    "id": 17,
+    "contract_type": "Hợp đồng lao động parttime",
+    "contract_id": "HD_0017",
+    "start_date": "2025-05-01",
+    "end_date": "2025-11-01",
+    "contract_code": "SD0017",
+    "description": [
+      "contract20.doc"
     ],
-    "status": false
+    "employee_id": "NS_0017",
+    "status": 1,
+    "created_at": "2025-05-01",
+    "updated_at": "2025-05-01",
+    "luongCB": 850000
   },
   {
-    "id": "18",
-    "employeeId": "EMP018",
-    "contractType": "Part-time",
-    "salary": 270000000,
-    "startDate": "2024-08-01",
-    "endDate": "2024-12-31",
-    "files": [
-      {
-        "name": "file35.pdf",
-        "url": "http://example.com/file35.pdf"
-      },
-      {
-        "name": "file36.docx",
-        "url": "http://example.com/file36.docx"
-      }
+    "id": 18,
+    "contract_type": "Hợp đồng Freelance",
+    "contract_id": "HD_0018",
+    "start_date": "2025-06-01",
+    "end_date": "2025-12-31",
+    "contract_code": "SD0018",
+    "description": [
+      "contract21.docx"
     ],
-    "status": true
+    "employee_id": "NS_0018",
+    "status": 1,
+    "created_at": "2025-06-01",
+    "updated_at": "2025-06-01",
+    "luongCB": 1250000
   },
   {
-    "id": "19",
-    "employeeId": "EMP019",
-    "contractType": "Full-time",
-    "salary": 750000000,
-    "startDate": "2024-09-01",
-    "endDate": "2024-12-31",
-=======
-      }
+    "id": 19,
+    "contract_type": "Hợp đồng thử việc",
+    "contract_id": "HD_0019",
+    "start_date": "2025-07-01",
+    "end_date": "2025-12-31",
+    "contract_code": "SD0019",
+    "description": [
+      "contract22.pdf"
     ],
-    "created_at": "2024-08-07T07:30",
-    "updated_at": "2024-08-07T07:30"
+    "employee_id": "NS_0019",
+    "status": 1,
+    "created_at": "2025-07-01",
+    "updated_at": "2025-07-01",
+    "luongCB": 950000
   },
   {
-    "employeeId": "B18DCCN115",
-    "contractType": "intern",
-    "salary": "5000000",
-    "startDate": "2024-08-20",
-    "endDate": "2024-12-20",
-    "status": true,
-    "id": "33",
-    "files": [
-      {
-        "name": "file34.pdf",
-        "url": "http://example.com/file34.pdf"
-      },
-      {
-        "name": "file35.docx",
-        "url": "http://example.com/file35.docx"
-      }
+    "id": 20,
+    "contract_type": "Hợp đồng thực tập",
+    "contract_id": "HD_0020",
+    "start_date": "2025-08-01",
+    "end_date": "2025-12-31",
+    "contract_code": "SD0020",
+    "description": [
+      "contract23.doc"
     ],
-    "created_at": "2024-08-07T07:45",
-    "updated_at": "2024-08-07T07:45"
+    "employee_id": "NS_0020",
+    "status": 1,
+    "created_at": "2025-08-01",
+    "updated_at": "2025-08-01",
+    "luongCB": 600000
   },
   {
-    "employeeId": "B18DCCN116",
-    "contractType": "parttime",
-    "salary": "7000000",
-    "startDate": "2024-08-25",
-    "endDate": "2024-11-25",
-    "status": false,
-    "id": "34",
-    "files": [
-      {
-        "name": "file36.pdf",
-        "url": "http://example.com/file36.pdf"
-      }
+    "id": 21,
+    "contract_type": "Hợp đồng lao động chính thức",
+    "contract_id": "HD_0021",
+    "start_date": "2025-09-01",
+    "end_date": "2026-09-01",
+    "contract_code": "SD0021",
+    "description": [
+      "contract24.docx",
+      "contract25.pdf"
     ],
-    "created_at": "2024-08-07T08:00",
-    "updated_at": "2024-08-07T08:00"
+    "employee_id": "NS_0021",
+    "status": 1,
+    "created_at": "2025-09-01",
+    "updated_at": "2025-09-01",
+    "luongCB": 1050000
   },
   {
-    "employeeId": "B18DCCN117",
-    "contractType": "fulltime",
-    "salary": "25000000",
-    "startDate": "2024-09-01",
-    "endDate": "2025-09-01",
-    "status": true,
-    "id": "35",
->>>>>>> origin/crm-hr
-    "files": [
-      {
-        "name": "file37.pdf",
-        "url": "http://example.com/file37.pdf"
-<<<<<<< HEAD
-      },
-      {
-        "name": "file38.docx",
-        "url": "http://example.com/file38.docx"
-      }
+    "id": 22,
+    "contract_type": "Hợp đồng lao động parttime",
+    "contract_id": "HD_0022",
+    "start_date": "2025-10-01",
+    "end_date": "2026-03-01",
+    "contract_code": "SD0022",
+    "description": [
+      "contract26.doc"
     ],
-    "status": false
+    "employee_id": "NS_0022",
+    "status": 1,
+    "created_at": "2025-10-01",
+    "updated_at": "2025-10-01",
+    "luongCB": 800000
   },
   {
-    "id": "20",
-    "employeeId": "EMP020",
-    "contractType": "Internship",
-    "salary": 110000000,
-    "startDate": "2024-10-01",
-    "endDate": "2024-12-31",
-=======
-      }
+    "id": 23,
+    "contract_type": "Hợp đồng Freelance",
+    "contract_id": "HD_0023",
+    "start_date": "2025-11-01",
+    "end_date": "2026-04-30",
+    "contract_code": "SD0023",
+    "description": [
+      "contract27.docx"
     ],
-    "created_at": "2024-08-07T08:15",
-    "updated_at": "2024-08-07T08:15"
+    "employee_id": "NS_0023",
+    "status": 1,
+    "created_at": "2025-11-01",
+    "updated_at": "2025-11-01",
+    "luongCB": 1300000
   },
   {
-    "employeeId": "B18DCCN118",
-    "contractType": "parttime",
-    "salary": "9000000",
-    "startDate": "2024-09-05",
-    "endDate": "2025-03-05",
-    "status": true,
-    "id": "36",
-    "files": [
-      {
-        "name": "file38.pdf",
-        "url": "http://example.com/file38.pdf"
-      }
+    "id": 24,
+    "contract_type": "Hợp đồng thử việc",
+    "contract_id": "HD_0024",
+    "start_date": "2025-12-01",
+    "end_date": "2026-06-30",
+    "contract_code": "SD0024",
+    "description": [
+      "contract28.pdf"
     ],
-    "created_at": "2024-08-07T08:30",
-    "updated_at": "2024-08-07T08:30"
+    "employee_id": "NS_0024",
+    "status": 1,
+    "created_at": "2025-12-01",
+    "updated_at": "2025-12-01",
+    "luongCB": 950000
   },
   {
-    "employeeId": "B18DCCN119",
-    "contractType": "intern",
-    "salary": "6000000",
-    "startDate": "2024-09-10",
-    "endDate": "2024-12-10",
-    "status": false,
-    "id": "37",
->>>>>>> origin/crm-hr
-    "files": [
-      {
-        "name": "file39.pdf",
-        "url": "http://example.com/file39.pdf"
-<<<<<<< HEAD
-      },
-      {
-        "name": "file40.docx",
-        "url": "http://example.com/file40.docx"
-      }
+    "id": 25,
+    "contract_type": "Hợp đồng thực tập",
+    "contract_id": "HD_0025",
+    "start_date": "2026-01-01",
+    "end_date": "2026-06-30",
+    "contract_code": "SD0025",
+    "description": [
+      "contract29.doc"
     ],
-    "status": true
+    "employee_id": "NS_0025",
+    "status": 1,
+    "created_at": "2026-01-01",
+    "updated_at": "2026-01-01",
+    "luongCB": 550000
+  },
+  {
+    "id": 26,
+    "contract_type": "Hợp đồng lao động chính thức",
+    "contract_id": "HD_0026",
+    "start_date": "2026-02-01",
+    "end_date": "2027-02-01",
+    "contract_code": "SD0026",
+    "description": [
+      "contract30.docx",
+      "contract31.pdf"
+    ],
+    "employee_id": "NS_0026",
+    "status": 1,
+    "created_at": "2026-02-01",
+    "updated_at": "2026-02-01",
+    "luongCB": 1100000
+  },
+  {
+    "id": 27,
+    "contract_type": "Hợp đồng lao động parttime",
+    "contract_id": "HD_0027",
+    "start_date": "2026-03-01",
+    "end_date": "2026-09-01",
+    "contract_code": "SD0027",
+    "description": [
+      "contract32.doc"
+    ],
+    "employee_id": "NS_0027",
+    "status": 1,
+    "created_at": "2026-03-01",
+    "updated_at": "2026-03-01",
+    "luongCB": 850000
+  },
+  {
+    "id": 28,
+    "contract_type": "Hợp đồng Freelance",
+    "contract_id": "HD_0028",
+    "start_date": "2026-04-01",
+    "end_date": "2026-09-30",
+    "contract_code": "SD0028",
+    "description": [
+      "contract33.docx"
+    ],
+    "employee_id": "NS_0028",
+    "status": 1,
+    "created_at": "2026-04-01",
+    "updated_at": "2026-04-01",
+    "luongCB": 1250000
+  },
+  {
+    "id": 29,
+    "contract_type": "Hợp đồng thử việc",
+    "contract_id": "HD_0029",
+    "start_date": "2026-05-01",
+    "end_date": "2026-11-01",
+    "contract_code": "SD0029",
+    "description": [
+      "contract34.pdf"
+    ],
+    "employee_id": "NS_0029",
+    "status": 1,
+    "created_at": "2026-05-01",
+    "updated_at": "2026-05-01",
+    "luongCB": 950000
   }
 ]
-=======
-      }
-    ],
-    "created_at": "2024-08-07T08:45",
-    "updated_at": "2024-08-07T08:45"
-  },
-  {
-    "employeeId": "B18DCCN120",
-    "contractType": "fulltime",
-    "salary": "18000000",
-    "startDate": "2024-09-15",
-    "endDate": "2025-03-15",
-    "status": true,
-    "id": "38",
-    "files": [
-      {
-        "name": "file40.pdf",
-        "url": "http://example.com/file40.pdf"
-      },
-      {
-        "name": "file41.docx",
-        "url": "http://example.com/file41.docx"
-      }
-    ],
-    "created_at": "2024-08-07T09:00",
-    "updated_at": "2024-08-07T09:00"
-  },
-  {
-    "employeeId": "B18DCCN121",
-    "contractType": "parttime",
-    "salary": "8000000",
-    "startDate": "2024-09-20",
-    "endDate": "2024-12-20",
-    "status": true,
-    "id": "39",
-    "files": [
-      {
-        "name": "file42.pdf",
-        "url": "http://example.com/file42.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T09:15",
-    "updated_at": "2024-08-07T09:15"
-  },
-  {
-    "employeeId": "B18DCCN122",
-    "contractType": "intern",
-    "salary": "5500000",
-    "startDate": "2024-10-01",
-    "endDate": "2025-01-01",
-    "status": true,
-    "id": "40",
-    "files": [
-      {
-        "name": "file43.pdf",
-        "url": "http://example.com/file43.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T09:30",
-    "updated_at": "2024-08-07T09:30"
-  },
-  {
-    "employeeId": "B18DCCN123",
-    "contractType": "fulltime",
-    "salary": "22000000",
-    "startDate": "2024-10-05",
-    "endDate": "2025-04-05",
-    "status": false,
-    "id": "41",
-    "files": [
-      {
-        "name": "file44.pdf",
-        "url": "http://example.com/file44.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T09:45",
-    "updated_at": "2024-08-07T09:45"
-  },
-  {
-    "employeeId": "B18DCCN124",
-    "contractType": "parttime",
-    "salary": "9500000",
-    "startDate": "2024-10-10",
-    "endDate": "2025-03-10",
-    "status": true,
-    "id": "42",
-    "files": [
-      {
-        "name": "file45.pdf",
-        "url": "http://example.com/file45.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T10:00",
-    "updated_at": "2024-08-07T10:00"
-  },
-  {
-    "employeeId": "B18DCCN125",
-    "contractType": "intern",
-    "salary": "4000000",
-    "startDate": "2024-10-15",
-    "endDate": "2025-02-15",
-    "status": false,
-    "id": "43",
-    "files": [
-      {
-        "name": "file46.pdf",
-        "url": "http://example.com/file46.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T10:15",
-    "updated_at": "2024-08-07T10:15"
-  },
-  {
-    "employeeId": "B18DCCN126",
-    "contractType": "fulltime",
-    "salary": "30000000",
-    "startDate": "2024-10-20",
-    "endDate": "2025-10-20",
-    "status": true,
-    "id": "44",
-    "files": [
-      {
-        "name": "file47.pdf",
-        "url": "http://example.com/file47.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T10:30",
-    "updated_at": "2024-08-07T10:30"
-  },
-  {
-    "employeeId": "B18DCCN127",
-    "contractType": "parttime",
-    "salary": "11000000",
-    "startDate": "2024-11-01",
-    "endDate": "2025-04-01",
-    "status": false,
-    "id": "45",
-    "files": [
-      {
-        "name": "file48.pdf",
-        "url": "http://example.com/file48.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T10:45",
-    "updated_at": "2024-08-07T10:45"
-  },
-  {
-    "employeeId": "B18DCCN128",
-    "contractType": "intern",
-    "salary": "3000000",
-    "startDate": "2024-11-05",
-    "endDate": "2025-04-05",
-    "status": true,
-    "id": "46",
-    "files": [
-      {
-        "name": "file49.pdf",
-        "url": "http://example.com/file49.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T11:00",
-    "updated_at": "2024-08-07T11:00"
-  },
-  {
-    "employeeId": "B18DCCN129",
-    "contractType": "fulltime",
-    "salary": "26000000",
-    "startDate": "2024-11-10",
-    "endDate": "2025-05-10",
-    "status": true,
-    "id": "47",
-    "files": [
-      {
-        "name": "file50.pdf",
-        "url": "http://example.com/file50.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T11:15",
-    "updated_at": "2024-08-07T11:15"
-  },
-  {
-    "employeeId": "B18DCCN130",
-    "contractType": "parttime",
-    "salary": "10000000",
-    "startDate": "2024-11-15",
-    "endDate": "2025-05-15",
-    "status": true,
-    "id": "48",
-    "files": [
-      {
-        "name": "file51.pdf",
-        "url": "http://example.com/file51.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T11:30",
-    "updated_at": "2024-08-07T11:30"
-  },
-  {
-    "employeeId": "B18DCCN131",
-    "contractType": "intern",
-    "salary": "3500000",
-    "startDate": "2024-11-20",
-    "endDate": "2025-06-20",
-    "status": false,
-    "id": "49",
-    "files": [
-      {
-        "name": "file52.pdf",
-        "url": "http://example.com/file52.pdf"
-      }
-    ],
-    "created_at": "2024-08-07T11:45",
-    "updated_at": "2024-08-07T11:45"
-  }
-]
->>>>>>> origin/crm-hr
