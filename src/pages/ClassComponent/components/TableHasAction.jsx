@@ -1,13 +1,15 @@
-import { Button, Table } from "react-bootstrap";
-import { classListTableCols } from "../constants";
+import { Table } from "antd";
+import { Button } from "react-bootstrap";
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import { useGetClassList } from "../hooks";
 import useClassStore from "../useClassStore";
+import React from "react";
 
 const TableHasAction = () => {
-  const setShowModalView = useClassStore((state) => state.setShowModalView);
   const setDataRow = useClassStore((state) => state.setDataRow);
-  const setModeModal = useClassStore((state) => state.setModeModal);
-  const setShowModalCommon = useClassStore((state) => state.setShowModalCommon);
+  const setShowModalView = useClassStore((state) => state.setShowModalView);
+  const setShowModalDelete = useClassStore((state) => state.setShowModalDelete);
+  const setShowModalEdit = useClassStore((state) => state.setShowModalEdit);
 
   const { data } = useGetClassList();
 
@@ -17,50 +19,64 @@ const TableHasAction = () => {
   };
 
   const handleEdit = (row) => {
-    setModeModal(true);
-    setShowModalCommon(true);
+    setDataRow(row);
+    setShowModalEdit(true);
+  };
+
+  const handleDelete = (row) => {
+    setShowModalDelete(true);
     setDataRow(row);
   };
 
-  return (
-    <Table bordered hover>
-      <thead>
-        <tr>
-          {classListTableCols.map((column) => (
-            <th key={column.key}>{column.label}</th>
-          ))}
-        </tr>
-      </thead>
+  const cols = [
+    {
+      dataIndex: "trProgramName",
+      title: "Tên chương trình đào tạo",
+    },
+    {
+      dataIndex: "name",
+      title: "Tên lớp",
+    },
+    {
+      dataIndex: "size",
+      title: "Sĩ số",
+    },
+    {
+      dataIndex: "startDate",
+      title: "Ngày bắt đầu",
+    },
+    {
+      dataIndex: "endDate",
+      title: "Ngày kết thúc",
+    },
+    {
+      title: "Hành động",
+      render: (_, record) => (
+        <>
+          <Button
+            variant="link"
+            className="me-2"
+            onClick={() => handleView(record)}
+          >
+            <BsEye className="text-secondary" />
+          </Button>
+          <Button
+            variant="link"
+            className="me-2"
+            onClick={() => handleEdit(record)}
+          >
+            <BsPencil className="text-primary" />
+          </Button>
 
-      <tbody>
-        {data?.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {classListTableCols.map((column) => (
-              <td key={column.key}>{row[column.key]}</td>
-            ))}
-            <td>
-              <Button
-                variant="light"
-                className="me-2"
-                onClick={() => handleView(row)}
-              >
-                View
-              </Button>
-              <Button
-                variant="primary"
-                className="me-2"
-                onClick={() => handleEdit(row)}
-              >
-                Edit
-              </Button>
+          <Button variant="link" onClick={() => handleDelete(record)}>
+            <BsTrash className="text-danger" />
+          </Button>
+        </>
+      ),
+    },
+  ];
 
-              <Button variant="danger">Delete</Button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
+  return <Table dataSource={data} columns={cols} size="small" />;
 };
 
 export default TableHasAction;

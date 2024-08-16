@@ -1,16 +1,14 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 import DeleteComponent from "../../components/DeleteItemComponent";
+import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
-import FormComponentWithValidation from "../../components/FormComponentWithValidation";
-import * as Yup from 'yup';
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 import "./SubjectComponent.scss";
-import { toast, ToastContainer } from "react-toastify";
-import Input from "../../components/InputComponents";
-
 const INITIAL_STATE = {
     dataTable: [],
     titleTable: "SubjectComponent",
@@ -26,9 +24,11 @@ const INITIAL_STATE = {
                 label: "Tên môn học",
                 placeholder: "Nhập tên môn học",
                 validation: Yup.string()
-                    .matches(/^[a-zA-Z0-9_\-\s]+$/, 'Tên môn học chỉ chứa kí tự, số, dấu gạch dưới và khoảng tắng')
-                    .required('Tên môn học là bắt buộc '),
-
+                    .matches(
+                        /^[a-zA-Z0-9_\-\s]+$/,
+                        "Tên môn học chỉ chứa kí tự, số, dấu gạch dưới và khoảng tắng"
+                    )
+                    .required("Tên môn học là bắt buộc "),
             },
             {
                 name: "training_duration",
@@ -36,11 +36,10 @@ const INITIAL_STATE = {
                 label: "Thời lượng đào tạo",
                 placeholder: "Nhập thời lượng đào tạo",
                 validation: Yup.number()
-                    .typeError('Thời lượng đào tạo phải là một số')
-                    .required('Thời lượng đào tạo là bắt buộc')
-                    .positive('Thời lượng đào tạo là một số dương')
-                    .integer('Thời lượng đào tạo phải là 1 số nguyên'),
-
+                    .typeError("Thời lượng đào tạo phải là một số")
+                    .required("Thời lượng đào tạo là bắt buộc")
+                    .positive("Thời lượng đào tạo là một số dương")
+                    .integer("Thời lượng đào tạo phải là 1 số nguyên"),
             },
             {
                 name: "training_program_id",
@@ -48,8 +47,13 @@ const INITIAL_STATE = {
                 label: "Chương trình đào tạo",
                 placeholder: "Chọn 1 chương trình đào tạo",
                 apiUrl: "/data/program.json",
-                defaultOption: { value: "", label: "Chọn 1 chương trình đào tạo" },
-                validation: Yup.string().required('Tên chương trình là bắt buộc '),            },
+                defaultOption: {
+                    value: "",
+                    label: "Chọn 1 chương trình đào tạo",
+                },
+                validation: Yup.string().required("Program Name is required"),
+            },
+
             {
                 name: "status",
                 type: "select",
@@ -57,7 +61,8 @@ const INITIAL_STATE = {
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
                 defaultOption: { value: "", label: "Chọn trạng thái" },
-                validation: Yup.string().required('Trạng thái là bắt buộc'),            },
+                validation: Yup.string().required("Trạng thái là bắt buộc"),
+            },
         ],
         initialIsEdit: false,
         initialIdCurrent: null,
@@ -103,7 +108,7 @@ const SubjectComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                if (search !== "" || status !== "" || program !== "") page = 1;
+                // if (search !== "" || status !== "" || program !== "") page = 1;
                 const { data } = await axios.get(api, {
                     params: {
                         page: page,
@@ -113,7 +118,7 @@ const SubjectComponent = () => {
                         program,
                     },
                 });
-                setState(prevState => ({
+                setState((prevState) => ({
                     ...prevState,
                     dataTable: data.content,
                 }));
@@ -173,11 +178,16 @@ const SubjectComponent = () => {
     const handleSubmit = async (data) => {
         // e.preventDefault();
         try {
-            console.log("FROM FORM : ", data)
-            const url = actionModal === 'EDIT' ? `${api}/${initialIdCurrent}` : api;
-            const method = actionModal === 'EDIT' ? axios.put : axios.post;
-            await method(url,data );
-            toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
+            console.log("FROM FORM : ", data);
+            const url =
+                actionModal === "EDIT" ? `${api}/${initialIdCurrent}` : api;
+            const method = actionModal === "EDIT" ? axios.put : axios.post;
+            await method(url, data);
+            toast.success(
+                `${
+                    actionModal === "EDIT" ? "Cập nhật" : "Thêm mới"
+                } thành công!`
+            );
             fetchData(searchTerm, currentPage);
             setFormData({
                 subject_id: "",
@@ -193,10 +203,11 @@ const SubjectComponent = () => {
     };
 
     useEffect(() => {
-        if (actionModal === 'EDIT' || actionModal === 'VIEW') {
-            axios.get(`${api}/${initialIdCurrent}`)
-                .then(res => setFormData(res.data))
-                .catch(err => console.error('Error fetching data:', err));
+        if (actionModal === "EDIT" || actionModal === "VIEW") {
+            axios
+                .get(`${api}/${initialIdCurrent}`)
+                .then((res) => setFormData(res.data))
+                .catch((err) => console.error("Error fetching data:", err));
         }
     }, [actionModal, initialIdCurrent]);
 
@@ -211,7 +222,9 @@ const SubjectComponent = () => {
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item active">Home</li>
-                                <li className="breadcrumb-item active">Quản lý môn học</li>
+                                <li className="breadcrumb-item active">
+                                    Quản lý môn học
+                                </li>
                             </ol>
                         </div>
                     </div>
@@ -224,12 +237,17 @@ const SubjectComponent = () => {
                             <div className="card">
                                 <div className="card-body">
                                     <FormComponentWithValidation
-                                        formFieldsProp={state.modalProps.formFieldsProp}
+                                        formFieldsProp={
+                                            state.modalProps.formFieldsProp
+                                        }
                                         initialData={formData}
                                         actionModal={actionModal}
                                         onSubmit={handleSubmit}
                                         onCancel={() => {
-                                            setState(prev => ({ ...prev, modalShow: false }));
+                                            setState((prev) => ({
+                                                ...prev,
+                                                modalShow: false,
+                                            }));
                                         }}
                                         statusOptions={statusOptions}
                                         programOptions={programOptions}
@@ -240,7 +258,9 @@ const SubjectComponent = () => {
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="text-start mb-4">Danh sách môn học</h3>
+                                    <h3 className="text-start mb-4">
+                                        Danh sách môn học
+                                    </h3>
                                     <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
                                         <div className="col-md-3 d-flex align-items-center gap-3">
@@ -296,7 +316,7 @@ const SubjectComponent = () => {
                                                 value={searchTerm}
                                                 onChange={handleSearchChange}
                                                 onKeyDown={(event) => {
-                                                    if (event.key === 'Enter') {
+                                                    if (event.key === "Enter") {
                                                         event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
                                                         handleSearch(); // Gọi hàm tìm kiếm
                                                     }
@@ -315,56 +335,104 @@ const SubjectComponent = () => {
                                     </div>
                                     <Table className={state.classTable}>
                                         <thead>
-                                        <tr>
-                                            {COLUMNS.map((col, index) => (
-                                                <th key={index}>{col}</th>
-                                            ))}
-                                        </tr>
+                                            <tr>
+                                                {COLUMNS.map((col, index) => (
+                                                    <th key={index}>{col}</th>
+                                                ))}
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        {state.dataTable.map((item, index) => (
-                                            <tr key={item.subject_id}>
-                                                <td>{index + 10 * (currentPage - 1) + 1}</td>
-                                                <td>{item.subject_name}</td>
-                                                <td>{item.training_duration}</td>
-                                                <td>
-                                                    {programOptions.find(program => program.id === item.training_program_id)?.name || 'N/A'}
-                                                </td>
-                                                <td className={item.status === 0 ? "text-success": item.status === 1 ? "text-secondary" : ""}>
-                                                    {statusOptions.find(status => status.id === item.status)?.name || 'N/A'}
-                                                </td>
-                                                <td>
-                                                    <Button
-                                                        variant="light"
-                                                        className="me-1"
-                                                        onClick={() => {
-                                                           setFormData(item)
-                                                            setInitialIdCurrent(item.subject_id);
-                                                           setActionModal('VIEW')
-                                                        }}
-                                                    >
-                                                        <BsEye />
-                                                    </Button>
-                                                    <Button
-                                                        variant="primary"
-                                                        className="me-1"
-                                                        onClick={() => {
-                                                            setFormData(item)
-                                                            setInitialIdCurrent(item.subject_id);
-                                                            setActionModal('EDIT')
-                                                        }}
-                                                    >
-                                                        <BsPencil />
-                                                    </Button>
-                                                    <Button
-                                                        variant="danger"
-                                                        onClick={() => confirmDelete(item)}
-                                                    >
-                                                        <BsTrash/>
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                            {state.dataTable.map(
+                                                (item, index) => (
+                                                    <tr key={item.subject_id}>
+                                                        <td>
+                                                            {index +
+                                                                10 *
+                                                                    (currentPage -
+                                                                        1) +
+                                                                1}
+                                                        </td>
+                                                        <td>
+                                                            {item.subject_name}
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                item.training_duration
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {programOptions.find(
+                                                                (program) =>
+                                                                    program.id ===
+                                                                    item.training_program_id
+                                                            )?.name || "N/A"}
+                                                        </td>
+                                                        <td
+                                                            className={
+                                                                item.status ===
+                                                                0
+                                                                    ? "text-success"
+                                                                    : item.status ===
+                                                                      1
+                                                                    ? "text-secondary"
+                                                                    : ""
+                                                            }
+                                                        >
+                                                            {statusOptions.find(
+                                                                (status) =>
+                                                                    status.id ===
+                                                                    item.status
+                                                            )?.name || "N/A"}
+                                                        </td>
+                                                        <td className="col-2">
+                                                            <Button
+                                                                variant="link"
+                                                                className="me-1"
+                                                                onClick={() => {
+                                                                    setFormData(
+                                                                        item
+                                                                    );
+                                                                    setInitialIdCurrent(
+                                                                        item.subject_id
+                                                                    );
+                                                                    setActionModal(
+                                                                        "VIEW"
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <BsEye className="text-secondary" />
+                                                            </Button>
+                                                            <Button
+                                                                variant="link"
+                                                                className="me-1"
+                                                                onClick={() => {
+                                                                    setFormData(
+                                                                        item
+                                                                    );
+                                                                    setInitialIdCurrent(
+                                                                        item.subject_id
+                                                                    );
+                                                                    setActionModal(
+                                                                        "EDIT"
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <BsPencil className="text-primary" />
+                                                            </Button>
+                                                            <Button
+                                                                variant="link"
+                                                                onClick={() =>
+                                                                    confirmDelete(
+                                                                        item
+                                                                    )
+                                                                }
+                                                            >
+                                                                <BsTrash className="text-danger" />
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
                                         </tbody>
                                     </Table>
                                     {/* Phân trang */}
