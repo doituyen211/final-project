@@ -14,6 +14,7 @@ import SubjectComponent from "./SubjectComponent";
 import UserComponent from "./UserComponent";
 import StudenInforComponent from "./StudentInforComponent";
 import DashboardSalesComponent from "./DashboardSalesComponent";
+import DashboardEducationComponent from "./DashboardEducationComponent";
 
 export {
     BookComponent,
@@ -32,4 +33,5 @@ export {
     ReservationComponent,
     StudenInforComponent,
     DashboardSalesComponent,
+    DashboardEducationComponent,
 };

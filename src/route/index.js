@@ -1,22 +1,22 @@
 import {
-  ClassMembersComponent,
-  CourseComponent,
-  CustomerSaleComponent,
-  DashboardSalesComponent,
-  MarketingCampaignComponent,
-  ReservationComponent,
-  ScheduleComponent2,
-  ScoreComponent,
-  StudenInforComponent,
-  StudentComponent,
-  SubjectComponent,
-  TuitionFeeComponent,
-  UserComponent,
+    ClassMembersComponent,
+    CourseComponent,
+    CustomerSaleComponent,
+    DashboardEducationComponent,
+    DashboardSalesComponent,
+    MarketingCampaignComponent,
+    ReservationComponent,
+    ScheduleComponent2,
+    ScoreComponent,
+    StudenInforComponent,
+    StudentComponent,
+    SubjectComponent,
+    TuitionFeeComponent,
+    UserComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-import DashboardEducationComponent from "../pages/DashboardEducationComponent";
 import AttendanceComponent from "../pages/AttendanceComponent";
 import AttendanceStudent from "../pages/AttendanceStudentComponent";
 
