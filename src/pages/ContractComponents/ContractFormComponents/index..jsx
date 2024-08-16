@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import InputComponents from "../../../components/InputComponents";
+import { fetchPersons } from "../ContractService/contractService";
 
 // Component để thêm hợp đồng mới
 const ContractForm = ({ onSubmit, contracts }) => {
   const [formData, setFormData] = useState({
-    employeeId: "",
-    contractType: "",
-    salary: "",
-    startDate: "",
-    endDate: "",
-    files: [],
+    contract_id: "",
+    contract_type: "",
+    start_date: "",
+    end_date: "",
+    contract_code: "",
+    luongCB: "",
+    description: [],
+    employee_id: "",
     created_at: "",
     updated_at: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [persons, setPersons] = useState([]);
 
   // useEffect để thiết lập thời gian hiện tại khi form được tải
   useEffect(() => {
@@ -25,16 +29,28 @@ const ContractForm = ({ onSubmit, contracts }) => {
       created_at: now,
       updated_at: now,
     }));
+
+    // Gọi API để lấy danh sách nhân sự
+    const loadPersons = async () => {
+      try {
+        const personsData = await fetchPersons();
+        setPersons(personsData);
+      } catch (error) {
+        console.error("Có lỗi xảy ra khi lấy danh sách nhân sự!", error);
+      }
+    };
+
+    loadPersons();
   }, []);
 
   // Hàm xử lý thay đổi dữ liệu form
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const now = new Date().toISOString().slice(0, 16);
-    if (files) {
+    if (name === "description" && files) {
       setFormData({
         ...formData,
-        [name]: Array.from(files),
+        [name]: Array.from(files).map((file) => file.name),
         updated_at: now,
       });
     } else {
@@ -49,33 +65,51 @@ const ContractForm = ({ onSubmit, contracts }) => {
   // Hàm kiểm tra dữ liệu form
   const validate = () => {
     const newErrors = {};
-    if (!formData.employeeId) {
-      newErrors.employeeId = "Mã nhân viên không được để trống";
-    } else if (formData.employeeId.length !== 10) {
-      newErrors.employeeId = "Mã nhân viên phải là 10 ký tự";
+
+    //  Kiểm tra mã hợp đồng
+    if (!formData.contract_id) {
+      newErrors.contract_id = "Mã hợp đồng không được để trống";
+    } else if (formData.contract_id.length !== 7) {
+      newErrors.contract_id = "Mã hợp đồng phải là 7 ký tự";
     } else if (
-      contracts.some((contract) => contract.employeeId === formData.employeeId)
+      contracts.some(
+        (contract) => contract.contract_id === formData.contract_id,
+      )
     ) {
-      newErrors.employeeId = "Mã nhân viên đã tồn tại";
+      newErrors.contract_id = "Mã hợp đồng đã tồn tại";
     }
 
-    if (!formData.contractType)
-      newErrors.contractType = "Loại hợp đồng không được để trống";
+    // Kiểm tra mã nhân viên
+    if (!formData.employee_id) {
+      newErrors.employee_id = "Mã nhân viên không được để trống";
+    } else if (!persons.some((person) => person.id === formData.employee_id)) {
+      newErrors.employee_id = "Mã nhân viên không tồn tại trong hệ thống";
+    }
+    // kiểm tra số hợp đồng
+    if (!formData.contract_code) {
+      newErrors.contract_code = "Mã hợp đồng không được để trống";
+    }
 
+    // Kiểm tra loại hợp đồng
+    if (!formData.contract_type)
+      newErrors.contract_type = "Loại hợp đồng không được để trống";
+
+    // Kiểm tra mức lương
     if (
-      !formData.salary ||
-      isNaN(Number(formData.salary.replace(/\./g, ""))) ||
-      Number(formData.salary.replace(/\./g, "")) <= 0
+      !formData.luongCB ||
+      isNaN(Number(formData.luongCB.replace(/\./g, ""))) ||
+      Number(formData.luongCB.replace(/\./g, "")) <= 0
     )
-      newErrors.salary = "Mức lương phải là số dương";
+      newErrors.luongCB = "Mức lương phải là số dương";
 
-    if (!formData.startDate)
-      newErrors.startDate = "Ngày bắt đầu không được để trống";
-
-    if (!formData.endDate)
-      newErrors.endDate = "Ngày kết thúc không được để trống";
-    if (new Date(formData.startDate) > new Date(formData.endDate))
-      newErrors.endDate = "Ngày kết thúc phải sau ngày bắt đầu";
+    // Kiểm tra ngày bắt đầu
+    if (!formData.start_date)
+      newErrors.start_date = "Ngày bắt đầu không được để trống";
+    // Kiểm tra ngày kết thúc
+    if (!formData.end_date)
+      newErrors.end_date = "Ngày kết thúc không được để trống";
+    if (new Date(formData.start_date) > new Date(formData.end_date))
+      newErrors.end_date = "Ngày kết thúc phải sau ngày bắt đầu";
 
     return newErrors;
   };
@@ -93,12 +127,14 @@ const ContractForm = ({ onSubmit, contracts }) => {
       });
       const now = new Date().toISOString().slice(0, 16);
       setFormData({
-        employeeId: "",
-        contractType: "",
-        salary: "",
-        startDate: "",
-        endDate: "",
-        files: [],
+        contract_id: "",
+        contract_type: "",
+        luongCB: "",
+        start_date: "",
+        end_date: "",
+        contract_code: "",
+        description: [],
+        employee_id: "",
         created_at: now,
         updated_at: now,
       });
@@ -112,37 +148,66 @@ const ContractForm = ({ onSubmit, contracts }) => {
         <div className="row">
           <div className="col-md-12">
             <div className="form-group">
-              <label>Mã nhân viên</label>
+              <label>Mã hợp đồng</label>
               <InputComponents
                 type="text"
-                name="employeeId"
-                value={formData.employeeId}
+                name="contract_id"
+                value={formData.contract_id}
                 onChange={handleChange}
                 disabled={false}
               />
-              {errors.employeeId && (
-                <div className="text-danger">{errors.employeeId}</div>
+              {errors.contract_id && (
+                <div className="text-danger">{errors.contract_id}</div>
               )}
             </div>
           </div>
           <div className="col-md-12">
             <div className="form-group">
+              <label>Mã nhân viên</label>
+              <InputComponents
+                type="text"
+                name="employee_id"
+                value={formData.employee_id}
+                onChange={handleChange}
+                disabled={false}
+              />
+              {errors.employee_id && (
+                <div className="text-danger">{errors.employee_id}</div>
+              )}
+            </div>
+          </div>
+          <div className="col-md-12">
+            <div className="form-group">
+              <InputComponents
+                label="Số hợp đồng"
+                type="text"
+                onChange={handleChange}
+                name="contract_code"
+                value={formData.contract_code}
+              />
+            </div>
+            {errors.contract_code && (
+              <div className="text-danger">{errors.contract_code}</div>
+            )}
+          </div>
+          <div className="col-md-12">
+            <div className="form-group">
               <label>Loại hợp đồng</label>
               <select
-                name="contractType"
-                value={formData.contractType}
+                name="contract_type"
+                value={formData.contract_type}
                 onChange={handleChange}
                 className="form-control"
               >
                 <option value="">-- Chọn loại hợp đồng --</option>
-                <option value="fulltime">Full-time (Toàn thời gian)</option>
-                <option value="parttime">Part-time (Bán thời gian)</option>
-                <option value="freelance">Freelance (Làm việc tự do)</option>
-                <option value="intern">Internship (Thực tập)</option>
-                <option value="seasonal">Seasonal (Theo mùa vụ)</option>
+                <option value="fulltime">Hợp đồng lao động chính thức</option>
+                <option value="parttime">Hợp đồng lao động parttime</option>
+                <option value="freelance">Hợp đồng Freelance</option>
+                <option value="probationary">Hợp đồng thử việc</option>
+                <option value="intern">Hợp đồng thực tập</option>
               </select>
-              {errors.contractType && (
-                <div className="text-danger">{errors.contractType}</div>
+              {errors.contract_type && (
+                <div className="text-danger">{errors.contract_type}</div>
               )}
             </div>
           </div>
@@ -151,21 +216,21 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Mức lương</label>
               <NumericFormat
                 className="form-control"
-                name="salary"
-                value={formData.salary}
+                name="luongCB"
+                value={formData.luongCB}
                 thousandSeparator="."
                 decimalSeparator=","
                 onValueChange={(values) => {
                   const { value } = values;
                   setFormData({
                     ...formData,
-                    salary: value,
+                    luongCB: value,
                     updated_at: new Date().toISOString().slice(0, 16),
                   });
                 }}
               />
-              {errors.salary && (
-                <div className="text-danger">{errors.salary}</div>
+              {errors.luongCB && (
+                <div className="text-danger">{errors.luongCB}</div>
               )}
             </div>
           </div>
@@ -174,12 +239,12 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Ngày bắt đầu</label>
               <InputComponents
                 type="date"
-                name="startDate"
-                value={formData.startDate}
+                name="start_date"
+                value={formData.start_date}
                 onChange={handleChange}
               />
-              {errors.startDate && (
-                <div className="text-danger">{errors.startDate}</div>
+              {errors.start_date && (
+                <div className="text-danger">{errors.start_date}</div>
               )}
             </div>
           </div>
@@ -188,12 +253,12 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Ngày kết thúc</label>
               <InputComponents
                 type="date"
-                name="endDate"
-                value={formData.endDate}
+                name="end_date"
+                value={formData.end_date}
                 onChange={handleChange}
               />
-              {errors.endDate && (
-                <div className="text-danger">{errors.endDate}</div>
+              {errors.end_date && (
+                <div className="text-danger">{errors.end_date}</div>
               )}
             </div>
           </div>
@@ -202,17 +267,17 @@ const ContractForm = ({ onSubmit, contracts }) => {
               <label>Hồ sơ hợp đồng</label>
               <InputComponents
                 type="file"
-                name="files"
+                name="description"
                 onChange={handleChange}
                 className="form-control"
-                multiple
-                accept=".doc,.docx,.xls,.xlsx,.pdf"
+                multiple // Cho phép chọn nhiều tệp tin
+                accept=".doc,.docx,.pdf"
               />
-              {formData.files.length > 0 && (
+              {formData.description.length > 0 && (
                 <ul className="list-group mt-2">
-                  {formData.files.map((file, index) => (
+                  {formData.description.map((fileName, index) => (
                     <li key={index} className="list-group-item">
-                      {file.name}
+                      {fileName}
                     </li>
                   ))}
                 </ul>

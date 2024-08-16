@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Personnel.scss';
 import { CSVLink } from "react-csv";
 import SearchComponents from "../../../components/SearchComponents";
 import ButtonComponents from "../../../components/ButtonComponents";
 
 const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick }) => {
-    const handleSearch = (searchTerm) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [statusFilter, setStatusFilter] = useState('');
+
+    const handleSearch = () => {
         const searchValue = searchTerm.toLowerCase();
 
         const filteredpersonnels = personnels.filter(personnel => {
@@ -14,21 +17,26 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick })
             const positionName = personnel.positionName ? personnel.positionName.toString().toLowerCase() : '';
             const email = personnel.email ? personnel.email.toLowerCase() : '';
             const phoneNumber = personnel.phoneNumber ? personnel.phoneNumber.toLowerCase() : '';
-            const status = personnel.status ? (personnel.status ? 'active' : 'inactive') : '';
+            const status = personnel.status ? 'active' : 'inactive';
             const CCCD = personnel.CCCD ? personnel.CCCD.toLowerCase() : '';
+
             return (
-                employeeId.includes(searchValue) ||
-                employeeName.includes(searchValue) ||
-                positionName.includes(searchValue) ||
-                email.includes(searchValue) ||
-                phoneNumber.includes(searchValue) ||
-                status.includes(searchValue) ||
-                CCCD.includes(searchValue)
+                (employeeId.includes(searchValue) ||
+                    employeeName.includes(searchValue) ||
+                    positionName.includes(searchValue) ||
+                    email.includes(searchValue) ||
+                    phoneNumber.includes(searchValue) ||
+                    CCCD.includes(searchValue)) &&
+                (statusFilter === '' || status === statusFilter)
             );
         });
 
         onSearch(filteredpersonnels);
     };
+
+    useEffect(() => {
+        handleSearch(); // Gọi lại hàm tìm kiếm mỗi khi searchTerm hoặc statusFilter thay đổi
+    }, [searchTerm, statusFilter]);
 
     const handleImportClick = () => {
         document.getElementById('import').click();
@@ -50,28 +58,43 @@ const PersonnelTittleComponents = ({ personnels = [], onSearch, onAddNewClick })
             <div className="col-sm-4">
                 <h2>DANH SÁCH NHÂN VIÊN</h2>
             </div>
-            <div className="action-button col-sm-8 d-flex justify-content-end align-items-center">
-                <SearchComponents onSearch={handleSearch} />
+            <div className="col-sm-8 d-flex justify-content-end align-items-center">
+                <div className="d-flex ms-auto">
+                    <SearchComponents
+                        onSearch={(term) => setSearchTerm(term)}
+                        placeholder="Tìm kiếm..."
+                        className="me-2"
+                    />
+                    <select
+                        className="form-select form-select-sm"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
                 <ButtonComponents
-                    className='btn btn-success d-flex align-items-center'
+                    className='btn btn-success me-2'
                     onClick={onAddNewClick}
                 >
-                    <i className=""></i>&nbsp;Thêm mới
+                    Thêm mới
                 </ButtonComponents>
                 <ButtonComponents
-                    className='btn btn-danger d-flex align-items-center'
+                    className='btn btn-danger me-2'
                     onClick={handleImportClick}
                 >
-                    <i className="fa fa-upload"></i>&nbsp;Import
+                    <i className="fas fa-file-excel"></i>&nbsp;
                 </ButtonComponents>
                 <input id='import' type='file' hidden />
 
                 <CSVLink
                     data={formattedPersonnels}
                     filename={"List-personnel.csv"}
-                    className="btn btn-primary d-flex"
+                    className="btn btn-primary"
                 >
-                    <i className="fa fa-download"></i>&nbsp;Export
+                    <i className="fas fa-file-export"></i>&nbsp;
                 </CSVLink>
             </div>
         </div>

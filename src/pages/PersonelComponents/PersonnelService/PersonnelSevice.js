@@ -8,14 +8,14 @@ export const fetchContracts = async () => {
     try {
         const response = await axios.get(apiEndpoint);
         // Sắp xếp theo `status` (true trước) và `updated_at` (giảm dần)
-        const sortedContracts = response.data.sort((a, b) => {
+        const sortedPersonnels = response.data.sort((a, b) => {
             if (b.status === a.status) {
                 return new Date(b.updated_at) - new Date(a.updated_at);
             }
             return b.status - a.status;
         });
 
-        return sortedContracts;
+        return sortedPersonnels;
     } catch (error) {
         console.error("Có lỗi xảy ra khi lấy dữ liệu!", error);
         throw error;

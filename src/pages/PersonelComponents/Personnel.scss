@@ -10,9 +10,17 @@
   .personnel-content {
     margin: 10px;
     padding: 20px;
+    position: relative;
+    border: 1px solid #0a0e14;
+    border-radius: 24px;
   }
 
   .action-button {
     gap: 10px;
   }
+
+}
+
+.form-select {
+  width: 100px;
 }

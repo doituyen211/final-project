@@ -174,7 +174,7 @@ const PersonnelComponents = () => {
                 </>
             ) : (
                 <div>
-                    <div className="border border-dark rounded-5 mt-3 p-5">
+                    <div className="border border-dark rounded-5 mt-3 mb-3 p-5">
                         <h3>Thêm nhân viên mới</h3>
                         <PersonnelFormComponents onSubmit={handleAddPersonnel} personnels={personnels} />
                         <button className="btn btn-secondary mt-3" onClick={() => setShowAddForm(false)}>
