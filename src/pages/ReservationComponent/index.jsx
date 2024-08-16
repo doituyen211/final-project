@@ -178,7 +178,7 @@ const ReservationComponent = () => {
                     <div className="col-md-2 d-flex align-items-center justify-content-end">
                       <Button
                         variant="primary"
-                        size="lg"
+                        size="sm"
                         onClick={() => {
                           setModalShow(true);
                           setModalProps({
@@ -192,7 +192,7 @@ const ReservationComponent = () => {
                           });
                         }}
                       >
-                        <i className="bi bi-plus-circle"></i>
+                        Thêm mới +
                       </Button>
                     </div>
                   </div>

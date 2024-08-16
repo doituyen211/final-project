@@ -58,7 +58,7 @@ const TableHasAction = () => {
             className="me-2"
             onClick={() => handleView(record)}
           >
-            <BsEye className="text-secondary"/>
+            <BsEye className="text-secondary" />
           </Button>
           <Button
             variant="link"
@@ -69,7 +69,7 @@ const TableHasAction = () => {
           </Button>
 
           <Button variant="link" onClick={() => handleDelete(record)}>
-            <BsTrash  className="text-danger"/>
+            <BsTrash className="text-danger" />
           </Button>
         </>
       ),

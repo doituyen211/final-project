@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
 import DeleteComponent from "./DeleteComponent";
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 
 function TableComponents({
   cols,
@@ -62,7 +62,7 @@ function TableComponents({
               ))}
               <td className="text-center">
                 <Button
-                  variant="light"
+                  variant="link"
                   className="me-2"
                   onClick={() => {
                     setModalProps({
@@ -78,10 +78,10 @@ function TableComponents({
                     setModalShow(true);
                   }}
                 >
-                  <BsEye />
+                  <BsEye className="text-secondary" />
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="link"
                   className="me-2"
                   onClick={() => {
                     setModalProps({
@@ -97,10 +97,10 @@ function TableComponents({
                     setModalShow(true);
                   }}
                 >
-                    <BsPencil />
+                  <BsPencil className="text-primary" />
                 </Button>
-                <Button variant="danger" onClick={() => confirmDelete(row)}>
-                <BsTrash />
+                <Button variant="link" onClick={() => confirmDelete(row)}>
+                  <BsTrash className="text-danger" />
                 </Button>
               </td>
             </tr>
