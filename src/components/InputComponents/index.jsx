@@ -1,31 +1,32 @@
-// src/components/InputComponents.js
+// src/components/Input.js
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputComponents = ({ label, onChange, id, ...inputInfo }) => {
+const Input = ({type, name, value, onChange, placeholder, disabled}) => {
     return (
-        <>
-            {label && <label htmlFor={id}>{label}</label>}
-            <input id={id} onChange={onChange} className="form-control" {...inputInfo} />
-        </>
+        <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            className="form-control"
+            disabled={disabled}
+        />
     );
 };
 
-InputComponents.propTypes = {
+Input.propTypes = {
     type: PropTypes.string,
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string,
-    label: PropTypes.string,
-    id: PropTypes.string
+    placeholder: PropTypes.string
 };
 
-InputComponents.defaultProps = {
+Input.defaultProps = {
     type: 'text',
-    placeholder: '',
-    label: '',
-    id: ''
+    placeholder: ''
 };
 
-export default InputComponents;
+export default Input;
