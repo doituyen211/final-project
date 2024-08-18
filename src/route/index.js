@@ -19,7 +19,8 @@ import {
     SubjectComponent,
     TimesheetComponent,
     TuitionFeeComponent,
-    UserComponent
+    UserComponent,
+    LoginComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
@@ -175,6 +176,12 @@ export const routeSideBar = [
                 icon: "nav-icon fas fa-cogs",
                 to: "/my-attendance",
                 component: AttendanceStudent,
+            },
+            {
+                name: "Login (Sau nay xoa)",
+                icon: "nav-icon fas fa-cogs",
+                to: "/Login",
+                component: LoginComponent,
             },
         ],
     },
