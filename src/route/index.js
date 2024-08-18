@@ -8,6 +8,7 @@ import {
     DecisionComponent,
     DepartmentComponent,
     LiabilityComponents,
+    LoginComponent,
     MarketingCampaignComponent,
     PersonelComponents,
     QualificationComponents,
@@ -19,8 +20,7 @@ import {
     SubjectComponent,
     TimesheetComponent,
     TuitionFeeComponent,
-    UserComponent,
-    LoginComponent,
+    UserComponent
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
@@ -179,10 +179,16 @@ export const routeSideBar = [
             },
             {
                 name: "Login (Sau nay xoa)",
-                icon: "nav-icon fas fa-cogs",
+                icon: "nav-icon fas fa-lock",
                 to: "/Login",
                 component: LoginComponent,
             },
+            // {
+            //     name: "Login (Sau nay xoa)",
+            //     icon: "nav-icon fas fa-lock",
+            //     to: "/Login2",
+            //     component: LoginComponent2,
+            // },
         ],
     },
     {
