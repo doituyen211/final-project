@@ -25,6 +25,7 @@ import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
+import LoginComponent2 from "./LoginComponent2";
 
 export {
     BookComponent,
@@ -54,4 +55,5 @@ export {
     TrainningProgramComponent,
     AllowanceComponents,
     TimesheetComponent,
+    LoginComponent2,
 };
