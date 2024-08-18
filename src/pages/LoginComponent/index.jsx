@@ -3,7 +3,7 @@ import {Breadcrumb, Button, Card, Col, Container, Form, Row} from 'react-bootstr
 import './Login.scss'; // Keep this for the custom styles you want to retain
 import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from 'react-icons/fa';
 
-const LoginComponent2 = () => {
+const LoginComponent = () => {
     const [active, setActive] = useState(false);
 
     const toggleForm = () => setActive(!active);
@@ -116,4 +116,4 @@ const LoginComponent2 = () => {
     );
 };
 
-export default LoginComponent2;
+export default LoginComponent;
