@@ -1,6 +1,5 @@
 import BookComponent from "./BookComponent";
 import CourseComponent from "./CourseComponent";
-import LoginComponent from "./LoginComponent";
 import ScheduleComponent2 from "./ScheduleComponent2";
 import ScoreComponent from "./ScoreComponent";
 import CustomerSaleComponent from "./CustomerSaleComponent";
@@ -25,14 +24,13 @@ import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
-import LoginComponent2 from "./LoginComponent2";
+import LoginComponent from "./LoginComponent";
 
 export {
     BookComponent,
     CourseComponent,
     ScheduleComponent2,
     SubjectComponent,
-    LoginComponent,
     UserComponent,
     ScoreComponent,
     TuitionFeeComponent,
@@ -55,5 +53,5 @@ export {
     TrainningProgramComponent,
     AllowanceComponents,
     TimesheetComponent,
-    LoginComponent2,
+    LoginComponent,
 };
