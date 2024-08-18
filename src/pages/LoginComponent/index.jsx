@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Breadcrumb, Button, Card, Col, Container, Form, Row} from 'react-bootstrap';
-import './Login.scss'; // Keep this for the custom styles you want to retain
 import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from 'react-icons/fa';
+import './Login.scss';
 
 const LoginComponent = () => {
     const [active, setActive] = useState(false);
