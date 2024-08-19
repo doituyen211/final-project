@@ -1,19 +1,19 @@
-import { Button } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 import useClassStore from "../useClassStore";
+import { Button } from "antd";
 
 const ButtonAddComponent = () => {
   const setShowModalAdd = useClassStore((state) => state.setShowModalAdd);
   return (
     <Button
-      variant="primary"
+      type="primary"
       onClick={() => {
         setShowModalAdd(true);
       }}
-      className="float-right d-flex align-items-center btn btn-success"
+      className="d-flex align-items-center"
     >
       Thêm mới
-      <div className="ml-1">
+      <div>
         <Plus size={22} />
       </div>
     </Button>
