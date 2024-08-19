@@ -4,12 +4,14 @@ import useClassStore from "./useClassStore";
 import { toast } from "react-toastify";
 
 export const useGetClassList = () => {
-  const { data } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["classList"],
     queryFn: classApi.getClassList,
   });
   return {
     data: data?.data,
+    isLoading,
+    refetch,
   };
 };
 
@@ -74,7 +76,7 @@ export const useAddNewClass = (form) => {
         console.log("Validation Failed:", errorInfo);
       });
   };
-  return { handleAddNew };
+  return { handleAddNew, isPending: mutation.isPending };
 };
 
 export const useDeleteClass = (classId) => {
@@ -94,7 +96,7 @@ export const useDeleteClass = (classId) => {
       toast.error("Xóa thất bại!");
     },
   });
-  return { mutation };
+  return { mutation, isPending: mutation.isPending };
 };
 
 export const useEditClass = (classId, form) => {
@@ -135,5 +137,5 @@ export const useEditClass = (classId, form) => {
         console.log("Validation Failed:", errorInfo);
       });
   };
-  return { handleEditClass };
+  return { handleEditClass, isPending: mutation.isPending };
 };
