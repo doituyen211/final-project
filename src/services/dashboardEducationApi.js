@@ -1,15 +1,14 @@
 import axios from "axios";
 
 export const dashboardEducationApi = {
-  getGraduateClasses() {
+  getQuantity() {
     return axios.get(
-      "https://66bc135b24da2de7ff6946bf.mockapi.io/graduateClasses"
+      "https://66bc135b24da2de7ff6946bf.mockapi.io/manageStudent"
     );
   },
-
-  getReserveStudent() {
+  getQuantityPerYear(year) {
     return axios.get(
-      "https://66bc135b24da2de7ff6946bf.mockapi.io/reserveStudent"
+      `https://66bc135b24da2de7ff6946bf.mockapi.io/manageStudent/${year}`
     );
   },
 };
