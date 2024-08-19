@@ -194,7 +194,11 @@ const ContractComponents = () => {
         />,
         // formatDate(contract.start_date),
         // formatDate(contract.end_date),
-        contract.status ? "Active" : "Inactive",
+        contract.status ? (
+          <span className="badge badge-primary">Còn hạn</span>
+        ) : (
+          <span className="badge badge-danger">Hết hạn</span>
+        ),
       ],
       actions: [
         {
