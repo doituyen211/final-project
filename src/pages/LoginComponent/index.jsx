@@ -1,14 +1,11 @@
 import {useState} from 'react';
 import {Card, Col, Container, Form, Row} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-
-import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from 'react-icons/fa';
 import './Login.scss';
+import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from "react-icons/fa";
 
 const LoginComponent = () => {
-    const [active, setActive] = useState(false);
-
-    const toggleForm = () => setActive(!active);
+    const [action, setAction] = useState('');
 
     return (
         <>
@@ -19,12 +16,13 @@ const LoginComponent = () => {
                 style={{height: '100vh'}}
             > <Row className="justify-content-center">
                 <Col>
-                    <Card className={`auth-container ${active ? 'active' : ''}`}
+                    <Card className={`auth-container ${action}`}
                           style={{width: '50vn', height: '60vh'}}>
+                        {/*Begin- SignUp Form*/}
                         <div
-                            className="form-container sign-up mt-4">
+                            className="form-container sign-up mt-5">
                             <Card.Body className="text-center ">
-                                <h1>Create Account</h1>
+                                <h1>Đăng ký</h1>
                                 <div className="social-icons">
                                     <Button href="#" variant="link" className="text-decoration-none text-dark">
                                         <FaGoogle size={24}/>
@@ -39,7 +37,7 @@ const LoginComponent = () => {
                                         <FaLinkedin size={24}/>
                                     </Button>
                                 </div>
-                                <span>or use your email for registration</span>
+                                <span>hoặc sử dung email để đăng ký</span>
                                 <Form>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
@@ -80,16 +78,19 @@ const LoginComponent = () => {
                                                     cursor: 'pointer',
                                                 }}
                                                 type="submit"
-                                            >Sign Up
+                                            >Đăng ký
                                             </Button>
                                         </Col>
                                     </Row>
                                 </Form>
                             </Card.Body>
                         </div>
-                        <div className="form-container sign-in mt-4">
+                        {/*End- SignUp Form*/}
+                        {/*Begin- ForgotPassword Form*/}
+                        <div
+                            className="form-container forgot-password mt-5">
                             <Card.Body className="text-center ">
-                                <h1>Sign In</h1>
+                                <h1>Quên mật khẩu</h1>
                                 <div className="social-icons">
                                     <Button href="#" variant="link" className="text-decoration-none text-dark">
                                         <FaGoogle size={24}/>
@@ -104,7 +105,7 @@ const LoginComponent = () => {
                                         <FaLinkedin size={24}/>
                                     </Button>
                                 </div>
-                                <span>or use your email password</span>
+                                <span>Nhập email của bạn để khôi phục mật khẩu</span>
                                 <Form>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
@@ -113,16 +114,13 @@ const LoginComponent = () => {
                                             </Form.Group>
                                         </Col>
                                     </Row>
-                                    <Row className='justify-content-center align-items-center'>
-                                        <Col xs={12} md={10}>
-                                            <Form.Group controlId="password">
-                                                <Form.Control type="password" placeholder="Password"/>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    <Row className='justify-content-center align-items-center'>
-                                        <a href="#">Forget Your Password?</a>
-                                    </Row>
+                                    {/*<Row className='justify-content-center align-items-center'>*/}
+                                    {/*    <Col xs={12} md={10}>*/}
+                                    {/*        <Form.Group controlId="password">*/}
+                                    {/*            <Form.Control type="password" placeholder="Password"/>*/}
+                                    {/*        </Form.Group>*/}
+                                    {/*    </Col>*/}
+                                    {/*</Row>*/}
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
                                             <Button
@@ -140,12 +138,84 @@ const LoginComponent = () => {
                                                     cursor: 'pointer',
                                                 }}
                                                 type="submit"
-                                            >Sign In</Button>
+                                            >Quên mât khẩu
+                                            </Button>
                                         </Col>
                                     </Row>
                                 </Form>
                             </Card.Body>
                         </div>
+                        {/*End - ForgotPassword Form*/}
+                        {/*Begin - Sign-In Form*/}
+                        <div className="form-container sign-in mt-5">
+                            <Card.Body className="text-center ">
+                                <h1>Đăng nhập</h1>
+                                <div className="social-icons">
+                                    <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                        <FaGoogle size={24}/>
+                                    </Button>
+                                    <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                        <FaFacebook size={24}/>
+                                    </Button>
+                                    <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                        <FaGithub size={24}/>
+                                    </Button>
+                                    <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                        <FaLinkedin size={24}/>
+                                    </Button>
+                                </div>
+                                <span>hoặc sử dụng email của bạn</span>
+                                <Form>
+                                    <Row className='justify-content-center align-items-center'>
+                                        <Col xs={12} md={10}>
+                                            <Form.Group controlId="email">
+                                                <Form.Control type="email" placeholder="Email"/>
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row className='justify-content-center align-items-center'>
+                                        <Col xs={12} md={10}>
+                                            <Form.Group controlId="password">
+                                                <Form.Control type="password" placeholder="Password"/>
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row className='justify-content-center align-items-center'>
+                                        <Button
+                                            variant="link"
+                                            onClick={() => setAction('forgot-password-action')}
+                                            className='text-black text-decoration-none'
+                                            style={{fontSize: '12px'}}
+                                            size='sm'
+                                        >
+                                            Quên mật khẩu?
+                                        </Button>
+                                    </Row>
+
+                                    <Row className='justify-content-center align-items-center'>
+                                        <Col xs={12} md={10}>
+                                            <Button
+                                                style={{
+                                                    backgroundColor: '#512da8',
+                                                    color: '#fff',
+                                                    fontSize: '12px',
+                                                    padding: '10px 45px',
+                                                    border: '1px solid transparent',
+                                                    borderRadius: '8px',
+                                                    fontWeight: 600,
+                                                    letterSpacing: '0.5px',
+                                                    textTransform: 'uppercase',
+                                                    marginTop: '10px',
+                                                    cursor: 'pointer',
+                                                }}
+                                                type="submit"
+                                            >Đăng nhập</Button>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            </Card.Body>
+                        </div>
+                        {/*End- Sign-In Form*/}
                         <div className="toggle-container">
                             <div className="toggle">
                                 <div className="toggle-panel toggle-left">
@@ -161,8 +231,8 @@ const LoginComponent = () => {
                                             letterSpacing: '0.5px',
                                             cursor: 'pointer'
                                         }}
-                                        onClick={toggleForm}
-                                    >Sign In</Button>
+                                        onClick={() => setAction('')}
+                                    >Đăng nhập</Button>
                                 </div>
                                 <div className="toggle-panel toggle-right">
                                     <h1>Hello, Friend!</h1>
@@ -177,9 +247,9 @@ const LoginComponent = () => {
                                             letterSpacing: '0.5px',
                                             cursor: 'pointer'
                                         }}
-                                        onClick={toggleForm}
+                                        onClick={() => setAction('sign-up-action')}
                                     >
-                                        Sign Up
+                                        Đăng ký
                                     </Button>
 
                                 </div>
