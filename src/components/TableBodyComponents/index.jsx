@@ -1,8 +1,13 @@
-// src/components/TableBody.js
-import React from 'react';
+// src/components/TableBodyComponents.js
 import PropTypes from 'prop-types';
+import React from 'react';
 
 const TableBodyComponents = ({rows}) => {
+    const handleActionClick = (action, item) => {
+        if (action.onClick) {
+            action.onClick(item);
+        }
+    };
     return (
         <>
             {rows.map((row, index) => (
@@ -12,9 +17,14 @@ const TableBodyComponents = ({rows}) => {
                     ))}
                     <td>
                         {row.actions.map((action, actionIndex) => (
-                            <a href={action.href} className={`btn ${action.className}`} key={actionIndex}>
+                            <button
+                                type="button"
+                                className={`btn ${action.className}`}
+                                key={actionIndex}
+                                onClick={() => handleActionClick(action, row)}
+                            >
                                 <i className={`fas ${action.icon}`}></i>
-                            </a>
+                            </button>
                         ))}
                     </td>
                 </tr>
@@ -26,12 +36,17 @@ const TableBodyComponents = ({rows}) => {
 TableBodyComponents.propTypes = {
     rows: PropTypes.arrayOf(
         PropTypes.shape({
-            data: PropTypes.arrayOf(PropTypes.string).isRequired,
+            data: PropTypes.arrayOf(
+                PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.object // Cập nhật điều này để phản ánh các loại thực tế
+                ])
+            ).isRequired,
             actions: PropTypes.arrayOf(
                 PropTypes.shape({
-                    href: PropTypes.string.isRequired,
                     className: PropTypes.string.isRequired,
-                    icon: PropTypes.string.isRequired
+                    icon: PropTypes.string.isRequired,
+                    onClick: PropTypes.func // Xử lý sự kiện nhấp chuột
                 })
             ).isRequired
         })

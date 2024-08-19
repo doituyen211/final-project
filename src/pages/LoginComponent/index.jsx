@@ -1,92 +1,119 @@
-import React, { useState } from 'react';
-import { Button, Card, Form } from 'react-bootstrap';
+import {useState} from 'react';
+import {Breadcrumb, Button, Card, Col, Container, Form, Row} from 'react-bootstrap';
+import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from 'react-icons/fa';
+import './Login.scss';
 
-function LoginComponent() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+const LoginComponent = () => {
+    const [active, setActive] = useState(false);
 
-    const handleLogin = (username, password) => {
-        // Giả sử đăng nhập thành công nếu có tên người dùng và mật khẩu
-        if (username && password) {
-            setIsLoggedIn(true);
-        }
-    };
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-    };
+    const toggleForm = () => setActive(!active);
 
     return (
-        <div className="Login">
-            {isLoggedIn ? (
-                <Logout onLogout={handleLogout} />
-            ) : (
-                <Login onLogin={handleLogin} />
-            )}
-        </div>
+        <>
+            <section className="content-header">
+                <Container fluid>
+                    <Row className="mb-2">
+                        <Col sm={6}>
+                            <h1>Đây là Login</h1>
+                        </Col>
+                        <Col sm={6}>
+                            <Breadcrumb className="float-sm-right">
+                                <Breadcrumb.Item active>Home</Breadcrumb.Item>
+                                <Breadcrumb.Item active>Quản lý môn học</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                </Container>
+            </section>
+            <section className="content">
+                <Container fluid id="container">
+                    <Row className="justify-content-center">
+                        <Col md={8}>
+                            <Card className={`auth-container ${active ? 'active' : ''}`}>
+                                <div
+                                    className="form-container sign-up mt-4">
+                                    <Card.Body className="text-center ">
+                                        <h1>Create Account</h1>
+                                        <div className="social-icons">
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaGoogle size={24}/>
+                                            </Button>
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaFacebook size={24}/>
+                                            </Button>
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaGithub size={24}/>
+                                            </Button>
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaLinkedin size={24}/>
+                                            </Button>
+                                        </div>
+                                        <span>or use your email for registration</span>
+                                        <Form>
+                                            <Form.Group controlId="name">
+                                                <Form.Control type="text" placeholder="Name"/>
+                                            </Form.Group>
+                                            <Form.Group controlId="email">
+                                                <Form.Control type="email" placeholder="Email"/>
+                                            </Form.Group>
+                                            <Form.Group controlId="password">
+                                                <Form.Control type="password" placeholder="Password"/>
+                                            </Form.Group>
+                                            <Button variant="primary" type="submit">Sign Up</Button>
+                                        </Form>
+                                    </Card.Body>
+                                </div>
+                                <div className="form-container sign-in mt-4">
+                                    <Card.Body className="text-center ">
+                                        <h1>Sign In</h1>
+                                        <div className="social-icons">
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaGoogle size={24}/>
+                                            </Button>
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaFacebook size={24}/>
+                                            </Button>
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaGithub size={24}/>
+                                            </Button>
+                                            <Button href="#" variant="link" className="text-decoration-none text-dark">
+                                                <FaLinkedin size={24}/>
+                                            </Button>
+                                        </div>
+                                        <span>or use your email password</span>
+                                        <Form>
+                                            <Form.Group controlId="email">
+                                                <Form.Control type="email" placeholder="Email"/>
+                                            </Form.Group>
+                                            <Form.Group controlId="password">
+                                                <Form.Control type="password" placeholder="Password"/>
+                                            </Form.Group>
+                                            <a href="#">Forget Your Password?</a>
+                                            <Button variant="primary" type="submit">Sign In</Button>
+                                        </Form>
+                                    </Card.Body>
+                                </div>
+                                <div className="toggle-container">
+                                    <div className="toggle">
+                                        <div className="toggle-panel toggle-left">
+                                            <h1>Welcome Back!</h1>
+                                            <p>Enter your personal details to use all of site features</p>
+                                            <Button variant="outline-light" onClick={toggleForm}>Sign In</Button>
+                                        </div>
+                                        <div className="toggle-panel toggle-right">
+                                            <h1>Hello, Friend!</h1>
+                                            <p>Register with your personal details to use all of site features</p>
+                                            <Button variant="outline-light" onClick={toggleForm}>Sign Up</Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </section>
+        </>
     );
-}
-
-function Login({ onLogin }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleLoginClick = () => {
-        onLogin(username, password);
-    };
-
-    return (
-        <div className="container container-fluid">
-            <Card>
-                <div className="row p-4">
-                    <div className="col-6">
-                        <Form.Group controlId="formUsername">
-                            <Form.Label>Tên người dùng</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Nhập tên người dùng"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formPassword">
-                            <Form.Label>Mật khẩu</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Nhập mật khẩu"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </Form.Group>
-                        <Button variant="primary" onClick={handleLoginClick}>
-                            Đăng nhập
-                        </Button>
-                    </div>
-                    <div className="col-6">
-                        <Button variant="outline-danger">Đăng nhập bằng Google</Button>
-                        <Button variant="outline-primary">Đăng nhập bằng Facebook</Button>
-                        <Button variant="outline-dark">Đăng nhập bằng Github</Button>
-                    </div>
-                </div>
-            </Card>
-        </div>
-    );
-}
-
-function Logout({ onLogout }) {
-    return (
-        <div className="container container-fluid">
-            <Card>
-                <div className="row p-4">
-                    <div className="col-12">
-                        <h3>Bạn đã đăng nhập thành công!</h3>
-                        <Button variant="danger" onClick={onLogout}>
-                            Đăng xuất
-                        </Button>
-                    </div>
-                </div>
-            </Card>
-        </div>
-    );
-}
+};
 
 export default LoginComponent;

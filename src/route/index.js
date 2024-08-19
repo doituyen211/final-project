@@ -1,21 +1,33 @@
 import {
-    CourseComponent,
-    MarketingCampaignComponent,
-    ScheduleComponent2,
-    SubjectComponent,
-    TuitionFeeComponent,
-    UserComponent,
-    ScoreComponent,
-    CustomerSaleComponent,
+    AllowanceComponents,
     ClassMembersComponent,
+    ContractComponents,
+    CourseComponent,
+    CustomerSaleComponent,
+    DashboardSalesComponent,
+    DecisionComponent,
+    DepartmentComponent,
+    LiabilityComponents,
+    LoginComponent,
+    MarketingCampaignComponent,
+    PersonelComponents,
+    QualificationComponents,
+    ReservationComponent,
+    ScheduleComponent2,
+    ScoreComponent,
+    StudenInforComponent,
     StudentComponent,
-    ReservationsComponent,
+    SubjectComponent,
+    TimesheetComponent,
+    TuitionFeeComponent,
+    UserComponent
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
 import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-
+import DashboardEducationComponent from "../pages/DashboardEducationComponent";
 import AttendanceComponent from "../pages/AttendanceComponent";
+import AttendanceStudent from "../pages/AttendanceStudentComponent";
 
 export const routeSideBar = [
     {
@@ -25,11 +37,10 @@ export const routeSideBar = [
         to: "/",
         child: [],
     },
-
     {
         name: "Form",
         icon: "nav-icon fas fa-edit",
-        to: "#",
+        to: "/form",
         child: [
             {
                 name: "List",
@@ -42,8 +53,14 @@ export const routeSideBar = [
     {
         name: "Education",
         icon: "nav-icon fas fa-book",
-        to: "#",
+        to: "/dashboard-education",
         child: [
+            {
+                name: "Dashboard",
+                icon: "nav-icon fas fa-tachometer-alt",
+                to: "/dashboard-education",
+                component: DashboardEducationComponent,
+            },
             {
                 name: "Quản lý học viên",
                 icon: "nav-icon fas fa-user",
@@ -66,8 +83,15 @@ export const routeSideBar = [
                 name: "Quản lý bảo lưu",
                 icon: "nav-icon fas fa-pause-circle",
                 to: "/reservations",
-                component: ReservationsComponent,
+                component: ReservationComponent,
             },
+            {
+                name: "Thông tin học viên (sau xoa)",
+                icon: "nav-icon fas fa-pause-circle",
+                to: "/studentinfomation",
+                component: StudenInforComponent,
+            },
+
             {
                 name: "Quản lý thành viên lớp",
                 icon: "nav-icon fas fa-users",
@@ -115,8 +139,14 @@ export const routeSideBar = [
     {
         name: "Sales",
         icon: "nav-icon fas fa-dollar-sign",
-        to: "#",
+        to: "/dashboard-sales",
         child: [
+            {
+                name: "Dashboard",
+                icon: "nav-icon fas fa-tachometer-alt",
+                to: "/dashboard-sales",
+                component: DashboardSalesComponent,
+            },
             {
                 name: "Quản lý học phí",
                 icon: "nav-icon fas fa-money-bill-wave",
@@ -141,6 +171,96 @@ export const routeSideBar = [
                 to: "/sale-program",
                 component: TrainningProgramComponent,
             },
+            {
+                name: "Điểm danh của tao",
+                icon: "nav-icon fas fa-cogs",
+                to: "/my-attendance",
+                component: AttendanceStudent,
+            },
+            {
+                name: "Login (Sau nay xoa)",
+                icon: "nav-icon fas fa-lock",
+                to: "/Login",
+                component: LoginComponent,
+            },
+            // {
+            //     name: "Login (Sau nay xoa)",
+            //     icon: "nav-icon fas fa-lock",
+            //     to: "/Login2",
+            //     component: LoginComponent2,
+            // },
         ],
     },
+    {
+        name: "Personnel",
+        icon: "nav-icon fas fa-user-friends ",
+        to: "/personal",
+        child: [
+            {
+                name: "Personnel-List",
+                icon: "nav-icon fas fa-solid fa-user",
+                to: "/personnelList",
+                component: PersonelComponents,
+                child: [],
+            },
+            {
+                name: "Contract-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/contracts",
+                component: ContractComponents,
+                child: [],
+            },
+            {
+                name: "Allowance-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/allowances",
+                component: AllowanceComponents,
+                child: [],
+            },
+            {
+                name: "Qualification-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/qualifications",
+                component: QualificationComponents,
+                child: [],
+            },
+            {
+                name: "Department-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/departments",
+                component: DepartmentComponent,
+                child: [],
+            },
+            {
+                name: "Decision-List",
+                icon: "nav-icon fas fa-file-contract",
+                to: "/decisions",
+                component: DecisionComponent,
+                child: [],
+            },
+            {
+                name: "Checkin-List",
+                icon: "nav-icon fas fa-solid fa-check-to-slot",
+                to: "/checkins",
+                component: TimesheetComponent,
+                child: [],
+            },
+        ],
+    },
+    {
+        name: "Liability",
+        icon: "nav-icon fas fa-edit",
+        to: "/liability",
+        child: [
+            {
+                name: "Liability-List",
+                icon: "nav-icon fas fa-user-friends",
+                to: "/liabilityList",
+                component: LiabilityComponents,
+                child: [],
+            },
+        ],
+    },
+
+
 ];

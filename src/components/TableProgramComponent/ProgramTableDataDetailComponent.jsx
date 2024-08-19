@@ -38,7 +38,7 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
     }
     const handlePageClick = (event) => {
         setCurrentPage(event.selected + 1);
-        console.log(event)
+
     };
     useEffect(() => {
         if (activeTab === 'subjects') {
