@@ -136,11 +136,11 @@ const TrainningProgramComponent = () => {
                                         <div className="col-auto">
                                             <ReactPaginate
                                                 breakLabel="..."
-                                                nextLabel="next >"
+                                                nextLabel=">"
                                                 onPageChange={handlePageClick}
                                                 pageRangeDisplayed={5}
                                                 pageCount={totalPages}
-                                                previousLabel="< previous"
+                                                previousLabel="<"
                                                 renderOnZeroPageCount={null}
                                                 pageClassName='page-item'
                                                 pageLinkClassName='page-link'
