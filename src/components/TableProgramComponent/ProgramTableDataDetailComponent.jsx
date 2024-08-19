@@ -101,11 +101,11 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
                         <div className='d-flex justify-content-center'>
                             <ReactPaginate
                                 breakLabel="..."
-                                nextLabel="next >"
+                                nextLabel=" >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={5}
                                 pageCount={pageCount}
-                                previousLabel="< previous"
+                                previousLabel="< "
                                 renderOnZeroPageCount={null}
                                 pageClassName='page-item'
                                 pageLinkClassName='page-link'
@@ -117,6 +117,7 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
                                 breakLinkClassName='page-link'
                                 containerClassName='pagination'
                                 activeClassName='active'
+
                             />
                         </div>
                     </div>
@@ -160,11 +161,11 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
 
                             <ReactPaginate
                                 breakLabel="..."
-                                nextLabel="next >"
+                                nextLabel=">"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={5}
                                 pageCount={pageCount}
-                                previousLabel="< previous"
+                                previousLabel="<"
                                 renderOnZeroPageCount={null}
                                 pageClassName='page-item'
                                 pageLinkClassName='page-link'
