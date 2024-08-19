@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const FormComponent = ({ fields }) => {
+const FormComponent = ({ fields, onFormSubmit, isEditing, onEditClick }) => {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field.name] = field.value || "";
@@ -8,7 +8,14 @@ const FormComponent = ({ fields }) => {
     }, {})
   );
 
-  const [isEditing, setIsEditing] = useState(false);
+  useEffect(() => {
+    setFormData(
+      fields.reduce((acc, field) => {
+        acc[field.name] = field.value || "";
+        return acc;
+      }, {})
+    );
+  }, [fields]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -20,22 +27,21 @@ const FormComponent = ({ fields }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission logic here
-
-    // After saving, exit edit mode
-    setIsEditing(false);
+    if (onFormSubmit) {
+      onFormSubmit(formData);
+    }
   };
 
   const handleCancel = () => {
-    // Reset form data to initial values and exit edit mode
     setFormData(
       fields.reduce((acc, field) => {
         acc[field.name] = field.value || "";
         return acc;
       }, {})
     );
-    setIsEditing(false);
+    if (onEditClick) {
+      onEditClick(false);
+    }
   };
 
   return (
@@ -50,7 +56,7 @@ const FormComponent = ({ fields }) => {
               value={formData[field.name]}
               onChange={handleChange}
               placeholder={field.placeholder}
-              readOnly={!isEditing || field.name === "ma_hoc_vien" || field.name === "Id_ctdd"} // Make these fields readOnly
+              readOnly={!isEditing || field.name === "ma_hoc_vien" || field.name === "Id_ctdd"}
               className="form-control"
             />
           )}
@@ -100,7 +106,7 @@ const FormComponent = ({ fields }) => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => setIsEditing(true)}
+          onClick={() => onEditClick(true)}
         >
           Chỉnh sửa
         </button>
