@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Form, Spinner } from "react-bootstrap";
 import FormComponent from "./formStuInforcomponent";
-import API from "../../store/Api";
+import {
+  fetchStudents,
+  updateStudent,
+  changePassword,
+} from "../../services/studentApi";
 
-// Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
-  dataTable: [], // Dữ liệu bảng
-  titleTable: "StudentInfor", // Tiêu đề của bảng
-  classTable: "table table-bordered table-hover", // Lớp CSS của bảng
-  modalShow: false, // Trạng thái hiển thị modal
+  dataTable: [],
+  titleTable: "StudentInfor",
+  classTable: "table table-bordered table-hover",
+  modalShow: false,
   modalProps: {
     show: false,
     action: "",
@@ -64,7 +67,7 @@ const INITIAL_STATE = {
         value: "",
       },
       {
-        name: "face",
+        name: "link_fb",
         type: "text",
         label: "Link facebook",
         placeholder: "Nhập link facebook",
@@ -85,9 +88,6 @@ const INITIAL_STATE = {
         readOnly: true, // Set to true if you don't want to allow editing
       },
     ],
-    initialIsEdit: false,
-    initialIdCurrent: null,
-    api: API.INFOR_STU,
   },
 };
 
@@ -99,26 +99,112 @@ const StudenInforComponent = () => {
     newPassword: "",
     confirmPassword: "",
   });
+  const [student, setStudent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false); // Manage edit mode here
 
-  // Handle the input change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordForm({
-      ...passwordForm,
-      [name]: value,
-    });
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      setLoading(true);
+      try {
+        const students = await fetchStudents();
+        if (students.length > 0) {
+          const student = students[0]; // Adjust as needed to select the right student
+          setStudent(student);
+          setState((prevState) => ({
+            ...prevState,
+            modalProps: {
+              ...prevState.modalProps,
+              formFieldsProp: prevState.modalProps.formFieldsProp.map(
+                (field) => ({
+                  ...field,
+                  value: student[field.name] || "",
+                })
+              ),
+            },
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudentData();
+  }, []);
+
+  const handleFieldChange = (name, value) => {
+    setState((prevState) => ({
+      ...prevState,
+      modalProps: {
+        ...prevState.modalProps,
+        formFieldsProp: prevState.modalProps.formFieldsProp.map((field) =>
+          field.name === name ? { ...field, value } : field
+        ),
+      },
+    }));
   };
 
-  // Handle form submission (e.g., validate and submit to API)
-  const handleSubmit = () => {
+  const handleUpdateStudent = async (updatedData) => {
+    if (!student) return;
+
+    try {
+      await updateStudent(student.id, updatedData);
+      alert("Thông tin học viên đã được cập nhật!");
+    } catch (error) {
+      console.error("Error updating student information:", error);
+      alert("Đã xảy ra lỗi khi cập nhật thông tin học viên!");
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordForm((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       alert("Mật khẩu mới và xác nhận mật khẩu không khớp!");
       return;
     }
-    // Perform further validation and submit to API
-    console.log("Password change form submitted:", passwordForm);
-    setShowPasswordModal(false); // Close the modal
+
+    try {
+      await changePassword(
+        student.id,
+        passwordForm.currentPassword,
+        passwordForm.newPassword
+      );
+      alert("Mật khẩu đã được thay đổi thành công!");
+    } catch (error) {
+      console.error("Error changing password:", error);
+      alert("Mật khẩu hiện tại không chính xác hoặc đã xảy ra lỗi!");
+    }
+
+    setShowPasswordModal(false);
   };
+
+  useEffect(() => {
+    if (showPasswordModal) {
+      // Reset password form when modal opens
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    }
+  }, [showPasswordModal]);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Spinner animation="border" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -144,7 +230,6 @@ const StudenInforComponent = () => {
       <section className="content">
         <div className="container-fluid">
           <div className="row justify-content-center">
-            {/* Card cho Form Component */}
             <div className="col-md-3">
               <div className="card">
                 <div className="card-body">
@@ -152,8 +237,9 @@ const StudenInforComponent = () => {
                     type="button"
                     className="btn btn-primary w-100"
                     style={{ marginBottom: "10px" }}
+                    onClick={() => setIsEditing(true)} // Open edit mode
                   >
-                    Thông tin chi tiết
+                    Cập nhật thông tin
                   </button>
                   <button
                     type="button"
@@ -166,14 +252,15 @@ const StudenInforComponent = () => {
               </div>
             </div>
 
-            {/* Card cho các bộ lọc, ô tìm kiếm và nút thêm mới */}
             <div className="col-md-9">
               <div className="card mb-4">
                 <div className="card-body">
                   <div className="row mb-4">
                     <FormComponent
-                      title={"Thông tin"}
                       fields={state.modalProps.formFieldsProp}
+                      onFormSubmit={handleUpdateStudent}
+                      isEditing={isEditing}
+                      onEditClick={setIsEditing} // Pass down handler
                     />
                   </div>
                 </div>
@@ -183,7 +270,6 @@ const StudenInforComponent = () => {
         </div>
       </section>
 
-      {/* Modal for password change */}
       <Modal
         show={showPasswordModal}
         onHide={() => setShowPasswordModal(false)}
