@@ -15,6 +15,7 @@ const formatDateTime = (dateTime) => {
 
   return `${hours}:${minutes}:${seconds} / ${day}-${month}-${year}`;
 };
+
 const contractTypeMap = {
   fulltime: "Hợp đồng lao động chính thức",
   parttime: "Hợp đồng lao động parttime",
@@ -34,49 +35,42 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Mã nhân viên"
-                  type="text"
-                  name="employeeId"
-                  value={contract.employee_id}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="ID"
+                type="text"
+                name="id"
+                value={contract.id}
+                disabled
+              />
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Mã hợp đồng"
-                  type="text"
-                  name="contract_id"
-                  value={contract.contract_id}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Mã nhân viên"
+                type="text"
+                name="employeeId"
+                value={contract.employee_id}
+                disabled
+              />
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Số hợp đồng"
-                  type="text"
-                  name="contract_id"
-                  value={contract.contract_code}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Mã hợp đồng"
+                type="text"
+                name="employeeId"
+                value={contract.contract_id}
+                disabled
+              />
             </div>
-
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Loại hợp đồng"
-                  type="text"
-                  name="contractType"
-                  value={contractTypeMap[contract.contract_type] || ""}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Loại hợp đồng"
+                type="text"
+                name="contractType"
+                value={
+                  contractTypeMap[contract.contract_type] || "Không xác định"
+                }
+                disabled
+              />
             </div>
             <div className="col-md-6">
               <div className="form-group">
@@ -93,65 +87,54 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Ngày bắt đầu"
-                  type="text"
-                  name="startDate"
-                  value={contract.start_date}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Ngày bắt đầu"
+                type="text"
+                name="startDate"
+                value={contract.start_date}
+                disabled
+              />
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Ngày kết thúc"
-                  type="text"
-                  name="endDate"
-                  value={contract.end_date}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Ngày kết thúc"
+                type="text"
+                name="endDate"
+                value={contract.end_date}
+                disabled
+              />
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Ngày tạo"
-                  type="text"
-                  name="created_at"
-                  value={formatDateTime(contract.created_at)}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Ngày tạo"
+                type="text"
+                name="created_at"
+                value={formatDateTime(contract.created_at)}
+                disabled
+              />
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Ngày cập nhật"
-                  type="text"
-                  name="updated_at"
-                  value={formatDateTime(contract.updated_at)}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Ngày cập nhật"
+                type="text"
+                name="updated_at"
+                value={formatDateTime(contract.updated_at)}
+                disabled
+              />
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <InputComponents
-                  label="Trạng thái"
-                  type="text"
-                  name="status"
-                  value={contract.status ? "Active" : "Inactive"}
-                  disabled
-                />
-              </div>
+              <InputComponents
+                label="Trạng thái"
+                type="text"
+                name="status"
+                value={contract.status ? "Còn hạn" : "Hết hạn"}
+                disabled
+              />
             </div>
           </div>
 
           <div className="form-group">
-            <label>Hồ sơ hợp đồng</label>
-            <p>Có {contract.description.length} hồ sơ</p>
+            <label>Có {contract.description.length} hồ sơ</label>
             {contract.description && contract.description.length > 0 ? (
               <ul className="list-group mt-2">
                 {contract.description.map((file, index) => (
@@ -170,11 +153,7 @@ const ContractViewComponents = ({ show, handleClose, contract }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <ButtonComponents
-          variant="secondary"
-          onClick={handleClose}
-          className="btn btn-danger"
-        >
+        <ButtonComponents variant="secondary" onClick={handleClose}>
           Đóng
         </ButtonComponents>
       </Modal.Footer>
