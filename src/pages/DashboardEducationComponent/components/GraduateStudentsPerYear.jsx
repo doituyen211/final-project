@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useGetReserveStudent } from "../hooks";
+import { useGetQuantityPerYear } from "../hooks";
 import ChartHeader from "./ChartHeader";
 import ChartLayout from "./ChartLayout";
 
@@ -23,15 +23,33 @@ ChartJS.register(
   Filler
 );
 
-export const ReserveStudentPerYearChart = () => {
-  const { labels, totalReserveStudent } = useGetReserveStudent();
+export const GraduateStudentsPerYear = () => {
+  const { labels, totalGraduateStudentPerYear, totalStudentPerYear } =
+    useGetQuantityPerYear();
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "Số học viên bảo lưu",
-        data: totalReserveStudent,
+        label: "Số học viên tốt nghiệp",
+        data: totalGraduateStudentPerYear,
+        borderColor: "#e8bbff",
+        pointBackgroundColor: "#6fff00",
+        pointBorderColor: "#e8bbff",
+        borderWidth: 1,
+        fill: true,
+        backgroundColor: (context) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient.addColorStop(0, "rgb(182, 247, 133,0.8)");
+          gradient.addColorStop(1, "white");
+          return gradient;
+        },
+        tension: 0.4,
+      },
+      {
+        label: "Số học viên",
+        data: totalStudentPerYear,
         borderColor: "#e8bbff",
         pointBackgroundColor: "#6fff00",
         pointBorderColor: "#e8bbff",
@@ -44,7 +62,7 @@ export const ReserveStudentPerYearChart = () => {
           gradient.addColorStop(1, "white");
           return gradient;
         },
-        tension: 0.3,
+        tension: 0.4,
       },
     ],
   };
@@ -58,15 +76,13 @@ export const ReserveStudentPerYearChart = () => {
     scales: {
       y: {
         beginAtZero: true,
-        min: 0,
-        max: 60,
       },
     },
   };
 
   return (
     <ChartLayout>
-      <ChartHeader>Thống kê số lượng học viên bảo lưu theo năm</ChartHeader>
+      <ChartHeader>Số lượng học viên tốt nghiệp theo từng năm</ChartHeader>
       <Line data={data} options={options} />
     </ChartLayout>
   );
