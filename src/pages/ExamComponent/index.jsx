@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button} from "react-bootstrap";
 import SearchComponents from "../../components/SearchComponents";
 import PagingComponent from "../../components/PagingComponent";
 import TableExamComponent from "../../components/TableExamComponent";
-import {
-  getExams,
-  handleCreateExam,
-  handleEditExam,
-  handleDeleteExam,
-} from "../../controllers/ExamController";
+import {getExams, handleCreateExam, handleDeleteExam, handleEditExam,} from "../../controllers/ExamController";
 import ModalExamComponent from "../../components/ModalExamComponent";
-import { ToastContainer, toast } from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DeleteExamModal from "../../components/DeleteExamModal";
 
@@ -161,7 +156,7 @@ const ExamComponent = () => {
         </div>
       </section>
       <section className="content">
-        <div className="container">
+        <div className="container-fluid full-screen">
           <div className="row justify-content-center">
             <div className="col">
               <div className="card card-primary">

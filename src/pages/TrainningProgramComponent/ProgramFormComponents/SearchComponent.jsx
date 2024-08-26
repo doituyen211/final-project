@@ -5,7 +5,7 @@ const SearchComponent = ({ searchItem, onChange, handleSearch }) => {
     return (
         <>
             <div
-                className="d-flex col-md-6 align-items-center justify-content-end gap-2">
+                className="d-flex w-50 align-items-center justify-content-end gap-2">
                 <input
                     type="text"
                     className="form-control"

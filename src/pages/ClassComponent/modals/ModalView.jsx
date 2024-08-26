@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "antd";
+import { useEffect, useState } from "react";
 import TableNoActions from "../components/TableNoActions";
 import useClassStore from "../useClassStore";
 
@@ -14,22 +14,20 @@ const ModalView = () => {
   }, [dataRow]);
 
   return (
-    <Modal show={showModalView} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Thông tin lớp học</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="d-flex justify-content-between mb-3">
+    <Modal
+      title="Thông tin lớp học"
+      open={showModalView}
+      onCancel={handleClose}
+      footer={<Button onClick={handleClose}>Đóng</Button>}
+    >
+      <div className="d-flex justify-content-between">
+        <div className=" mb-3">
           <div>Tên lớp: {formViewData.name} </div>
-          <div>Sĩ số: {formViewData.size}</div>
+          <div>Tên chương trình đào tạo: {formViewData.trProgramName}</div>
         </div>
-        <TableNoActions />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Đóng
-        </Button>
-      </Modal.Footer>
+        <div>Sĩ số: {formViewData.size}</div>
+      </div>
+      <TableNoActions />
     </Modal>
   );
 };
