@@ -19,6 +19,7 @@ import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import MarketingCampaignComponent from "./MarketingCampaignComponent";
 import TuitionFeeComponent from "./TuitionFeeComponent";
+import PositionComponents from "./PositionComponents";
 
 export {
   BookComponent,
@@ -42,4 +43,5 @@ export {
   MarketingCampaignComponent,
   TimesheetComponent,
   TuitionFeeComponent,
+  PositionComponents,
 };
