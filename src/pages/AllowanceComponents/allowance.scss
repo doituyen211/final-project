@@ -1,3 +1,36 @@
-.modal.show.d-block {
-  background: rgba(0, 0, 0, 0.5);
+$modal-bg-color: rgba(0, 0, 0, 0.5);
+$padding-size: 20px;
+$btn-margin: 5px;
+
+.modal {
+  &.show {
+    &.d-block {
+      background: $modal-bg-color;
+    }
+  }
+}
+
+.container-fluid {
+  padding: $padding-size;
+}
+
+.row {
+  display: flex;
+
+  .col-md-3 {
+    flex: 3;
+  }
+
+  .col-md-9 {
+    flex: 9;
+  }
+}
+
+table {
+  width: 100%;
+  margin-top: $padding-size;
+}
+
+button {
+  margin: 0 $btn-margin;
 }
