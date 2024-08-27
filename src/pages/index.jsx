@@ -4,7 +4,6 @@ import LoginComponent from "./LoginComponent";
 import ScheduleComponent2 from "./ScheduleComponent2";
 import ScoreComponent from "./ScoreComponent";
 import CustomerSaleComponent from "./CustomerSaleComponent";
-import TuitionFeeComponent from "./TuitionFeeComponent";
 import MarketingCampaignComponent from "./MarketingCampaignComponent";
 import ClassMembersComponent from "./ClassMembersComponent";
 import StudentComponent from "./StudentComponent";
@@ -25,9 +24,9 @@ import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
-import MarketingCampaignComponent from "./MarketingCampaignComponent";
 import TuitionFeeComponent from "./TuitionFeeComponent";
 import PositionComponents from "./PositionComponents";
+import SubjectComponentLayout2 from "./SubjectComponentLayout2";
 
 export {
   BookComponent,
