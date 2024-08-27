@@ -5,55 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/org/green/core/config/CoreAPI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/org/green/core/constant/Validator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/org/green/core/model/CoreResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/java/org/green/core/util/JsonUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/EducationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/config/AppConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/HRController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/0/70d825dc9e4b6905ca3aac73576da932f8eafd22" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/6/76401d80919958a0380f14132adf8b8fc9c3d6ea" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/9/c9459985dead3e0b7c32e9383a6f3e766c270cc4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/a/da39185cf03b94f280b2f90d8cd8dd41b3948e6d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/0/70d825dc9e4b6905ca3aac73576da932f8eafd22" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/6/76401d80919958a0380f14132adf8b8fc9c3d6ea" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/c/9/c9459985dead3e0b7c32e9383a6f3e766c270cc4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/d/a/da39185cf03b94f280b2f90d8cd8dd41b3948e6d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-green.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/green-backennd.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/core/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/core/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/core/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/core/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/example/core/CoreApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/example/core/coreApi/APIConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/example/core/model/CoreRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/example/core/model/CoreResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/example/core/model/CoreResponseBody.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/example/core/util/JsonUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/test/java/com/example/core/CoreApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/education/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/education/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/education/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/education/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/core/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/education/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/com/education/EducationApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/com/education/EducationClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/com/education/model/response/StudentResponse.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/test/java/com/education/EducationApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sale/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sale/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/sale/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/sale/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sale/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/src/main/java/com/sale/SaleApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/src/main/java/com/sale/SaleClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sale/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale/src/test/java/com/sale/SaleApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +75,8 @@
     "Spring Boot.EducationApplication.executor": "Run",
     "Spring Boot.HrApplication.executor": "Run",
     "Spring Boot.ReceivableApplication.executor": "Debug",
-    "git-widget-placeholder": "init",
+    "android.gradle.sync.needed": "true",
+    "git-widget-placeholder": "feature/namlh/crm__subject",
     "jdk.selected.JAVA_MODULE": "openjdk-22",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/N A N G/Project/backend-green",
@@ -117,6 +87,11 @@
     "nodejs_package_manager_path": "npm",
     "run.configurations.included.in.services": "true",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RunDashboard">
@@ -128,7 +103,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HrApplication">
+  <component name="RunManager" selected="Spring Boot.EducationApplication">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="green-backennd" />
       <method v="2">
