@@ -3,6 +3,7 @@ package org.green.core.util;
 import com.google.gson.reflect.TypeToken;
 import org.green.core.model.CoreResponse;
 import com.google.gson.Gson;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -11,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Component
 public class ApiToObject {
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
