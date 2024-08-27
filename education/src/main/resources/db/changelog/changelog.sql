@@ -364,3 +364,20 @@ VALUES
     (1, 1, 0, '2024-09-01', 1),
     (2, 2, 0, '2024-10-01', 2);
 
+--changeset namlh:2
+ALTER TABLE "Student"
+DROP COLUMN "password",
+    ADD COLUMN "account_id" INTEGER;
+CREATE TABLE "Account" (
+                           "account_id" SERIAL PRIMARY KEY,
+                           "username" TEXT UNIQUE,
+                           "password" TEXT,
+                           "role" VARCHAR(50) DEFAULT 'USER',
+                           "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                           "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE "Student"
+    ADD CONSTRAINT fk_account_id
+        FOREIGN KEY ("account_id") REFERENCES "Account" ("account_id")
+            ON DELETE SET NULL ON UPDATE CASCADE;
