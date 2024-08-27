@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="crm_green@118.71.224.224">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.49">
+    <root id="1">
+      <ServerVersion>16.3</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="crm_green">
+      <Current>1</Current>
+    </database>
+    <database id="3" parent="1" name="git"/>
+    <database id="4" parent="1" name="gitlab"/>
+    <database id="5" parent="1" name="gitlabhq_production"/>
+    <database id="6" parent="1" name="leakless_sit"/>
+    <database id="7" parent="1" name="leakless_uat"/>
+    <database id="8" parent="1" name="lsd"/>
+    <database id="9" parent="1" name="postgres"/>
+    <database id="10" parent="1" name="quanhv"/>
+    <database id="11" parent="1" name="smart_counter"/>
+    <database id="12" parent="1" name="smart_sale"/>
+    <database id="13" parent="1" name="smartsales"/>
+    <database id="14" parent="1" name="template0"/>
+    <database id="15" parent="1" name="template1"/>
+    <database id="16" parent="1" name="test"/>
+    <schema id="17" parent="2" name="information_schema"/>
+    <schema id="18" parent="2" name="pg_catalog"/>
+    <schema id="19" parent="2" name="public">
+      <Current>1</Current>
+    </schema>
+  </database-model>
+</dataSource>
