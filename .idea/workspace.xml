@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/education/src/main/resources/db.changelog/changelog.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/education/src/main/resources/db/changelog/changelog.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/resources/db.changelog/changelog.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/green-backennd.iml" beforeDir="false" afterPath="$PROJECT_DIR$/green-backennd.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,6 +89,11 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/education/src/main/resources/db/changelog" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
