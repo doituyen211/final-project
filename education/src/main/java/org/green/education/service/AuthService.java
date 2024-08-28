@@ -1,9 +1,9 @@
-package com.green.api.service;
+package org.green.education.service;
 
 
-import com.green.api.entity.Account;
-import com.green.api.form.AuthRegisterForm;
-import com.green.api.repository.IAuthRepository;
+import org.green.education.entity.Account;
+import org.green.education.form.AuthRegisterForm;
+import org.green.education.repository.IAuthRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

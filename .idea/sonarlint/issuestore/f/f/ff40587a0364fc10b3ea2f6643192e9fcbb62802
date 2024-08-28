@@ -1,8 +1,5 @@
 
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Õä›™2
-H
-java:S1452"&Remove usage of generic wildcard type.(ÄÑõšúÿÿÿÿ8Ùä›™2
-Y
-java:S1128
-"7Remove this unused import 'java.net.http.HttpResponse'.(’ûÌûÿÿÿÿ8„Éú¿™2
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Úã‚Á™2
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Úã‚Á™2

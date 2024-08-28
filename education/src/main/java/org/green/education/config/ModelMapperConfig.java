@@ -1,4 +1,4 @@
-package com.green.api.config;
+package org.green.education.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

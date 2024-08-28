@@ -400,3 +400,10 @@ ALTER TABLE "Care_History" RENAME TO "care_history";
 ALTER TABLE "Tuition" RENAME TO "tuition";
 ALTER TABLE "Debt" RENAME TO "debt";
 ALTER TABLE "Account" RENAME TO "account";
+
+--changeset namlh:4
+ALTER TABLE "account"
+    ADD COLUMN "status" VARCHAR(50);
+--changeset namlh:5
+ALTER TABLE "account"
+    ADD COLUMN "email" VARCHAR(100);

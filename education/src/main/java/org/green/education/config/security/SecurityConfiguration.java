@@ -1,4 +1,4 @@
-package com.green.api.config.security;
+package org.green.education.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

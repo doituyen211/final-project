@@ -1,10 +1,10 @@
-package com.green.api.controller;
+package org.green.education.controller;
 
 
 
 
-import com.green.api.form.AuthRegisterForm;
-import com.green.api.service.IAuthService;
+import org.green.education.form.AuthRegisterForm;
+import org.green.education.service.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

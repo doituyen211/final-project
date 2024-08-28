@@ -19,19 +19,16 @@ public class Account {
     @Column(name = "account_id")
     private Integer id;
 
-    @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
+    private String email ;
+
     private String password;
 
-    @Column(name = "role")
     private Role role;
 
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     public enum Role {
@@ -39,4 +36,5 @@ public class Account {
         MANAGER,
         USER
     }
+    private String status;
 }

@@ -1,4 +1,4 @@
-package com.green.api.dto;
+package org.green.education.dto;
 
 import lombok.Data;
 

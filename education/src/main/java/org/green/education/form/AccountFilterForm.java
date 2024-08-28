@@ -1,4 +1,4 @@
-package com.vti.be.form;
+package org.green.education.form;
 
 import lombok.Getter;
 import lombok.Setter;

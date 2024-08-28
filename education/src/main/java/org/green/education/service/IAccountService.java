@@ -1,10 +1,10 @@
-package com.green.api.service;
+package org.green.education.service;
 
 
-import com.green.api.entity.Account;
-import com.green.api.form.AccountCreateForm;
-import com.green.api.form.AccountFilterForm;
 import jakarta.transaction.Transactional;
+import org.green.education.entity.Account;
+import org.green.education.form.AccountCreateForm;
+import org.green.education.form.AccountFilterForm;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

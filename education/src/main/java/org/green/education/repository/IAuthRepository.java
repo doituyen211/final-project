@@ -1,7 +1,7 @@
-package com.green.api.repository;
+package org.green.education.repository;
 
 
-import com.green.api.entity.Account;
+import org.green.education.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IAuthRepository extends JpaRepository<Account, Integer> {

@@ -1,8 +1,8 @@
-package com.vti.be.form;
+package org.green.education.form;
 
-import com.vti.be.entity.Account;
 import lombok.Getter;
 import lombok.Setter;
+import org.green.education.entity.Account;
 
 
 @Getter

@@ -1,4 +1,4 @@
-package com.green.api.config.security;
+package org.green.education.config.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

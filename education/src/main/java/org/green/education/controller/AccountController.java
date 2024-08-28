@@ -1,13 +1,13 @@
-package com.green.api.controller;
+package org.green.education.controller;
 
 
-import com.green.api.dto.AccountDto;
-import com.green.api.entity.Account;
-import com.green.api.form.AccountCreateForm;
-import com.green.api.form.AccountFilterForm;
-import com.green.api.service.IAccountService;
-import com.green.api.validation.AccountIdExist;
 import jakarta.validation.Valid;
+import org.green.education.dto.AccountDto;
+import org.green.education.entity.Account;
+import org.green.education.form.AccountCreateForm;
+import org.green.education.form.AccountFilterForm;
+import org.green.education.service.IAccountService;
+import org.green.education.validation.AccountIdExist;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

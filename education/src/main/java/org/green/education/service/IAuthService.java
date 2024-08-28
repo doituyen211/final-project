@@ -1,6 +1,6 @@
-package com.green.api.service;
+package org.green.education.service;
 
-import com.green.api.form.AuthRegisterForm;
+import org.green.education.form.AuthRegisterForm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

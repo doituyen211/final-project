@@ -1,4 +1,4 @@
-package com.green.api.validation;
+package org.green.education.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

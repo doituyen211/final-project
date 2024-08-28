@@ -1,4 +1,4 @@
-package com.green.api.config.security;
+package org.green.education.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

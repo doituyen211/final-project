@@ -1,10 +1,8 @@
-package com.green.api.specification;
+package org.green.education.specification;
 
-
-
-import com.green.api.entity.Account;
-import com.green.api.form.AccountFilterForm;
 import jakarta.persistence.criteria.Predicate;
+import org.green.education.entity.Account;
+import org.green.education.form.AccountFilterForm;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

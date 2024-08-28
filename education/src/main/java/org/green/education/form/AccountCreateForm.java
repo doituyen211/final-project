@@ -1,17 +1,14 @@
-package com.vti.be.form;
+package org.green.education.form;
 
 
-import com.vti.be.entity.Account;
-import com.vti.be.validation.EmailNotExist;
-import jakarta.validation.Valid;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.util.List;
+import org.green.education.entity.Account;
+import org.green.education.validation.EmailNotExist;
 
 @Getter
 @Setter
