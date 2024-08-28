@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="">
+    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="modifine skeleton crm_score">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6b8f624d-2296-4624-ad49-b258a9a2ae11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6b8f624d-2296-4624-ad49-b258a9a2ae11.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6b8f624d-2296-4624-ad49-b258a9a2ae11/storage_v2/_src_/database/crm_green.YlXBxg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6b8f624d-2296-4624-ad49-b258a9a2ae11/storage_v2/_src_/database/crm_green.YlXBxg/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f8d00a27-7856-4056-bef7-7d06ac789721.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f8d00a27-7856-4056-bef7-7d06ac789721/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f8d00a27-7856-4056-bef7-7d06ac789721/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f8d00a27-7856-4056-bef7-7d06ac789721/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f8d00a27-7856-4056-bef7-7d06ac789721/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/org/green/core/model/CoreResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/org/green/core/model/CoreResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/GradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Grade.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Grade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/GradeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/GradeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/GradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/GradeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/implement/ImpGradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/implement/ImpGradeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,14 +48,11 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
-  <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;isMigrated&quot;: true
-}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -191,8 +174,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
       </set>
     </attachedChunks>
   </component>
@@ -207,13 +190,25 @@
       <workItem from="1724724770029" duration="2425000" />
       <workItem from="1724727205080" duration="375000" />
       <workItem from="1724764547489" duration="43000" />
-      <workItem from="1724764597044" duration="6373000" />
-      <workItem from="1724813578082" duration="24000" />
-      <workItem from="1724813605178" duration="9551000" />
+      <workItem from="1724764597044" duration="7439000" />
+      <workItem from="1724851467881" duration="1614000" />
     </task>
+    <task id="LOCAL-00001" summary="modifine skeleton crm_score">
+      <option name="closed" value="true" />
+      <created>1724772554642</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1724772554642</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="modifine skeleton crm_score" />
+    <option name="LAST_COMMIT_MESSAGE" value="modifine skeleton crm_score" />
   </component>
 </project>
