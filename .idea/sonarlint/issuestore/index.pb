@@ -78,3 +78,9 @@ t
 Deducation/src/main/java/org/green/education/service/AuthService.java,e/c/ec010080da941b369dcb8d1cecc3cbe1c105e3f5
 †
 Veducation/src/main/java/org/green/education/config/security/SecurityConfiguration.java,c/a/cab6c1ab0c44d6016f348a933371a53070771c2a
+z
+Jeducation/src/main/java/org/green/education/controller/CRUDController.java,2/9/29a69a4bd30e03a1514dc4dac2c6c92fff1168a1
+o
+?education/src/main/java/org/green/education/entity/Subject.java,7/9/794888b1d7556d31f58a9f01df8fb54da63081b2
+w
+Geducation/src/main/java/org/green/education/entity/TrainingProgram.java,8/3/834f15f2c03a4b49b395d62d47d53608e07122fa
