@@ -1,5 +1,6 @@
 package org.green.education.controller;
 
+import org.green.education.dto.test.GradeDTO;
 import org.green.education.entity.Grade;
 import org.green.education.service.implement.ImpGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class GradeController {
     private ImpGradeService impGradeService;
 
     @GetMapping
-    public ResponseEntity<List<Grade>> getAllGrades() {
-        return new ResponseEntity<>(impGradeService.getAllGrade(), HttpStatus.OK);
+    public ResponseEntity<List<GradeDTO>> getAllStudentGrades() {
+        return new ResponseEntity<>(impGradeService.getStudentGrade(), HttpStatus.OK);
     }
 
     @PostMapping("/add-score")

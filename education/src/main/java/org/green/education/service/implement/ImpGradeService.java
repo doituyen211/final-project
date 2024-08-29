@@ -1,5 +1,6 @@
 package org.green.education.service.implement;
 
+import org.green.education.dto.test.GradeDTO;
 import org.green.education.entity.Grade;
 import org.green.education.repository.GradeRepository;
 import org.green.education.service.GradeService;
@@ -45,5 +46,10 @@ public class ImpGradeService implements GradeService {
     @Override
     public void deleteGrade(int id) {
         gradeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<GradeDTO> getStudentGrade() {
+        return gradeRepository.findStudentGrades();
     }
 }

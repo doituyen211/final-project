@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "exam_schedule")
-public class ExamSchedule {
+public class   ExamSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exam_schedule_id_gen")
     @SequenceGenerator(name = "exam_schedule_id_gen", sequenceName = "Exam_Schedule_id_seq", allocationSize = 1)
