@@ -3,18 +3,25 @@ package org.green.education.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-//import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Grades\"")
+@Table(name = "grades")
 public class Grade {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grades_id_gen")
+    @SequenceGenerator(name = "grades_id_gen", sequenceName = "Grades_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_schedule_id")
+    private ExamSchedule examSchedule;
 
     @Column(name = "grade")
     private Integer grade;
