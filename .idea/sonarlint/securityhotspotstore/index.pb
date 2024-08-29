@@ -84,3 +84,7 @@ o
 ?education/src/main/java/org/green/education/entity/Subject.java,7/9/794888b1d7556d31f58a9f01df8fb54da63081b2
 w
 Geducation/src/main/java/org/green/education/entity/TrainingProgram.java,8/3/834f15f2c03a4b49b395d62d47d53608e07122fa
+~
+Neducation/src/main/java/org/green/education/repository/ISubjectRepository.java,f/9/f9bd577feb460c331f7b12123f061afcfd2bcce3
+†
+Veducation/src/main/java/org/green/education/repository/ITrainingProgramRepository.java,1/b/1b78683ff40d53925f0ec48a707889bebd295a02
