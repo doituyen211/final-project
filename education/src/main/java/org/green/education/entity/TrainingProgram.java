@@ -21,7 +21,7 @@ public class TrainingProgram {
     private int tuitionFee ;
 
     @Column
-    private int status ;
+    private Boolean status ;
 
     @Column
     private int trainingDuration ;
