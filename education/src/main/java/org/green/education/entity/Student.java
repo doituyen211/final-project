@@ -52,4 +52,8 @@ public class Student {
     @Column(name = "program_id")
     private Integer programId;
 
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", foreignKey = @ForeignKey(name = "fk_account_id"))
+    private Account account;
+
 }
