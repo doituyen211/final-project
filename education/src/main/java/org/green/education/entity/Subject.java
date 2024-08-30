@@ -11,13 +11,10 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer subjectId ;
 
-    @Column
     private String subjectName ;
 
-    @Column
     private int trainingDuration ;
 
-    @Column
     private int status ;
 
     @ManyToOne
