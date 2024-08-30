@@ -14,8 +14,10 @@ public class TrainingProgram {
 
     @Column
     private String programName ;
-    @Column
-    private int courseId ; // ????????? chac la schoolYear
+    
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course ; // ????????? chac la schoolYear
 
     @Column
     private int tuitionFee ;
