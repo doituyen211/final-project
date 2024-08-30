@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="@localhost">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
+    <root id="1"/>
+    <schema id="2" parent="1" name="BE"/>
+    <schema id="3" parent="1" name="ExamTest"/>
+    <schema id="4" parent="1" name="TestingSystem"/>
+    <schema id="5" parent="1" name="apicrm"/>
+    <schema id="6" parent="1" name="appName"/>
+    <schema id="7" parent="1" name="backend_db"/>
+    <schema id="8" parent="1" name="blog"/>
+    <schema id="9" parent="1" name="blog_codeto"/>
+    <schema id="10" parent="1" name="camping_db"/>
+    <schema id="11" parent="1" name="carsmanagement"/>
+    <schema id="12" parent="1" name="chat"/>
+    <schema id="13" parent="1" name="chatapp"/>
+    <schema id="14" parent="1" name="classroom"/>
+    <schema id="15" parent="1" name="crm_api"/>
+    <schema id="16" parent="1" name="crud_database"/>
+    <schema id="17" parent="1" name="dbname"/>
+    <schema id="18" parent="1" name="demo"/>
+    <schema id="19" parent="1" name="demo15"/>
+    <schema id="20" parent="1" name="demo17"/>
+    <schema id="21" parent="1" name="demo17_baithi"/>
+    <schema id="22" parent="1" name="demo3"/>
+    <schema id="23" parent="1" name="demoJpa"/>
+    <schema id="24" parent="1" name="demoexcel"/>
+    <schema id="25" parent="1" name="dowork"/>
+    <schema id="26" parent="1" name="emp_management"/>
+    <schema id="27" parent="1" name="ems"/>
+    <schema id="28" parent="1" name="fevti"/>
+    <schema id="29" parent="1" name="final_exam"/>
+    <schema id="30" parent="1" name="gateway"/>
+    <schema id="31" parent="1" name="godemo"/>
+    <schema id="32" parent="1" name="information_schema"/>
+    <schema id="33" parent="1" name="jersey"/>
+    <schema id="34" parent="1" name="jhfcm"/>
+    <schema id="35" parent="1" name="lesson_2"/>
+    <schema id="36" parent="1" name="liquibase"/>
+    <schema id="37" parent="1" name="login"/>
+    <schema id="38" parent="1" name="login_sys"/>
+    <schema id="39" parent="1" name="login_system"/>
+    <schema id="40" parent="1" name="logindb"/>
+    <schema id="41" parent="1" name="myblog"/>
+    <schema id="42" parent="1" name="mysql"/>
+    <schema id="43" parent="1" name="part_time"/>
+    <schema id="44" parent="1" name="performance_schema"/>
+    <schema id="45" parent="1" name="product"/>
+    <schema id="46" parent="1" name="schema_name"/>
+    <schema id="47" parent="1" name="store"/>
+    <schema id="48" parent="1" name="student"/>
+    <schema id="49" parent="1" name="student_db"/>
+    <schema id="50" parent="1" name="sys"/>
+    <schema id="51" parent="1" name="test"/>
+    <schema id="52" parent="1" name="testuser"/>
+    <schema id="53" parent="1" name="ticket_booking"/>
+    <schema id="54" parent="1" name="user_management"/>
+    <schema id="55" parent="1" name="users_database"/>
+  </database-model>
+</dataSource>
