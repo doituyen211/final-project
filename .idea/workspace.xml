@@ -4,6 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="modifine skeleton crm_score">
+      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/GradeConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/converter/LocalDateToStringConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/converter/StringToLocalDateConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/GradeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/test/GradeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/test/GradeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ExamSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ExamSchedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/GradeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/GradeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/implement/ImpGradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/implement/ImpGradeService.java" afterDir="false" />
+=======
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/SubjectController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/SubjectDto.java" afterDir="false" />
@@ -16,6 +29,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Subject.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Subject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/TrainingProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/TrainingProgram.java" afterDir="false" />
+>>>>>>> education
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +56,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+<<<<<<< HEAD
+        <option value="com.intellij.jpb.JpaRepository" />
         <option value="Interface" />
+        <option value="com.intellij.jpb.JpaEntity" />
+=======
+        <option value="Interface" />
+>>>>>>> education
         <option value="Class" />
       </list>
     </option>
@@ -50,7 +70,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/namlh/crm_subject" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -78,7 +98,11 @@
     "git-widget-placeholder": "feature/namlh/crm__subject",
     "jdk.selected.JAVA_MODULE": "openjdk-22",
     "kotlin-language-version-configured": "true",
+<<<<<<< HEAD
+    "last_opened_file_path": "C:/intern/backend-green",
+=======
     "last_opened_file_path": "/Users/ast/Documents/Green/project/backend-green/education/src/main/java/org/green/education/service",
+>>>>>>> education
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -98,22 +122,8 @@
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education/service" />
-      <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education" />
-      <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education/controller" />
-      <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education/validation" />
-      <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education/form" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/education/src/main/resources/db/changelog" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.green.education.controller" />
-      <recent name="org.green.education.specification" />
-      <recent name="org.green.education.form" />
-      <recent name="org.green.education.dto" />
-      <recent name="org.green.education.repository" />
     </key>
   </component>
   <component name="RunDashboard">
