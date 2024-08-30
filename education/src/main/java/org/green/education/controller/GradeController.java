@@ -21,7 +21,7 @@ public class GradeController {
     private ImpGradeService impGradeService;
 
     @GetMapping
-    public ResponseEntity<List<GradeDTO>> getAllStudentGrades() {
+    public ResponseEntity<?> getAllStudentGrades() {
         return new ResponseEntity<>(impGradeService.getStudentGrade(), HttpStatus.OK);
     }
 

@@ -1,92 +1,35 @@
 package org.green.education.dto.test;
 
-import java.time.LocalDate;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.Date;
+
+@Builder
+@Setter
+@Getter
+@NoArgsConstructor
 public class GradeDTO {
-    private Integer gradeId;
-    private String studentName;
-    private String grade;
-    private LocalDate examDate;
-    private String subjectName;
-    private String programName;
-    private String courseName;
+    private String full_name;
+    private Integer grade;
+    private LocalDate exam_date;
+    private String subject_name;
+    private String program_name;
+    private String course_name;
     private String status;
 
-    public GradeDTO(Integer gradeId, String studentName, String grade, LocalDate examDate,
-                    String subjectName, String programName, String courseName, String status) {
-        this.gradeId = gradeId;
-        this.studentName = studentName;
+    public GradeDTO(String full_name, Integer grade, LocalDate exam_date,
+                    String subject_name, String program_name, String course_name, String status) {
+        this.full_name = full_name;
         this.grade = grade;
-        this.examDate = examDate;
-        this.subjectName = subjectName;
-        this.programName = programName;
-        this.courseName = courseName;
+        this.exam_date = exam_date;
+        this.subject_name = subject_name;
+        this.program_name = program_name;
+        this.course_name = course_name;
         this.status = status;
     }
-
-    public Integer getGradeId() {
-        return gradeId;
-    }
-
-    public void setGradeId(Integer gradeId) {
-        this.gradeId = gradeId;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public LocalDate getExamDate() {
-        return examDate;
-    }
-
-    public void setExamDate(LocalDate examDate) {
-        this.examDate = examDate;
-    }
-
-    public String getSubjectName() {
-        return subjectName;
-    }
-
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
-
-    public String getProgramName() {
-        return programName;
-    }
-
-    public void setProgramName(String programName) {
-        this.programName = programName;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
 
 }

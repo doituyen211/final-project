@@ -50,6 +50,11 @@ public class ImpGradeService implements GradeService {
 
     @Override
     public List<GradeDTO> getStudentGrade() {
-        return gradeRepository.findStudentGrades();
+        try {
+            return gradeRepository.findStudentGrades();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
