@@ -1,26 +1,31 @@
 package org.green.education.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Getter
+@Setter
 @Entity
-@Data
+@Table(name = "subject")
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer subjectId ;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_id_gen")
+    @SequenceGenerator(name = "subject_id_gen", sequenceName = "Subject_subject_id_seq", allocationSize = 1)
+    @Column(name = "subject_id", nullable = false)
+    private Integer id;
 
-    @Column
-    private String subjectName ;
+    @Column(name = "subject_name", length = Integer.MAX_VALUE)
+    private String subjectName;
 
-    @Column
-    private int trainingDuration ;
+    @Column(name = "status")
+    private Integer status;
 
-    @Column
-    private int status ;
+    @Column(name = "training_duration")
+    private Integer trainingDuration;
 
-    @ManyToOne
-    @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
-    private TrainingProgram trainingProgram ;
+    @Column(name = "training_program_id")
+    private Integer trainingProgramId;
+
 }
