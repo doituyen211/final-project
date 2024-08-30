@@ -381,3 +381,29 @@ ALTER TABLE "Student"
     ADD CONSTRAINT fk_account_id
         FOREIGN KEY ("account_id") REFERENCES "Account" ("account_id")
             ON DELETE SET NULL ON UPDATE CASCADE;
+--changeset namlh:3
+
+ALTER TABLE "Student" RENAME TO "student";
+ALTER TABLE "Course" RENAME TO "course";
+ALTER TABLE "Training_Program" RENAME TO "training_program";
+ALTER TABLE "Subject" RENAME TO "subject";
+ALTER TABLE "Class" RENAME TO "class";
+ALTER TABLE "Class_Member" RENAME TO "class_member";
+ALTER TABLE "Attendance" RENAME TO "attendance";
+ALTER TABLE "Class_Schedule" RENAME TO "class_schedule";
+ALTER TABLE "Exam_Schedule" RENAME TO "exam_schedule";
+ALTER TABLE "Grades" RENAME TO "grades";
+ALTER TABLE "Student_Status" RENAME TO "student_status";
+ALTER TABLE "Leave_of_Absence" RENAME TO "leave_of_absence";
+ALTER TABLE "Campaign" RENAME TO "campaign";
+ALTER TABLE "Care_History" RENAME TO "care_history";
+ALTER TABLE "Tuition" RENAME TO "tuition";
+ALTER TABLE "Debt" RENAME TO "debt";
+ALTER TABLE "Account" RENAME TO "account";
+
+--changeset namlh:4
+ALTER TABLE "account"
+    ADD COLUMN "status" VARCHAR(50);
+--changeset namlh:5
+ALTER TABLE "account"
+    ADD COLUMN "email" VARCHAR(100);
