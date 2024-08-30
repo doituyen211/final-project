@@ -14,8 +14,9 @@ public class TrainingProgram {
 
     @Column
     private String programName ;
+
     @Column
-    private int courseId ; // ????????? chac la schoolYear
+    private int courseId ;
 
     @Column
     private int tuitionFee ;
@@ -28,7 +29,4 @@ public class TrainingProgram {
 
     @OneToMany(mappedBy = "trainingProgram")
     private List<Subject> subjects ;
-//
-//    @OneToMany(mappedBy = "trainingProgram")
-//    private List<Student> students ;
 }
