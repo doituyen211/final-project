@@ -1,6 +1,6 @@
 package org.green.education.repository;
 
-import org.green.education.dto.test.GradeDTO;
+import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -16,7 +16,7 @@ import java.util.List;
 public interface GradeRepository extends JpaRepository<Grade, Integer>, JpaSpecificationExecutor<Grade> {
 
     @Modifying
-    @Query("SELECT new org.green.education.dto.test.GradeDTO(s.fullName, g.grade, es.examDate, sub.subjectName, tp.programName, c.courseName, g.status) " +
+    @Query("SELECT new org.green.education.dto.GradeDTO(s.fullName, g.grade, es.examDate, sub.subjectName, tp.programName, c.courseName, g.status) " +
             "FROM Student s " +
             "JOIN Grade g ON s.id = g.id " +
             "JOIN ExamSchedule es ON g.id = es.id " +
