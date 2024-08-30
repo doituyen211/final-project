@@ -42,12 +42,12 @@ export default function ScoreComponent() {
         <h3>Quản lí điểm</h3>
       </CardHeader>
       <CardBody className="d-flex justify-content-center">
-        <div className="container m-2 p-2">
-          <div className="row row-cols-2">
-            <div className="col-md-3">
+        <div className="container-fluid fullscreen">
+          <div className="row ">
+            <div className="col-3">
               <DropSearch data={gradeData} />
             </div>
-            <div className="col-md-9">
+            <div className="col-9">
               <TableSearchResult data={gradeData} />
             </div>
           </div>
@@ -59,50 +59,52 @@ export default function ScoreComponent() {
 
 function TableSearchResult({ data }) {
   return (
-    <Card>
-      <CardBody>
-        <Table hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Tranning Program</th>
-              <th>Subject</th>
-              <th>Exam Date</th>
-              <th>First Score</th>
-              <th>Second Score</th>
-              <th>Third Score</th>
-              <th>Average Score</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((grade, i) => (
-              <tr key={i}>
-                <td>{grade.id}</td>
-                <td>name</td>
-                <td>trainning program</td>
-                <td>subject</td>
-                <td>exam date</td>
-                <td>fscore</td>
-                <td>sscore</td>
-                <td>tscore</td>
-                <td>aver</td>
-                <td>{grade.status}</td>
-                <td>
-                  <Button variant="link">
-                    <BsPencil className="text-primary"></BsPencil>
-                  </Button>
-                  <Button variant="link">
-                    <BsTrash className="text-danger"></BsTrash>
-                  </Button>
-                </td>
+    <div className="container-fluid fullscreen">
+      <Card>
+        <CardBody>
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Tranning Program</th>
+                <th>Subject</th>
+                <th>Year</th>
+                <th>Exam Date</th>
+                <th>First Score</th>
+                <th>Second Score</th>
+                <th>Third Score</th>
+                <th>Average Score</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </CardBody>
-    </Card>
+            </thead>
+            <tbody>
+              {data.map((grade, i) => (
+                <tr key={i}>
+                  <td>{grade.full_name}</td>
+                  <td>{grade.program_name}</td>
+                  <td>{grade.subject_name}</td>
+                  <td>{grade.course_name}</td>
+                  <td>{grade.exam_date}</td>
+                  <td>fscore</td>
+                  <td>sscore</td>
+                  <td>tscore</td>
+                  <td>aver</td>
+                  <td>{grade.status}</td>
+                  <td>
+                    <Button variant="link">
+                      <BsPencil className="text-primary"></BsPencil>
+                    </Button>
+                    <Button variant="link">
+                      <BsTrash className="text-danger"></BsTrash>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </CardBody>
+      </Card>
+    </div>
   );
 }

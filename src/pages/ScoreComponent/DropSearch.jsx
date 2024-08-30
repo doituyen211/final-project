@@ -5,18 +5,31 @@ import React from "react";
 export default function DropSearch({ data }) {
   const [selectedOption, setSelectedOption] = React.useState(null);
 
-  //   console.log(status);
+  const trainningProgramOptions = Array.from(
+    new Set(data.map((item) => item.program_name))
+  ).map((program) => ({
+    value: program,
+    label: program,
+  }));
 
-  const trainningProgramOptions = [
-    { value: "Trainning Program", label: "Trainning Program" },
-    { value: "Trainning Program1", label: "Trainning Program1" },
-    { value: "Trainning Program2", label: "Trainning Program2" },
-    { value: "Trainning Program3", label: "Trainning Program3" },
-  ];
-
-  const subjectOption = [];
-  const yearOption = [];
-  const statusOption = [];
+  const subjectOption = Array.from(
+    new Set(data.map((item) => item.subject_name))
+  ).map((subject) => ({
+    value: subject,
+    label: subject,
+  }));
+  const yearOption = Array.from(
+    new Set(data.map((item) => item.course_name))
+  ).map((course) => ({
+    value: course,
+    label: course,
+  }));
+  const statusOption = Array.from(new Set(data.map((item) => item.status))).map(
+    (status) => ({
+      value: status,
+      label: status,
+    })
+  );
 
   return (
     <Card>
