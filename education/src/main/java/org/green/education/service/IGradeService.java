@@ -22,4 +22,5 @@ public interface IGradeService {
 
     List<GradeDTO> getStudentGrade();
 
+//    List<SubjectDto> getAllSubject();
 }
