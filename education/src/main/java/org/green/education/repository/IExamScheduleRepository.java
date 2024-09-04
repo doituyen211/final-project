@@ -1,4 +1,4 @@
-package org.green.education.service;
+package org.green.education.repository;
 
 import org.green.education.entity.ExamSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;

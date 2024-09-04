@@ -2,7 +2,9 @@ package org.green.education.service;
 
 import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
+import org.green.education.repository.IExamScheduleRepository;
 import org.green.education.repository.IGradeRepository;
+import org.green.education.repository.IStudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
