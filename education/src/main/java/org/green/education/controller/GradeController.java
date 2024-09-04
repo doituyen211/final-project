@@ -1,6 +1,9 @@
 package org.green.education.controller;
 
+import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
+import org.green.education.entity.*;
+
 import org.green.education.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +23,7 @@ public class GradeController {
 
     @GetMapping
     public ResponseEntity<?> getAllStudentGrades() {
-        return new ResponseEntity<>(impGradeService.getStudentGrade(), HttpStatus.OK);
+        return new ResponseEntity<>(impGradeService.getAllGrade(), HttpStatus.OK);
     }
 
     @PostMapping("/add-score")
@@ -33,12 +36,11 @@ public class GradeController {
     }
 
     @PutMapping("/update-score/{id}")
-    public ResponseEntity<Grade> updateGrade(@PathVariable int id, @RequestBody Grade grade) {
-        Optional<Grade> existingGrade = impGradeService.getGradeById(id);
+    public ResponseEntity<Grade> updateGrade(@PathVariable int id, @RequestBody GradeDTO gradeDTO) {
+        GradeDTO existingGrade = impGradeService.getGradeById(id);
         if (existingGrade.isPresent()) {
-            grade.setId(id);
-            Grade updatedGrade = impGradeService.addGrade(grade);
-            return new ResponseEntity<>(updatedGrade, HttpStatus.OK);
+            Grade updatedNewGrade = impGradeService.updateGrade(id, gradeDTO);
+            return new ResponseEntity<>(updatedNewGrade, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -46,7 +48,7 @@ public class GradeController {
 
     @DeleteMapping("delete-score/{id}")
     public ResponseEntity<Grade> deleteGrade(@PathVariable int id) {
-        Optional<Grade> existingGrade = impGradeService.getGradeById(id);
+        GradeDTO existingGrade = impGradeService.getGradeById(id);
         if (existingGrade.isPresent()) {
             impGradeService.deleteGrade(id);
             return new ResponseEntity<>(HttpStatus.OK);

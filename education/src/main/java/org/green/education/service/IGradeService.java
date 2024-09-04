@@ -5,22 +5,21 @@ import org.green.education.entity.Grade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface IGradeService {
 
-    Optional<Grade> getGradeById(int id);
+    GradeDTO getGradeById(int id);
 
     Grade addGrade(Grade grade);
 
     List<Grade> getAllGrade();
 
-    Grade updateGrade(int id, Grade newGrade);
+    Grade updateGrade(int id, GradeDTO newGrade);
 
     void deleteGrade(int id);
 
-    List<GradeDTO> getStudentGrade();
+//    List<GradeDTO> getStudentGrade();
 
 //    List<SubjectDto> getAllSubject();
 }
