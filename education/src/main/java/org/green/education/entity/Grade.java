@@ -18,12 +18,12 @@ public class Grade {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    @JsonIgnore
+//    @JsonIgnore
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_schedule_id")
-    @JsonIgnore
+//    @JsonIgnore
     private ExamSchedule examSchedule;
 
     @Column(name = "grade")

@@ -11,15 +11,13 @@ public interface IGradeService {
 
     GradeDTO getGradeById(int id);
 
-    Grade addGrade(Grade grade);
+    GradeDTO addGrade(Grade grade);
 
     List<Grade> getAllGrade();
 
-    Grade updateGrade(int id, GradeDTO newGrade);
+    GradeDTO updateGrade(int id, Grade newGrade);
 
     void deleteGrade(int id);
 
-//    List<GradeDTO> getStudentGrade();
-
-//    List<SubjectDto> getAllSubject();
+    List<GradeDTO> getStudentGrade();
 }

@@ -1,14 +1,13 @@
 package org.green.education.repository;
 
 import org.green.education.dto.GradeDTO;
-import org.green.education.dto.SubjectDto;
 import org.green.education.entity.Grade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-//import org.green.education.dto.test.GradeDTO;
+
 import java.util.List;
 
 
@@ -25,8 +24,12 @@ public interface IGradeRepository extends JpaRepository<Grade, Integer>, JpaSpec
 //            "JOIN Course c ON tp.course.id = c.id " +
 //            "JOIN Subject sub ON es.id = sub.subjectId")
 //    List<GradeDTO> findStudentGrades();
-
-//    @Modifying
-//    @Query()
-//    List<SubjectDto> getSubject();
+    @Modifying
+    @Query(value = "SELECT g.id AS id, g.grade AS grade, g.status AS status, " +
+            "s.full_name AS fullName, es.exam_date AS examDate " +
+            "FROM grades g " +
+            "JOIN student s ON g.student_id = s.id " +
+            "JOIN exam_schedule es ON g.exam_schedule_id = es.id",
+            nativeQuery = true)
+    List<GradeDTO> findStudentGrades();
 }

@@ -6,23 +6,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.green.education.entity.Grade;
 
-import java.util.Date;
-
 @Builder
 @Setter
 @Getter
 @NoArgsConstructor
 public class GradeDTO {
-//    private String full_name;
-    private Integer grade;
     private Integer id;
-//    private Date exam_date;
-//    private String subject_name;
-//    private String program_name;
-//    private String course_name;
+    private Integer grade;
     private String status;
     private StudentDTO student;
     private ExamScheduleDTO examSchedule;
+
+    public GradeDTO(Integer id, Integer grade, String status, StudentDTO student, ExamScheduleDTO examSchedule) {
+        this.id = id;
+        this.grade = grade;
+        this.status = status;
+        this.student = student;
+        this.examSchedule = examSchedule;
+    }
 
     public GradeDTO(Grade grade) {
         this.id = grade.getId();
@@ -34,10 +35,5 @@ public class GradeDTO {
         if (grade.getExamSchedule() != null) {
             this.examSchedule = new ExamScheduleDTO(grade.getExamSchedule());
         }
-    }
-
-
-    public boolean isPresent() {
-        return grade != null;
     }
 }

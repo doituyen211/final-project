@@ -23,7 +23,6 @@ public class ExamScheduleDTO {
     Date examDate;
     String examLink;
 
-
     public ExamScheduleDTO(Integer id, Subject subject, Class classField, Date examDate, String examLink) {
         this.id = id;
         this.subject = subject;
@@ -33,7 +32,7 @@ public class ExamScheduleDTO {
     }
 
     public ExamScheduleDTO(ExamSchedule examSchedule) {
-        this.id = examSchedule.getId();
-        this.subject = examSchedule.getSubject();
+//        this.subject = examSchedule.getSubject();
+        this.examDate = examSchedule.getExamDate();
     }
 }
