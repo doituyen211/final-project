@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -27,7 +28,7 @@ public class   ExamSchedule {
     private Class classField;
 
     @Column(name = "exam_date")
-    private Date examDate;
+    private LocalDate examDate;
 
     @Column(name = "exam_link", length = Integer.MAX_VALUE)
     private String examLink;

@@ -9,13 +9,11 @@ import java.util.List;
 @Service
 public interface IGradeService {
 
-    GradeDTO getGradeById(int id);
+    Grade getGradeById(int id);
 
-    GradeDTO addGrade(Grade grade);
+    Grade addGrade(Grade grade);
 
-    List<Grade> getAllGrade();
-
-    GradeDTO updateGrade(int id, Grade newGrade);
+    Grade updateGrade(int id, Grade newGrade);
 
     void deleteGrade(int id);
 

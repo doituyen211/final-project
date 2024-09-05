@@ -22,30 +22,27 @@ public class GradeController {
 
     @GetMapping
     public ResponseEntity<List<GradeDTO>> getStudentGrade() {
-        List<Grade> grades = impGradeService.getAllGrade();
-        List<GradeDTO> gradeDTOs = grades.stream().map(GradeDTO::new).collect(Collectors.toList());
-        return new ResponseEntity<>(gradeDTOs, HttpStatus.OK);
+        List<GradeDTO> grades = impGradeService.getStudentGrade();
+        return new ResponseEntity<>(grades, HttpStatus.OK);
     }
 
     @PostMapping("/add-score")
-    public ResponseEntity<GradeDTO> addGrade(@RequestBody Grade grade) {
+    public ResponseEntity<Grade> addGrade(@RequestBody Grade grade) {
         try {
-//            Grade createdGrade = impGradeService.addGrade(grade);
-            GradeDTO createdGradeDTO = impGradeService.addGrade(grade);
+            Grade createdGrade = impGradeService.addGrade(grade);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Custom-Header", "CreatedProduct");
-            return new ResponseEntity<>(createdGradeDTO, headers, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdGrade, headers, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/update-score/{id}")
-    public ResponseEntity<GradeDTO> updateGrade(@PathVariable int id, @RequestBody Grade grade) {
+    public ResponseEntity<Grade> updateGrade(@PathVariable int id, @RequestBody Grade grade) {
         try {
-//            Grade updatedGrade = impGradeService.updateGrade(id, grade);
-            GradeDTO updatedGradeDTO = impGradeService.updateGrade(id, grade);
-            return new ResponseEntity<>(updatedGradeDTO, HttpStatus.OK);
+            Grade updatedGrade = impGradeService.updateGrade(id, grade);
+            return new ResponseEntity<>(updatedGrade, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -53,7 +50,7 @@ public class GradeController {
 
     @DeleteMapping("/delete-score/{id}")
     public ResponseEntity<Void> deleteGrade(@PathVariable int id) {
-        GradeDTO existingGradeDTO = impGradeService.getGradeById(id);
+        Grade existingGradeDTO = impGradeService.getGradeById(id);
         if (existingGradeDTO != null) {
             impGradeService.deleteGrade(id);
             return new ResponseEntity<>(HttpStatus.OK);
