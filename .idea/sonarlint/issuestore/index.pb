@@ -100,3 +100,5 @@ Geducation/src/main/java/org/green/education/form/SubjectFilterForm.java,7/d/7d
 Seducation/src/main/java/org/green/education/specification/SubjectSpecification.java,2/3/23994709d6f00d12503f2bd2cf87fc92e6a3f54a
 }
 Meducation/src/main/java/org/green/education/controller/SubjectController.java,6/e/6e6b117365e6e0cdabf5533101b03a9964b96536
+u
+Eeducation/src/main/java/org/green/education/config/OpenAPIConfig.java,f/4/f4d37fdb4d843b9f6e97c6e9c227c39b4ff814b4
