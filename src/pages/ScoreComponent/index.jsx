@@ -1,11 +1,12 @@
 import React from "react";
-import { Table, Card, CardBody, CardHeader, Button } from "react-bootstrap";
+import { Table, Card, CardBody, CardHeader } from "react-bootstrap";
 import DropSearch from "./DropSearch";
 import axios from "axios";
-import { BsPencil, BsTrash } from "react-icons/bs";
+import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
 
 export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
+
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
@@ -43,6 +44,9 @@ export default function ScoreComponent() {
       </CardHeader>
       <CardBody className="d-flex justify-content-center">
         <div className="container-fluid fullscreen">
+          <button className="m-2 d-flex justify-content-center">
+            <BsPlus className="text-success"></BsPlus>
+          </button>
           <div className="row ">
             <div className="col-3">
               <DropSearch data={gradeData} />
@@ -80,24 +84,24 @@ function TableSearchResult({ data }) {
             </thead>
             <tbody>
               {data.map((grade, i) => (
-                <tr key={i}>
-                  <td>{grade.full_name}</td>
-                  <td>{grade.program_name}</td>
-                  <td>{grade.subject_name}</td>
-                  <td>{grade.course_name}</td>
-                  <td>{grade.exam_date}</td>
+                <tr key={grade.id}>
+                  <td>{grade.studenName}</td>
+                  <td>{grade.programName}</td>
+                  <td>{grade.subjectName}</td>
+                  <td>{grade.courseName}</td>
+                  <td>{grade.examDate}</td>
                   <td>fscore</td>
                   <td>sscore</td>
                   <td>tscore</td>
                   <td>aver</td>
                   <td>{grade.status}</td>
                   <td>
-                    <Button variant="link">
+                    <button>
                       <BsPencil className="text-primary"></BsPencil>
-                    </Button>
-                    <Button variant="link">
+                    </button>
+                    <button>
                       <BsTrash className="text-danger"></BsTrash>
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               ))}
