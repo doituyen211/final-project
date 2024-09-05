@@ -1,13 +1,16 @@
 package org.green.education.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "class")
 public class Class {
@@ -16,16 +19,22 @@ public class Class {
     @Column(name = "class_id", nullable = false)
     private Integer id;
 
+    @Column(name = "class_name")
     private String className;
 
+    @Column(name = "class_size")
     private Integer classSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private TrainingProgram program;
 
+    @Column(name = "start_date")
     private LocalDate startDate;
 
+    @Column(name = "end_date")
     private LocalDate endDate;
 
+    @OneToMany(mappedBy = "mclass")
+    private List<ClassMember> classMemberList;
 }

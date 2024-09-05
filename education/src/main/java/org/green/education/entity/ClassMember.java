@@ -10,8 +10,14 @@ public class ClassMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer studentId;
-    private Integer classId;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Class mclass;
+
     private String status;
 
 //    @ManyToOne
