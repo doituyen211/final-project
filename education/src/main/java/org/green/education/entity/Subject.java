@@ -2,11 +2,12 @@ package org.green.education.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.green.education.dto.SubjectDto;
 
 
 @Entity
 @Data
-public class Subject {
+public class Subject{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer subjectId ;

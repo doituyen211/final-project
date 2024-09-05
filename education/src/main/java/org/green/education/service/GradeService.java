@@ -2,58 +2,91 @@ package org.green.education.service;
 
 import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
-import org.green.education.repository.GradeRepository;
+import org.green.education.repository.IExamScheduleRepository;
+import org.green.education.repository.IGradeRepository;
+import org.green.education.repository.IStudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@SuppressWarnings("DuplicatedCode")
 @Service
 public class GradeService implements IGradeService {
 
     @Autowired
-    private GradeRepository gradeRepository;
+    private IGradeRepository iGradeRepository;
+
+    @Autowired
+    private IStudentRepository iStudentRepository;
+
+    @Autowired
+    private IExamScheduleRepository iExamScheduleRepository;
 
     @Override
-    public Optional<Grade> getGradeById(int id) {
-//        return Optional.of(gradeRepository.findById(id).get());
-
-        return gradeRepository.findById(id);
+    public GradeDTO getGradeById(int id) {
+        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
+        return new GradeDTO(grade);
     }
 
     @Override
-    public Grade addGrade(Grade grade) {
-        return gradeRepository.save(grade);
+    public GradeDTO addGrade(Grade grade) {
+
+        if (grade.getStudent() != null) {
+            if (!iStudentRepository.existsById(grade.getStudent().getId())) {
+                throw new RuntimeException("Referenced Student does not exist");
+                // Alternatively, you might redirect to a page to add the student
+            }
+        }
+        if (grade.getExamSchedule() != null) {
+            if (!iExamScheduleRepository.existsById(grade.getExamSchedule().getId())) {
+                throw new RuntimeException("Referenced ExamSchedule does not exist");
+                // Alternatively, you might redirect to a page to add the exam schedule
+            }
+        }
+
+        Grade addNewGrade =  iGradeRepository.save(grade);
+        return new GradeDTO(addNewGrade);
     }
 
     @Override
     public List<Grade> getAllGrade() {
-        return gradeRepository.findAll();
+        return iGradeRepository.findAll();
     }
 
     @Override
-    public Grade updateGrade(int id, Grade newGrade) {
-        Grade grade = gradeRepository.findById(id).orElseThrow(() -> new RuntimeException("grade not found"));
+    public GradeDTO updateGrade(int id, Grade newGrade) {
+        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
 
-        grade.setId(newGrade.getId());
+        if (newGrade.getStudent() != null) {
+            if (!iStudentRepository.existsById(newGrade.getStudent().getId())) {
+                throw new RuntimeException("Referenced Student does not exist");
+                // Alternatively, you might redirect to a page to add the student
+            }
+        }
+        if (newGrade.getExamSchedule() != null) {
+            if (!iExamScheduleRepository.existsById(newGrade.getExamSchedule().getId())) {
+                throw new RuntimeException("Referenced ExamSchedule does not exist");
+                // Alternatively, you might redirect to a page to add the exam schedule
+            }
+        }
+
         grade.setGrade(newGrade.getGrade());
         grade.setStatus(newGrade.getStatus());
-        return gradeRepository.save(grade);
+        grade.setStudent(newGrade.getStudent());
+        grade.setExamSchedule(newGrade.getExamSchedule());
+
+        Grade updateGrade =  iGradeRepository.save(grade);
+        return new GradeDTO(updateGrade);
     }
 
     @Override
     public void deleteGrade(int id) {
-        gradeRepository.deleteById(id);
+        iGradeRepository.deleteById(id);
     }
 
     @Override
     public List<GradeDTO> getStudentGrade() {
-        try {
-            return gradeRepository.findStudentGrades();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+        return iGradeRepository.findStudentGrades();
     }
 }
