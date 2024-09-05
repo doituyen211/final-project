@@ -6,20 +6,21 @@ export default function DropSearch({ data }) {
   const [selectedOption, setSelectedOption] = React.useState(null);
 
   const trainningProgramOptions = Array.from(
-    new Set(data.map((item) => item.program_name))
+    new Set(data.map((item) => item.programName))
   ).map((program) => ({
     value: program,
     label: program,
   }));
 
   const subjectOption = Array.from(
-    new Set(data.map((item) => item.subject_name))
+    new Set(data.map((item) => item.subjectName))
   ).map((subject) => ({
     value: subject,
     label: subject,
   }));
+
   const yearOption = Array.from(
-    new Set(data.map((item) => item.course_name))
+    new Set(data.map((item) => item.courseName))
   ).map((course) => ({
     value: course,
     label: course,
@@ -71,6 +72,9 @@ export default function DropSearch({ data }) {
       </CardBody>
       <CardFooter>
         <Button type="submit">Search</Button>
+        <Button className="text-body-secondary bg-body-secondary border border-0">
+          Cancel
+        </Button>
       </CardFooter>
     </Card>
   );
