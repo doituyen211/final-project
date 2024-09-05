@@ -9,15 +9,15 @@ import lombok.Data;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer subjectId ;
+    private Integer subjectId;
 
-    private String subjectName ;
+    private String subjectName;
 
-    private int trainingDuration ;
+    private int trainingDuration;
 
-    private int status ;
+    private int status;
 
     @ManyToOne
-    @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
-    private TrainingProgram trainingProgram ;
+    @JoinColumn(name = "training_program_id")
+    private TrainingProgram trainingProgram;
 }
