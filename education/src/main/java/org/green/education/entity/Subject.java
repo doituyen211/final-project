@@ -20,4 +20,7 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
     private TrainingProgram trainingProgram ;
+
+    @OneToOne(mappedBy = "subject")
+    private Reserved reserved;
 }
