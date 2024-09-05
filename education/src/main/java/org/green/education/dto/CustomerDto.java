@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class CustomerDto {
 
+    private Integer customerId ;
+
     @JsonProperty("customer_name")
     private String customerName ;
 
@@ -15,11 +17,15 @@ public class CustomerDto {
     @JsonProperty("program_interest")
     private String programInterest ;
 
+    private Integer programInterestId ;
+
     @JsonProperty("record_time")
     private String recordTime ;
 
     @JsonProperty("responsible_person")
     private String responsiblePerson ;
+
+    private Integer responsiblePersonId ;
 
     @JsonProperty("phone_number")
     private String phone ;
