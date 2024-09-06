@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/ReservedController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/ReservedController.java" afterDir="false" />
-    </list>
+    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -220,7 +217,7 @@
       <workItem from="1725525665202" duration="740000" />
       <workItem from="1725591659808" duration="303000" />
       <workItem from="1725592409783" duration="5631000" />
-      <workItem from="1725610168977" duration="1062000" />
+      <workItem from="1725610168977" duration="1834000" />
     </task>
     <task id="LOCAL-00001" summary="adding skeleton schedule">
       <option name="closed" value="true" />
