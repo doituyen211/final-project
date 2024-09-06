@@ -2,6 +2,7 @@ package org.green.education.service;
 
 import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
+import org.green.education.form.GradeForm;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface IGradeService {
 
     Grade getGradeById(int id);
 
-    Grade addGrade(Grade grade);
+    GradeForm addGrade(GradeForm gradeForm);
 
     Grade updateGrade(int id, Grade newGrade);
 

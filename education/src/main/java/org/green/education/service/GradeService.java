@@ -1,7 +1,10 @@
 package org.green.education.service;
 
 import org.green.education.dto.GradeDTO;
+import org.green.education.entity.ExamSchedule;
 import org.green.education.entity.Grade;
+import org.green.education.entity.Student;
+import org.green.education.form.GradeForm;
 import org.green.education.repository.IExamScheduleRepository;
 import org.green.education.repository.IGradeRepository;
 import org.green.education.repository.IStudentRepository;
@@ -30,21 +33,18 @@ public class GradeService implements IGradeService {
     }
 
     @Override
-    public Grade addGrade(Grade grade) {
-//        if (grade.getStudent() != null) {
-//            if (!iStudentRepository.existsById(grade.getStudent().getId())) {
-//                throw new RuntimeException("Referenced Student does not exist");
-//            }
-//        }
-//        if (grade.getExamSchedule() != null) {
-//            if (!iExamScheduleRepository.existsById(grade.getExamSchedule().getId())) {
-//                throw new RuntimeException("Referenced ExamSchedule does not exist");
-//            }
-//        }
-//
-//        Grade addNewGrade =  iGradeRepository.save(grade);
-//        return new GradeDTO(addNewGrade);
-        return null;
+    public GradeForm addGrade(GradeForm gradeForm) {
+        Student student = iStudentRepository.findById(gradeForm.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found"));
+        ExamSchedule examSchedule = iExamScheduleRepository.findById(gradeForm.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found"));
+
+        Grade grade = new Grade();
+        grade.setStudent(student);
+        grade.setExamSchedule(examSchedule);
+        grade.setGrade(gradeForm.getGrade());
+        grade.setStatus(gradeForm.getStatus());
+
+        iGradeRepository.save(grade);
+        return gradeForm;
     }
 
     @Override

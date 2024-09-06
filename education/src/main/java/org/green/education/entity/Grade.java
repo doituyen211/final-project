@@ -15,9 +15,9 @@ import lombok.Setter;
 @Table(name = "grades")
 public class Grade {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grades_id_gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "grades_id_gen", sequenceName = "Grades_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,4 +34,7 @@ public class Grade {
     @Column(name = "status", length = Integer.MAX_VALUE)
     private String status;
 
+    public Grade() {
+
+    }
 }

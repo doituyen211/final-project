@@ -1,7 +1,13 @@
 package org.green.education.form;
 
-import java.time.LocalDate;
+import lombok.*;
 
+import java.time.LocalDate;
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GradeForm {
     private Integer grade;
     private String status;

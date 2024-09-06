@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="add DTO">
-      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/GradeForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/GradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/ExamScheduleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/ExamScheduleDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/GradeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/GradeDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ExamSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ExamSchedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Grade.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Grade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IGradeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IGradeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/GradeForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/GradeForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/GradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/GradeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IGradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IGradeService.java" afterDir="false" />
     </list>
@@ -222,17 +217,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding skeleton schedule" />
     <option name="LAST_COMMIT_MESSAGE" value="adding skeleton schedule" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="NONE" type="java-line">
-          <url>file://$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Grade.java</url>
-          <line>7</line>
-          <log-expression expression="NamedNativeQuery: Được sử dụng để định nghĩa các truy vấn SQL thuần túy có tên mà có thể được gọi lại từ mã nguồn. Điều này giúp quản lý các truy vấn SQL lớn hoặc phức tạp một cách hiệu quả hơn.&#10;@SqlResultSetMapping: Được sử dụng để ánh xạ kết quả của các truy vấn SQL thuần túy vào các thực thể hoặc đối tượng DTO. Điều này giúp kiểm soát cách dữ liệu từ cơ sở dữ liệu được chuyển đổi thành các đối tượng Java" language="JAVA" />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -2,6 +2,7 @@ package org.green.education.controller;
 
 import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
+import org.green.education.form.GradeForm;
 import org.green.education.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,9 +28,9 @@ public class GradeController {
     }
 
     @PostMapping("/add-score")
-    public ResponseEntity<Grade> addGrade(@RequestBody Grade grade) {
+    public ResponseEntity<GradeForm> addGrade(@RequestBody GradeForm gradeForm) {
         try {
-            Grade createdGrade = impGradeService.addGrade(grade);
+            GradeForm createdGrade = impGradeService.addGrade(gradeForm);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Custom-Header", "CreatedProduct");
             return new ResponseEntity<>(createdGrade, headers, HttpStatus.CREATED);
