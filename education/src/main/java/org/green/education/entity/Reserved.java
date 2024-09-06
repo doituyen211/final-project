@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="reservation")
+@Table(name="leave_of_absence")
 public class Reserved {
 
     @Id
@@ -23,7 +23,7 @@ public class Reserved {
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id")
     private  Student student;
 
     @Column(name="start_time")
@@ -40,7 +40,7 @@ public class Reserved {
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "subject_id", referencedColumnName = "subjectId")
+    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
     private Subject subject;
 
 

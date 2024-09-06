@@ -22,6 +22,7 @@ public class Subject{
     @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
     private TrainingProgram trainingProgram ;
 
-    @OneToOne(mappedBy = "subject")
+    @OneToOne
+    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
     private Reserved reserved;
 }

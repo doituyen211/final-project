@@ -40,6 +40,16 @@
         @Override
         @Transactional
         public Reserved save(Reserved reserved) {
+            if (reserved.getStudent() != null) {
+                if (!iReserveRepository.existsById(reserved.getStudent().getId())) {
+                    throw new RuntimeException("Referenced Student does not exist");
+                }
+            }
+            if (reserved.getSubject() != null) {
+                if (!iReserveRepository.existsById(reserved.getSubject().getSubjectId())) {
+                    throw new RuntimeException("Referenced Subject does not exist");
+                }
+            }
             return iReserveRepository.save(reserved);
         }
 
@@ -55,6 +65,22 @@
 
             Reserved tempReserve = iReserveRepository.findById(studentId).orElseThrow(()-> new RuntimeException("Reserved not found"));
 
+            if (reserved.getStudent() != null) {
+                if (!iReserveRepository.existsById(reserved.getStudent().getId())) {
+                    throw new RuntimeException("Referenced Student does not exist");
+                }
+            }
+            if (reserved.getSubject() != null) {
+                if (!iReserveRepository.existsById(reserved.getSubject().getSubjectId())) {
+                    throw new RuntimeException("Referenced Subject does not exist");
+                }
+            }
+
+            tempReserve.setStudent(reserved.getStudent());
+            tempReserve.setStartTime(reserved.getStartTime());
+            tempReserve.setEndTime(reserved.getEndTime());
+            tempReserve.setSubject(reserved.getSubject());
+            tempReserve.setStatus(reserved.getStatus());
 
             return iReserveRepository.save(tempReserve);
         }

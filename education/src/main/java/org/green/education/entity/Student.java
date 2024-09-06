@@ -56,7 +56,8 @@ public class Student {
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", foreignKey = @ForeignKey(name = "fk_account_id"))
     private Account account;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_account_id"))
     private Reserved reserved;
 
 }

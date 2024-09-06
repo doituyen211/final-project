@@ -26,6 +26,30 @@ public class ReservedController {
         return new ResponseEntity<>(reserveService.findReserveByStudentId(id), HttpStatus.OK);
     }
 
+//    @PostMapping
+//    public ResponseEntity<Reserved> createReserved(@RequestBody Reserved reserved) {
+//        try{
+//            ReservedDTO createdReservedDTO= reserveService.save(reserved);
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.add("Custom-Header", "CreatedProduct");
+//            return new ResponseEntity<>(ReservedDTO, headers, HttpStatus.CREATED);
+//
+//        }catch (RuntimeException e){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    @PutMapping
+//    public ResponseEntity<Reserved> updateReserved(@PathVariable int id, @RequestBody Reserved reserved) {
+//        try {
+////            Grade updatedGrade = impGradeService.updateGrade(id, grade);
+//            ReservedDTO updatedReservedDTO = reserveService.updateReserved(id, reserved);
+//            return new ResponseEntity<>(updatedReservedDTO, HttpStatus.OK);
+//        } catch (RuntimeException e) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//
+//    }
 
     @DeleteMapping("delete-reserve/{id}")
     public ResponseEntity<Reserved> deleteGrade(@PathVariable int id) {
