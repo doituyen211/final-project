@@ -138,19 +138,26 @@ function TableSearchResult({ data, showUpdateForm }) {
                   <td>{grade.subjectName}</td>
                   <td>{grade.courseName}</td>
                   <td>{grade.examDate}</td>
-                  <td>fscore</td>
-                  <td>sscore</td>
-                  <td>tscore</td>
-                  <td>aver</td>
-                  <td>{grade.status}</td>
-                  <td>
-                    <button onClick={() => showUpdateForm(grade)}>
-                      <BsPencil className="text-primary"></BsPencil>
-                    </button>
-                    <button>
-                      <BsTrash className="text-danger"></BsTrash>
-                    </button>
-                  </td>
+                  <tr key={grade.id}>
+                    <td>{grade.studenName}</td>
+                    <td>{grade.programName}</td>
+                    <td>{grade.subjectName}</td>
+                    <td>{grade.courseName}</td>
+                    <td>{grade.examDate}</td>
+                    <td>fscore</td>
+                    <td>sscore</td>
+                    <td>tscore</td>
+                    <td>aver</td>
+                    <td>{grade.status}</td>
+                    <td>
+                      <button onClick={() => showUpdateForm(grade)}>
+                        <BsPencil className="text-primary"></BsPencil>
+                      </button>
+                      <button>
+                        <BsTrash className="text-danger"></BsTrash>
+                      </button>
+                    </td>
+                  </tr>
                 </tr>
               ))}
             </tbody>
