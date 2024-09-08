@@ -2,8 +2,13 @@ import Select from "react-select";
 import { Card, CardBody, CardFooter, Button } from "react-bootstrap";
 import React from "react";
 
-export default function DropSearch({ data }) {
+export default function DropSearch({ data, onSearch }) {
   const [selectedOption, setSelectedOption] = React.useState(null);
+
+  const [trainningProgram, setTrainningProgram] = React.useState(null);
+  const [subject, setSubject] = React.useState(null);
+  const [year, setYear] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
 
   const trainningProgramOptions = Array.from(
     new Set(data.map((item) => item.programName))
@@ -25,6 +30,7 @@ export default function DropSearch({ data }) {
     value: course,
     label: course,
   }));
+
   const statusOption = Array.from(new Set(data.map((item) => item.status))).map(
     (status) => ({
       value: status,
@@ -32,38 +38,54 @@ export default function DropSearch({ data }) {
     })
   );
 
+  const handleSearch = () => {
+    onSearch({
+      trainningProgram: trainningProgram ? trainningProgram.value : null,
+      subject: subject ? subject.value : null,
+      year: year ? year.value : null,
+      status: status ? status.value : null,
+    });
+  };
+
+  const cancelSelect = () => {
+    setTrainningProgram(null);
+    setSubject(null);
+    setYear(null);
+    setStatus(null);
+  };
+
   return (
     <Card>
       <CardBody className="container">
         <div className="grid text-center">
           <div className="g-col-4">
             <Select
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              value={trainningProgram}
+              onChange={setTrainningProgram}
               options={trainningProgramOptions}
               placeholder="Trainning Program"
             />
           </div>
           <div className="g-col-3">
             <Select
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              value={subject}
+              onChange={setSubject}
               options={subjectOption}
               placeholder="Subject"
             />
           </div>
           <div className="g-col-2">
             <Select
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              value={year}
+              onChange={setYear}
               options={yearOption}
               placeholder="Year"
             />
           </div>
           <div>
             <Select
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              value={status}
+              onChange={setStatus}
               options={statusOption}
               placeholder="Status"
             />
@@ -71,8 +93,11 @@ export default function DropSearch({ data }) {
         </div>
       </CardBody>
       <CardFooter>
-        <Button type="submit">Search</Button>
-        <Button className="text-body-secondary bg-body-secondary border border-0">
+        <Button onClick={handleSearch}>Search</Button>
+        <Button
+          onClick={cancelSelect}
+          className="text-body-secondary bg-body-secondary border border-0"
+        >
           Cancel
         </Button>
       </CardFooter>

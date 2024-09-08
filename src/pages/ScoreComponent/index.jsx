@@ -21,10 +21,11 @@ export default function ScoreComponent() {
 
   const [show, setShow] = React.useState(false);
   const [showAdd, setShowAdd] = React.useState(false);
+  const [searchResult, setSearchResult] = React.useState([]);
   const [updateSelectId, setUpdateSelectId] = React.useState(null);
 
-  // const apiUrl = "http://localhost:9001/score";
-  const apiMock = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
+  const apiUrl = "http://localhost:9001/score";
+  // const apiMock = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
 
   React.useEffect(() => {
     fetchData();
@@ -32,7 +33,7 @@ export default function ScoreComponent() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(apiMock);
+      const res = await axios.get(apiUrl);
       setGradeData(res.data);
       setLoading(false);
     } catch (err) {
@@ -50,6 +51,25 @@ export default function ScoreComponent() {
   const handleShowAddForm = (data) => {
     setShowAdd(true);
     setDataRow(data);
+  };
+
+  const handleSearch = (searchEntity) => {
+    const filteredData = gradeData.filter((grade) => {
+      const matchTrainningProgram = searchEntity.trainningProgram
+        ? grade.programName === searchEntity.trainningProgram
+        : true;
+      const matchSubject = searchEntity.subject
+        ? grade.subjectName === searchEntity.subject
+        : true;
+      const matchYear = searchEntity.year
+        ? grade.courseName === searchEntity.year
+        : true;
+      const matchStatus = searchEntity.status
+        ? grade.status === searchEntity.status
+        : true;
+      return matchTrainningProgram && matchSubject && matchYear && matchStatus;
+    });
+    setSearchResult(filteredData);
   };
 
   if (loading)
@@ -77,12 +97,13 @@ export default function ScoreComponent() {
           </button>
           <div className="row">
             <div className="col-3">
-              <DropSearch data={gradeData} />
+              <DropSearch data={gradeData} onSearch={handleSearch} />
             </div>
             <div className="col-9">
               <TableSearchResult
                 data={gradeData}
                 showUpdateForm={handleShowUpdateForm}
+                result={searchResult}
               />
             </div>
             {show && updateSelectId && (
@@ -109,7 +130,9 @@ export default function ScoreComponent() {
   );
 }
 
-function TableSearchResult({ data, showUpdateForm }) {
+function TableSearchResult({ data, showUpdateForm, result }) {
+  const displayData = result.length > 0 ? result : data;
+
   return (
     <div className="container-fluid fullscreen">
       <Card>
@@ -131,33 +154,26 @@ function TableSearchResult({ data, showUpdateForm }) {
               </tr>
             </thead>
             <tbody>
-              {data.map((grade, i) => (
+              {displayData.map((grade, i) => (
                 <tr key={grade.id}>
                   <td>{grade.studenName}</td>
                   <td>{grade.programName}</td>
                   <td>{grade.subjectName}</td>
                   <td>{grade.courseName}</td>
                   <td>{grade.examDate}</td>
-                  <tr key={grade.id}>
-                    <td>{grade.studenName}</td>
-                    <td>{grade.programName}</td>
-                    <td>{grade.subjectName}</td>
-                    <td>{grade.courseName}</td>
-                    <td>{grade.examDate}</td>
-                    <td>fscore</td>
-                    <td>sscore</td>
-                    <td>tscore</td>
-                    <td>aver</td>
-                    <td>{grade.status}</td>
-                    <td>
-                      <button onClick={() => showUpdateForm(grade)}>
-                        <BsPencil className="text-primary"></BsPencil>
-                      </button>
-                      <button>
-                        <BsTrash className="text-danger"></BsTrash>
-                      </button>
-                    </td>
-                  </tr>
+                  <td>fscore</td>
+                  <td>sscore</td>
+                  <td>tscore</td>
+                  <td>aver</td>
+                  <td>{grade.status}</td>
+                  <td>
+                    <button onClick={() => showUpdateForm(grade)}>
+                      <BsPencil className="text-primary"></BsPencil>
+                    </button>
+                    <button>
+                      <BsTrash className="text-danger"></BsTrash>
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
