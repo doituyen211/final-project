@@ -34,8 +34,8 @@ public class GradeService implements IGradeService {
 
     @Override
     public GradeForm addGrade(GradeForm gradeForm) {
-        Student student = iStudentRepository.findById(gradeForm.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found"));
-        ExamSchedule examSchedule = iExamScheduleRepository.findById(gradeForm.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found"));
+        Student student = iStudentRepository.findById(gradeForm.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found for add"));
+        ExamSchedule examSchedule = iExamScheduleRepository.findById(gradeForm.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
 
         Grade grade = new Grade();
         grade.setStudent(student);
@@ -48,29 +48,18 @@ public class GradeService implements IGradeService {
     }
 
     @Override
-    public Grade updateGrade(int id, Grade newGrade) {
-//        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
-//
-//        if (newGrade.getStudent() != null) {
-//            if (!iStudentRepository.existsById(newGrade.getStudent().getId())) {
-//                throw new RuntimeException("Referenced Student does not exist");
-//            }
-//        }
-//        if (newGrade.getExamSchedule() != null) {
-//            if (!iExamScheduleRepository.existsById(newGrade.getExamSchedule().getId())) {
-//                throw new RuntimeException("Referenced ExamSchedule does not exist");
-//            }
-//        }
-//
-//        grade.setGrade(newGrade.getGrade());
-//        grade.setStatus(newGrade.getStatus());
-//        grade.setStudent(newGrade.getStudent());
-//        grade.setExamSchedule(newGrade.getExamSchedule());
-//
-//        Grade updateGrade =  iGradeRepository.save(grade);
-//        return new GradeDTO(updateGrade);
-        return null;
+    public GradeForm updateGrade(int id, GradeForm newGrade) {
+        Student student = iStudentRepository.findById(newGrade.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found for add"));
+        ExamSchedule examSchedule = iExamScheduleRepository.findById(newGrade.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
+        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found for update"));
 
+        grade.setGrade(newGrade.getGrade());
+        grade.setStatus(newGrade.getStatus());
+        grade.setStudent(student);
+        grade.setExamSchedule(examSchedule);
+
+        iGradeRepository.save(grade);
+        return newGrade;
     }
 
     @Override

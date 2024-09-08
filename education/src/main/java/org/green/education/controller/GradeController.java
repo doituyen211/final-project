@@ -40,9 +40,9 @@ public class GradeController {
     }
 
     @PutMapping("/update-score/{id}")
-    public ResponseEntity<Grade> updateGrade(@PathVariable int id, @RequestBody Grade grade) {
+    public ResponseEntity<GradeForm> updateGrade(@PathVariable int id, @RequestBody GradeForm gradeForm) {
         try {
-            Grade updatedGrade = impGradeService.updateGrade(id, grade);
+            GradeForm updatedGrade = impGradeService.updateGrade(id, gradeForm);
             return new ResponseEntity<>(updatedGrade, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

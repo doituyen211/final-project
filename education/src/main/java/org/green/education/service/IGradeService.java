@@ -14,7 +14,7 @@ public interface IGradeService {
 
     GradeForm addGrade(GradeForm gradeForm);
 
-    Grade updateGrade(int id, Grade newGrade);
+    GradeForm updateGrade(int id, GradeForm newGrade);
 
     void deleteGrade(int id);
 
