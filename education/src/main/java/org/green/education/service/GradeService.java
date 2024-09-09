@@ -1,13 +1,9 @@
 package org.green.education.service;
 
 import org.green.education.dto.GradeDTO;
-import org.green.education.entity.ExamSchedule;
-import org.green.education.entity.Grade;
-import org.green.education.entity.Student;
+import org.green.education.entity.*;
 import org.green.education.form.GradeForm;
-import org.green.education.repository.IExamScheduleRepository;
-import org.green.education.repository.IGradeRepository;
-import org.green.education.repository.IStudentRepository;
+import org.green.education.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +23,12 @@ public class GradeService implements IGradeService {
     @Autowired
     private IExamScheduleRepository iExamScheduleRepository;
 
+    @Autowired
+    private ISubjectRepository iSubjectRepository;
+
+    @Autowired
+    private ITrainingProgramRepository iTrainingProgramRepository;
+
     @Override
     public Grade getGradeById(int id) {
         return iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
@@ -36,12 +38,16 @@ public class GradeService implements IGradeService {
     public GradeForm addGrade(GradeForm gradeForm) {
         Student student = iStudentRepository.findById(gradeForm.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found for add"));
         ExamSchedule examSchedule = iExamScheduleRepository.findById(gradeForm.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
+        TrainingProgram trainingProgram = iTrainingProgramRepository.findById(gradeForm.getTrainingProgramId()).orElseThrow(() -> new RuntimeException("Training program not found for add"));
+        Subject subject = iSubjectRepository.findById(gradeForm.getSubjectId()).orElseThrow(() -> new RuntimeException("Subject not found for add"));
 
         Grade grade = new Grade();
         grade.setStudent(student);
         grade.setExamSchedule(examSchedule);
         grade.setGrade(gradeForm.getGrade());
         grade.setStatus(gradeForm.getStatus());
+        subject.setSubjectName(grade.getExamSchedule().getSubject().getSubjectName());
+        trainingProgram.setProgramName(grade.getExamSchedule().getClassField().getProgram().getProgramName());
 
         iGradeRepository.save(grade);
         return gradeForm;
