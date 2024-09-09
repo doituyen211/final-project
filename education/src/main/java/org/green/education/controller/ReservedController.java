@@ -1,10 +1,6 @@
 package org.green.education.controller;
 
-import org.green.education.dto.ReservedDTO;
-import org.green.education.dto.SubjectDto;
-import org.green.education.entity.Grade;
-import org.green.education.entity.Reserved;
-import org.green.education.service.IReserveService;
+import org.green.education.entity.LeaveOfAbsence;
 import org.green.education.service.ReserveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,41 +18,40 @@ public class ReservedController {
     private ReserveService reserveService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reserved> getReserveByStudentId(@PathVariable int id) {
+    public ResponseEntity<LeaveOfAbsence> getReserveByStudentId(@PathVariable int id) {
         return new ResponseEntity<>(reserveService.findReserveByStudentId(id), HttpStatus.OK);
     }
 
 
 
 
-//    @PostMapping
-//    public ResponseEntity<Reserved> createReserved(@RequestBody Reserved reserved) {
-//        try{
-//            ReservedDTO createdReservedDTO= reserveService.save(reserved);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add("Custom-Header", "CreatedProduct");
-//            return new ResponseEntity<>(ReservedDTO, headers, HttpStatus.CREATED);
-//
-//        }catch (RuntimeException e){
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    @PutMapping
-//    public ResponseEntity<Reserved> updateReserved(@PathVariable int id, @RequestBody Reserved reserved) {
-//        try {
-////            Grade updatedGrade = impGradeService.updateGrade(id, grade);
-//            ReservedDTO updatedReservedDTO = reserveService.updateReserved(id, reserved);
-//            return new ResponseEntity<>(updatedReservedDTO, HttpStatus.OK);
-//        } catch (RuntimeException e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//    }
+    @PostMapping("/addReserved")
+    public ResponseEntity<LeaveOfAbsence> createReserved(@RequestBody LeaveOfAbsence leaveOfAbsence) {
+        try{
+            LeaveOfAbsence leaveOfAbsence1 = reserveService.save(leaveOfAbsence);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Custom-Header", "CreatedProduct");
+            return new ResponseEntity<>(leaveOfAbsence1, headers, HttpStatus.CREATED);
+
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LeaveOfAbsence> updateReserved(@PathVariable int id, @RequestBody LeaveOfAbsence leaveOfAbsence) {
+        try {
+            LeaveOfAbsence updatedLeaveOfAbsence = reserveService.updateReserved(id, leaveOfAbsence);
+            return new ResponseEntity<>(updatedLeaveOfAbsence, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
     @DeleteMapping("delete-reserve/{id}")
-    public ResponseEntity<Reserved> deleteGrade(@PathVariable int id) {
-        Optional<Reserved> temp = Optional.ofNullable(reserveService.findReserveByStudentId(id));
+    public ResponseEntity<LeaveOfAbsence> deleteGrade(@PathVariable int id) {
+        Optional<LeaveOfAbsence> temp = Optional.ofNullable(reserveService.findReserveByStudentId(id));
         if (temp.isPresent()) {
             reserveService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);

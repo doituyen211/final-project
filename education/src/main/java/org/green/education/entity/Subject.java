@@ -2,7 +2,6 @@ package org.green.education.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.green.education.dto.SubjectDto;
 
 
 @Entity
@@ -24,5 +23,5 @@ public class Subject{
 
     @OneToOne
     @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
-    private Reserved reserved;
+    private LeaveOfAbsence leaveOfAbsence;
 }

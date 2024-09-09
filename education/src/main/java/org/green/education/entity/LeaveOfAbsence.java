@@ -1,30 +1,45 @@
 package org.green.education.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.Date;
 
 @Data
 @Entity
+@Table(name="leave_of_absence")
 public class LeaveOfAbsence {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name="id")
+    private int id;
 
-    private Integer studentId;
-    private Date startDate;
-    private Date endDate;
-    private Integer status;
-    private Integer subjectId;
+    @OneToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH})
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id")
+    private  Student student;
 
-//    @ManyToOne
-//    @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_student_id"))
-//    private Student student;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", foreignKey = @ForeignKey(name = "fk_subject_id"))
-//    private Subject subject;
+    @Column(name="start_time")
+    private Date startTime;
+
+    @Column(name="end_time")
+    private Date endTime;
+
+    @Column(name="status")
+    private int status;
+
+    @OneToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH})
+    @JoinColumn(name = "subject_id", referencedColumnName = "subjectId")
+    private Subject subject;
+
+
+
 }

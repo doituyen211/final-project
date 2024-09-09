@@ -1,8 +1,7 @@
     package org.green.education.service;
 
     import jakarta.transaction.Transactional;
-    import org.green.education.entity.Grade;
-    import org.green.education.entity.Reserved;
+    import org.green.education.entity.LeaveOfAbsence;
     import org.green.education.repository.IReserveRepository;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Service;
@@ -21,36 +20,36 @@
         }
 
         @Override
-        public Reserved findReserveByStudentId(int studentId) {
-            Optional<Reserved> result = iReserveRepository.findById(studentId);
+        public LeaveOfAbsence findReserveByStudentId(int studentId) {
+            Optional<LeaveOfAbsence> result = iReserveRepository.findById(studentId);
 
-            Reserved reserved = null;
+            LeaveOfAbsence leaveOfAbsence = null;
 
             if(result.isPresent()){
 
-                reserved = result.get();
+                leaveOfAbsence = result.get();
             }else{
                 throw new RuntimeException("Did not find reserve by studentId :" + studentId);
             }
 
-            return reserved;
+            return leaveOfAbsence;
 
         }
 
         @Override
         @Transactional
-        public Reserved save(Reserved reserved) {
-            if (reserved.getStudent() != null) {
-                if (!iReserveRepository.existsById(reserved.getStudent().getId())) {
+        public LeaveOfAbsence save(LeaveOfAbsence leaveOfAbsence) {
+            if (leaveOfAbsence.getStudent() != null) {
+                if (!iReserveRepository.existsById(leaveOfAbsence.getStudent().getId())) {
                     throw new RuntimeException("Referenced Student does not exist");
                 }
             }
-            if (reserved.getSubject() != null) {
-                if (!iReserveRepository.existsById(reserved.getSubject().getSubjectId())) {
+            if (leaveOfAbsence.getSubject() != null) {
+                if (!iReserveRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
                     throw new RuntimeException("Referenced Subject does not exist");
                 }
             }
-            return iReserveRepository.save(reserved);
+            return iReserveRepository.save(leaveOfAbsence);
         }
 
         @Override
@@ -61,26 +60,26 @@
 
         @Override
         @Transactional
-        public Reserved updateReserved(int studentId, Reserved reserved) {
+        public LeaveOfAbsence updateReserved(int studentId, LeaveOfAbsence leaveOfAbsence) {
 
-            Reserved tempReserve = iReserveRepository.findById(studentId).orElseThrow(()-> new RuntimeException("Reserved not found"));
+            LeaveOfAbsence tempReserve = iReserveRepository.findById(studentId).orElseThrow(()-> new RuntimeException("Reserved not found"));
 
-            if (reserved.getStudent() != null) {
-                if (!iReserveRepository.existsById(reserved.getStudent().getId())) {
+            if (leaveOfAbsence.getStudent() != null) {
+                if (!iReserveRepository.existsById(leaveOfAbsence.getStudent().getId())) {
                     throw new RuntimeException("Referenced Student does not exist");
                 }
             }
-            if (reserved.getSubject() != null) {
-                if (!iReserveRepository.existsById(reserved.getSubject().getSubjectId())) {
+            if (leaveOfAbsence.getSubject() != null) {
+                if (!iReserveRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
                     throw new RuntimeException("Referenced Subject does not exist");
                 }
             }
 
-            tempReserve.setStudent(reserved.getStudent());
-            tempReserve.setStartTime(reserved.getStartTime());
-            tempReserve.setEndTime(reserved.getEndTime());
-            tempReserve.setSubject(reserved.getSubject());
-            tempReserve.setStatus(reserved.getStatus());
+            tempReserve.setStudent(leaveOfAbsence.getStudent());
+            tempReserve.setStartTime(leaveOfAbsence.getStartTime());
+            tempReserve.setEndTime(leaveOfAbsence.getEndTime());
+            tempReserve.setSubject(leaveOfAbsence.getSubject());
+            tempReserve.setStatus(leaveOfAbsence.getStatus());
 
             return iReserveRepository.save(tempReserve);
         }

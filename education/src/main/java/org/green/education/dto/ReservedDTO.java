@@ -1,7 +1,7 @@
 package org.green.education.dto;
 
 import lombok.*;
-import org.green.education.entity.Reserved;
+import org.green.education.entity.LeaveOfAbsence;
 
 import java.util.Date;
 
@@ -29,13 +29,13 @@ public class ReservedDTO {
         this.subjectId = subjectId;
     }
 
-    public ReservedDTO(Reserved reserved) {
-        this.id = reserved.getId();
-        this.startTime = reserved.getStartTime();
-        this.endTime = reserved.getEndTime();
-        this.studentId = reserved.getStudent().getId();
-        this.subjectId=reserved.getSubject().getSubjectId();
-        this.status=reserved.getStatus();
+    public ReservedDTO(LeaveOfAbsence leaveOfAbsence) {
+        this.id = leaveOfAbsence.getId();
+        this.startTime = leaveOfAbsence.getStartTime();
+        this.endTime = leaveOfAbsence.getEndTime();
+        this.studentId = leaveOfAbsence.getStudent().getId();
+        this.subjectId= leaveOfAbsence.getSubject().getSubjectId();
+        this.status= leaveOfAbsence.getStatus();
 //        if (reserved.getStudent() != null) {
 //            this.studentId = new StudentDTO(reserved.getStudent());
 //        }

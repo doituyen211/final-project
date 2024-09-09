@@ -58,6 +58,6 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_account_id"))
-    private Reserved reserved;
+    private LeaveOfAbsence leaveOfAbsence;
 
 }
