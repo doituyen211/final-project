@@ -7,5 +7,7 @@ import lombok.Data;
 public class CourseFilterForm {
 
     String search ;
+    Integer status ;
+    Integer program ;
 
 }

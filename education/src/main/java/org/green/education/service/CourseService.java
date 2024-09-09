@@ -2,7 +2,6 @@ package org.green.education.service;
 
 import org.green.education.dto.CourseDto;
 import org.green.education.entity.Course;
-import org.green.education.entity.TrainingProgram;
 import org.green.education.form.CourseFilterForm;
 import org.green.education.repository.ICourseRepository;
 import org.green.education.repository.ITrainingProgramRepository;
@@ -47,7 +46,7 @@ public class CourseService implements ICourseService {
     @Override
     public ResponseEntity<?> findALL(CourseFilterForm form , int page , int pageSize,
                                      String sortDir, String sortBy     ) {
-        //searc
+        //search
         Specification<Course> spec = CourseSpecification.buildSpec(form) ;
 
         //Sort
@@ -63,9 +62,8 @@ public class CourseService implements ICourseService {
         response.put("pageSize",pageSize) ;
         response.put("totalPages",courses.getTotalPages()) ;
         response.put("totalElements",courses.getTotalElements()) ;
-        response.put("content", courses.getContent().stream().map(course -> {
-            CourseDto courseDto = mapper.map(courses, CourseDto.class) ;
-
+        response.put("content", courses.getContent().stream().map(course  -> {
+            CourseDto courseDto = mapper.map(course, CourseDto.class) ;
             return courseDto ;
         }  ).toList() );
 

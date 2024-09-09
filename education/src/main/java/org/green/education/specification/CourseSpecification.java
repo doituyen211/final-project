@@ -1,11 +1,9 @@
 package org.green.education.specification;
 
 import org.green.education.entity.Course;
-import org.green.education.entity.Subject;
 import org.green.education.form.CourseFilterForm;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
-import org.green.education.form.SubjectFilterForm;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
