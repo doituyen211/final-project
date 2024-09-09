@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, Button } from "react-bootstrap";
 import React from "react";
 
 export default function DropSearch({ data, onSearch }) {
-  const [selectedOption, setSelectedOption] = React.useState(null);
+  // const [selectedOption, setSelectedOption] = React.useState(null);
 
   const [trainningProgram, setTrainningProgram] = React.useState(null);
   const [subject, setSubject] = React.useState(null);

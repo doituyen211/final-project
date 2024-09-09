@@ -9,11 +9,17 @@ import {
   ModalBody,
 } from "react-bootstrap";
 import DropSearch from "./DropSearch";
+import AddForm from "./AddForm";
 import axios from "axios";
 import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
+  const [trainingData, setTrainningData] = React.useState([]);
+  const [subject, setSubject] = React.useState([]);
+
+  const [newGrade, setNewGrade] = React.useState([]);
   const [dataRow, setDataRow] = React.useState({});
 
   const [loading, setLoading] = React.useState(true);
@@ -23,12 +29,18 @@ export default function ScoreComponent() {
   const [showAdd, setShowAdd] = React.useState(false);
   const [searchResult, setSearchResult] = React.useState([]);
   const [updateSelectId, setUpdateSelectId] = React.useState(null);
+  const [deleteSelectedId, setDeleteSelectedID] = React.useState(null);
+  const [addId, setAddId] = React.useState(null);
 
   const apiUrl = "http://localhost:9001/score";
+  const apiTraining = "";
+  const apiSubject = "";
   // const apiMock = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
 
   React.useEffect(() => {
     fetchData();
+    fetchProgramData();
+    fetchSubjectData();
   }, []);
 
   const fetchData = async () => {
@@ -41,6 +53,22 @@ export default function ScoreComponent() {
       setLoading(false);
     }
   };
+  const fetchProgramData = async () => {
+    try {
+      const res = await axios.get(apiUrl);
+      setTrainningData(res.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
+  const fetchSubjectData = async () => {
+    try {
+      const res = await axios.get(apiUrl);
+      setSubject(res.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   const handleShowUpdateForm = (data) => {
     setShow(true);
@@ -48,9 +76,42 @@ export default function ScoreComponent() {
     setDataRow(data);
   };
 
+  const handleUpdate = () => {
+    try {
+      axios.put(`${apiUrl}/update-score/${updateSelectId}`);
+      setUpdateSelectId(null);
+      setShow(false);
+      toast.success("Record update successfully!");
+    } catch (err) {
+      toast.error(`Failed to update the record.${err}.Please try again.`);
+    }
+  };
+
   const handleShowAddForm = (data) => {
     setShowAdd(true);
+    setAddId(data.id);
     setDataRow(data);
+  };
+
+  const handleAddNew = (value) => {
+    setNewGrade(value);
+    try {
+      axios.post(`${apiUrl}/add-score`, { newGrade });
+      toast.success("Record update successfully!");
+    } catch (err) {
+      toast.error(`Failed to add new record.${err}.Please try again.`);
+    }
+  };
+
+  const handleDelete = (id) => {
+    try {
+      axios.delete(`${apiUrl}/delete-score/${id}`);
+      setGradeData(gradeData.filter((data) => data.id !== id));
+      setDeleteSelectedID(null);
+      toast.success("Record deleted successfully!");
+    } catch (err) {
+      toast.error(`Failed to delete the record.${err}. Please try again.`);
+    }
   };
 
   const handleSearch = (searchEntity) => {
@@ -89,10 +150,7 @@ export default function ScoreComponent() {
       </CardHeader>
       <CardBody className="d-flex justify-content-center">
         <div className="container-fluid fullscreen">
-          <button
-            className="m-2 d-flex justify-content-center"
-            onClick={() => handleShowAddForm(gradeData)}
-          >
+          <button className="m-2" onClick={() => handleShowAddForm(gradeData)}>
             <BsPlus className="text-success"></BsPlus>
           </button>
           <div className="row">
@@ -104,6 +162,7 @@ export default function ScoreComponent() {
                 data={gradeData}
                 showUpdateForm={handleShowUpdateForm}
                 result={searchResult}
+                handleDelete={handleDelete}
               />
             </div>
             {show && updateSelectId && (
@@ -119,8 +178,11 @@ export default function ScoreComponent() {
               <AddForm
                 scoreData={gradeData}
                 show={showAdd}
-                dataRow={dataRow}
+                data={gradeData}
+                trainingData={trainingData}
+                subject={subject}
                 handleClose={() => setShowAdd(false)}
+                handleAddNew={handleAddNew}
               />
             )}
           </div>
@@ -130,7 +192,7 @@ export default function ScoreComponent() {
   );
 }
 
-function TableSearchResult({ data, showUpdateForm, result }) {
+function TableSearchResult({ data, showUpdateForm, result, handleDelete }) {
   const displayData = result.length > 0 ? result : data;
 
   return (
@@ -140,6 +202,7 @@ function TableSearchResult({ data, showUpdateForm, result }) {
           <Table hover>
             <thead>
               <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Tranning Program</th>
                 <th>Subject</th>
@@ -155,7 +218,8 @@ function TableSearchResult({ data, showUpdateForm, result }) {
             </thead>
             <tbody>
               {displayData.map((grade, i) => (
-                <tr key={grade.id}>
+                <tr key={i}>
+                  <td>{grade.id}</td>
                   <td>{grade.studenName}</td>
                   <td>{grade.programName}</td>
                   <td>{grade.subjectName}</td>
@@ -170,7 +234,7 @@ function TableSearchResult({ data, showUpdateForm, result }) {
                     <button onClick={() => showUpdateForm(grade)}>
                       <BsPencil className="text-primary"></BsPencil>
                     </button>
-                    <button>
+                    <button onClick={() => handleDelete(grade.id)}>
                       <BsTrash className="text-danger"></BsTrash>
                     </button>
                   </td>
@@ -208,51 +272,6 @@ function UpdateForm({ show, handleClose, dataRow }) {
             <label className="form-label">Subject : </label>
             <input type="number"></input>
           </div>
-          <div className="mb-3">
-            <label className="form-label">Exam Date : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Score : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Status : </label>
-            <input type="text"></input>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </ModalBody>
-    </Modal>
-  );
-}
-
-function AddForm({ show, handleClose, dataRow }) {
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <ModalHeader closeButton>
-        <span>Add</span>
-      </ModalHeader>
-      <ModalBody>
-        <form>
-          <div className="mb-3">
-            <label className="form-label">Id : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Name : </label>
-            <input type="text"></input>
-          </div>
-          {/* <div className="mb-3">
-            <label className="form-label">Trainning Program : </label>
-            <input type="number"></input>
-          </div> */}
-          {/* <div className="mb-3">
-            <label className="form-label">Subject : </label>
-            <input type="number"></input>
-          </div> */}
           <div className="mb-3">
             <label className="form-label">Exam Date : </label>
             <input type="number"></input>
