@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -57,7 +56,8 @@ public class Student {
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", foreignKey = @ForeignKey(name = "fk_account_id"))
     private Account account;
 
-    @OneToMany(mappedBy = "student")
-    private List<ClassMember> classMemberList;
+    @OneToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_account_id"))
+    private Reserved reserved;
 
 }
