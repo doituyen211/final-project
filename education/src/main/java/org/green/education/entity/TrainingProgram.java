@@ -30,6 +30,7 @@ public class TrainingProgram {
 
     @OneToMany(mappedBy = "trainingProgram")
     private List<Subject> subjects ;
+
 //
 //    @OneToMany(mappedBy = "trainingProgram")
 //    private List<Student> students ;

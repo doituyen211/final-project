@@ -32,5 +32,4 @@ public class   ExamSchedule {
 
     @Column(name = "exam_link", length = Integer.MAX_VALUE)
     private String examLink;
-
 }

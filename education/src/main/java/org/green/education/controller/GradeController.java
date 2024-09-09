@@ -31,6 +31,7 @@ public class GradeController {
     public ResponseEntity<GradeForm> addGrade(@RequestBody GradeForm gradeForm) {
         try {
             GradeForm createdGrade = impGradeService.addGrade(gradeForm);
+            System.out.println(createdGrade);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Custom-Header", "CreatedProduct");
             return new ResponseEntity<>(createdGrade, headers, HttpStatus.CREATED);
