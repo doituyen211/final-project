@@ -37,8 +37,8 @@ public class TrainingProgram {
     private int trainingDuration ;
 
     @OneToMany(mappedBy = "trainingProgram")
-    private List<Subject> subjects ;
+    private List<Subject> listsubjects ;
 //
-//    @OneToMany(mappedBy = "trainingProgram")
-//    private List<Student> students ;
+    @OneToMany(mappedBy = "program")
+    private List<Class> listClasses ;
 }
