@@ -18,7 +18,7 @@ public class Subject{
     private int status ;
 
     @ManyToOne
-    @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
+    @JoinColumn(name = "training_program_id", referencedColumnName = "program_id")
     private TrainingProgram trainingProgram ;
 
     @OneToOne
