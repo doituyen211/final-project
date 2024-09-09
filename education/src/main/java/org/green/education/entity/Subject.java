@@ -2,7 +2,6 @@ package org.green.education.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.green.education.dto.SubjectDto;
 
 
 @Entity
@@ -19,6 +18,10 @@ public class Subject{
     private int status ;
 
     @ManyToOne
-    @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
+    @JoinColumn(name = "training_program_id", referencedColumnName = "program_id")
     private TrainingProgram trainingProgram ;
+
+    @OneToOne
+    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
+    private LeaveOfAbsence leaveOfAbsence;
 }
