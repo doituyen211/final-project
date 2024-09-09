@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -35,6 +34,5 @@ public class Class {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "mclass")
-    private List<ClassMember> classMemberList;
+
 }
