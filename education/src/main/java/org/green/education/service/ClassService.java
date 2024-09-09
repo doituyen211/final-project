@@ -1,5 +1,6 @@
 package org.green.education.service;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.ClassDTO;
 import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
@@ -7,12 +8,16 @@ import org.green.education.entity.TrainingProgram;
 import org.green.education.form.ClassForm;
 import org.green.education.repository.ClassRepository;
 import org.green.education.repository.ITrainingProgramRepository;
+import org.green.education.response.ClassListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ClassService implements IClassService {
@@ -23,71 +28,129 @@ public class ClassService implements IClassService {
     ITrainingProgramRepository trainingProgramRepository;
 
     @Override
-    public Class getClassById(int classId) {
-        return classRepository.findById(classId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
-    }
-
-    @Override
-    public List<ClassDTO> getClassList() {
-        List<Class> classList = classRepository.findAll();
-        List<ClassDTO> classDTOList = new ArrayList<>();
-
-        for (Class classItem : classList) {
-            ClassDTO classDTO = new ClassDTO();
-            classDTO.setTrainingProgramName(classItem.getProgram().getProgramName());
-            classDTO.setClassName(classItem.getClassName());
-            classDTO.setClassSize(classItem.getClassSize());
-            classDTO.setStartDate(classItem.getStartDate());
-            classDTO.setEndDate(classItem.getEndDate());
-
-            classDTOList.add(classDTO);
+    public CoreResponse<?> getClassById(int classId) {
+        try {
+            Class presentClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get class successfully")
+                    .data(presentClass)
+                    .build();
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
         }
 
-        return classDTOList;
     }
 
     @Override
-    public List<ClassMemberDTO> getStudentByClassId(int classId) {
-        return classRepository.getListStudentByClassId(classId);
+    public CoreResponse<?> getClassList(int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+
+        Page<Class> classList = classRepository.findAll(pageRequest);
+
+        Page<ClassDTO> classDTOList = classList.map(item -> ClassDTO.builder()
+                .className(item.getClassName())
+                .classSize(item.getClassSize())
+                .startDate(item.getStartDate())
+                .endDate(item.getEndDate())
+                .trainingProgramName(item.getProgram().getProgramName())
+                .build());
+
+        ClassListResponse classListResponse = ClassListResponse.builder()
+                .data(classDTOList.getContent())
+                .totalPages(classDTOList.getTotalPages())
+                .build();
+
+        String message = classDTOList.getContent().isEmpty() ? "Empty list" : "Get list successfully";
+
+        return CoreResponse.builder()
+                .code(HttpStatus.OK.value()).message(message)
+                .data(classListResponse)
+                .build();
     }
 
     @Override
-    public ClassForm createClass(ClassForm classForm) {
-        TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
+    public CoreResponse<?> getStudentByClassId(int classId, int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
 
-        Class newClass = new Class();
+        Page<ClassMemberDTO> classMemberDTO = classRepository.getListStudentByClassId(classId, pageRequest);
 
-        newClass.setClassName(classForm.getClassName());
-        newClass.setClassSize(classForm.getClassSize());
-        newClass.setStartDate(classForm.getStartDate());
-        newClass.setEndDate(classForm.getEndDate());
-        newClass.setProgram(trainingProgram);
+        ClassListResponse classListResponse = ClassListResponse.builder()
+                .data(classMemberDTO.getContent())
+                .totalPages(classMemberDTO.getTotalPages())
+                .build();
 
-        classRepository.save(newClass);
+        String message = classMemberDTO.getContent().isEmpty() ? "Empty list" : "Get list successfully";
 
-        return classForm;
+        return CoreResponse.builder()
+                .code(HttpStatus.OK.value())
+                .message(message)
+                .data(classListResponse)
+                .build();
     }
 
     @Override
-    public ClassForm editClass(int classId, ClassForm classForm) {
-        Class presentClass = classRepository.findById(classId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+    public CoreResponse<?> createClass(ClassForm classForm) {
+        try {
+            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId()).orElseThrow(() -> new Exception("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
 
-        TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
+            Class newClass = new Class();
+            newClass.setClassName(classForm.getClassName());
+            newClass.setClassSize(classForm.getClassSize());
+            newClass.setStartDate(classForm.getStartDate());
+            newClass.setEndDate(classForm.getEndDate());
+            newClass.setProgram(trainingProgram);
 
+            classRepository.save(newClass);
 
-        presentClass.setProgram(trainingProgram);
-        presentClass.setClassName(classForm.getClassName());
-        presentClass.setClassSize(classForm.getClassSize());
-        presentClass.setStartDate(classForm.getStartDate());
-        presentClass.setEndDate(classForm.getEndDate());
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Add successfully")
+                    .data(classForm)
+                    .build();
 
-        classRepository.save(presentClass);
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .data(classForm)
+                    .build();
+        }
+    }
 
-        return classForm;
+    @Override
+    public CoreResponse<?> editClass(int classId, ClassForm classForm) {
+        try {
+            Class presentClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+
+            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId()).orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
+
+            presentClass.setProgram(trainingProgram);
+            presentClass.setClassName(classForm.getClassName());
+            presentClass.setClassSize(classForm.getClassSize());
+            presentClass.setStartDate(classForm.getStartDate());
+            presentClass.setEndDate(classForm.getEndDate());
+
+            classRepository.save(presentClass);
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Edit successfully")
+                    .data(classForm)
+                    .build();
+
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .data(classForm)
+                    .build();
+        }
+
     }
 
 }
