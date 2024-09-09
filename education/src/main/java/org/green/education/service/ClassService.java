@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClassService implements IClassService {
@@ -22,18 +23,27 @@ public class ClassService implements IClassService {
     ITrainingProgramRepository trainingProgramRepository;
 
     @Override
+    public Class getClassById(int classId) {
+        return classRepository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+    }
+
+    @Override
     public List<ClassDTO> getClassList() {
         List<Class> classList = classRepository.findAll();
         List<ClassDTO> classDTOList = new ArrayList<>();
-        for (Class item : classList) {
+
+        for (Class classItem : classList) {
             ClassDTO classDTO = new ClassDTO();
-            classDTO.setTrainingProgramName(item.getProgram().getProgramName());
-            classDTO.setClassName(item.getClassName());
-            classDTO.setClassSize(item.getClassSize());
-            classDTO.setStartDate(item.getStartDate());
-            classDTO.setEndDate(item.getEndDate());
+            classDTO.setTrainingProgramName(classItem.getProgram().getProgramName());
+            classDTO.setClassName(classItem.getClassName());
+            classDTO.setClassSize(classItem.getClassSize());
+            classDTO.setStartDate(classItem.getStartDate());
+            classDTO.setEndDate(classItem.getEndDate());
+
             classDTOList.add(classDTO);
         }
+
         return classDTOList;
     }
 
@@ -44,25 +54,41 @@ public class ClassService implements IClassService {
 
     @Override
     public ClassForm createClass(ClassForm classForm) {
+        TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
 
-        try {
-            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
-                    .orElseThrow(() -> new Exception("k tim thay"));
+        Class newClass = new Class();
 
-            Class mclass = new Class();
-            mclass.setClassName(classForm.getClassName());
-            mclass.setClassSize(classForm.getClassSize());
-            mclass.setStartDate(classForm.getStartDate());
-            mclass.setEndDate(classForm.getEndDate());
-            mclass.setProgram(trainingProgram);
-            classRepository.save(mclass);
+        newClass.setClassName(classForm.getClassName());
+        newClass.setClassSize(classForm.getClassSize());
+        newClass.setStartDate(classForm.getStartDate());
+        newClass.setEndDate(classForm.getEndDate());
+        newClass.setProgram(trainingProgram);
 
-            return classForm;
+        classRepository.save(newClass);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return classForm;
+    }
 
+    @Override
+    public ClassForm editClass(int classId, ClassForm classForm) {
+        Class presentClass = classRepository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+
+        TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
+
+
+        presentClass.setProgram(trainingProgram);
+        presentClass.setClassName(classForm.getClassName());
+        presentClass.setClassSize(classForm.getClassSize());
+        presentClass.setStartDate(classForm.getStartDate());
+        presentClass.setEndDate(classForm.getEndDate());
+
+        classRepository.save(presentClass);
+
+        return classForm;
     }
 
 }
+

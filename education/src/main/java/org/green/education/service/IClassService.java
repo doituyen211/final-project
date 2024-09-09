@@ -14,4 +14,8 @@ public interface IClassService {
     List<ClassMemberDTO> getStudentByClassId(int classId);
 
     ClassForm createClass(ClassForm classForm);
+
+    ClassForm editClass(int classId, ClassForm classForm);
+
+    Class getClassById(int classId);
 }

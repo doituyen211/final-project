@@ -101,14 +101,14 @@
     "run.configurations.included.in.services": "true",
     "vue.rearranger.settings.migration": "true"
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql",
-      "postgresql",
-      "clickhouse"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;postgresql&quot;,
+      &quot;clickhouse&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education/config" />
@@ -215,6 +215,7 @@
         <item itemvalue="Application.npEducationApplication" />
         <item itemvalue="Application.npEducationApplication" />
         <item itemvalue="Application.EducationApplication" />
+        <item itemvalue="Application.npEducationApplication" />
       </list>
     </recent_temporary>
   </component>
