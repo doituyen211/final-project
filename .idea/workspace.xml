@@ -4,25 +4,64 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e420b985-dc30-4da1-8927-05385a10afd0" name="Changes" comment="adding skeleton schedule">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/ReservedController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/ReservedDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/LeaveOfAbsenceDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/ReserveCreateForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/LeaveOfAbsenceCreateForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IReserveRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IReserveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ReserveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" afterDir="false" />
-    </list>
+    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/hr">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="com.intellij.jpb.NewClass" />
+        <option value="com.intellij.jpb.JpaRepository" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="education" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+    &quot;associatedIndex&quot;: 1
+    }</component>
+  <component name="ProjectId" id="2lDq04DyJFHOuVnblgwHpvikBez" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
@@ -30,23 +69,142 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.EducationApplication.executor": "Run",
-    "git-widget-placeholder": "be/khainq/reser",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "Spring Boot.HrApplication.executor": "Run",
+    "Spring Boot.ReceivableApplication.executor": "Debug",
+    "android.gradle.sync.needed": "true",
+    "git-widget-placeholder": "education",
+    "jdk.selected.JAVA_MODULE": "openjdk-22",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/BE - GREEN/backend-green",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "postgresql",
+      "clickhouse"
+    ]
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="EducationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/education/src/main/resources/db/changelog" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EducationApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="green-backennd" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="green-backennd" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BackendGreenApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="backend-green" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.backend_green.BackendGreenApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="core" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.core.CoreApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EducationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="education" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.education.EducationApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="HrApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="hr" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.hr.HrApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReceivableApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="receivable" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.receivable.ReceivableApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SaleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="sale" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.sale.SaleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.419" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.419" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="" />
+      <created>1724724768904</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724724768904</updated>
+      <workItem from="1724724770029" duration="2425000" />
+      <workItem from="1724727205080" duration="375000" />
+      <workItem from="1725024347996" duration="1047000" />
+      <workItem from="1725352328150" duration="1716000" />
+      <workItem from="1725416485439" duration="14983000" />
+    </task>
+    <task id="LOCAL-00001" summary="adding skeleton schedule">
+      <option name="closed" value="true" />
+      <created>1725025125804</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725025125804</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding skeleton schedule" />
