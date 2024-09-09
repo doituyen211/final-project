@@ -24,21 +24,21 @@ const ReservationComponent = () => {
 
   const formFieldsProp = [
     {
-      name: "id_hoc_vien",
+      name: "student_id",
       type: "text",
       label: "Mã học viên",
       placeholder: "Nhập mã học viên",
     },
-    { name: "thoi_gian_bat_dau", type: "date", label: "Thời gian bắt đầu" },
-    { name: "ngay_ket_thuc", type: "date", label: "Thời gian kết thúc" },
+    { name: "start_time", type: "date", label: "Thời gian bắt đầu" },
+    { name: "end_time", type: "date", label: "Thời gian kết thúc" },
     {
-      name: "trang_thai",
+      name: "status",
       type: "text",
       label: "Trạng thái",
       placeholder: "Nhập trạng thái",
     },
     {
-      name: "id_ma_mon",
+      name: "subject_id",
       type: "text",
       label: "Mã môn học",
       placeholder: "Nhập Id môn học",

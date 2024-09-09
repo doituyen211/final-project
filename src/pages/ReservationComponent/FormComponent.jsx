@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import SelectDropdown from "./SelectDropdown";
 import axios from "axios";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "./InputComponent";
