@@ -18,6 +18,7 @@ export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
   const [trainingData, setTrainningData] = React.useState([]);
   const [subject, setSubject] = React.useState([]);
+  const [student, setStudent] = React.useState([]);
 
   const [newGrade, setNewGrade] = React.useState([]);
   const [dataRow, setDataRow] = React.useState({});
@@ -33,14 +34,16 @@ export default function ScoreComponent() {
   const [addId, setAddId] = React.useState(null);
 
   const apiUrl = "http://localhost:9001/score";
-  const apiTraining = "";
-  const apiSubject = "";
+  const apiTraining = "http://localhost:9001/training_program";
+  const apiStudent = "http://localhost:9001/";
+  const apiSubject = "http://localhost:9001/api/v1/subjects";
   // const apiMock = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
 
   React.useEffect(() => {
     fetchData();
     fetchProgramData();
     fetchSubjectData();
+    fetchStudentData();
   }, []);
 
   const fetchData = async () => {
@@ -55,15 +58,23 @@ export default function ScoreComponent() {
   };
   const fetchProgramData = async () => {
     try {
-      const res = await axios.get(apiUrl);
+      const res = await axios.get(apiTraining);
       setTrainningData(res.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
+  const fetchStudentData = async () => {
+    try {
+      const res = await axios.get(apiStudent);
+      setStudent(res.data);
     } catch (err) {
       setError(err);
     }
   };
   const fetchSubjectData = async () => {
     try {
-      const res = await axios.get(apiUrl);
+      const res = await axios.get(apiSubject);
       setSubject(res.data);
     } catch (err) {
       setError(err);
@@ -183,6 +194,7 @@ export default function ScoreComponent() {
                 subject={subject}
                 handleClose={() => setShowAdd(false)}
                 handleAddNew={handleAddNew}
+                student={student}
               />
             )}
           </div>
@@ -225,7 +237,7 @@ function TableSearchResult({ data, showUpdateForm, result, handleDelete }) {
                   <td>{grade.subjectName}</td>
                   <td>{grade.courseName}</td>
                   <td>{grade.examDate}</td>
-                  <td>fscore</td>
+                  <td>{grade.grade}</td>
                   <td>sscore</td>
                   <td>tscore</td>
                   <td>aver</td>

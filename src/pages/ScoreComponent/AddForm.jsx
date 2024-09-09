@@ -9,45 +9,55 @@ export default function AddForm({
   handleAddNew,
   trainingData,
   subject,
+  student,
 }) {
   const [formData, setFormData] = React.useState({
+    grade: "",
     studentId: null,
-    trainingProgram: null,
+    trainingProgramId: null,
     subjectId: null,
     examScheduleId: null,
-    grade: "",
   });
 
   const trainningProgramOptions = Array.from(
-    new Set(trainingData.map((item) => item.programName))
-  ).map((program) => ({
-    value: `${program.id}`,
-    label: program,
-  }));
+    new Set(trainingData.map((item) => item.programId))
+  ).map((id) => {
+    const trainingProgram = trainingData.find((item) => item.id === id);
+    return {
+      value: id,
+      label: trainingProgram.programName,
+    };
+  });
 
   const subjectOption = Array.from(
-    new Set(subject.map((item) => item.subjectName))
-  ).map((subject) => ({
-    value: `${subject.id}`,
-    label: subject,
-  }));
+    new Set(subject.map((item) => item.subjectId))
+  ).map((id) => {
+    const sub = subject.find((item) => item.id === id);
+    return {
+      value: id,
+      label: sub.subjectName,
+    };
+  });
 
   const studentOption = Array.from(
-    new Set(data.map((item) => item.id)) // Unique student IDs
+    new Set(student.map((item) => item.studentId))
   ).map((id) => {
-    const student = data.find((item) => item.id === id); // Find student by id
+    const stu = student.find((item) => item.id === id);
     return {
-      value: id, // Set the value to student ID
-      label: student.studenName, // Set the label to student name
+      value: id,
+      label: stu.studenName,
     };
   });
 
   const examDateOption = Array.from(
     new Set(data.map((item) => item.examDate))
-  ).map((examdate) => ({
-    value: examdate,
-    label: examdate,
-  }));
+  ).map((id) => {
+    const student = data.find((item) => item.id === id);
+    return {
+      value: id,
+      label: student.studenName,
+    };
+  });
 
   const handleSelectChange = (selectedOption, fieldName) => {
     setFormData((prevData) => ({
@@ -68,11 +78,11 @@ export default function AddForm({
     e.preventDefault();
     handleAddNew({ formData });
     setFormData({
+      grade: "",
       studentId: null,
-      trainingProgram: null,
+      trainingProgramId: null,
       subjectId: null,
       examScheduleId: null,
-      grade: "",
     });
   };
 
