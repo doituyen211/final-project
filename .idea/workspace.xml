@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
-      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/OpenAPIConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/794888b1d7556d31f58a9f01df8fb54da63081b2" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/794888b1d7556d31f58a9f01df8fb54da63081b2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/3/834f15f2c03a4b49b395d62d47d53608e07122fa" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/3/834f15f2c03a4b49b395d62d47d53608e07122fa" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/education/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/security/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,10 +75,10 @@
     "Spring Boot.HrApplication.executor": "Run",
     "Spring Boot.ReceivableApplication.executor": "Debug",
     "android.gradle.sync.needed": "true",
-    "git-widget-placeholder": "feature/namlh/crm__subject",
+    "git-widget-placeholder": "education",
     "jdk.selected.JAVA_MODULE": "openjdk-22",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/ast/Documents/Green/backend-green/education/src/main/java/org/green/education/config",
+    "last_opened_file_path": "D:/BE - GREEN/backend-green",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -101,18 +90,15 @@
     "run.configurations.included.in.services": "true",
     "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;,
-      &quot;postgresql&quot;,
-      &quot;clickhouse&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "postgresql",
+      "clickhouse"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/education/src/main/java/org/green/education/config" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/education/src/main/resources/db/changelog" />
     </key>
@@ -126,33 +112,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.EducationApplication">
-    <configuration name="EducationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.green.education.EducationApplication" />
-      <module name="education" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.green.education.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="npEducationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.green.education.npEducationApplication" />
-      <module name="education" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.green.education.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.EducationApplication">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="green-backennd" />
       <method v="2">
@@ -209,15 +169,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.EducationApplication" />
-        <item itemvalue="Application.npEducationApplication" />
-        <item itemvalue="Application.npEducationApplication" />
-        <item itemvalue="Application.EducationApplication" />
-        <item itemvalue="Application.npEducationApplication" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
