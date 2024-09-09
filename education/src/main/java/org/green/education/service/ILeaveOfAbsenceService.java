@@ -4,7 +4,7 @@ import org.green.education.entity.LeaveOfAbsence;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface IReserveService {
+public interface ILeaveOfAbsenceService {
 
     LeaveOfAbsence findReserveByStudentId(int studentId);
 

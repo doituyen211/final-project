@@ -6,7 +6,7 @@ import org.green.education.entity.LeaveOfAbsence;
 import java.util.Date;
 
 @Data
-public class ReservedDTO {
+public class LeaveOfAbsenceDTO {
 
     private int id;
 
@@ -20,7 +20,7 @@ public class ReservedDTO {
 
     private int subjectId;
 
-    public ReservedDTO(int id, int studentId, Date startTime, Date endTime, int status, int subjectId) {
+    public LeaveOfAbsenceDTO(int id, int studentId, Date startTime, Date endTime, int status, int subjectId) {
         this.id = id;
         this.studentId = studentId;
         this.startTime = startTime;
@@ -29,7 +29,7 @@ public class ReservedDTO {
         this.subjectId = subjectId;
     }
 
-    public ReservedDTO(LeaveOfAbsence leaveOfAbsence) {
+    public LeaveOfAbsenceDTO(LeaveOfAbsence leaveOfAbsence) {
         this.id = leaveOfAbsence.getId();
         this.startTime = leaveOfAbsence.getStartTime();
         this.endTime = leaveOfAbsence.getEndTime();

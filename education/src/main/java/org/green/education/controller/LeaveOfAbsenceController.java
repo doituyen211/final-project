@@ -1,7 +1,7 @@
 package org.green.education.controller;
 
 import org.green.education.entity.LeaveOfAbsence;
-import org.green.education.service.ReserveService;
+import org.green.education.service.LeaveOfAbsenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,14 +12,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/reservation")
-public class ReservedController {
+public class LeaveOfAbsenceController {
 
     @Autowired
-    private ReserveService reserveService;
+    private LeaveOfAbsenceService leaveOfAbsenceService;
 
     @GetMapping("/{id}")
     public ResponseEntity<LeaveOfAbsence> getReserveByStudentId(@PathVariable int id) {
-        return new ResponseEntity<>(reserveService.findReserveByStudentId(id), HttpStatus.OK);
+        return new ResponseEntity<>(leaveOfAbsenceService.findReserveByStudentId(id), HttpStatus.OK);
     }
 
 
@@ -28,7 +28,7 @@ public class ReservedController {
     @PostMapping("/addReserved")
     public ResponseEntity<LeaveOfAbsence> createReserved(@RequestBody LeaveOfAbsence leaveOfAbsence) {
         try{
-            LeaveOfAbsence leaveOfAbsence1 = reserveService.save(leaveOfAbsence);
+            LeaveOfAbsence leaveOfAbsence1 = leaveOfAbsenceService.save(leaveOfAbsence);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Custom-Header", "CreatedProduct");
             return new ResponseEntity<>(leaveOfAbsence1, headers, HttpStatus.CREATED);
@@ -41,7 +41,7 @@ public class ReservedController {
     @PutMapping("/{id}")
     public ResponseEntity<LeaveOfAbsence> updateReserved(@PathVariable int id, @RequestBody LeaveOfAbsence leaveOfAbsence) {
         try {
-            LeaveOfAbsence updatedLeaveOfAbsence = reserveService.updateReserved(id, leaveOfAbsence);
+            LeaveOfAbsence updatedLeaveOfAbsence = leaveOfAbsenceService.updateReserved(id, leaveOfAbsence);
             return new ResponseEntity<>(updatedLeaveOfAbsence, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -51,9 +51,9 @@ public class ReservedController {
 
     @DeleteMapping("delete-reserve/{id}")
     public ResponseEntity<LeaveOfAbsence> deleteGrade(@PathVariable int id) {
-        Optional<LeaveOfAbsence> temp = Optional.ofNullable(reserveService.findReserveByStudentId(id));
+        Optional<LeaveOfAbsence> temp = Optional.ofNullable(leaveOfAbsenceService.findReserveByStudentId(id));
         if (temp.isPresent()) {
-            reserveService.deleteById(id);
+            leaveOfAbsenceService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

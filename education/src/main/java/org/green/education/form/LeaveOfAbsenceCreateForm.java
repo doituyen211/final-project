@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ReserveCreateForm {
+public class LeaveOfAbsenceCreateForm {
 
     @NotNull(message = "Student Id is not Blank")
     @Positive(message = "Student Id must be positive")

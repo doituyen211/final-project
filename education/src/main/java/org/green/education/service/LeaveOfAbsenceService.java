@@ -2,7 +2,7 @@
 
     import jakarta.transaction.Transactional;
     import org.green.education.entity.LeaveOfAbsence;
-    import org.green.education.repository.IReserveRepository;
+    import org.green.education.repository.ILeaveOfAbsenceRepository;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Service;
 
@@ -10,18 +10,18 @@
 
 
     @Service
-    public class ReserveService implements IReserveService{
+    public class LeaveOfAbsenceService implements ILeaveOfAbsenceService {
 
-        private IReserveRepository iReserveRepository;
+        private ILeaveOfAbsenceRepository iLeaveOfAbsenceRepository;
 
         @Autowired
-        public ReserveService (IReserveRepository theIReserveRepository){
-            this.iReserveRepository=theIReserveRepository;
+        public LeaveOfAbsenceService(ILeaveOfAbsenceRepository theILeaveOfAbsenceRepository){
+            this.iLeaveOfAbsenceRepository = theILeaveOfAbsenceRepository;
         }
 
         @Override
         public LeaveOfAbsence findReserveByStudentId(int studentId) {
-            Optional<LeaveOfAbsence> result = iReserveRepository.findById(studentId);
+            Optional<LeaveOfAbsence> result = iLeaveOfAbsenceRepository.findById(studentId);
 
             LeaveOfAbsence leaveOfAbsence = null;
 
@@ -40,37 +40,37 @@
         @Transactional
         public LeaveOfAbsence save(LeaveOfAbsence leaveOfAbsence) {
             if (leaveOfAbsence.getStudent() != null) {
-                if (!iReserveRepository.existsById(leaveOfAbsence.getStudent().getId())) {
+                if (!iLeaveOfAbsenceRepository.existsById(leaveOfAbsence.getStudent().getId())) {
                     throw new RuntimeException("Referenced Student does not exist");
                 }
             }
             if (leaveOfAbsence.getSubject() != null) {
-                if (!iReserveRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
+                if (!iLeaveOfAbsenceRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
                     throw new RuntimeException("Referenced Subject does not exist");
                 }
             }
-            return iReserveRepository.save(leaveOfAbsence);
+            return iLeaveOfAbsenceRepository.save(leaveOfAbsence);
         }
 
         @Override
         @Transactional
         public void deleteById(int studentId) {
-            iReserveRepository.deleteById(studentId);
+            iLeaveOfAbsenceRepository.deleteById(studentId);
         }
 
         @Override
         @Transactional
         public LeaveOfAbsence updateReserved(int studentId, LeaveOfAbsence leaveOfAbsence) {
 
-            LeaveOfAbsence tempReserve = iReserveRepository.findById(studentId).orElseThrow(()-> new RuntimeException("Reserved not found"));
+            LeaveOfAbsence tempReserve = iLeaveOfAbsenceRepository.findById(studentId).orElseThrow(()-> new RuntimeException("Reserved not found"));
 
             if (leaveOfAbsence.getStudent() != null) {
-                if (!iReserveRepository.existsById(leaveOfAbsence.getStudent().getId())) {
+                if (!iLeaveOfAbsenceRepository.existsById(leaveOfAbsence.getStudent().getId())) {
                     throw new RuntimeException("Referenced Student does not exist");
                 }
             }
             if (leaveOfAbsence.getSubject() != null) {
-                if (!iReserveRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
+                if (!iLeaveOfAbsenceRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
                     throw new RuntimeException("Referenced Subject does not exist");
                 }
             }
@@ -81,6 +81,6 @@
             tempReserve.setSubject(leaveOfAbsence.getSubject());
             tempReserve.setStatus(leaveOfAbsence.getStatus());
 
-            return iReserveRepository.save(tempReserve);
+            return iLeaveOfAbsenceRepository.save(tempReserve);
         }
     }
