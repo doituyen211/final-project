@@ -38,16 +38,20 @@ public class GradeService implements IGradeService {
     public GradeForm addGrade(GradeForm gradeForm) {
         Student student = iStudentRepository.findById(gradeForm.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found for add"));
         ExamSchedule examSchedule = iExamScheduleRepository.findById(gradeForm.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
-        TrainingProgram trainingProgram = iTrainingProgramRepository.findById(gradeForm.getTrainingProgramId()).orElseThrow(() -> new RuntimeException("Training program not found for add"));
-        Subject subject = iSubjectRepository.findById(gradeForm.getSubjectId()).orElseThrow(() -> new RuntimeException("Subject not found for add"));
+//        TrainingProgram trainingProgram = iTrainingProgramRepository.findById(gradeForm.getTrainingProgramId()).orElseThrow(() -> new RuntimeException("Training program not found for add"));
+//        Subject subject = iSubjectRepository.findById(gradeForm.getSubjectId()).orElseThrow(() -> new RuntimeException("Subject not found for add"));
+
+        gradeForm.setStatus(gradeForm.getGrade()>=50?"Passed":"Fail");
 
         Grade grade = new Grade();
+
+//        gradeForm.setSubjectId(subject.getSubjectId());
+//        gradeForm.setExamScheduleId(trainingProgram.getProgramId());
+
         grade.setStudent(student);
         grade.setExamSchedule(examSchedule);
         grade.setGrade(gradeForm.getGrade());
         grade.setStatus(gradeForm.getStatus());
-        subject.setSubjectName(grade.getExamSchedule().getSubject().getSubjectName());
-        trainingProgram.setProgramName(grade.getExamSchedule().getClassField().getProgram().getProgramName());
 
         iGradeRepository.save(grade);
         return gradeForm;

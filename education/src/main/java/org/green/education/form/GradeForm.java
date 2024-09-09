@@ -11,7 +11,7 @@ public class GradeForm {
     private Integer grade;
     private String status;
     private Integer studentId;
-    private Integer subjectId;
-    private Integer trainingProgramId;
+//    private Integer subjectId;
+//    private Integer trainingProgramId;
     private Integer examScheduleId;
 }
