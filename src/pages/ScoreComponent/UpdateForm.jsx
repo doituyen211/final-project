@@ -7,7 +7,51 @@ export default function UpdateForm({
   handleClose,
   dataRow,
   handleUpdate,
+  trainingData,
+  subject,
+  student,
+  data,
 }) {
+  const trainningProgramOptions = Array.from(
+    new Set(trainingData.map((item) => item.program_id))
+  ).map((id) => {
+    const trainingProgram = trainingData.find((item) => item.program_id === id);
+    return {
+      value: id,
+      label: trainingProgram.program_name,
+    };
+  });
+
+  const subjectOption = Array.from(
+    new Set(subject.map((item) => item.subject_id))
+  ).map((id) => {
+    const sub = subject.find((item) => item.subject_id === id);
+    return {
+      value: id,
+      label: sub.subject_name,
+    };
+  });
+
+  const studentOption = Array.from(new Set(student.map((item) => item.id))).map(
+    (id) => {
+      const studen = student.find((item) => item.id === id);
+      return {
+        value: id,
+        label: studen.fullName,
+      };
+    }
+  );
+
+  const examDateOption = Array.from(new Set(data.map((item) => item.id))).map(
+    (id) => {
+      const examDate = data.find((item) => item.id === id);
+      return {
+        value: id,
+        label: examDate.examDate,
+      };
+    }
+  );
+  // setSelectedOption(options.find(option => option.value === 'chocolate'));
   return (
     <Modal show={show} onHide={handleClose}>
       <ModalHeader closeButton>
@@ -25,19 +69,31 @@ export default function UpdateForm({
           </div>
           <div className="mb-3">
             <label className="form-label">Trainning Program : </label>
-            <input type="number"></input>
+            <Select
+              options={trainningProgramOptions}
+              value={dataRow.programName}
+              placeholder="Training Program"
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Subject : </label>
-            <input type="number"></input>
+            <Select
+              options={subjectOption}
+              value={dataRow.subjectName}
+              placeholder="Subject"
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Exam Date : </label>
-            <input type="number"></input>
+            <Select
+              options={examDateOption}
+              value={dataRow.examDate}
+              placeholder="Exam Date"
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Grade : </label>
-            <input type="number"></input>
+            <input type="number" defaultValue={dataRow.grade}></input>
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
