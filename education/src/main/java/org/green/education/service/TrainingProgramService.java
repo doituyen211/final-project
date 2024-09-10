@@ -80,7 +80,7 @@ public class TrainingProgramService implements ITrainingProgramService {
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .data(classListResponse)
-                    .message("get all classes successfully")
+                    .message( classesDTO.isEmpty() ? "empty list" : "Get all classes successfully")
                     .build();
         } catch (
                 Exception e) {
