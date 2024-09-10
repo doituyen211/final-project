@@ -1,5 +1,6 @@
 package org.green.education.service;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.SubjectDto;
 import org.green.education.form.SubjectFilterForm;
 import org.springframework.http.ResponseEntity;
@@ -14,4 +15,5 @@ public interface ISubjectService {
     ResponseEntity<?> updateById(Integer id, SubjectDto subjectDto);
 
     ResponseEntity<?> deleteById(Integer id);
+    CoreResponse<?> findAllNotPaging( ) ;
 }
