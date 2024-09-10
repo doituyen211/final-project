@@ -7,11 +7,16 @@ import org.green.education.entity.Student;
 import org.green.education.entity.Subject;
 import org.green.education.repository.IStudentRepository;
 import org.green.education.repository.ISubjectRepository;
+import org.green.education.service.GradeService;
 import org.green.education.service.ILeaveOfAbsenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/leave-of-absence")
@@ -20,14 +25,16 @@ public class LeaveOfAbsenceController {
     private final ILeaveOfAbsenceService leaveOfAbsenceService;
     private final IStudentRepository studentRepository;
     private final ISubjectRepository subjectRepository;
+    private final GradeService gradeService;
 
     @Autowired
     public LeaveOfAbsenceController(ILeaveOfAbsenceService leaveOfAbsenceService,
                                     IStudentRepository studentRepository,
-                                    ISubjectRepository subjectRepository) {
+                                    ISubjectRepository subjectRepository, GradeService gradeService) {
         this.leaveOfAbsenceService = leaveOfAbsenceService;
         this.studentRepository = studentRepository;
         this.subjectRepository = subjectRepository;
+        this.gradeService = gradeService;
     }
 
     // Endpoint to get LeaveOfAbsence by ID
@@ -124,26 +131,12 @@ public class LeaveOfAbsenceController {
         }
     }
 
-//    // Endpoint to get LeaveOfAbsence by studentId
-//    @GetMapping("/student/{studentId}")
-//    public ResponseEntity<?> getLeaveOfAbsenceByStudentId(@PathVariable int studentId) {
-//        CoreResponse<LeaveOfAbsenceDTO> response = new CoreResponse<>();
-//
-//        try {
-//            LeaveOfAbsence leaveOfAbsence = leaveOfAbsenceService.findByStudentId(studentId);
-//            LeaveOfAbsenceDTO leaveOfAbsenceDTO = new LeaveOfAbsenceDTO(leaveOfAbsence);
-//
-//            response.code = 200;
-//            response.message = "Leave of Absence found";
-//            response.data = leaveOfAbsenceDTO;
-//
-//            return new ResponseEntity<>(response, HttpStatus.OK);
-//        } catch (RuntimeException e) {
-//            response.code = 404;
-//            response.message = "Leave of Absence not found for studentId: " + studentId;
-//            response.data = null;
-//
-//            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping
+    public ResponseEntity<List<LeaveOfAbsenceDTO>> getAllLeaveOfAbsences() {
+        List<LeaveOfAbsence> leaveOfAbsences = leaveOfAbsenceService.getAllLeaveOfAbsence();
+        List<LeaveOfAbsenceDTO> leaveOfAbsenceDTOs = leaveOfAbsences.stream().map(LeaveOfAbsenceDTO::new).collect(Collectors.toList());
+        return new ResponseEntity<>(leaveOfAbsenceDTOs, HttpStatus.OK);
+    }
+
+
 }
