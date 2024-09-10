@@ -1,14 +1,17 @@
 package org.green.education.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.green.core.model.CoreResponse;
-import org.green.education.dto.ProgramDTO;
+import org.green.education.entity.TrainingProgram;
+import org.green.education.form.TrainingProgramForm;
 import org.green.education.service.ITrainingProgramService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.green.education.validation.ValidationErrorHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/training_program")
 @RequiredArgsConstructor
+
 public class TrainingProgramController {
     private final ITrainingProgramService trainingProgramService;
 
@@ -33,4 +37,25 @@ public class TrainingProgramController {
     public ResponseEntity<?> getListSubjectByProgramId(@PathVariable int id, @RequestParam(value = "page") int page, @RequestParam("limit") int limit) {
         return ResponseEntity.ok(trainingProgramService.getSubjectsByTrainingProgramId(id, page, limit));
     }
+
+    @PostMapping("")
+    public CoreResponse<?> addProgram(@Valid @RequestBody TrainingProgramForm trainingProgramForm,BindingResult result) {
+        CoreResponse<?> response = ValidationErrorHandler.handleValidationErrors(result);
+        if (response != null) {
+            return response;
+        }
+        return trainingProgramService.addTrainingProgram(trainingProgramForm);
+    }
+
+    @PutMapping("/{id}")
+    public CoreResponse<?> updateProgram(@PathVariable int id,@Valid @RequestBody TrainingProgramForm trainingProgramForm,BindingResult result) {
+        CoreResponse<?> response = ValidationErrorHandler.handleValidationErrors(result);
+        if (response != null) {
+            return response;
+        }
+        return trainingProgramService.updateTrainingProgram(id,trainingProgramForm);
+    }
+
+
 }
+
