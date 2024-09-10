@@ -15,4 +15,5 @@ public interface ITrainingProgramService {
 
     CoreResponse<?> deleteTrainingProgram(int trainingProgramId);
 
+    CoreResponse<?> getAllTrainingPrograms();
 }
