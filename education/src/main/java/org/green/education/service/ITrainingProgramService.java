@@ -1,10 +1,19 @@
 package org.green.education.service;
-
-import org.green.education.dto.ProgramDTO;
-import org.green.education.entity.TrainingProgram;
-
-import java.util.List;
-
+import jakarta.validation.Valid;
+import org.green.core.model.CoreResponse;
+import org.green.education.form.TrainingProgramForm;
 public interface ITrainingProgramService {
-    List<ProgramDTO> getAllTrainingPrograms();
+    CoreResponse<?> getAllTrainingPrograms(int page, int limit);
+
+    CoreResponse<?> getClassesByTrainingProgramId(int trainingProgramId, int page, int limit);
+
+    CoreResponse<?> getSubjectsByTrainingProgramId(int trainingProgramId, int page, int limit);
+
+    CoreResponse<?> addTrainingProgram(@Valid TrainingProgramForm trainingProgramForm);
+
+    CoreResponse<?> updateTrainingProgram(int trainingProgramId,TrainingProgramForm trainingProgramForm);
+
+    CoreResponse<?> deleteTrainingProgram(int trainingProgramId);
+
+    CoreResponse<?> getAllTrainingPrograms();
 }
