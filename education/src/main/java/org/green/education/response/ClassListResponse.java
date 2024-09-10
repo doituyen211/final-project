@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ClassListResponse {
-    @JsonProperty("class_list")
-    private List<ClassDTO> classList;
+    @JsonProperty("data")
+    private List<?> data;
     private int totalPages;
 }
