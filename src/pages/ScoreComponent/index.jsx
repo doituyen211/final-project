@@ -99,10 +99,9 @@ export default function ScoreComponent() {
     setDataRow(data);
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const handleUpdate = (updatedData) => {
     try {
-      axios.put(`${apiUrl}/update-score/${updateSelectId}`);
+      axios.put(`${apiUrl}/update-score/${updateSelectId}`, updatedData);
       setUpdateSelectId(null);
       setShow(false);
       toast.success("Record update successfully!");

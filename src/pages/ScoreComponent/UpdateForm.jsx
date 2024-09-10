@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { Modal, ModalHeader, ModalBody } from "react-bootstrap";
 
@@ -12,91 +12,130 @@ export default function UpdateForm({
   student,
   data,
 }) {
-  const trainningProgramOptions = Array.from(
-    new Set(trainingData.map((item) => item.program_id))
-  ).map((id) => {
-    const trainingProgram = trainingData.find((item) => item.program_id === id);
-    return {
-      value: id,
-      label: trainingProgram.program_name,
+  // State for form inputs
+  const [selectedTrainingProgram, setSelectedTrainingProgram] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedExamDate, setSelectedExamDate] = useState(null);
+  const [grade, setGrade] = useState(dataRow.grade);
+
+  useEffect(() => {
+    // Initialize the form fields with current data row values
+    setSelectedTrainingProgram({
+      value: dataRow.programId,
+      label: dataRow.programName,
+    });
+    setSelectedSubject({
+      value: dataRow.subjectId,
+      label: dataRow.subjectName,
+    });
+    setSelectedExamDate({ value: dataRow.examId, label: dataRow.examDate });
+    setGrade(dataRow.grade);
+  }, [dataRow]);
+
+  // Generate options for Training Program, Subject, and Exam Date
+  const trainingProgramOptions = trainingData.map((item) => ({
+    value: item.program_id,
+    label: item.program_name,
+  }));
+
+  const subjectOptions = subject.map((item) => ({
+    value: item.subject_id,
+    label: item.subject_name,
+  }));
+
+  const examDateOptions = data.map((item) => ({
+    value: item.id,
+    label: item.examDate,
+  }));
+
+  // Handle form submission
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    // Prepare updated data
+    const updatedData = {
+      // id: dataRow.id,
+      // studentName: dataRow.studentName,
+      programId: selectedTrainingProgram?.value,
+      // programName: selectedTrainingProgram?.label,
+      subjectId: selectedSubject?.value,
+      // subjectName: selectedSubject?.label,
+      examId: selectedExamDate?.value,
+      // examDate: selectedExamDate?.label,
+      grade: grade,
     };
-  });
 
-  const subjectOption = Array.from(
-    new Set(subject.map((item) => item.subject_id))
-  ).map((id) => {
-    const sub = subject.find((item) => item.subject_id === id);
-    return {
-      value: id,
-      label: sub.subject_name,
-    };
-  });
+    // Pass updated data to the parent component
+    handleUpdate(updatedData);
+  };
 
-  const studentOption = Array.from(new Set(student.map((item) => item.id))).map(
-    (id) => {
-      const studen = student.find((item) => item.id === id);
-      return {
-        value: id,
-        label: studen.fullName,
-      };
-    }
-  );
-
-  const examDateOption = Array.from(new Set(data.map((item) => item.id))).map(
-    (id) => {
-      const examDate = data.find((item) => item.id === id);
-      return {
-        value: id,
-        label: examDate.examDate,
-      };
-    }
-  );
-
-  // setSelectedOption(options.find(option => option.value === 'chocolate'));
   return (
     <Modal show={show} onHide={handleClose}>
       <ModalHeader closeButton>
         <span>Update</span>
       </ModalHeader>
       <ModalBody>
-        <form onSubmit={handleUpdate}>
+        <form onSubmit={handleFormSubmit}>
           <div className="mb-3">
-            <label className="form-label">Id : </label>
-            <input type="number" value={dataRow.id} disabled></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Name : </label>
-            <input type="text" value={dataRow.studenName} disabled></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Trainning Program : </label>
-            <Select
-              options={trainningProgramOptions}
-              value={dataRow.programName}
-              // onChange={}
-              placeholder="Training Program"
+            <label className="form-label">Id:</label>
+            <input
+              type="number"
+              value={dataRow.id}
+              disabled
+              className="form-control"
             />
           </div>
+
           <div className="mb-3">
-            <label className="form-label">Subject : </label>
-            <Select
-              options={subjectOption}
-              value={dataRow.subjectName}
-              placeholder="Subject"
+            <label className="form-label">Name:</label>
+            <input
+              type="text"
+              value={dataRow.studenName}
+              disabled
+              className="form-control"
             />
           </div>
+
           <div className="mb-3">
-            <label className="form-label">Exam Date : </label>
+            <label className="form-label">Training Program:</label>
             <Select
-              options={examDateOption}
-              value={dataRow.examDate}
-              placeholder="Exam Date"
+              options={trainingProgramOptions}
+              value={selectedTrainingProgram}
+              onChange={setSelectedTrainingProgram}
+              placeholder="Select Training Program"
             />
           </div>
+
           <div className="mb-3">
-            <label className="form-label">Grade : </label>
-            <input type="number" defaultValue={dataRow.grade}></input>
+            <label className="form-label">Subject:</label>
+            <Select
+              options={subjectOptions}
+              value={selectedSubject}
+              onChange={setSelectedSubject}
+              placeholder="Select Subject"
+            />
           </div>
+
+          <div className="mb-3">
+            <label className="form-label">Exam Date:</label>
+            <Select
+              options={examDateOptions}
+              value={selectedExamDate}
+              onChange={setSelectedExamDate}
+              placeholder="Select Exam Date"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Grade:</label>
+            <input
+              type="number"
+              value={grade}
+              onChange={(e) => setGrade(e.target.value)}
+              className="form-control"
+            />
+          </div>
+
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

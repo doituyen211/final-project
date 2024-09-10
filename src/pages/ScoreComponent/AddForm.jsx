@@ -13,15 +13,7 @@ export default function AddForm({
   formData,
   setFormData,
 }) {
-
-  const [value, setValue] = React.useState('');
-  // const [formData, setFormData] = React.useState({
-  //   grade: "",
-  //   studentId: null,
-  //   trainingProgramId: null,
-  //   subjectId: null,
-  //   examScheduleId: null,
-  // });
+  const [value, setValue] = React.useState("");
 
   const trainningProgramOptions = Array.from(
     new Set(trainingData.map((item) => item.program_id))
@@ -81,7 +73,7 @@ export default function AddForm({
 
     if (regex.test(value)) {
       const numberValue = Number(value);
-      if (value === '' || (numberValue >= 10 && numberValue <= 100)) {
+      if (value === "" || (numberValue >= 10 && numberValue <= 100)) {
         setValue(value);
       }
     }
@@ -93,7 +85,14 @@ export default function AddForm({
   };
 
   const handleKeyDown = (event) => {
-    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    const allowedKeys = [
+      "Backspace",
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "Delete",
+      "Enter",
+    ];
     if (!/\d/.test(event.key) && !allowedKeys.includes(event.key)) {
       event.preventDefault();
     }
