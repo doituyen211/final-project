@@ -13,6 +13,8 @@ export default function AddForm({
   formData,
   setFormData,
 }) {
+
+  const [value, setValue] = React.useState('');
   // const [formData, setFormData] = React.useState({
   //   grade: "",
   //   studentId: null,
@@ -74,10 +76,27 @@ export default function AddForm({
 
   const handleChangeGrade = (e) => {
     const { value } = e.target;
+
+    const regex = /^[0-9]*$/;
+
+    if (regex.test(value)) {
+      const numberValue = Number(value);
+      if (value === '' || (numberValue >= 10 && numberValue <= 100)) {
+        setValue(value);
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
-      grade: Number(value),
+      grade: value,
     }));
+  };
+
+  const handleKeyDown = (event) => {
+    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!/\d/.test(event.key) && !allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
   };
 
   const handleSubmit = (e) => {
@@ -148,6 +167,8 @@ export default function AddForm({
               type="number"
               value={formData.grade}
               onChange={handleChangeGrade}
+              onKeyDown={handleKeyDown}
+              placeholder="Score"
             ></input>
           </div>
           <button type="submit" className="btn btn-primary">

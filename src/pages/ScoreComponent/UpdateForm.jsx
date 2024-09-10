@@ -51,6 +51,7 @@ export default function UpdateForm({
       };
     }
   );
+
   // setSelectedOption(options.find(option => option.value === 'chocolate'));
   return (
     <Modal show={show} onHide={handleClose}>
@@ -72,6 +73,7 @@ export default function UpdateForm({
             <Select
               options={trainningProgramOptions}
               value={dataRow.programName}
+              // onChange={}
               placeholder="Training Program"
             />
           </div>
