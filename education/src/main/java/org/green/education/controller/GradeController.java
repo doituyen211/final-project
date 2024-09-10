@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/score")
+@RequestMapping("/api/v1/scores")
 public class GradeController {
 
     @Autowired

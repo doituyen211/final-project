@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("DuplicatedCode")
 @Service
 public class GradeService implements IGradeService {
 
@@ -46,9 +45,6 @@ public class GradeService implements IGradeService {
             throw new RuntimeException("Subject does not belong to the provided training program");
         }
 
-//        ExamSchedule examschedule = iExamScheduleRepository.findBySubjectAndTrainingProgram(gradeForm.getSubjectId(),gradeForm.getTrainingProgramId())
-//                .orElseThrow(() -> new RuntimeException("Exam schedule not found"));
-
         gradeForm.setStatus(gradeForm.getGrade() >= 50 ? "Passed" : "Fail");
 
         Grade grade = new Grade();
@@ -71,7 +67,7 @@ public class GradeService implements IGradeService {
 
         grade.setGrade(newGrade.getGrade());
         grade.setStatus(newGrade.getStatus());
-        grade.setStudent(student);
+//        grade.setStudent(student);
         grade.setExamSchedule(examSchedule);
 
         iGradeRepository.save(grade);
