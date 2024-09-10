@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/class")
+@RequestMapping("api/v1/classes")
 public class ClassController {
     @Autowired
     IClassService iClassService;
