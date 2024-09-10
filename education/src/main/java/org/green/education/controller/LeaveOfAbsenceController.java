@@ -7,136 +7,138 @@ import org.green.education.entity.Student;
 import org.green.education.entity.Subject;
 import org.green.education.repository.IStudentRepository;
 import org.green.education.repository.ISubjectRepository;
-import org.green.education.service.GradeService;
 import org.green.education.service.ILeaveOfAbsenceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/leave-of-absence")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LeaveOfAbsenceController {
 
     private final ILeaveOfAbsenceService leaveOfAbsenceService;
     private final IStudentRepository studentRepository;
     private final ISubjectRepository subjectRepository;
-    private final GradeService gradeService;
 
     @Autowired
     public LeaveOfAbsenceController(ILeaveOfAbsenceService leaveOfAbsenceService,
                                     IStudentRepository studentRepository,
-                                    ISubjectRepository subjectRepository, GradeService gradeService) {
+                                    ISubjectRepository subjectRepository) {
         this.leaveOfAbsenceService = leaveOfAbsenceService;
         this.studentRepository = studentRepository;
         this.subjectRepository = subjectRepository;
-        this.gradeService = gradeService;
     }
 
-    // Endpoint to get LeaveOfAbsence by ID
     @GetMapping("/{id}")
-    public ResponseEntity<LeaveOfAbsenceDTO> getLeaveOfAbsenceById(@PathVariable int id) {
-        try {
-            LeaveOfAbsence leaveOfAbsence = leaveOfAbsenceService.findById(id)
-                    .orElseThrow(() -> new RuntimeException("LeaveOfAbsence not found with id " + id));
-            LeaveOfAbsenceDTO leaveOfAbsenceDTO = new LeaveOfAbsenceDTO(leaveOfAbsence);
-            return new ResponseEntity<>(leaveOfAbsenceDTO, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> getLeaveOfAbsenceById(@PathVariable int id) {
+        CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.findById(id);
+        return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                .data(new LeaveOfAbsenceDTO(response.getData()))
+                .code(response.getCode())
+                .message(response.getMessage())
+                .build());
     }
 
     @GetMapping("/student/{id}")
-    public ResponseEntity<LeaveOfAbsenceDTO> getLeaveOfAbsenceByStudentId(@PathVariable int id) {
-        try {
-            LeaveOfAbsence leaveOfAbsence = leaveOfAbsenceService.findByStudentId(id);
-            LeaveOfAbsenceDTO leaveOfAbsenceDTO = new LeaveOfAbsenceDTO(leaveOfAbsence);
-            return new ResponseEntity<>(leaveOfAbsenceDTO, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> getLeaveOfAbsenceByStudentId(@PathVariable int id) {
+        CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.findByStudentId(id);
+        return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                .data(new LeaveOfAbsenceDTO(response.getData()))
+                .code(response.getCode())
+                .message(response.getMessage())
+                .build());
     }
 
-    // Endpoint to create a new LeaveOfAbsence
     @PostMapping
-    public ResponseEntity<LeaveOfAbsenceDTO> createLeaveOfAbsence(@RequestBody LeaveOfAbsenceDTO leaveOfAbsenceDTO) {
-        try {
-            // Convert DTO to entity
-            LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
-            leaveOfAbsence.setStudent(studentRepository.findById(leaveOfAbsenceDTO.getStudentId())
-                    .orElseThrow(() -> new RuntimeException("Referenced Student does not exist")));
-            leaveOfAbsence.setStartDate(leaveOfAbsenceDTO.getStartTime());
-            leaveOfAbsence.setEndDate(leaveOfAbsenceDTO.getEndTime());
-            leaveOfAbsence.setStatus(leaveOfAbsenceDTO.getStatus());
-            leaveOfAbsence.setSubject(subjectRepository.findById(leaveOfAbsenceDTO.getSubjectId())
-                    .orElseThrow(() -> new RuntimeException("Referenced Subject does not exist")));
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> createLeaveOfAbsence(@RequestBody LeaveOfAbsenceDTO leaveOfAbsenceDTO) {
+        LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
 
-            // Save entity
-            LeaveOfAbsence savedLeaveOfAbsence = leaveOfAbsenceService.save(leaveOfAbsence);
+        // Map student
+        Student student = studentRepository.findById(leaveOfAbsenceDTO.getStudentId())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        leaveOfAbsence.setStudent(student);
 
-            // Convert back to DTO
-            LeaveOfAbsenceDTO savedLeaveOfAbsenceDTO = new LeaveOfAbsenceDTO(savedLeaveOfAbsence);
+        // Map subject
+        Subject subject = subjectRepository.findById(leaveOfAbsenceDTO.getSubjectId())
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
+        leaveOfAbsence.setSubject(subject);
 
-            return new ResponseEntity<>(savedLeaveOfAbsenceDTO, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        // Set other fields
+        leaveOfAbsence.setStartDate(leaveOfAbsenceDTO.getStartTime());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceDTO.getEndTime());
+        leaveOfAbsence.setStatus(leaveOfAbsenceDTO.getStatus());
+
+        CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.save(leaveOfAbsence);
+        return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                .data(new LeaveOfAbsenceDTO(response.getData()))
+                .code(response.getCode())
+                .message(response.getMessage())
+                .build());
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<LeaveOfAbsenceDTO> updateLeaveOfAbsence(@PathVariable int id, @RequestBody LeaveOfAbsenceDTO leaveOfAbsenceDTO) {
-        try {
-            LeaveOfAbsence existingLeaveOfAbsence = leaveOfAbsenceService.findById(id)
-                    .orElseThrow(() -> new RuntimeException("LeaveOfAbsence not found with id " + id));
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @RequestBody LeaveOfAbsenceDTO leaveOfAbsenceDTO) {
+        CoreResponse<LeaveOfAbsence> existingResponse = leaveOfAbsenceService.findById(id);
 
-            // Update fields
-            existingLeaveOfAbsence.setStartDate(leaveOfAbsenceDTO.getStartTime());
-            existingLeaveOfAbsence.setEndDate(leaveOfAbsenceDTO.getEndTime());
-            existingLeaveOfAbsence.setStatus(leaveOfAbsenceDTO.getStatus());
-
-            // Update associations if needed
-            Student student = studentRepository.findById(leaveOfAbsenceDTO.getStudentId())
-                    .orElseThrow(() -> new RuntimeException("Referenced Student does not exist"));
-            Subject subject = subjectRepository.findById(leaveOfAbsenceDTO.getSubjectId())
-                    .orElseThrow(() -> new RuntimeException("Referenced Subject does not exist"));
-
-            existingLeaveOfAbsence.setStudent(student);
-            existingLeaveOfAbsence.setSubject(subject);
-
-            LeaveOfAbsence updatedLeaveOfAbsence = leaveOfAbsenceService.save(existingLeaveOfAbsence);
-
-            LeaveOfAbsenceDTO updatedLeaveOfAbsenceDTO = new LeaveOfAbsenceDTO(updatedLeaveOfAbsence);
-
-            return new ResponseEntity<>(updatedLeaveOfAbsenceDTO, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (existingResponse.getData() == null) {
+            return ResponseEntity.status(404).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(404)
+                    .message("Leave of Absence not found")
+                    .build());
         }
+
+        LeaveOfAbsence leaveOfAbsence = existingResponse.getData();
+
+        // Update student
+        Student student = studentRepository.findById(leaveOfAbsenceDTO.getStudentId())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        leaveOfAbsence.setStudent(student);
+
+        // Update subject
+        Subject subject = subjectRepository.findById(leaveOfAbsenceDTO.getSubjectId())
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
+        leaveOfAbsence.setSubject(subject);
+
+        // Update other fields
+        leaveOfAbsence.setStartDate(leaveOfAbsenceDTO.getStartTime());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceDTO.getEndTime());
+        leaveOfAbsence.setStatus(leaveOfAbsenceDTO.getStatus());
+
+        CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.updateLeaveOfAbsence(id, leaveOfAbsence);
+        return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                .data(new LeaveOfAbsenceDTO(response.getData()))
+                .code(response.getCode())
+                .message(response.getMessage())
+                .build());
     }
 
 
-    // Endpoint to delete a LeaveOfAbsence by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteLeaveOfAbsenceById(@PathVariable int id) {
-        try {
-            leaveOfAbsenceService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<CoreResponse<Void>> deleteLeaveOfAbsenceById(@PathVariable int id) {
+        CoreResponse<Void> response = leaveOfAbsenceService.deleteById(id);
+        return ResponseEntity.status(response.getCode()).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<LeaveOfAbsenceDTO>> getAllLeaveOfAbsences() {
-        List<LeaveOfAbsence> leaveOfAbsences = leaveOfAbsenceService.getAllLeaveOfAbsence();
-        List<LeaveOfAbsenceDTO> leaveOfAbsenceDTOs = leaveOfAbsences.stream().map(LeaveOfAbsenceDTO::new).collect(Collectors.toList());
-        return new ResponseEntity<>(leaveOfAbsenceDTOs, HttpStatus.OK);
+    public ResponseEntity<CoreResponse<Page<LeaveOfAbsenceDTO>>> getAllLeaveOfAbsences(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        CoreResponse<Page<LeaveOfAbsence>> response = leaveOfAbsenceService.getAllLeaveOfAbsence(pageable);
+        Page<LeaveOfAbsenceDTO> dtoPage = response.getData().map(LeaveOfAbsenceDTO::new);
+
+        return ResponseEntity.status(response.getCode()).body(CoreResponse.<Page<LeaveOfAbsenceDTO>>builder()
+                .data(dtoPage)
+                .code(response.getCode())
+                .message(response.getMessage())
+                .build());
     }
-
-
 }

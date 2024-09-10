@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/org/green/core/model/CoreResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/org/green/core/model/CoreResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" afterDir="false" />
     </list>
@@ -202,7 +202,7 @@
       <workItem from="1725934813129" duration="159000" />
       <workItem from="1725934996105" duration="134000" />
       <workItem from="1725935288744" duration="337000" />
-      <workItem from="1725935662143" duration="1799000" />
+      <workItem from="1725935662143" duration="5515000" />
     </task>
     <task id="LOCAL-00001" summary="adding skeleton schedule">
       <option name="closed" value="true" />
