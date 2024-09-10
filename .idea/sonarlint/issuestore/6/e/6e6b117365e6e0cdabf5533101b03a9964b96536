@@ -1,15 +1,15 @@
 
 X
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ
 A
-java:S1452"&Remove usage of generic wildcard type.(¶üğñúÿÿÿÿ
+java:S1452"&Remove usage of generic wildcard type.(¶üğñúÿÿÿÿ
 A
-java:S1452"&Remove usage of generic wildcard type.(ŞÔãøÿÿÿÿ
+java:S1452"&Remove usage of generic wildcard type.(ŞÔãøÿÿÿÿ
 <
-java:S1452""&Remove usage of generic wildcard type.(åíËŠ
+java:S1452!"&Remove usage of generic wildcard type.(åíËŠ
 A
-java:S1452("&Remove usage of generic wildcard type.(‡í°Äÿÿÿÿÿ
+java:S1452'"&Remove usage of generic wildcard type.(‡í°Äÿÿÿÿÿ
 <
-java:S1452-"&Remove usage of generic wildcard type.(Ş¹çı
+java:S1452,"&Remove usage of generic wildcard type.(Ş¹çı
 H
-java:S14522"&Remove usage of generic wildcard type.( ÀöÓúÿÿÿÿ8ñ¾²Ï2
+java:S14521"&Remove usage of generic wildcard type.( ÀöÓúÿÿÿÿ8ñ¾²Ï2
