@@ -67,7 +67,7 @@ public class GradeService implements IGradeService {
 
         grade.setGrade(newGrade.getGrade());
         grade.setStatus(newGrade.getStatus());
-//        grade.setStudent(student);
+        grade.setStudent(student);
         grade.setExamSchedule(examSchedule);
 
         iGradeRepository.save(grade);
