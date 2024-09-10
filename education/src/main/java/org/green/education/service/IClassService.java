@@ -1,5 +1,6 @@
 package org.green.education.service;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.ClassDTO;
 import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
@@ -9,13 +10,13 @@ import java.util.List;
 
 
 public interface IClassService {
-    List<ClassDTO> getClassList();
+    CoreResponse<?> getClassList(int page, int limit);
 
-    List<ClassMemberDTO> getStudentByClassId(int classId);
+    CoreResponse<?> getStudentByClassId(int classId, int page, int limit);
 
-    ClassForm createClass(ClassForm classForm);
+    CoreResponse<?> createClass(ClassForm classForm);
 
-    ClassForm editClass(int classId, ClassForm classForm);
+    CoreResponse<?> editClass(int classId, ClassForm classForm);
 
-    Class getClassById(int classId);
+    CoreResponse<?> getClassById(int classId);
 }

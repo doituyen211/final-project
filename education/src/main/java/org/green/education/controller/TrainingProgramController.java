@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/training_program")
 @RequiredArgsConstructor
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class TrainingProgramController {
     private final ITrainingProgramService trainingProgramService;
 

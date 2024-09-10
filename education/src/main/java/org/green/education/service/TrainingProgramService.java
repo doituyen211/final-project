@@ -79,8 +79,10 @@ public class TrainingProgramService implements ITrainingProgramService {
                         .build();
                 classesDTO.add(classDTO);
             }
-            ClassListResponse classListResponse = ClassListResponse.builder().classList(classesDTO).totalPages(classPage.getTotalPages()).build();
-
+            ClassListResponse classListResponse = ClassListResponse.builder()
+                    .data(classesDTO)
+                    .totalPages(classPage.getTotalPages()).build();
+            String message = classesDTO.isEmpty() ? "empty list" : "Get all classes successfully";
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .data(classListResponse)
