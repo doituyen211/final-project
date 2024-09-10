@@ -26,8 +26,8 @@ public class TrainingProgramController {
     public CoreResponse<?> getAllTrainingPrograms(@RequestParam(value = "page") int page, @RequestParam("limit") int limit) {
         return trainingProgramService.getAllTrainingPrograms(page, limit);
     }
-    @GetMapping("")
-    public CoreResponse<?> getAllTrainingPrograms() {
+    @GetMapping("/getAllPrograms")
+    public CoreResponse<?> getAllPrograms() {
         return trainingProgramService.getAllTrainingPrograms();
     }
     @GetMapping("/getListClassByProgramId/{id}")
