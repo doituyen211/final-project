@@ -2,6 +2,7 @@ package org.green.education.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -15,29 +16,31 @@ public class LeaveOfAbsence {
     @Column(name="id")
     private int id;
 
-    @OneToOne(cascade = {
+    @OneToOne(fetch = FetchType.LAZY,cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "student_id", referencedColumnName = "student_id")
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id",nullable = false)
     private  Student student;
 
-    @Column(name="start_time")
-    private Date startTime;
+    @Column(name="start_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
 
-    @Column(name="end_time")
-    private Date endTime;
+    @Column(name="end_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
 
     @Column(name="status")
     private int status;
 
-    @OneToOne(cascade = {
+    @OneToOne(fetch = FetchType.LAZY,cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "subject_id", referencedColumnName = "subjectId")
+    @JoinColumn(name = "subject_id", referencedColumnName = "subjectId",nullable = false)
     private Subject subject;
 
 
