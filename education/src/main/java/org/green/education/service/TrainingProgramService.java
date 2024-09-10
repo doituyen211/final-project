@@ -196,4 +196,26 @@ public class TrainingProgramService implements ITrainingProgramService {
                     .build();
         }
     }
+
+    @Override
+    public CoreResponse<?> getAllTrainingPrograms() {
+        List<TrainingProgram> trainingPrograms = trainingProgramRepository.findAll();
+        List<ProgramDTO> programDTOList = new ArrayList<>();
+        for (TrainingProgram trainingProgram : trainingPrograms) {
+            ProgramDTO programDTO = ProgramDTO.builder()
+                    .programName(trainingProgram.getProgramName())
+                    .tuitionFee(trainingProgram.getTuitionFee())
+                    .trainingDuration(trainingProgram.getTrainingDuration())
+                    .status(trainingProgram.getStatus())
+                    .id(trainingProgram.getProgramId())
+                    .build();
+            programDTOList.add(programDTO);
+        }
+
+        return CoreResponse.builder()
+                .code(HttpStatus.OK.value())
+                .message("get all training programs")
+                .data(programDTOList)
+                .build();
+    }
 }
