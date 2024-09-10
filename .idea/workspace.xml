@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/c/3c29ed1c5089021cdc85e731afcb1cc6bcdd8f2b" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/c/3c29ed1c5089021cdc85e731afcb1cc6bcdd8f2b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/e/6e6b117365e6e0cdabf5533101b03a9964b96536" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/e/6e6b117365e6e0cdabf5533101b03a9964b96536" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/794888b1d7556d31f58a9f01df8fb54da63081b2" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/794888b1d7556d31f58a9f01df8fb54da63081b2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/9/c9459985dead3e0b7c32e9383a6f3e766c270cc4" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/9/c9459985dead3e0b7c32e9383a6f3e766c270cc4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/c/cc518d76cac34138bf2a2ed318817576ef8ad411" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/c/cc518d76cac34138bf2a2ed318817576ef8ad411" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/LeaveOfAbsenceDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/LeaveOfAbsenceDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/LeaveOfAbsence.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/LeaveOfAbsence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/SubjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/SubjectController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Subject.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Subject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ISubjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ISubjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/SubjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/SubjectService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,10 +25,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2lopZcmtl7xJqhqXCs9Tf68wDRw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,10 +45,14 @@
     "Spring Boot.HrApplication.executor": "Run",
     "Spring Boot.ReceivableApplication.executor": "Debug",
     "android.gradle.sync.needed": "true",
-    "git-widget-placeholder": "be/khainq/reser",
+    "git-widget-placeholder": "feature/namlh/crm__subject",
     "jdk.selected.JAVA_MODULE": "openjdk-22",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/BE/backend-green"
+    "last_opened_file_path": "D:/BE/backend-green",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
   },
   "keyToStringList": {
     "GitStage.ChangesTree.GroupingKeys": [

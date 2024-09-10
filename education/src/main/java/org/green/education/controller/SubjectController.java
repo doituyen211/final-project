@@ -1,5 +1,6 @@
 package org.green.education.controller;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.SubjectDto;
 import org.green.education.form.SubjectFilterForm;
 import org.green.education.service.ISubjectService;
@@ -27,6 +28,12 @@ public class SubjectController {
             @RequestParam(value = "sortBy", defaultValue = "subjectId", required = false) String sortBy
     ) {
         return subjectService.findALL(form,page,pageSize, sortDir, sortBy) ;
+    }
+
+    @GetMapping("find-all")
+    public CoreResponse<?> findAllNotPaging(
+    ) {
+        return subjectService.findAllNotPaging() ;
     }
 
     @GetMapping("/{id}")
