@@ -102,3 +102,5 @@ Seducation/src/main/java/org/green/education/specification/SubjectSpecification.
 Meducation/src/main/java/org/green/education/controller/SubjectController.java,6/e/6e6b117365e6e0cdabf5533101b03a9964b96536
 u
 Eeducation/src/main/java/org/green/education/config/OpenAPIConfig.java,f/4/f4d37fdb4d843b9f6e97c6e9c227c39b4ff814b4
+…
+Ueducation/src/main/java/org/green/education/controller/TrainingProgramController.java,4/0/40eea987ff343a14b3e44ceaa57e7562900215e1

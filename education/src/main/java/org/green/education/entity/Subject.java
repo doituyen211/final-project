@@ -18,10 +18,10 @@ public class Subject {
     private int status;
 
     @ManyToOne
-    @JoinColumn(name = "training_program_id", referencedColumnName = "program_id")
+    @JoinColumn(name = "training_program_id")
     private TrainingProgram trainingProgram ;
 
     @OneToOne
-    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
+    @JoinColumn(name = "subject_id")
     private LeaveOfAbsence leaveOfAbsence;
 }
