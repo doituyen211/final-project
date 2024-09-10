@@ -10,9 +10,11 @@ import {
 } from "react-bootstrap";
 import DropSearch from "./DropSearch";
 import AddForm from "./AddForm";
+import UpdateForm from "./UpdateForm";
 import axios from "axios";
 import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
 import { toast, ToastContainer } from "react-toastify";
+import { CloseSquareFilled } from "@ant-design/icons";
 
 export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
@@ -20,7 +22,16 @@ export default function ScoreComponent() {
   const [subject, setSubject] = React.useState([]);
   const [student, setStudent] = React.useState([]);
 
-  const [newGrade, setNewGrade] = React.useState([]);
+  // const [newGrade, setNewGrade] = React.useState([]);
+
+  const [newGrade, setNewGrade] = React.useState({
+    grade: "",
+    studentId: null,
+    trainingProgramId: null,
+    subjectId: null,
+    examScheduleId: null,
+  });
+
   const [dataRow, setDataRow] = React.useState({});
 
   const [loading, setLoading] = React.useState(true);
@@ -33,10 +44,11 @@ export default function ScoreComponent() {
   const [deleteSelectedId, setDeleteSelectedID] = React.useState(null);
   const [addId, setAddId] = React.useState(null);
 
-  const apiUrl = "http://localhost:9001/score";
-  const apiTraining = "http://localhost:9001/training_program";
-  const apiStudent = "http://localhost:9001/";
-  const apiSubject = "http://localhost:9001/api/v1/subjects";
+  const apiUrl = "http://localhost:9001/api/v1/scores";
+  const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
+  const apiStudent = "http://localhost:9001/student";
+  const apiSubject = "http://localhost:9001/api/v1/subjects/find-all";
+  // const apiExamSche = ""
   // const apiMock = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
 
   React.useEffect(() => {
@@ -59,7 +71,7 @@ export default function ScoreComponent() {
   const fetchProgramData = async () => {
     try {
       const res = await axios.get(apiTraining);
-      setTrainningData(res.data);
+      setTrainningData(res.data.data);
     } catch (err) {
       setError(err);
     }
@@ -75,7 +87,7 @@ export default function ScoreComponent() {
   const fetchSubjectData = async () => {
     try {
       const res = await axios.get(apiSubject);
-      setSubject(res.data);
+      setSubject(res.data.data);
     } catch (err) {
       setError(err);
     }
@@ -87,7 +99,8 @@ export default function ScoreComponent() {
     setDataRow(data);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault();
     try {
       axios.put(`${apiUrl}/update-score/${updateSelectId}`);
       setUpdateSelectId(null);
@@ -107,8 +120,8 @@ export default function ScoreComponent() {
   const handleAddNew = (value) => {
     setNewGrade(value);
     try {
-      axios.post(`${apiUrl}/add-score`, { newGrade });
-      toast.success("Record update successfully!");
+      axios.post(`${apiUrl}/add-score`, newGrade);
+      toast.success("Record added successfully!");
     } catch (err) {
       toast.error(`Failed to add new record.${err}.Please try again.`);
     }
@@ -182,6 +195,7 @@ export default function ScoreComponent() {
                 show={show}
                 dataRow={dataRow}
                 handleClose={() => setShow(false)}
+                handleUpdate={handleUpdate}
               />
             )}
 
@@ -195,6 +209,8 @@ export default function ScoreComponent() {
                 handleClose={() => setShowAdd(false)}
                 handleAddNew={handleAddNew}
                 student={student}
+                formData={newGrade}
+                setFormData={setNewGrade}
               />
             )}
           </div>
@@ -260,47 +276,43 @@ function TableSearchResult({ data, showUpdateForm, result, handleDelete }) {
   );
 }
 
-function UpdateForm({ show, handleClose, dataRow }) {
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <ModalHeader closeButton>
-        <span>Update</span>
-      </ModalHeader>
-      <ModalBody>
-        <form>
-          <div className="mb-3">
-            <label className="form-label">Id : </label>
-            <input type="number" value={dataRow.id} disabled></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Name : </label>
-            <input type="text" value={dataRow.studenName} disabled></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Trainning Program : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Subject : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Exam Date : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Score : </label>
-            <input type="number"></input>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Status : </label>
-            <input type="text"></input>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </ModalBody>
-    </Modal>
-  );
-}
+// function UpdateForm({ show, handleClose, dataRow, handleUpdate}) {
+//   return (
+//     <Modal show={show} onHide={handleClose}>
+//       <ModalHeader closeButton>
+//         <span>Update</span>
+//       </ModalHeader>
+//       <ModalBody>
+//         <form onSubmit={handleUpdate}>
+//           <div className="mb-3">
+//             <label className="form-label">Id : </label>
+//             <input type="number" value={dataRow.id} disabled></input>
+//           </div>
+//           <div className="mb-3">
+//             <label className="form-label">Name : </label>
+//             <input type="text" value={dataRow.studenName} disabled></input>
+//           </div>
+//           <div className="mb-3">
+//             <label className="form-label">Trainning Program : </label>
+//             <input type="number"></input>
+//           </div>
+//           <div className="mb-3">
+//             <label className="form-label">Subject : </label>
+//             <input type="number"></input>
+//           </div>
+//           <div className="mb-3">
+//             <label className="form-label">Exam Date : </label>
+//             <input type="number"></input>
+//           </div>
+//           <div className="mb-3">
+//             <label className="form-label">Grade : </label>
+//             <input type="number"></input>
+//           </div>
+//           <button type="submit" className="btn btn-primary">
+//             Submit
+//           </button>
+//         </form>
+//       </ModalBody>
+//     </Modal>
+//   );
+// }

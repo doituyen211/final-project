@@ -10,59 +10,65 @@ export default function AddForm({
   trainingData,
   subject,
   student,
+  formData,
+  setFormData,
 }) {
-  const [formData, setFormData] = React.useState({
-    grade: "",
-    studentId: null,
-    trainingProgramId: null,
-    subjectId: null,
-    examScheduleId: null,
-  });
+  // const [formData, setFormData] = React.useState({
+  //   grade: "",
+  //   studentId: null,
+  //   trainingProgramId: null,
+  //   subjectId: null,
+  //   examScheduleId: null,
+  // });
 
   const trainningProgramOptions = Array.from(
-    new Set(trainingData.map((item) => item.programId))
+    new Set(trainingData.map((item) => item.program_id))
   ).map((id) => {
-    const trainingProgram = trainingData.find((item) => item.id === id);
+    const trainingProgram = trainingData.find((item) => item.program_id === id);
     return {
       value: id,
-      label: trainingProgram.programName,
+      label: trainingProgram.program_name,
     };
   });
 
   const subjectOption = Array.from(
-    new Set(subject.map((item) => item.subjectId))
+    new Set(subject.map((item) => item.subject_id))
   ).map((id) => {
-    const sub = subject.find((item) => item.id === id);
+    const sub = subject.find((item) => item.subject_id === id);
     return {
       value: id,
-      label: sub.subjectName,
+      label: sub.subject_name,
     };
   });
 
-  const studentOption = Array.from(
-    new Set(student.map((item) => item.studentId))
-  ).map((id) => {
-    const stu = student.find((item) => item.id === id);
-    return {
-      value: id,
-      label: stu.studenName,
-    };
-  });
+  const studentOption = Array.from(new Set(student.map((item) => item.id))).map(
+    (id) => {
+      const studen = student.find((item) => item.id === id);
+      return {
+        value: id,
+        label: studen.fullName,
+      };
+    }
+  );
 
-  const examDateOption = Array.from(
-    new Set(data.map((item) => item.examDate))
-  ).map((id) => {
-    const student = data.find((item) => item.id === id);
-    return {
-      value: id,
-      label: student.studenName,
-    };
-  });
+  const examDateOption = Array.from(new Set(data.map((item) => item.id))).map(
+    (id) => {
+      const examDate = data.find((item) => item.id === id);
+      return {
+        value: id,
+        label: examDate.examDate,
+      };
+    }
+  );
+
+  const getSelectedOption = (options, value) => {
+    return options.find((option) => option.value === value) || null;
+  };
 
   const handleSelectChange = (selectedOption, fieldName) => {
     setFormData((prevData) => ({
       ...prevData,
-      [fieldName]: selectedOption,
+      [fieldName]: selectedOption ? selectedOption.value : null,
     }));
   };
 
@@ -70,13 +76,13 @@ export default function AddForm({
     const { value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      grade: value,
+      grade: Number(value),
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddNew({ formData });
+    handleAddNew(formData);
     setFormData({
       grade: "",
       studentId: null,
@@ -98,25 +104,28 @@ export default function AddForm({
             <Select
               options={studentOption}
               placeholder="Student"
-              value={formData.studentId}
+              value={getSelectedOption(studentOption, formData.studentId)}
               onChange={(option) => handleSelectChange(option, "studentId")}
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Trainning Program : </label>
+            <label className="form-label">Training Program : </label>
             <Select
-              value={formData.trainingProgram}
+              value={getSelectedOption(
+                trainningProgramOptions,
+                formData.trainingProgramId
+              )}
               onChange={(option) =>
-                handleSelectChange(option, "trainingProgram")
+                handleSelectChange(option, "trainingProgramId")
               }
               options={trainningProgramOptions}
-              placeholder="Trainning Program"
+              placeholder="Training Program"
             />
           </div>
           <div className="mb-3">
             <label className="form-label">Subject : </label>
             <Select
-              value={formData.subjectId}
+              value={getSelectedOption(subjectOption, formData.subjectId)}
               onChange={(option) => handleSelectChange(option, "subjectId")}
               options={subjectOption}
               placeholder="Subject"
@@ -126,8 +135,10 @@ export default function AddForm({
             <label className="form-label">Exam Date : </label>
             <Select
               placeholder="Exam Date"
-              value={formData.examDateId}
-              onChange={(option) => handleSelectChange(option, "examDateId")}
+              value={getSelectedOption(examDateOption, formData.examScheduleId)}
+              onChange={(option) =>
+                handleSelectChange(option, "examScheduleId")
+              }
               options={examDateOption}
             />
           </div>
