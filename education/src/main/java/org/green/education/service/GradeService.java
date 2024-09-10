@@ -67,6 +67,8 @@ public class GradeService implements IGradeService {
         ExamSchedule examSchedule = iExamScheduleRepository.findById(newGrade.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
         Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found for update"));
 
+        newGrade.setStatus(newGrade.getGrade() >= 50 ? "Passed" : "Fail");
+
         grade.setGrade(newGrade.getGrade());
         grade.setStatus(newGrade.getStatus());
         grade.setStudent(student);
