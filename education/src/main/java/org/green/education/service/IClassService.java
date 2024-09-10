@@ -6,6 +6,7 @@ import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
 import org.green.education.form.ClassForm;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,4 +20,8 @@ public interface IClassService {
     CoreResponse<?> editClass(int classId, ClassForm classForm);
 
     CoreResponse<?> getClassById(int classId);
+
+    CoreResponse<?> findByClassNameContainingIgnoreCase(String className, int page, int limit);
+
+    CoreResponse<?> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate, int page, int limit);
 }

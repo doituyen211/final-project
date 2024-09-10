@@ -1,5 +1,6 @@
 package org.green.education.repository;
 
+import org.green.education.dto.ClassDTO;
 import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
 import org.green.education.entity.TrainingProgram;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -21,5 +23,10 @@ public interface ClassRepository extends JpaRepository<Class, Integer>, JpaSpeci
             "WHERE cm.mclass.id = ?1")
     Page<ClassMemberDTO> getListStudentByClassId(Integer classId, PageRequest pageRequest);
 
+    Page<Class> findByClassNameContainingIgnoreCase(String className, PageRequest pageRequest);
+
+    Page<Class> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate, PageRequest pageRequest);
+
     Page<Class> findByProgram(TrainingProgram trainingProgram, Pageable pageable);
+
 }

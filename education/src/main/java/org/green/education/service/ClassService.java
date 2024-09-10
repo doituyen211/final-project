@@ -12,12 +12,11 @@ import org.green.education.response.ClassListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.LocalDate;
 
 @Service
 public class ClassService implements IClassService {
@@ -34,10 +33,18 @@ public class ClassService implements IClassService {
             Class presentClass = classRepository.findById(classId)
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
 
+            ClassDTO classDTO = ClassDTO.builder()
+                    .className(presentClass.getClassName())
+                    .classSize(presentClass.getClassSize())
+                    .startDate(presentClass.getStartDate())
+                    .endDate(presentClass.getEndDate())
+                    .trainingProgramName(presentClass.getProgram().getProgramName())
+                    .build();
+
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Get class successfully")
-                    .data(presentClass)
+                    .data(classDTO)
                     .build();
 
         } catch (RuntimeException e) {
@@ -206,5 +213,88 @@ public class ClassService implements IClassService {
 
     }
 
+    @Override
+    public CoreResponse<?> findByClassNameContainingIgnoreCase(String className, int page, int limit) {
+        try {
+            PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+            Page<Class> classes = classRepository.findByClassNameContainingIgnoreCase(className, pageRequest);
+
+            Page<ClassDTO> classDTOS = classes.map(item -> ClassDTO.builder()
+                    .className(item.getClassName())
+                    .classSize(item.getClassSize())
+                    .startDate(item.getStartDate())
+                    .endDate(item.getEndDate())
+                    .trainingProgramName(item.getProgram().getProgramName())
+                    .build());
+
+            ClassListResponse classListResponse = ClassListResponse.builder()
+                    .data(classDTOS.getContent())
+                    .totalPages(classDTOS.getTotalPages())
+                    .build();
+
+            String message = classListResponse.getData().isEmpty()
+                    ? "Empty list" : "Get list successfully";
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message(message)
+                    .data(classListResponse)
+                    .build();
+
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate, int page, int limit) {
+        try {
+            PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+            Page<Class> classes = classRepository.findByStartDateAndEndDate(startDate, endDate, pageRequest);
+            Page<ClassDTO> classDTOS = classes.map(item -> ClassDTO.builder()
+                    .className(item.getClassName())
+                    .classSize(item.getClassSize())
+                    .startDate(item.getStartDate())
+                    .endDate(item.getEndDate())
+                    .trainingProgramName(item.getProgram().getProgramName())
+                    .build());
+
+            ClassListResponse classListResponse = ClassListResponse.builder()
+                    .data(classDTOS.getContent())
+                    .totalPages(classDTOS.getTotalPages())
+                    .build();
+
+            String message = classListResponse.getData().isEmpty() ? "Empty list" : "Search successfully";
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message(message)
+                    .data(classListResponse)
+                    .build();
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
+                    .build();
+        }
+    }
 }
 
