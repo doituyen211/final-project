@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/score")
-@CrossOrigin(origins = "http://localhost:3000")
 public class GradeController {
 
     @Autowired
