@@ -1,13 +1,13 @@
 package org.green.education.service;
 
 import org.green.education.dto.GradeDTO;
-import org.green.education.entity.Grade;
-import org.green.education.repository.IExamScheduleRepository;
-import org.green.education.repository.IGradeRepository;
-import org.green.education.repository.IStudentRepository;
+import org.green.education.entity.*;
+import org.green.education.form.GradeForm;
+import org.green.education.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("DuplicatedCode")
@@ -23,61 +23,57 @@ public class GradeService implements IGradeService {
     @Autowired
     private IExamScheduleRepository iExamScheduleRepository;
 
+    @Autowired
+    private ITrainingProgramRepository iTrainingProgramRepository;
+
+    @Autowired
+    private ISubjectRepository iSubjectRepository;
+
     @Override
-    public GradeDTO getGradeById(int id) {
-        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
-        return new GradeDTO(grade);
+    public Grade getGradeById(int id) {
+        return iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
     }
 
     @Override
-    public GradeDTO addGrade(Grade grade) {
+    public GradeForm addGrade(GradeForm gradeForm) {
+        Student student = iStudentRepository.findById(gradeForm.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found for add"));
+        ExamSchedule examSchedule = iExamScheduleRepository.findById(gradeForm.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
+        TrainingProgram trainingProgram = iTrainingProgramRepository.findById(gradeForm.getTrainingProgramId()).orElseThrow(() -> new RuntimeException("Training program not found"));
 
-        if (grade.getStudent() != null) {
-            if (!iStudentRepository.existsById(grade.getStudent().getId())) {
-                throw new RuntimeException("Referenced Student does not exist");
-                // Alternatively, you might redirect to a page to add the student
-            }
-        }
-        if (grade.getExamSchedule() != null) {
-            if (!iExamScheduleRepository.existsById(grade.getExamSchedule().getId())) {
-                throw new RuntimeException("Referenced ExamSchedule does not exist");
-                // Alternatively, you might redirect to a page to add the exam schedule
-            }
+        Subject subject = iSubjectRepository.findById(gradeForm.getSubjectId())
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
+        if (!subject.getTrainingProgram().getProgramId().equals(gradeForm.getTrainingProgramId())) {
+            throw new RuntimeException("Subject does not belong to the provided training program");
         }
 
-        Grade addNewGrade =  iGradeRepository.save(grade);
-        return new GradeDTO(addNewGrade);
+//        ExamSchedule examschedule = iExamScheduleRepository.findBySubjectAndTrainingProgram(gradeForm.getSubjectId(),gradeForm.getTrainingProgramId())
+//                .orElseThrow(() -> new RuntimeException("Exam schedule not found"));
+
+        gradeForm.setStatus(gradeForm.getGrade() >= 50 ? "Passed" : "Fail");
+
+        Grade grade = new Grade();
+        grade.setStudent(student);
+        grade.setExamSchedule(examSchedule);
+        grade.setGrade(gradeForm.getGrade());
+        grade.setStatus(gradeForm.getStatus());
+
+        iGradeRepository.save(grade);
+        return gradeForm;
     }
 
     @Override
-    public List<Grade> getAllGrade() {
-        return iGradeRepository.findAll();
-    }
-
-    @Override
-    public GradeDTO updateGrade(int id, Grade newGrade) {
-        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found"));
-
-        if (newGrade.getStudent() != null) {
-            if (!iStudentRepository.existsById(newGrade.getStudent().getId())) {
-                throw new RuntimeException("Referenced Student does not exist");
-                // Alternatively, you might redirect to a page to add the student
-            }
-        }
-        if (newGrade.getExamSchedule() != null) {
-            if (!iExamScheduleRepository.existsById(newGrade.getExamSchedule().getId())) {
-                throw new RuntimeException("Referenced ExamSchedule does not exist");
-                // Alternatively, you might redirect to a page to add the exam schedule
-            }
-        }
+    public GradeForm updateGrade(int id, GradeForm newGrade) {
+        Student student = iStudentRepository.findById(newGrade.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found for add"));
+        ExamSchedule examSchedule = iExamScheduleRepository.findById(newGrade.getExamScheduleId()).orElseThrow(() -> new RuntimeException("Exam schedule not found for add"));
+        Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found for update"));
 
         grade.setGrade(newGrade.getGrade());
         grade.setStatus(newGrade.getStatus());
-        grade.setStudent(newGrade.getStudent());
-        grade.setExamSchedule(newGrade.getExamSchedule());
+        grade.setStudent(student);
+        grade.setExamSchedule(examSchedule);
 
-        Grade updateGrade =  iGradeRepository.save(grade);
-        return new GradeDTO(updateGrade);
+        iGradeRepository.save(grade);
+        return newGrade;
     }
 
     @Override
@@ -87,6 +83,21 @@ public class GradeService implements IGradeService {
 
     @Override
     public List<GradeDTO> getStudentGrade() {
-        return iGradeRepository.findStudentGrades();
+        List<GradeDTO> gradeDTOList = new ArrayList<>();
+        List<Grade> gradeList = iGradeRepository.findAll();
+        for (Grade grade : gradeList) {
+            GradeDTO gradeDTO = GradeDTO.builder()
+                    .id(grade.getId())
+                    .studenName(grade.getStudent().getFullName())
+                    .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
+                    .grade(grade.getGrade())
+                    .status(grade.getStatus())
+                    .examDate(grade.getExamSchedule().getExamDate())
+                    .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
+                    .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
+                    .build();
+            gradeDTOList.add(gradeDTO);
+        }
+        return gradeDTOList;
     }
 }
