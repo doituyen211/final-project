@@ -7,9 +7,7 @@
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/ILeaveOfAbsenceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ILeaveOfAbsenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/LeaveOfAbsenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/LeaveOfAbsenceCreateForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/LeaveOfAbsenceCreateForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +37,7 @@
         <option value="Interface" />
         <option value="com.intellij.jpb.NewClass" />
         <option value="com.intellij.jpb.JpaRepository" />
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -202,7 +201,7 @@
       <workItem from="1725934813129" duration="159000" />
       <workItem from="1725934996105" duration="134000" />
       <workItem from="1725935288744" duration="337000" />
-      <workItem from="1725935662143" duration="5515000" />
+      <workItem from="1725935662143" duration="13003000" />
     </task>
     <task id="LOCAL-00001" summary="adding skeleton schedule">
       <option name="closed" value="true" />

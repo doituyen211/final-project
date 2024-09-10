@@ -1,10 +1,12 @@
 package org.green.education.controller;
 
+import jakarta.validation.Valid;
 import org.green.core.model.CoreResponse;
 import org.green.education.dto.LeaveOfAbsenceDTO;
 import org.green.education.entity.LeaveOfAbsence;
 import org.green.education.entity.Student;
 import org.green.education.entity.Subject;
+import org.green.education.form.LeaveOfAbsenceCreateForm;
 import org.green.education.repository.IStudentRepository;
 import org.green.education.repository.ISubjectRepository;
 import org.green.education.service.ILeaveOfAbsenceService;
@@ -12,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/leave-of-absence")
@@ -56,23 +61,57 @@ public class LeaveOfAbsenceController {
     }
 
     @PostMapping
-    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> createLeaveOfAbsence(@RequestBody LeaveOfAbsenceDTO leaveOfAbsenceDTO) {
-        LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> createLeaveOfAbsence(@Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Handle validation errors
+            StringBuilder errorMessage = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(errorMessage.toString().trim())
+                    .build());
+        }
+
+        // Validate required fields
+        if (leaveOfAbsenceCreateForm.getStudentId() == null || leaveOfAbsenceCreateForm.getSubjectId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Both Student Id and Subject Id are required")
+                    .build());
+        }
 
         // Map student
-        Student student = studentRepository.findById(leaveOfAbsenceDTO.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-        leaveOfAbsence.setStudent(student);
+        Optional<Student> studentOpt = studentRepository.findById(leaveOfAbsenceCreateForm.getStudentId());
+        if (!studentOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Student Id does not exist")
+                    .build());
+        }
 
         // Map subject
-        Subject subject = subjectRepository.findById(leaveOfAbsenceDTO.getSubjectId())
-                .orElseThrow(() -> new RuntimeException("Subject not found"));
-        leaveOfAbsence.setSubject(subject);
+        Optional<Subject> subjectOpt = subjectRepository.findById(leaveOfAbsenceCreateForm.getSubjectId());
+        if (!subjectOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Subject Id does not exist")
+                    .build());
+        }
 
-        // Set other fields
-        leaveOfAbsence.setStartDate(leaveOfAbsenceDTO.getStartTime());
-        leaveOfAbsence.setEndDate(leaveOfAbsenceDTO.getEndTime());
-        leaveOfAbsence.setStatus(leaveOfAbsenceDTO.getStatus());
+        // Ensure status is valid
+        if (leaveOfAbsenceCreateForm.getStatus() < 0 || leaveOfAbsenceCreateForm.getStatus() > 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Status must be either 0 or 1")
+                    .build());
+        }
+
+        LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
+        leaveOfAbsence.setStudent(studentOpt.get());
+        leaveOfAbsence.setSubject(subjectOpt.get());
+        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
+        leaveOfAbsence.setStatus(leaveOfAbsenceCreateForm.getStatus());
 
         CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.save(leaveOfAbsence);
         return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
@@ -82,34 +121,69 @@ public class LeaveOfAbsenceController {
                 .build());
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @RequestBody LeaveOfAbsenceDTO leaveOfAbsenceDTO) {
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Handle validation errors
+            StringBuilder errorMessage = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append(" "));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(errorMessage.toString().trim())
+                    .build());
+        }
+
         CoreResponse<LeaveOfAbsence> existingResponse = leaveOfAbsenceService.findById(id);
 
         if (existingResponse.getData() == null) {
-            return ResponseEntity.status(404).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
-                    .code(404)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
                     .message("Leave of Absence not found")
                     .build());
         }
 
         LeaveOfAbsence leaveOfAbsence = existingResponse.getData();
 
+        // Validate required fields
+        if (leaveOfAbsenceCreateForm.getStudentId() == null || leaveOfAbsenceCreateForm.getSubjectId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Both Student Id and Subject Id are required")
+                    .build());
+        }
+
         // Update student
-        Student student = studentRepository.findById(leaveOfAbsenceDTO.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-        leaveOfAbsence.setStudent(student);
+        Optional<Student> studentOpt = studentRepository.findById(leaveOfAbsenceCreateForm.getStudentId());
+        if (!studentOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Student Id does not exist")
+                    .build());
+        }
+        leaveOfAbsence.setStudent(studentOpt.get());
 
         // Update subject
-        Subject subject = subjectRepository.findById(leaveOfAbsenceDTO.getSubjectId())
-                .orElseThrow(() -> new RuntimeException("Subject not found"));
-        leaveOfAbsence.setSubject(subject);
+        Optional<Subject> subjectOpt = subjectRepository.findById(leaveOfAbsenceCreateForm.getSubjectId());
+        if (!subjectOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Subject Id does not exist")
+                    .build());
+        }
+        leaveOfAbsence.setSubject(subjectOpt.get());
+
+        // Ensure status is valid
+        if (leaveOfAbsenceCreateForm.getStatus() < 0 || leaveOfAbsenceCreateForm.getStatus() > 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Status must be either 0 or 1")
+                    .build());
+        }
 
         // Update other fields
-        leaveOfAbsence.setStartDate(leaveOfAbsenceDTO.getStartTime());
-        leaveOfAbsence.setEndDate(leaveOfAbsenceDTO.getEndTime());
-        leaveOfAbsence.setStatus(leaveOfAbsenceDTO.getStatus());
+        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
+        leaveOfAbsence.setStatus(leaveOfAbsenceCreateForm.getStatus());
 
         CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.updateLeaveOfAbsence(id, leaveOfAbsence);
         return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
