@@ -23,18 +23,14 @@ public class ClassController {
     }
 
     @GetMapping("")
-    public CoreResponse<?> getClassList(
-            @RequestParam int page,
-            @RequestParam int limit) {
-        return iClassService.getClassList(page, limit);
+    public CoreResponse<?> getClassList() {
+        return iClassService.getClassList();
     }
 
     @GetMapping("/classMember/{classId}")
     public CoreResponse<?> getStudentByClassId(
-            @PathVariable int classId,
-            @RequestParam int page,
-            @RequestParam int limit) {
-        return iClassService.getStudentByClassId(classId, page, limit);
+            @PathVariable int classId) {
+        return iClassService.getStudentByClassId(classId);
     }
 
     @PostMapping("")
@@ -66,19 +62,15 @@ public class ClassController {
 
     @GetMapping("/searchByClassName")
     public CoreResponse<?> findByClassNameContainingIgnoreCase(
-            @RequestParam String className,
-            @RequestParam int page,
-            @RequestParam int limit) {
-        return iClassService.findByClassNameContainingIgnoreCase(className, page, limit);
+            @RequestParam String className) {
+        return iClassService.findByClassNameContainingIgnoreCase(className);
     }
 
     @GetMapping("/searchByDate")
     public CoreResponse<?> findByStartDateAndEndDate(
             @RequestParam LocalDate startDate,
-            @RequestParam LocalDate endDate,
-            @RequestParam int page,
-            @RequestParam int limit) {
-        return iClassService.findByStartDateAndEndDate(startDate, endDate, page, limit);
+            @RequestParam LocalDate endDate) {
+        return iClassService.findByStartDateAndEndDate(startDate, endDate);
     }
 
 

@@ -21,11 +21,11 @@ public interface ClassRepository extends JpaRepository<Class, Integer>, JpaSpeci
     @Query("SELECT new org.green.education.dto.ClassMemberDTO(s.fullName, cm.status) " +
             "FROM ClassMember cm JOIN student s ON cm.student.id = s.id " +
             "WHERE cm.mclass.id = ?1")
-    Page<ClassMemberDTO> getListStudentByClassId(Integer classId, PageRequest pageRequest);
+    List<ClassMemberDTO> getListStudentByClassId(int classId);
 
-    Page<Class> findByClassNameContainingIgnoreCase(String className, PageRequest pageRequest);
+    List<Class> findByClassNameContainingIgnoreCase(String className);
 
-    Page<Class> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate, PageRequest pageRequest);
+    List<Class> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
 
     Page<Class> findByProgram(TrainingProgram trainingProgram, Pageable pageable);
 

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassDTO {
+    private int id;
     private String trainingProgramName;
     private String className;
     private int classSize;
