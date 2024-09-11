@@ -23,8 +23,8 @@ public class TrainingProgramController {
     private final ITrainingProgramService trainingProgramService;
 
     @GetMapping("")
-    public CoreResponse<?> getAllTrainingPrograms(@RequestParam(value = "page") int page, @RequestParam("limit") int limit) {
-        return trainingProgramService.getAllTrainingPrograms(page, limit);
+    public CoreResponse<?> getAllTrainingPrograms(@RequestParam("search") String name,@RequestParam(value = "page") int page, @RequestParam("limit") int limit) {
+        return trainingProgramService.getAllTrainingPrograms(name,page,limit);
     }
     @GetMapping("/getAllPrograms")
     public CoreResponse<?> getAllPrograms() {
@@ -56,6 +56,10 @@ public class TrainingProgramController {
             return response;
         }
         return trainingProgramService.updateTrainingProgram(id,trainingProgramForm);
+    }
+    @DeleteMapping("/{id}")
+    public CoreResponse<?> deleteProgram(@PathVariable int id) {
+        return trainingProgramService.deleteTrainingProgram(id);
     }
 
 

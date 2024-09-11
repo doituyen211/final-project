@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.green.education.entity.TrainingProgram;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +28,15 @@ public class ProgramDTO {
 
     @JsonProperty("training_duration")
     private int trainingDuration;
+
+    public ProgramDTO convertToProgramDTO(TrainingProgram trainingProgram) {
+        return ProgramDTO.builder()
+                .id(trainingProgram.getProgramId())
+                .programName(trainingProgram.getProgramName())
+                .courseName(trainingProgram.getCourse().getCourseName())
+                .tuitionFee(trainingProgram.getTuitionFee())
+                .status(trainingProgram.getStatus())
+                .trainingDuration(trainingProgram.getTrainingDuration())
+                .build();
+    }
 }

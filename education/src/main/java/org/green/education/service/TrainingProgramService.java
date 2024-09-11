@@ -1,6 +1,4 @@
 package org.green.education.service;
-
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.green.core.model.CoreResponse;
 import org.green.education.dto.ClassDTO;
@@ -24,9 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,22 +33,20 @@ public class TrainingProgramService implements ITrainingProgramService {
     private final ISubjectRepository subjectRepository;
     private final CourseRepository courseRepository;
     @Override
-    public CoreResponse<?> getAllTrainingPrograms(int page, int limit) {
+    public CoreResponse<?> getAllTrainingPrograms(String searchText, int page, int limit) {
+        Page<TrainingProgram> trainingPrograms ;
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("programId").descending());
-        Page<TrainingProgram> trainingPrograms = trainingProgramRepository.findAll(pageRequest);
-        Page<ProgramDTO> programDTOs = trainingPrograms.map(trainingProgram -> ProgramDTO.builder()
-                .id(trainingProgram.getProgramId())
-                .programName(trainingProgram.getProgramName())
-                .courseName(trainingProgram.getCourse().getCourseName())
-                .tuitionFee(trainingProgram.getTuitionFee())
-                .status(trainingProgram.getStatus())
-                .trainingDuration(trainingProgram.getTrainingDuration())
-                .build());
+        if(searchText == null || searchText.trim().isEmpty()) {
+            trainingPrograms = trainingProgramRepository.findAll(pageRequest);
+        }else {
+            trainingPrograms = trainingProgramRepository.findByProgramNameContainingIgnoreCase(searchText, pageRequest);
+        }
+        Page<ProgramDTO> programDTOs = trainingPrograms.map(trainingProgram -> new ProgramDTO().convertToProgramDTO(trainingProgram));
         TrainingProgramListResponse response = TrainingProgramListResponse.builder()
                 .programDTOList(programDTOs.getContent())
                 .totalPage(programDTOs.getTotalPages())
                 .build();
-        String message = response.getProgramDTOList().isEmpty() ? "empty list" : "Get all training programs successfully";
+        String message = trainingPrograms.isEmpty() ? "empty list" : "Get all training programs successfully";
         return CoreResponse.builder()
                 .code(HttpStatus.OK.value())
                 .message(message)
@@ -218,4 +211,5 @@ public class TrainingProgramService implements ITrainingProgramService {
                 .data(programDTOList)
                 .build();
     }
+
 }
