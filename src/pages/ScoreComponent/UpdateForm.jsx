@@ -12,6 +12,8 @@ export default function UpdateForm({
   student,
   data,
 }) {
+  const [valueChange, setValueChange] = React.useState(null);
+
   // Initialize the state with default values
   const [updateData, setUpdateData] = useState({
     grade: "",
@@ -52,46 +54,44 @@ export default function UpdateForm({
     }
   );
 
-  // Generate student options with IDs
-  // const studentOptions = student.map((stu) => ({
-  //   value: stu.id,
-  //   label: stu.name,
-  // }));
+  const studentOptions = Array.from(
+    new Set(student.map((item) => item.id))
+  ).map((id) => {
+    const stu = student.find((item) => item.id === id);
+    return {
+      value: id,
+      label: stu.fullName,
+    };
+  });
 
-  // Find corresponding ID from the options
   const findIdByName = (name, options) => {
     const option = options.find((opt) => opt.label === name);
     return option ? option.value : "";
   };
 
-  // Find student ID from student name
-  // const findStudentId = (name) => {
-  //   const studentOption = student.find((stu) => stu.name === name);
-  //   return studentOption ? studentOption.id : "";
-  // };
-
-  useEffect(() => {
-    if (dataRow) {
-      setUpdateData({
-        grade: dataRow.grade || "",
-        studentId: dataRow.studenName || "",
-        trainingProgramId:
-          findIdByName(dataRow.programName, trainningProgramOptions) || "",
-        subjectId: findIdByName(dataRow.subjectName, subjectOptions) || "",
-        examScheduleId: findIdByName(dataRow.examDate, examDateOptions) || "",
-      });
+  const firstUpdate = React.useRef(true);
+  React.useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      if (dataRow) {
+        setUpdateData({
+          grade: dataRow.grade || "",
+          studentId: findIdByName(dataRow.studenName, studentOptions) || "",
+          trainingProgramId:
+            findIdByName(dataRow.programName, trainningProgramOptions) || "",
+          subjectId: findIdByName(dataRow.subjectName, subjectOptions) || "",
+          examScheduleId: findIdByName(dataRow.examDate, examDateOptions) || "",
+        });
+      }
     }
   }, [
     dataRow,
-    // studentOptions,
     subjectOptions,
     trainningProgramOptions,
     examDateOptions,
+    studentOptions,
   ]);
 
-  console.log(updateData);
-
-  // Handle changes in Select fields
   const handleChange = (name) => (selectedOption) => {
     setUpdateData((prevData) => ({
       ...prevData,
@@ -99,38 +99,17 @@ export default function UpdateForm({
     }));
   };
 
-  // Handle grade changes and restrict to valid number range
   const handleChangeGrade = (e) => {
     const { value } = e.target;
-    const regex = /^[0-9]*$/;
-    if (regex.test(value)) {
-      const numberValue = Number(value);
-      if (value === "" || (numberValue >= 10 && numberValue <= 100)) {
-        setUpdateData((prevData) => ({
-          ...prevData,
-          grade: value,
-        }));
-      }
-    }
-  };
-
-  const handleKeyDown = (event) => {
-    const allowedKeys = [
-      "Backspace",
-      "Tab",
-      "ArrowLeft",
-      "ArrowRight",
-      "Delete",
-      "Enter",
-    ];
-    if (!/\d/.test(event.key) && !allowedKeys.includes(event.key)) {
-      event.preventDefault();
-    }
+    const numberValue = Number(value);
+    setUpdateData((prevData) => ({
+      ...prevData,
+      grade: numberValue,
+    }));
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(updateData);
     handleUpdate(updateData);
     handleClose();
   };
@@ -155,12 +134,11 @@ export default function UpdateForm({
           <div className="mb-3">
             <label className="form-label">Student:</label>
             <Select
-              value={dataRow.studenName.find(
+              value={studentOptions.find(
                 (option) => option.value === updateData.studentId
               )}
-              // options={studentOptions}
-              placeholder="Select Student"
-              isDisabled // Disable the student select field
+              options={studentOptions}
+              isDisabled
             />
           </div>
 
@@ -206,9 +184,7 @@ export default function UpdateForm({
               type="number"
               value={updateData.grade}
               onChange={handleChangeGrade}
-              onKeyDown={handleKeyDown}
               placeholder="Enter Grade"
-              className="form-control"
             />
           </div>
 

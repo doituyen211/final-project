@@ -42,7 +42,6 @@ export default function ScoreComponent() {
   const [searchResult, setSearchResult] = React.useState([]);
   const [updateSelectId, setUpdateSelectId] = React.useState(null);
   const [deleteSelectedId, setDeleteSelectedID] = React.useState(null);
-  const [addId, setAddId] = React.useState(null);
 
   const apiUrl = "http://localhost:9001/api/v1/scores";
   const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
@@ -128,7 +127,6 @@ export default function ScoreComponent() {
 
   const handleShowAddForm = (data) => {
     setShowAdd(true);
-    setAddId(data.id);
     setDataRow(data);
   };
 
