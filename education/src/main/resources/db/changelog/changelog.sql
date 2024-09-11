@@ -407,3 +407,7 @@ ALTER TABLE "account"
 --changeset namlh:5
 ALTER TABLE "account"
     ADD COLUMN "email" VARCHAR(100);
+-- changeset namlh:6
+ALTER TABLE "subject"
+    ADD CONSTRAINT fk_training_program
+        FOREIGN KEY ("training_program_id") REFERENCES "training_program"("program_id");
