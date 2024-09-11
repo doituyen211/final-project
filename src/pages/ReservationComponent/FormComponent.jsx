@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import SelectDropdown from "./SelectDropdown";
 import axios from "axios";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "./InputComponent";
@@ -71,21 +70,7 @@ function FormComponent({
                 <Col key={field.name} md={6} className="mb-3">
                   <Form.Group controlId={field.name}>
                     {/*<Form.Label>{field.label}</Form.Label>*/}
-                    <SelectDropdown
-                      id={field.name}
-                      apiUrl={field.apiUrl}
-                      label={field.label}
-                      defaultOption={
-                        isEdit || isView
-                          ? {
-                              value: formData[field.name],
-                              label: formData[field.name],
-                            }
-                          : field.defaultOption
-                      }
-                      onChange={(e) => handleChange(e)}
-                      disabled={isView}
-                    />
+                    
                   </Form.Group>
                 </Col>
               );
