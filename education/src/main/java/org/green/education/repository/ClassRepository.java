@@ -1,5 +1,6 @@
 package org.green.education.repository;
 
+import org.green.education.dto.ClassDTO;
 import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
 import org.green.education.entity.TrainingProgram;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,7 +21,12 @@ public interface ClassRepository extends JpaRepository<Class, Integer>, JpaSpeci
     @Query("SELECT new org.green.education.dto.ClassMemberDTO(s.fullName, cm.status) " +
             "FROM ClassMember cm JOIN student s ON cm.student.id = s.id " +
             "WHERE cm.mclass.id = ?1")
-    Page<ClassMemberDTO> getListStudentByClassId(Integer classId, PageRequest pageRequest);
+    List<ClassMemberDTO> getListStudentByClassId(int classId);
+
+    List<Class> findByClassNameContainingIgnoreCase(String className);
+
+    List<Class> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
 
     Page<Class> findByProgram(TrainingProgram trainingProgram, Pageable pageable);
+
 }
