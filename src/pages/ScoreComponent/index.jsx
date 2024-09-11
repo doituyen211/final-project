@@ -101,12 +101,28 @@ export default function ScoreComponent() {
 
   const handleUpdate = (updatedData) => {
     try {
-      axios.put(`${apiUrl}/update-score/${updateSelectId}`, updatedData);
-      setUpdateSelectId(null);
-      setShow(false);
-      toast.success("Record update successfully!");
+      axios
+        .put(`${apiUrl}/update-score/${updateSelectId}`, updatedData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then(() => {
+          setUpdateSelectId(null);
+          setShow(false);
+          toast.success("Record updated successfully!");
+        })
+        .catch((err) => {
+          console.error("Error details:", err.response?.data || err.message);
+
+          toast.error(
+            `Failed to update the record. ${err.message}. Please try again.`
+          );
+        });
     } catch (err) {
-      toast.error(`Failed to update the record.${err}.Please try again.`);
+      toast.error(
+        `Failed to update the record. ${err.message}. Please try again.`
+      );
     }
   };
 
