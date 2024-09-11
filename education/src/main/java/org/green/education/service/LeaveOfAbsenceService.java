@@ -1,86 +1,103 @@
-    package org.green.education.service;
+package org.green.education.service;
 
-    import jakarta.transaction.Transactional;
-    import org.green.education.dto.LeaveOfAbsenceDTO;
-    import org.green.education.entity.LeaveOfAbsence;
-    import org.green.education.entity.Student;
-    import org.green.education.entity.Subject;
-    import org.green.education.repository.ILeaveOfAbsenceRepository;
-    import org.green.education.repository.IStudentRepository;
-    import org.green.education.repository.ISubjectRepository;
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.http.HttpStatus;
-    import org.springframework.http.ResponseEntity;
-    import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import org.green.core.model.CoreResponse;
+import org.green.education.entity.LeaveOfAbsence;
+import org.green.education.repository.ILeaveOfAbsenceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-    import java.util.Optional;
+import java.util.List;
 
+@Service
+public class LeaveOfAbsenceService implements ILeaveOfAbsenceService {
 
-    @Service
-    public class LeaveOfAbsenceService implements ILeaveOfAbsenceService {
+    private final ILeaveOfAbsenceRepository iLeaveOfAbsenceRepository;
 
-
-        private final ILeaveOfAbsenceRepository iLeaveOfAbsenceRepository;
-        private final IStudentRepository studentRepository;
-        private final ISubjectRepository subjectRepository;
-
-        @Autowired
-        public LeaveOfAbsenceService(ILeaveOfAbsenceRepository iLeaveOfAbsenceRepository,
-                                     IStudentRepository studentRepository,
-                                     ISubjectRepository subjectRepository) {
-            this.iLeaveOfAbsenceRepository = iLeaveOfAbsenceRepository;
-            this.studentRepository = studentRepository;
-            this.subjectRepository = subjectRepository;
-        }
-
-        @Override
-        public LeaveOfAbsence findByStudentId(int studentId) {
-            return iLeaveOfAbsenceRepository.findByStudent_Id(studentId)
-                    .orElseThrow(() -> new RuntimeException("LeaveOfAbsence not found for studentId: " + studentId));
-        }
-
-        @Override
-        public Optional<LeaveOfAbsence> findById(int id) {
-            return iLeaveOfAbsenceRepository.findById(id);
-        }
-
-
-        @Override
-        @Transactional
-        public LeaveOfAbsence save(LeaveOfAbsence leaveOfAbsence) {
-            return iLeaveOfAbsenceRepository.save(leaveOfAbsence);
-        }
-
-
-        @Override
-        @Transactional
-        public void deleteById(int id) {
-            iLeaveOfAbsenceRepository.deleteById(id);
-        }
-
-        @Override
-        @Transactional
-        public LeaveOfAbsence updateLeaveOfAbsence(int id, LeaveOfAbsence leaveOfAbsence) {
-
-            LeaveOfAbsence tempReserve = iLeaveOfAbsenceRepository.findById(id).orElseThrow(()-> new RuntimeException("Reserved not found"));
-
-            if (leaveOfAbsence.getStudent() != null) {
-                if (!iLeaveOfAbsenceRepository.existsById(leaveOfAbsence.getStudent().getId())) {
-                    throw new RuntimeException("Referenced Student does not exist");
-                }
-            }
-            if (leaveOfAbsence.getSubject() != null) {
-                if (!iLeaveOfAbsenceRepository.existsById(leaveOfAbsence.getSubject().getSubjectId())) {
-                    throw new RuntimeException("Referenced Subject does not exist");
-                }
-            }
-
-            tempReserve.setStudent(leaveOfAbsence.getStudent());
-            tempReserve.setStartDate(leaveOfAbsence.getStartDate());
-            tempReserve.setEndDate(leaveOfAbsence.getEndDate());
-            tempReserve.setSubject(leaveOfAbsence.getSubject());
-            tempReserve.setStatus(leaveOfAbsence.getStatus());
-
-            return iLeaveOfAbsenceRepository.save(tempReserve);
-        }
+    @Autowired
+    public LeaveOfAbsenceService(ILeaveOfAbsenceRepository iLeaveOfAbsenceRepository) {
+        this.iLeaveOfAbsenceRepository = iLeaveOfAbsenceRepository;
     }
+
+    @Override
+    public CoreResponse<LeaveOfAbsence> findById(int id) {
+        return iLeaveOfAbsenceRepository.findById(id)
+                .map(leave -> CoreResponse.<LeaveOfAbsence>builder()
+                        .data(leave)
+                        .code(200)
+                        .message("Leave of Absence found")
+                        .build())
+                .orElse(CoreResponse.<LeaveOfAbsence>builder()
+                        .code(404)
+                        .message("Leave of Absence not found")
+                        .build());
+    }
+
+    @Override
+    @Transactional
+    public CoreResponse<LeaveOfAbsence> save(LeaveOfAbsence leaveOfAbsence) {
+        LeaveOfAbsence saved = iLeaveOfAbsenceRepository.save(leaveOfAbsence);
+        return CoreResponse.<LeaveOfAbsence>builder()
+                .data(saved)
+                .code(201)
+                .message("Leave of Absence created successfully")
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public CoreResponse<Void> deleteById(int id) {
+        iLeaveOfAbsenceRepository.deleteById(id);
+        return CoreResponse.<Void>builder()
+                .code(204)
+                .message("Leave of Absence deleted successfully")
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public CoreResponse<LeaveOfAbsence> updateLeaveOfAbsence(int id, LeaveOfAbsence leaveOfAbsence) {
+        LeaveOfAbsence existing = iLeaveOfAbsenceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Leave of Absence not found"));
+
+        existing.setStartDate(leaveOfAbsence.getStartDate());
+        existing.setEndDate(leaveOfAbsence.getEndDate());
+        existing.setStudent(leaveOfAbsence.getStudent());
+        existing.setSubject(leaveOfAbsence.getSubject());
+        existing.setStatus(leaveOfAbsence.getStatus());
+
+        LeaveOfAbsence updated = iLeaveOfAbsenceRepository.save(existing);
+        return CoreResponse.<LeaveOfAbsence>builder()
+                .data(updated)
+                .code(200)
+                .message("Leave of Absence updated successfully")
+                .build();
+    }
+
+    @Override
+    public CoreResponse<LeaveOfAbsence> findByStudentId(int studentId) {
+        return iLeaveOfAbsenceRepository.findByStudent_Id(studentId)
+                .map(leave -> CoreResponse.<LeaveOfAbsence>builder()
+                        .data(leave)
+                        .code(200)
+                        .message("Leave of Absence found for studentId")
+                        .build())
+                .orElse(CoreResponse.<LeaveOfAbsence>builder()
+                        .code(404)
+                        .message("Leave of Absence not found for studentId")
+                        .build());
+    }
+
+    @Override
+    public CoreResponse<Page<LeaveOfAbsence>> getAllLeaveOfAbsence(Pageable pageable) {
+        Page<LeaveOfAbsence> leaveOfAbsencesPage = iLeaveOfAbsenceRepository.findAll(pageable);
+        return CoreResponse.<Page<LeaveOfAbsence>>builder()
+                .data(leaveOfAbsencesPage)
+                .code(200)
+                .message("Success")
+                .build();
+    }
+}
