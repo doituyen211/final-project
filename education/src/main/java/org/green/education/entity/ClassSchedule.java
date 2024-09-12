@@ -22,6 +22,7 @@ public class ClassSchedule {
     private String classroom;
     private Integer staffId;
 
+
 //    @ManyToOne
 //    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", foreignKey = @ForeignKey(name = "fk_subject_id_class_schedule"))
 //    private Subject subject;
