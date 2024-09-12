@@ -92,7 +92,7 @@ public class CourseService implements ICourseService {
     @Transactional
     public ResponseEntity<?> deleteById(Integer id) {
         if (courseRepository.findById(id).isEmpty()) {
-            System.out.println("Cannot find Subject by Id: "+id); // log ra loi , thay bang logger
+            System.out.println("Cannot find by Id: "+id); // log ra loi , thay bang logger
         }
         courseRepository.deleteById(id);
         return ResponseEntity.ok("Delete successful!") ;
