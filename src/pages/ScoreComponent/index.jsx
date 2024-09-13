@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-} from "react-bootstrap";
-import { Space,Table, Tag } from 'antd';
+import { Card, CardBody, CardHeader } from "react-bootstrap";
+import { Space, Table, Tag } from "antd";
 import DropSearch from "./DropSearch";
 import AddForm from "./AddForm";
 import UpdateForm from "./UpdateForm";
 import axios from "axios";
 import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
 import { toast } from "react-toastify";
-
 
 export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
@@ -55,7 +50,7 @@ export default function ScoreComponent() {
   const fetchData = async () => {
     try {
       const res = await axios.get(apiUrl);
-      setGradeData(res.data);
+      setGradeData(res.data.data);
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -168,69 +163,65 @@ export default function ScoreComponent() {
     setSearchResult(filteredData);
   };
 
-
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'Student Name',
-      dataIndex: 'studenName',
-      key: 'studenName',
+      title: "Student Name",
+      dataIndex: "studenName",
+      key: "studenName",
     },
     {
-      title: 'Grade',
-      dataIndex: 'grade',
-      key: 'grade',
+      title: "Grade",
+      dataIndex: "grade",
+      key: "grade",
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
       render: (status) => (
-        <Tag color={status === 'Passed' ? 'green' : 'red'}>
-          {status}
-        </Tag>
+        <Tag color={status === "Passed" ? "green" : "red"}>{status}</Tag>
       ),
     },
     {
-      title: 'Subject Name',
-      dataIndex: 'subjectName',
-      key: 'subjectName',
+      title: "Subject Name",
+      dataIndex: "subjectName",
+      key: "subjectName",
     },
     {
-      title: 'Exam Date',
-      dataIndex: 'examDate',
-      key: 'examDate',
+      title: "Exam Date",
+      dataIndex: "examDate",
+      key: "examDate",
     },
     {
-      title: 'Program Name',
-      dataIndex: 'programName',
-      key: 'programName',
+      title: "Program Name",
+      dataIndex: "programName",
+      key: "programName",
     },
     {
-      title: 'Course Name',
-      dataIndex: 'courseName',
-      key: 'courseName',
+      title: "Course Name",
+      dataIndex: "courseName",
+      key: "courseName",
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: "Action",
+      key: "action",
       render: (_, record) => (
         <Space size="middle">
           <button onClick={() => handleShowUpdateForm(record)}>
             <BsPencil className="text-primary"></BsPencil>
           </button>
-          <button onClick={() => handleDelete(record)}>
+          <button onClick={() => handleDelete(record.id)}>
             <BsTrash className="text-danger"></BsTrash>
           </button>
         </Space>
       ),
     },
   ];
-
 
   if (loading)
     return (
@@ -305,14 +296,14 @@ export default function ScoreComponent() {
 function TableSearchResult({ data, result, onSearch, setOnSearch, columns }) {
   const sortData = data.sort((a, b) => a.id - b.id);
   const sortResult = result.sort((a, b) => a.id - b.id);
-  let displayData = []
+  let displayData = [];
 
   if (sortResult.length !== 0) {
-    setOnSearch(true)
+    setOnSearch(true);
     if (onSearch && sortResult.length === 0) {
       displayData = [];
     } else if (onSearch && sortResult.length > 0) {
-      displayData = sortResult
+      displayData = sortResult;
     }
   }
 
