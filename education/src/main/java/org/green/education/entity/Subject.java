@@ -3,24 +3,31 @@ package org.green.education.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Entity
 @Data
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer subjectId ;
+    private Integer subjectId;
 
-    @Column
-    private String subjectName ;
+    private String subjectName;
 
-    @Column
-    private int trainingDuration ;
+    private int trainingDuration;
 
-    @Column
-    private int status ;
+    private int status;
 
     @ManyToOne
-    @JoinColumn(name = "training_program_id", referencedColumnName = "programId")
+    @JoinColumn(name = "training_program_id")
     private TrainingProgram trainingProgram ;
+
+    @OneToOne
+    @JoinColumn(name = "subject_id")
+    private LeaveOfAbsence leaveOfAbsence;
+
+    @OneToMany(mappedBy = "subject")
+    private List<Attendance> attendanceList;
+
 }
