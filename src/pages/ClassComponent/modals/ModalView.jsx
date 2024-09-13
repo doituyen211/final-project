@@ -19,21 +19,19 @@ const ModalView = () => {
       open={showModalView}
       onCancel={handleClose}
       footer={<Button onClick={handleClose}>Đóng</Button>}
+      centered
     >
       <div className="d-flex justify-content-between my-4">
         <div className="d-flex  flex-column gap-3">
           <div>
-            <b>Tên lớp: </b>
-            {formViewData.name}
+            Tên lớp: <b>{formViewData.className}</b>
           </div>
           <div>
-            <b>Tên chương trình đào tạo: </b>
-            {formViewData.trProgramName}
+            Tên chương trình đào tạo: <b>{formViewData.trainingProgramName}</b>
           </div>
         </div>
         <div>
-          <b>Sĩ số: </b>
-          {formViewData.size}
+          Sĩ số: <b>{formViewData.classSize}</b>
         </div>
       </div>
       <TableNoActions />
