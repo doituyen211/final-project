@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import TableComponents from "./TableComponent";
 import PagingComponent from "./PagingComponent";
 import ModalComponent from "./ModalComponent";
-import { Button } from "react-bootstrap";
+import { Button,Spinner } from "react-bootstrap";
 import axios from "axios";
-import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 
 const ReservationComponent = () => {
   const [keyword, setKeyword] = useState("");
@@ -96,10 +95,10 @@ const ReservationComponent = () => {
     setKeyword(term);
 
     if (term) {
-      // Filter dataTable based on the id_hoc_vien field
+      // Filter dataTable based on the student_id field
       const filtered = dataTable.filter((item) => {
-        const itemIdHocVien = item.id_hoc_vien
-          ? item.id_hoc_vien.toString()
+        const itemIdHocVien = item.student_id
+          ? item.student_id.toString()
           : ""; // Convert to string if not null
         return itemIdHocVien.toLowerCase().includes(term);
       });
