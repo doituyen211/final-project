@@ -4,6 +4,8 @@ import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
 import org.green.education.form.GradeForm;
 import org.springframework.stereotype.Service;
+import org.green.core.model.CoreResponse;
+
 
 import java.util.List;
 
@@ -12,11 +14,17 @@ public interface IGradeService {
 
     Grade getGradeById(int id);
 
-    GradeForm addGrade(GradeForm gradeForm);
+//    GradeForm addGrade(GradeForm gradeForm);
+//
+//    GradeForm updateGrade(int id, GradeForm newGrade);
+//
+//    void deleteGrade(int id);
+//
+//    List<GradeDTO> getStudentGrade();
 
-    GradeForm updateGrade(int id, GradeForm newGrade);
+    CoreResponse<?> getAllGrade();
+    CoreResponse<?> addingGrade(GradeForm gradeForm);
+    CoreResponse<?> updatingGrade(int id, GradeForm gradeForm);
+    CoreResponse<?> deletingGrade(int id);
 
-    void deleteGrade(int id);
-
-    List<GradeDTO> getStudentGrade();
 }
