@@ -5,17 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "exam_schedule")
-public class   ExamSchedule {
+public class ExamSchedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exam_schedule_id_gen")
-    @SequenceGenerator(name = "exam_schedule_id_gen", sequenceName = "Exam_Schedule_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,9 +27,11 @@ public class   ExamSchedule {
     private Class classField;
 
     @Column(name = "exam_date")
-    private Date examDate;
+    private LocalDate examDate;
 
     @Column(name = "exam_link", length = Integer.MAX_VALUE)
     private String examLink;
 
+    @Column(name = "status")
+    private Boolean status;
 }

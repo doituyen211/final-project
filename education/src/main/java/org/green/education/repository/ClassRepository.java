@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -16,4 +17,5 @@ public interface ClassRepository extends JpaRepository<Class, Integer>, JpaSpeci
             "FROM ClassMember cm JOIN student s ON cm.student.id = s.id " +
             "WHERE cm.mclass.id = ?1")
     List<ClassMemberDTO> getListStudentByClassId(Integer classId);
+    Optional<Class> findByClassName(String className);
 }
