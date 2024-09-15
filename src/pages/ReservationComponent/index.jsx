@@ -16,10 +16,10 @@ const ReservationComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Set the number of items per page
 
-  const apiCreate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
-  const apiDelete = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
-  const apiView = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
-  const apiUpdate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
+  const apiCreate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const apiDelete = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const apiView = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const apiUpdate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
 
   const formFieldsProp = [
     {
