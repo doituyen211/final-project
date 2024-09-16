@@ -1,5 +1,6 @@
 package org.green.education.controller;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.ExamScheduleDTO;
 import org.green.education.service.IExamScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,36 +22,93 @@ public class ExamScheduleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ExamScheduleDTO>> getAllExamSchedule(){
+    public ResponseEntity<CoreResponse<List<ExamScheduleDTO>>> getAllExamSchedule(){
         List<ExamScheduleDTO> examSchedules = examScheduleService.getExamSchedule();
-        return new ResponseEntity<>(examSchedules, HttpStatus.OK);
+        if (examSchedules == null) {
+            CoreResponse<List<ExamScheduleDTO>> response = CoreResponse.<List<ExamScheduleDTO>>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Exam schedule null")
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        CoreResponse<List<ExamScheduleDTO>> response = CoreResponse.<List<ExamScheduleDTO>>builder()
+                .code(HttpStatus.OK.value())
+                .message("Fetched all exam schedules successfully")
+                .data(examSchedules)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/showdetail/{id}")
+    public ResponseEntity<CoreResponse<ExamScheduleDTO>> getExamScheduleById(@PathVariable("id") Integer id){
+        ExamScheduleDTO examScheduleDTO = examScheduleService.findExamScheduleById(id);
+        if (examScheduleDTO == null) {
+            CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Exam schedule not found")
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                .code(HttpStatus.OK.value())
+                .message("Fetched exam schedules successfullly")
+                .data(examScheduleDTO)
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @PostMapping("/createExamSchedule")
-    public ResponseEntity<ExamScheduleDTO> createExamSchedule(@RequestBody ExamScheduleDTO examScheduleDTO){
+    public ResponseEntity<CoreResponse<ExamScheduleDTO>> createExamSchedule(@RequestBody ExamScheduleDTO examScheduleDTO){
         ExamScheduleDTO createdExamSchedule = examScheduleService.addExamSchedule(examScheduleDTO);
-        return new ResponseEntity<>(createdExamSchedule,HttpStatus.CREATED);
+        CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                .code(HttpStatus.OK.value())
+                .message("Created exam schedules successfully")
+                .data(createdExamSchedule)
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @PutMapping("/updateExamSchedule/{id}")
-    public ResponseEntity<ExamScheduleDTO> updateExamSchedule(@PathVariable Integer id, @RequestBody ExamScheduleDTO examScheduleDTO){
+    public ResponseEntity<CoreResponse<ExamScheduleDTO>> updateExamSchedule(@PathVariable Integer id, @RequestBody ExamScheduleDTO examScheduleDTO){
         examScheduleDTO.setId(id);
         try {
             ExamScheduleDTO updatedExamSchedule = examScheduleService.updateExamSchedule(examScheduleDTO);
-            return new ResponseEntity<>(updatedExamSchedule,HttpStatus.OK);
+            CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Exam schedule updated successfully")
+                    .data(updatedExamSchedule)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Exam schedule not found")
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/deleteExamSchedule/{id}")
-    public ResponseEntity<ExamScheduleDTO> deleteExamSchedule(@PathVariable Integer id,@RequestBody ExamScheduleDTO examScheduleDTO){
+    public ResponseEntity<CoreResponse<ExamScheduleDTO>> deleteExamSchedule(@PathVariable Integer id,@RequestBody ExamScheduleDTO examScheduleDTO){
         examScheduleDTO.setId(id);
         try {
             ExamScheduleDTO deletedExamSchedule = examScheduleService.deleteExamSchedule(examScheduleDTO);
-            return new ResponseEntity<>(deletedExamSchedule,HttpStatus.OK);
+            CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Exam schedule deleted successfully")
+                    .data(deletedExamSchedule)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Exam schedule not found")
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 }

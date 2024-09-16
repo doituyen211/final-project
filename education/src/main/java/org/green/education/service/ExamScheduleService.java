@@ -50,6 +50,26 @@ public class ExamScheduleService implements IExamScheduleService {
     }
 
     @Override
+    public ExamScheduleDTO findExamScheduleById(Integer id) {
+        Optional<ExamSchedule> examScheduleOptional = examScheduleRepository.findById(id);
+        if (examScheduleOptional.isPresent()){
+            ExamSchedule examSchedule = examScheduleOptional.get();
+            return ExamScheduleDTO.builder()
+                    .id(examSchedule.getId())
+                    .examLink(examSchedule.getExamLink())
+                    .subject(examSchedule.getSubject().getSubjectName())
+                    .classField(examSchedule.getClassField().getClassName())
+                    .examDate(examSchedule.getExamDate())
+                    .status(examSchedule.getStatus())
+                    .build();
+        }
+        else {
+            throw new RuntimeException("ExamSchedule với ID không tồn tại");
+        }
+
+    }
+
+    @Override
     public ExamScheduleDTO addExamSchedule(ExamScheduleDTO examScheduleDTO) {
         Optional<Subject> subjectOptional = subjectRepository.findSubjectBySubjectName(examScheduleDTO.getSubject());
         Optional<Class> classOptional = classRepository.findByClassName(examScheduleDTO.getClassField());
@@ -117,7 +137,7 @@ public class ExamScheduleService implements IExamScheduleService {
         Optional<ExamSchedule> examScheduleOptional = examScheduleRepository.findById(examScheduleDTO.getId());
         if (examScheduleOptional.isPresent()) {
             ExamSchedule examSchedule = examScheduleOptional.get();
-            examSchedule.setStatus(true);
+            examSchedule.setStatus(examScheduleDTO.getStatus());
 
             ExamSchedule updatedExamSchedule = examScheduleRepository.save(examSchedule);
             return ExamScheduleDTO.builder()
