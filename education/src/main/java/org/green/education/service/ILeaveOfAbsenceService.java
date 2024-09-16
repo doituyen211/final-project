@@ -1,22 +1,19 @@
 package org.green.education.service;
 
-import org.green.education.dto.LeaveOfAbsenceDTO;
+import org.green.core.model.CoreResponse;
 import org.green.education.entity.LeaveOfAbsence;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public interface ILeaveOfAbsenceService {
-
-    Optional<LeaveOfAbsence> findById(int id);
-
-    LeaveOfAbsence save(LeaveOfAbsence leaveOfAbsence);
-
-    void  deleteById (int id);
-
-    LeaveOfAbsence updateLeaveOfAbsence(int id, LeaveOfAbsence leaveOfAbsence);
-
-    LeaveOfAbsence findByStudentId(int studentId);
+    CoreResponse<LeaveOfAbsence> findById(int id);
+    CoreResponse<LeaveOfAbsence> save(LeaveOfAbsence leaveOfAbsence);
+    CoreResponse<Void> deleteById(int id);
+    CoreResponse<LeaveOfAbsence> updateLeaveOfAbsence(int id, LeaveOfAbsence leaveOfAbsence);
+    CoreResponse<LeaveOfAbsence> findByStudentId(int studentId);
+    CoreResponse<Page<LeaveOfAbsence>> getAllLeaveOfAbsence(Pageable pageable);
 }

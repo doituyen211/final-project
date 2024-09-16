@@ -3,6 +3,8 @@ package org.green.education.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Entity
 @Data
@@ -24,4 +26,8 @@ public class Subject {
     @OneToOne
     @JoinColumn(name = "subject_id")
     private LeaveOfAbsence leaveOfAbsence;
+
+    @OneToMany(mappedBy = "subject")
+    private List<Attendance> attendanceList;
+
 }
