@@ -92,11 +92,13 @@ export default function DropSearch({ data, onSearch }) {
           </div>
         </div>
       </CardBody>
-      <CardFooter>
-        <Button onClick={handleSearch}>Search</Button>
+      <CardFooter className="container">
+        <Button className="col-sm" onClick={handleSearch}>
+          Search
+        </Button>
         <Button
           onClick={cancelSelect}
-          className="text-body-secondary bg-body-secondary border border-0"
+          className="col-sm text-body-secondary bg-body-secondary border border-0"
         >
           Cancel
         </Button>

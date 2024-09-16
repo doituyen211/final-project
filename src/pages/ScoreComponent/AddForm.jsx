@@ -68,7 +68,6 @@ export default function AddForm({
 
   const handleChangeGrade = (e) => {
     const { value } = e.target;
-
     const regex = /^[0-9]*$/;
 
     if (regex.test(value)) {
@@ -77,7 +76,6 @@ export default function AddForm({
         setValue(value);
       }
     }
-
     setFormData((prevData) => ({
       ...prevData,
       grade: value,

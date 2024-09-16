@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardHeader } from "react-bootstrap";
+import { Card, CardBody, CardHeader, Button } from "react-bootstrap";
 import { Space, Table, Tag } from "antd";
 import DropSearch from "./DropSearch";
 import AddForm from "./AddForm";
@@ -106,7 +106,6 @@ export default function ScoreComponent() {
         })
         .catch((err) => {
           console.error("Error details:", err.response?.data || err.message);
-
           toast.error(
             `Failed to update the record. ${err.message}. Please try again.`
           );
@@ -175,7 +174,17 @@ export default function ScoreComponent() {
       key: "studenName",
     },
     {
-      title: "Grade",
+      title: "Grade 1st",
+      dataIndex: "grade",
+      key: "grade",
+    },
+    {
+      title: "Grade 2nd",
+      dataIndex: "grade",
+      key: "grade",
+    },
+    {
+      title: "Grade 3th",
       dataIndex: "grade",
       key: "grade",
     },
@@ -212,12 +221,12 @@ export default function ScoreComponent() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <button onClick={() => handleShowUpdateForm(record)}>
+          <Button variant="white" onClick={() => handleShowUpdateForm(record)}>
             <BsPencil className="text-primary"></BsPencil>
-          </button>
-          <button onClick={() => handleDelete(record.id)}>
+          </Button>
+          <Button variant="white" onClick={() => handleDelete(record.id)}>
             <BsTrash className="text-danger"></BsTrash>
-          </button>
+          </Button>
         </Space>
       ),
     },
@@ -240,14 +249,14 @@ export default function ScoreComponent() {
       </CardHeader>
       <CardBody className="d-flex justify-content-center">
         <div className="container-fluid fullscreen">
-          <button className="m-2" onClick={() => handleShowAddForm(gradeData)}>
+          <Button variant="white" onClick={() => handleShowAddForm(gradeData)}>
             <BsPlus className="text-success"></BsPlus>
-          </button>
+          </Button>
           <div className="row">
-            <div className="col-3">
+            <div className="col-2">
               <DropSearch data={gradeData} onSearch={handleSearch} />
             </div>
-            <div className="col-9">
+            <div className="col-10">
               <TableSearchResult
                 data={gradeData}
                 showUpdateForm={handleShowUpdateForm}
