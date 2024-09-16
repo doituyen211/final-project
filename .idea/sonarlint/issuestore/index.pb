@@ -112,3 +112,5 @@ Neducation/src/main/java/org/green/education/repository/IStudentRepository.java
 Teducation/src/main/java/org/green/education/specification/CustomerSpecification.java,d/d/dd7b2f09237bb065901288478711a19c2e01eedb
 x
 Heducation/src/main/java/org/green/education/form/CustomerFilterForm.java,d/8/d8f0c8f42cf7a056a2a75ed552939d11735b67ad
+u
+Eeducation/src/main/java/org/green/education/entity/StudentStatus.java,c/9/c9478d0327db1f41fbfd69b0b09a74a0060932e7
