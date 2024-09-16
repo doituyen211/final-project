@@ -3,7 +3,7 @@ import jakarta.validation.Valid;
 import org.green.core.model.CoreResponse;
 import org.green.education.form.TrainingProgramForm;
 public interface ITrainingProgramService {
-    CoreResponse<?> getAllTrainingPrograms(int page, int limit);
+    CoreResponse<?> getAllTrainingPrograms(String searchText, int page, int limit);
 
     CoreResponse<?> getClassesByTrainingProgramId(int trainingProgramId, int page, int limit);
 
@@ -16,4 +16,7 @@ public interface ITrainingProgramService {
     CoreResponse<?> deleteTrainingProgram(int trainingProgramId);
 
     CoreResponse<?> getAllTrainingPrograms();
+
+//    CoreResponse<?> searchTrainingProgram(String searchText, int page, int limit);
+
 }

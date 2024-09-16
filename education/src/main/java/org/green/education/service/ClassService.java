@@ -12,12 +12,15 @@ import org.green.education.response.ClassListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassService implements IClassService {
@@ -27,19 +30,39 @@ public class ClassService implements IClassService {
     @Autowired
     ITrainingProgramRepository trainingProgramRepository;
 
+    // If id invalid in DB then use try catch to handle exception
     @Override
     public CoreResponse<?> getClassById(int classId) {
         try {
-            Class presentClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+            Class presentClass = classRepository.findById(classId)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+
+            ClassDTO classDTO = ClassDTO.builder()
+                    .id(presentClass.getId())
+                    .className(presentClass.getClassName())
+                    .classSize(presentClass.getClassSize())
+                    .startDate(presentClass.getStartDate())
+                    .endDate(presentClass.getEndDate())
+                    .trainingProgramName(presentClass.getProgram().getProgramName())
+                    .build();
+
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Get class successfully")
-                    .data(presentClass)
+                    .data(classDTO)
                     .build();
+
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+
         } catch (Exception e) {
             return CoreResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
                     .data(null)
                     .build();
         }
@@ -47,56 +70,74 @@ public class ClassService implements IClassService {
     }
 
     @Override
-    public CoreResponse<?> getClassList(int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+    public CoreResponse<?> getClassList() {
+        try {
+            List<Class> classList = classRepository.findAll();
 
-        Page<Class> classList = classRepository.findAll(pageRequest);
+            List<ClassDTO> classDTOList = classList.stream()
+                    .map(item -> ClassDTO.builder()
+                            .id(item.getId())
+                            .className(item.getClassName())
+                            .classSize(item.getClassSize())
+                            .startDate(item.getStartDate())
+                            .endDate(item.getEndDate())
+                            .trainingProgramName(item.getProgram().getProgramName())
+                            .build())
+                    .sorted(Comparator.comparing(ClassDTO::getId))
+                    .collect(Collectors.toList());
 
-        Page<ClassDTO> classDTOList = classList.map(item -> ClassDTO.builder()
-                .className(item.getClassName())
-                .classSize(item.getClassSize())
-                .startDate(item.getStartDate())
-                .endDate(item.getEndDate())
-                .trainingProgramName(item.getProgram().getProgramName())
-                .build());
+            String message = classDTOList.isEmpty() ? "Empty list" : "Get list successfully";
 
-        ClassListResponse classListResponse = ClassListResponse.builder()
-                .data(classDTOList.getContent())
-                .totalPages(classDTOList.getTotalPages())
-                .build();
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message(message)
+                    .data(classDTOList)
+                    .build();
 
-        String message = classDTOList.getContent().isEmpty() ? "Empty list" : "Get list successfully";
-
-        return CoreResponse.builder()
-                .code(HttpStatus.OK.value()).message(message)
-                .data(classListResponse)
-                .build();
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+        }
     }
 
+    // If id invalid in DB then use try catch to handle exception
     @Override
-    public CoreResponse<?> getStudentByClassId(int classId, int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").descending());
+    public CoreResponse<?> getStudentByClassId(int classId) {
+        try {
+            List<ClassMemberDTO> classMemberDTO = classRepository.getListStudentByClassId(classId);
 
-        Page<ClassMemberDTO> classMemberDTO = classRepository.getListStudentByClassId(classId, pageRequest);
+            String message = classMemberDTO.isEmpty() ? "Empty list" : "Get list successfully";
 
-        ClassListResponse classListResponse = ClassListResponse.builder()
-                .data(classMemberDTO.getContent())
-                .totalPages(classMemberDTO.getTotalPages())
-                .build();
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message(message)
+                    .data(classMemberDTO)
+                    .build();
 
-        String message = classMemberDTO.getContent().isEmpty() ? "Empty list" : "Get list successfully";
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
 
-        return CoreResponse.builder()
-                .code(HttpStatus.OK.value())
-                .message(message)
-                .data(classListResponse)
-                .build();
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
+                    .build();
+        }
     }
 
     @Override
     public CoreResponse<?> createClass(ClassForm classForm) {
         try {
-            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId()).orElseThrow(() -> new Exception("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
+            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
+                    .orElseThrow(() -> new Exception("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
 
             Class newClass = new Class();
             newClass.setClassName(classForm.getClassName());
@@ -113,11 +154,18 @@ public class ClassService implements IClassService {
                     .data(classForm)
                     .build();
 
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+
         } catch (Exception e) {
             return CoreResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .data(classForm)
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
                     .build();
         }
     }
@@ -125,9 +173,11 @@ public class ClassService implements IClassService {
     @Override
     public CoreResponse<?> editClass(int classId, ClassForm classForm) {
         try {
-            Class presentClass = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
+            Class presentClass = classRepository.findById(classId)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học nào với id " + classId));
 
-            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId()).orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
+            TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
 
             presentClass.setProgram(trainingProgram);
             presentClass.setClassName(classForm.getClassName());
@@ -143,15 +193,104 @@ public class ClassService implements IClassService {
                     .data(classForm)
                     .build();
 
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+
         } catch (Exception e) {
             return CoreResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .data(classForm)
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
                     .build();
         }
 
     }
 
+    @Override
+    public CoreResponse<?> findByClassNameContainingIgnoreCase(String className) {
+        try {
+            List<Class> classList = classRepository.findByClassNameContainingIgnoreCase(className);
+
+            List<ClassDTO> classDTOS = classList.stream()
+                    .map(item -> ClassDTO.builder()
+                            .id(item.getId())
+                            .className(item.getClassName())
+                            .classSize(item.getClassSize())
+                            .startDate(item.getStartDate())
+                            .endDate(item.getEndDate())
+                            .trainingProgramName(item.getProgram().getProgramName())
+                            .build())
+                    .sorted(Comparator.comparing(ClassDTO::getId))
+                    .collect(Collectors.toList());
+
+            String message = classDTOS.isEmpty()
+                    ? "Empty list" : "Get list successfully";
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message(message)
+                    .data(classDTOS)
+                    .build();
+
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate) {
+        try {
+            List<Class> classList = classRepository.findByStartDateAndEndDate(startDate, endDate);
+
+            List<ClassDTO> classDTOS = classList.stream()
+                    .map(item -> ClassDTO.builder()
+                            .id(item.getId())
+                            .className(item.getClassName())
+                            .classSize(item.getClassSize())
+                            .startDate(item.getStartDate())
+                            .endDate(item.getEndDate())
+                            .trainingProgramName(item.getProgram().getProgramName())
+                            .build())
+                    .sorted(Comparator.comparing(ClassDTO::getId))
+                    .collect(Collectors.toList());
+
+            String message = classDTOS.isEmpty() ? "Empty list" : "Search successfully";
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message(message)
+                    .data(classDTOS)
+                    .build();
+
+        } catch (RuntimeException e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
+                    .data(null)
+                    .build();
+
+        } catch (Exception e) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An unexpected error occurred")
+                    .data(null)
+                    .build();
+        }
+    }
 }
 
