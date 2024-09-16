@@ -1,25 +1,34 @@
 package org.green.education.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@Table(name = "class_member")
-
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "class_member" )
 public class ClassMembers {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer Id ;
+    private Integer id;
 
-    @Column
-    private Integer studentId ;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
-    @Column
-    private Integer classId ;
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Class mclass;
 
-    @Column
-    private String status ;
+    private String status;
 
+//    @ManyToOne
+//    @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_student_id"))
+//    private Student student;
+
+//    @ManyToOne
+//    private Class class;
 }
