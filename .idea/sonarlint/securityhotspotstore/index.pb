@@ -114,3 +114,5 @@ x
 Heducation/src/main/java/org/green/education/form/CustomerFilterForm.java,d/8/d8f0c8f42cf7a056a2a75ed552939d11735b67ad
 u
 Eeducation/src/main/java/org/green/education/entity/StudentStatus.java,c/9/c9478d0327db1f41fbfd69b0b09a74a0060932e7
+o
+?education/src/main/java/org/green/education/entity/Tuition.java,9/3/9382ed998f55a9112df21f25dc0ec71379b8a6b9
