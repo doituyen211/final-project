@@ -13,11 +13,23 @@ public class GradeController {
     @Autowired
     private GradeService iGradeService;
 
+//    có thể thay thế hàm bên dưới bằng cách hiển thị điểm trung bình và
+//    deploy thêm nút xem, sau khi ấn nút xem một Modal sẽ hiển thị và
+//    chứa điểm lần 1,2,3
+//    @GetMapping()
+//    public CoreResponse<?> getGradeByExamDate() {
+//        return iGradeService.getGradeByExamDate()
+//    }
+
+    @GetMapping("/grade-by-examdate/{studentId}")
+    public CoreResponse<?> getGradeByExamDate(@PathVariable Integer studentId) {
+        return iGradeService.getGradeByExamDate(studentId);
+    }
+
     @GetMapping
     public CoreResponse<?> getAllGrade() {
         return iGradeService.getAllGrade();
     }
-
 
     @PostMapping("/add-score")
     public CoreResponse<?> addGrade(@RequestBody GradeForm gradeForm) {
