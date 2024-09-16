@@ -176,7 +176,7 @@ export default function UpdateForm({
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-3 d-flex flex-column">
             <label className="form-label">Grade:</label>
             <input
               type="number"

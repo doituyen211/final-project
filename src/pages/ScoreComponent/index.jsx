@@ -38,7 +38,7 @@ export default function ScoreComponent() {
   const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
   const apiStudent = "http://localhost:9001/student";
   const apiSubject = "http://localhost:9001/api/v1/subjects/find-all";
-  // const apiExamSche = ""
+  const apiExamschedule = "http://localhost:9001/api/v1/examschedules";
 
   React.useEffect(() => {
     fetchData();
@@ -313,7 +313,12 @@ function TableSearchResult({ data, result, onSearch, setOnSearch, columns }) {
     <div className="container-fluid fullscreen">
       <Card>
         <CardBody>
-          <Table columns={columns} dataSource={displayData} rowKey="id" />
+          <Table
+            columns={columns}
+            dataSource={displayData}
+            rowKey="id"
+            bordered
+          />
         </CardBody>
       </Card>
     </div>
