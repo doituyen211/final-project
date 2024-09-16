@@ -33,8 +33,12 @@ public class CustomerDto {
     @JsonProperty("source")
     private String source ;
 
+    private Integer campaignId;
+
     @JsonProperty("address")
     private String address ;
+
+    private String facebookLink;
 
     @JsonProperty("note")
     private String note ;
