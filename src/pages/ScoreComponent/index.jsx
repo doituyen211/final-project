@@ -164,11 +164,11 @@ export default function ScoreComponent() {
   };
 
   const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       title: "Student Name",
       dataIndex: "studenName",
