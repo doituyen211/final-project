@@ -1,5 +1,6 @@
 package org.green.education.service;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.SubjectDto;
 import org.green.education.entity.Subject;
 import org.green.education.entity.TrainingProgram;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +48,24 @@ public class SubjectService implements ISubjectService {
         subjectRepository.save(subject);
 
         return ResponseEntity.ok("Add successful!");
+    }
+
+
+    @Override
+    public CoreResponse<?> findAllNotPaging() {
+        List<Subject> subjects = subjectRepository.findAll(Sort.by(Sort.Direction.ASC, "subjectId"));
+
+        List<SubjectDto> subjectDtos = subjects.stream().map(subject -> {
+            SubjectDto subjectDto = mapper.map(subject, SubjectDto.class);
+            subjectDto.setTrainingProgramId(subject.getTrainingProgram().getProgramId());
+            return subjectDto;
+        }).toList();
+
+        return CoreResponse.builder()
+                .code(200)
+                .message("Subjects retrieved successfully")
+                .data(subjectDtos)
+                .build();
     }
 
     @Override

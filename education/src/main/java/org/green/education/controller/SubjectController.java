@@ -1,5 +1,6 @@
 package org.green.education.controller;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.SubjectDto;
 import org.green.education.form.SubjectFilterForm;
 import org.green.education.service.ISubjectService;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/subjects")
 public class SubjectController {
     @Autowired
@@ -27,6 +27,12 @@ public class SubjectController {
             @RequestParam(value = "sortBy", defaultValue = "subjectId", required = false) String sortBy
     ) {
         return subjectService.findALL(form,page,pageSize, sortDir, sortBy) ;
+    }
+
+    @GetMapping("find-all")
+    public CoreResponse<?> findAllNotPaging(
+    ) {
+        return subjectService.findAllNotPaging() ;
     }
 
     @GetMapping("/{id}")

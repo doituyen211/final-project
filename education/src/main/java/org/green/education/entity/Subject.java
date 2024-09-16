@@ -2,12 +2,13 @@ package org.green.education.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.green.education.dto.SubjectDto;
+
+import java.util.List;
 
 
 @Entity
 @Data
-public class Subject{
+public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer subjectId;
@@ -20,5 +21,13 @@ public class Subject{
 
     @ManyToOne
     @JoinColumn(name = "training_program_id")
-    private TrainingProgram trainingProgram;
+    private TrainingProgram trainingProgram ;
+
+    @OneToOne
+    @JoinColumn(name = "subject_id")
+    private LeaveOfAbsence leaveOfAbsence;
+
+    @OneToMany(mappedBy = "subject")
+    private List<Attendance> attendanceList;
+
 }

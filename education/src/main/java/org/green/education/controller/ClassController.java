@@ -1,31 +1,77 @@
 package org.green.education.controller;
 
+import jakarta.validation.Valid;
+import org.green.core.model.CoreResponse;
 import org.green.education.form.ClassForm;
 import org.green.education.service.IClassService;
+import org.green.education.validation.ValidationErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
-@RequestMapping("/class")
+@RequestMapping("api/v1/classes")
 public class ClassController {
     @Autowired
     IClassService iClassService;
 
-    @GetMapping("")
-    public ResponseEntity<?> getClassList() {
-        return new ResponseEntity<>(iClassService.getClassList(), HttpStatus.OK);
+    @GetMapping("/{classId}")
+    public CoreResponse<?> getClassById(@PathVariable int classId) {
+        return iClassService.getClassById(classId);
     }
 
-    @GetMapping("/getListStudentByClassId/{classId}")
-    public ResponseEntity<?> getListStudentByClassId(@PathVariable int classId) {
-        return new ResponseEntity<>(iClassService.getStudentByClassId(classId), HttpStatus.OK);
+    @GetMapping("")
+    public CoreResponse<?> getClassList() {
+        return iClassService.getClassList();
+    }
+
+    @GetMapping("/classMember/{classId}")
+    public CoreResponse<?> getStudentByClassId(
+            @PathVariable int classId) {
+        return iClassService.getStudentByClassId(classId);
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createClass(@RequestBody ClassForm classForm) {
-        return new ResponseEntity<>(iClassService.createClass(classForm), HttpStatus.OK);
+    public CoreResponse<?> createClass(
+            @Valid @RequestBody ClassForm classForm,
+            BindingResult result) {
+        CoreResponse<?> response = ValidationErrorHandler.handleValidationErrors(result);
+
+        if (response == null) {
+            return iClassService.createClass(classForm);
+        }
+
+        return response;
     }
+
+    @PutMapping("/{classId}")
+    public CoreResponse<?> editClass(
+            @PathVariable int classId,
+            @Valid @RequestBody ClassForm classForm,
+            BindingResult result) {
+        CoreResponse<?> response = ValidationErrorHandler.handleValidationErrors(result);
+
+        if (response == null) {
+            return iClassService.editClass(classId, classForm);
+        }
+
+        return response;
+    }
+
+    @GetMapping("/searchByClassName")
+    public CoreResponse<?> findByClassNameContainingIgnoreCase(
+            @RequestParam String className) {
+        return iClassService.findByClassNameContainingIgnoreCase(className);
+    }
+
+    @GetMapping("/searchByDate")
+    public CoreResponse<?> findByStartDateAndEndDate(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
+        return iClassService.findByStartDateAndEndDate(startDate, endDate);
+    }
+
 
 }
