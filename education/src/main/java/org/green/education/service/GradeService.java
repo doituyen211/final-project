@@ -153,11 +153,29 @@ public class GradeService implements IGradeService {
 
     @Override
     public CoreResponse<?> getGradeByExamDate(int studentId) {
-        List<Grade> grades = iGradeRepository.findByStudent_IdOrderByExamSchedule_ExamDateAsc(studentId);
-        Map<String, Object> result = new HashMap<>();
-        int totalGrades = grades.size();
-        double averageGrade = 0.0;
         try {
+
+            List<Grade> grades = iGradeRepository.findByStudent_IdOrderByExamSchedule_ExamDateAsc(studentId);
+            Map<String, Object> result = new HashMap<>();
+            int totalGrades = grades.size();
+            double averageGrade = 0.0;
+
+            List<GradeDTO> gradeDTOList = new ArrayList<>();
+            List<Grade> gradeList = iGradeRepository.findAll();
+            for (Grade grade : gradeList) {
+                GradeDTO gradeDTO = GradeDTO.builder()
+                        .id(grade.getId())
+                        .studenName(grade.getStudent().getFullName())
+                        .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
+                        .grade(grade.getGrade())
+                        .status(grade.getStatus())
+                        .examDate(grade.getExamSchedule().getExamDate())
+                        .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
+                        .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
+                        .build();
+                gradeDTOList.add(gradeDTO);
+            }
+
             for (int i = 0; i < totalGrades; i++) {
                 Grade grade = grades.get(i);
                 averageGrade += grade.getGrade();
