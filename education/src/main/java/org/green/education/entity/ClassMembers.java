@@ -11,12 +11,12 @@ public class ClassMembers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer Id ;
+    private  Integer id ;
 
-    @Column
+    @Column(name = "student_id")
     private Integer studentId ;
 
-    @Column
+    @Column(name = "class_id")
     private Integer classId ;
 
     @Column
