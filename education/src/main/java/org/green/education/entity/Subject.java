@@ -23,8 +23,7 @@ public class Subject {
     @JoinColumn(name = "training_program_id")
     private TrainingProgram trainingProgram ;
 
-    @OneToOne
-    @JoinColumn(name = "subject_id")
+    @OneToOne(mappedBy = "subject")
     private LeaveOfAbsence leaveOfAbsence;
 
     @OneToMany(mappedBy = "subject")
