@@ -73,7 +73,6 @@ public class ClassService implements IClassService {
     public CoreResponse<?> getClassList() {
         try {
             List<Class> classList = classRepository.findAll();
-
             List<ClassDTO> classDTOList = classList.stream()
                     .map(item -> ClassDTO.builder()
                             .id(item.getId())
@@ -82,6 +81,7 @@ public class ClassService implements IClassService {
                             .startDate(item.getStartDate())
                             .endDate(item.getEndDate())
                             .trainingProgramName(item.getProgram().getProgramName())
+                            .status(item.isStatus())
                             .build())
                     .sorted(Comparator.comparing(ClassDTO::getId))
                     .collect(Collectors.toList());
@@ -91,7 +91,7 @@ public class ClassService implements IClassService {
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message(message)
-                    .data(classList)
+                    .data(classDTOList)
                     .build();
 
         } catch (Exception e) {

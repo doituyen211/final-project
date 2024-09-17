@@ -18,4 +18,5 @@ public class ClassDTO {
     private int classSize;
     private LocalDate startDate;
     private LocalDate endDate;
+    private boolean status;
 }

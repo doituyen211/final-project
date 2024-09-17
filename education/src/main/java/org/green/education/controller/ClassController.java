@@ -17,7 +17,7 @@ public class ClassController {
     @Autowired
     IClassService iClassService;
 
-    @GetMapping("")
+    @GetMapping
     public CoreResponse<?> getClassList(
             @RequestParam(required = false) String className,
             @RequestParam(required = false) LocalDate startDate,
