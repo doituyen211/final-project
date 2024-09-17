@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const FormComponent = ({ fields }) => {
+const FormComponent = ({ fields, onFormSubmit, isEditing, onEditClick }) => {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field.name] = field.value || "";
@@ -8,7 +8,14 @@ const FormComponent = ({ fields }) => {
     }, {})
   );
 
-  const [isEditing, setIsEditing] = useState(false);
+  useEffect(() => {
+    setFormData(
+      fields.reduce((acc, field) => {
+        acc[field.name] = field.value || "";
+        return acc;
+      }, {})
+    );
+  }, [fields]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -20,22 +27,22 @@ const FormComponent = ({ fields }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission logic here
-
-    // After saving, exit edit mode
-    setIsEditing(false);
+    if (onFormSubmit) {
+      onFormSubmit(formData);
+      onEditClick(false); // Exit edit mode after form submission
+    }
   };
 
   const handleCancel = () => {
-    // Reset form data to initial values and exit edit mode
     setFormData(
       fields.reduce((acc, field) => {
         acc[field.name] = field.value || "";
         return acc;
       }, {})
     );
-    setIsEditing(false);
+    if (onEditClick) {
+      onEditClick(false); // Exit edit mode on cancel
+    }
   };
 
   return (
@@ -43,43 +50,15 @@ const FormComponent = ({ fields }) => {
       {fields.map((field, index) => (
         <div key={index} className="form-group">
           <label>{field.label}</label>
-          {field.type === "text" && (
-            <input
-              type="text"
-              name={field.name}
-              value={formData[field.name]}
-              onChange={handleChange}
-              placeholder={field.placeholder}
-              readOnly={!isEditing || field.name === "ma_hoc_vien" || field.name === "Id_ctdd"} // Make these fields readOnly
-              className="form-control"
-            />
-          )}
-          {field.type === "date" && (
-            <input
-              type="date"
-              name={field.name}
-              value={formData[field.name]}
-              onChange={handleChange}
-              readOnly={!isEditing}
-              className="form-control"
-            />
-          )}
-          {field.type === "checkbox_group" && (
-            <div>
-              {field.options.map((option, idx) => (
-                <label key={idx} className="mr-3">
-                  <input
-                    type="checkbox"
-                    name={option.value}
-                    checked={formData[option.value] || false}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  {option.label}
-                </label>
-              ))}
-            </div>
-          )}
+          <input
+            type={field.type}
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleChange}
+            placeholder={field.placeholder}
+            readOnly={!isEditing || field.name === "ma_hoc_vien" || field.name === "Id_ctdd"}
+            className="form-control"
+          />
         </div>
       ))}
 
@@ -100,7 +79,7 @@ const FormComponent = ({ fields }) => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => setIsEditing(true)}
+          onClick={() => onEditClick(true)}
         >
           Chỉnh sửa
         </button>
@@ -110,3 +89,4 @@ const FormComponent = ({ fields }) => {
 };
 
 export default FormComponent;
+

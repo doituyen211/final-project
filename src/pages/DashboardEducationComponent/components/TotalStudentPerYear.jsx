@@ -9,11 +9,11 @@ import {
 } from "chart.js";
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { backgroundColor, borderColor } from "../constants";
+import { useGetQuantityPerYear } from "../hooks";
 import ChartHeader from "./ChartHeader";
 import ChartLayout from "./ChartLayout";
-import ToolComponent from "./ToolComponent";
-import { backgroundColor, borderColor } from "../constants";
-import { useGetGraduateClasses } from "../hooks";
+import RadioComponent from "./RadioComponent";
 
 ChartJS.register(
   CategoryScale,
@@ -24,18 +24,19 @@ ChartJS.register(
   Legend
 );
 
-const GraduateClassesPerYearChart = () => {
-  const { labels, totalGraduateClasses } = useGetGraduateClasses();
-  const [value, setValue] = useState("basic");
+const TotalStudentPerYear = () => {
+  const [type, setType] = useState("basic");
 
-  const checkTypeChart = value === "basic";
+  const checkTypeChart = type === "basic";
+
+  const { labels, totalStudentPerYear } = useGetQuantityPerYear();
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "Số lớp tốt nghiệp",
-        data: totalGraduateClasses,
+        label: "Số học viên",
+        data: totalStudentPerYear,
         backgroundColor: backgroundColor,
         borderColor: borderColor,
         borderWidth: 1,
@@ -59,11 +60,11 @@ const GraduateClassesPerYearChart = () => {
 
   return (
     <ChartLayout>
-      <ChartHeader>Thống kê số lượng lớp tốt nghiệp theo năm</ChartHeader>
-      <ToolComponent value={value} setValue={setValue} />
+      <ChartHeader>Số lượng học viên theo từng năm</ChartHeader>
+      <RadioComponent type={type} setType={setType} />
       <Bar data={data} options={options} />
     </ChartLayout>
   );
 };
 
-export default GraduateClassesPerYearChart;
+export default TotalStudentPerYear;

@@ -1,5 +1,4 @@
-import { Modal } from "antd";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "antd";
 import { useDeleteClass } from "../hooks";
 import useClassStore from "../useClassStore";
 
@@ -7,17 +6,18 @@ const ModalDelete = () => {
   const showModalDelete = useClassStore((state) => state.showModalDelete);
   const handleClose = useClassStore((state) => state.handleClose);
   const dataRow = useClassStore((state) => state.dataRow);
-  const { mutation } = useDeleteClass(dataRow.id);
+  const { mutation, isPending } = useDeleteClass(dataRow.id);
 
   return (
     <Modal
       title="Xóa lớp học"
       open={showModalDelete}
       onCancel={handleClose}
+      centered
       footer={
         <>
-          <Button className="btn btn-secondary mr-2">Đóng</Button>
-          <Button className="btn btn-danger" onClick={mutation.mutate}>
+          <Button onClick={handleClose}>Đóng</Button>
+          <Button danger onClick={mutation.mutate} loading={isPending}>
             Xóa
           </Button>
         </>
