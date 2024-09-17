@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GradeService implements IGradeService {
@@ -151,6 +149,7 @@ public class GradeService implements IGradeService {
         }
     }
 
+
     @Override
     public CoreResponse<?> getGradeByExamDate(int studentId) {
         try {
@@ -160,21 +159,8 @@ public class GradeService implements IGradeService {
             int totalGrades = grades.size();
             double averageGrade = 0.0;
 
-            List<GradeDTO> gradeDTOList = new ArrayList<>();
-            List<Grade> gradeList = iGradeRepository.findAll();
-            for (Grade grade : gradeList) {
-                GradeDTO gradeDTO = GradeDTO.builder()
-                        .id(grade.getId())
-                        .studenName(grade.getStudent().getFullName())
-                        .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
-                        .grade(grade.getGrade())
-                        .status(grade.getStatus())
-                        .examDate(grade.getExamSchedule().getExamDate())
-                        .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
-                        .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
-                        .build();
-                gradeDTOList.add(gradeDTO);
-            }
+//            List<GradeDTO> gradeDTOList = new ArrayList<>();
+//            List<Grade> gradeList = iGradeRepository.findAll();
 
             for (int i = 0; i < totalGrades; i++) {
                 Grade grade = grades.get(i);
@@ -191,15 +177,27 @@ public class GradeService implements IGradeService {
 
             // Calculate average
             averageGrade = averageGrade / totalGrades;
-
-            // Set status based on average grade
             String status = (averageGrade >= 50) ? "Passed" : "Failed";
             result.put("Average Grade", averageGrade);
             result.put("Status", status);
+
+            List<GradeDTO> gradeDTOList = grades.stream()
+                    .map(grade -> GradeDTO.builder()
+                            .id(grade.getId())
+                            .studenName(grade.getStudent().getFullName())
+                            .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
+                            .grade(grade.getGrade())
+                            .status(grade.getStatus())
+                            .examDate(grade.getExamSchedule().getExamDate())
+                            .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
+                            .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
+                            .build())
+                    .toList();
+
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Getting Grade By Exam Date Successfully")
-                    .data(result)
+                    .data(Map.of("grades", gradeDTOList, "result", result))
                     .build();
         } catch (Exception exp) {
             return CoreResponse.builder()
