@@ -13,7 +13,6 @@ const ToolsComponent = () => {
         <SearchComponent />
         <TimeComponent />
         <ButtonAddComponent />
-        {/* <div className="d-flex align-items-center"></div> */}
       </div>
       <ModalAdd />
       <ModalView />

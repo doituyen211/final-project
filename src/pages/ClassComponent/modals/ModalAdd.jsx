@@ -1,5 +1,4 @@
-import { DatePicker, Form, Input, Modal, Select } from "antd";
-import { Button } from "react-bootstrap";
+import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import { useAddNewClass, useGetTrainingProgram } from "../hooks";
 import useClassStore from "../useClassStore";
 
@@ -7,7 +6,7 @@ const ModalAdd = () => {
   const [form] = Form.useForm();
   const showModalAdd = useClassStore((state) => state.showModalAdd);
   const handleClose = useClassStore((state) => state.handleClose);
-  const { handleAddNew } = useAddNewClass(form);
+  const { handleAddNew, isPending } = useAddNewClass(form);
   const { data } = useGetTrainingProgram();
 
   const handleCloseAll = () => {
@@ -20,12 +19,11 @@ const ModalAdd = () => {
       title="Thêm mới lớp học"
       open={showModalAdd}
       onCancel={handleCloseAll}
+      centered
       footer={
         <>
-          <Button className="btn btn-secondary mr-2" onClick={handleCloseAll}>
-            Đóng
-          </Button>
-          <Button className="btn btn-success" onClick={handleAddNew}>
+          <Button onClick={handleCloseAll}>Đóng</Button>
+          <Button type="primary" onClick={handleAddNew} loading={isPending}>
             Thêm mới
           </Button>
         </>
@@ -34,7 +32,8 @@ const ModalAdd = () => {
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
         <Form.Item
           label="Tên chương trình đào tạo"
-          name="trProgramName"
+          name="programName"
+          required={false}
           rules={[
             {
               required: true,
@@ -45,21 +44,23 @@ const ModalAdd = () => {
           <Select
             placeholder="Chọn chương trình đào tạo"
             options={data?.map((option) => ({
-              value: option.id,
-              label: option.programName,
+              value: option.program_name,
+              label: option.program_name,
             }))}
           />
         </Form.Item>
         <Form.Item
           label="Tên lớp"
-          name="name"
+          name="className"
+          required={false}
           rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
         >
           <Input placeholder="Nhập tên lớp" />
         </Form.Item>
         <Form.Item
           label="Sĩ số"
-          name="size"
+          name="classSize"
+          required={false}
           rules={[
             { required: true, message: "Vui lòng nhập sĩ số" },
             ({ getFieldValue }) => ({
@@ -77,6 +78,7 @@ const ModalAdd = () => {
         <Form.Item
           label="Ngày bắt đầu"
           name="startDate"
+          required={false}
           rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu" }]}
         >
           <DatePicker
@@ -87,6 +89,7 @@ const ModalAdd = () => {
         <Form.Item
           label="Ngày kết thúc"
           name="endDate"
+          required={false}
           rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc" }]}
         >
           <DatePicker

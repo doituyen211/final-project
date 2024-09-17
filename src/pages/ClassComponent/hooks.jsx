@@ -2,14 +2,32 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { classApi } from "../../services/classApi";
 import useClassStore from "./useClassStore";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { debounce } from "lodash";
 
 export const useGetClassList = () => {
-  const { data } = useQuery({
-    queryKey: ["classList"],
-    queryFn: classApi.getClassList,
+  const className = useClassStore((state) => state.className);
+  const startDate = useClassStore((state) => state.startDate);
+  const endDate = useClassStore((state) => state.endDate);
+
+  const [debouncedKeyword, setDebouncedKeyword] = useState(className);
+
+  useEffect(() => {
+    const handler = debounce(() => setDebouncedKeyword(className), 700);
+    handler();
+    return () => {
+      handler.cancel();
+    };
+  }, [className]);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["classList", debouncedKeyword, startDate, endDate],
+    queryFn: () => classApi.getClassList(debouncedKeyword, startDate, endDate),
   });
+
   return {
-    data: data?.data,
+    data: data?.data.data,
+    isLoading,
   };
 };
 
@@ -17,10 +35,11 @@ export const useGetStudentByClassId = (id) => {
   const { data } = useQuery({
     queryKey: ["studentByClassId", id],
     queryFn: () => classApi.getStudentByIdClass(id),
+    enabled: !!id, // chi thuc hien khi id co gia tri
   });
 
   return {
-    data: data?.data.students,
+    data: data?.data.data,
   };
 };
 
@@ -31,7 +50,7 @@ export const useGetTrainingProgram = () => {
   });
 
   return {
-    data: data?.data,
+    data: data?.data.data,
   };
 };
 
@@ -39,6 +58,7 @@ export const useAddNewClass = (form) => {
   const queryClient = useQueryClient();
   const setShowModalAdd = useClassStore((state) => state.setShowModalAdd);
   const { data: trainingPrograms } = useGetTrainingProgram();
+
   const mutation = useMutation({
     mutationFn: (values) => classApi.addClass(values),
     onSuccess: () => {
@@ -57,15 +77,16 @@ export const useAddNewClass = (form) => {
     form
       .validateFields()
       .then((values) => {
-        const selectedProgram = trainingPrograms.find(
-          (program) => program.id === values.trProgramName
+        const selectedTrainingProgram = trainingPrograms.find(
+          (trainingProgram) =>
+            trainingProgram.program_name == values.programName
         );
 
         const formattedValues = {
           ...values,
           startDate: values.startDate.format("YYYY-MM-DD"),
           endDate: values.endDate.format("YYYY-MM-DD"),
-          trProgramName: selectedProgram?.programName,
+          programId: selectedTrainingProgram?.program_id,
         };
         mutation.mutate(formattedValues);
         form.resetFields();
@@ -74,7 +95,8 @@ export const useAddNewClass = (form) => {
         console.log("Validation Failed:", errorInfo);
       });
   };
-  return { handleAddNew };
+
+  return { handleAddNew, isPending: mutation.isPending };
 };
 
 export const useDeleteClass = (classId) => {
@@ -94,7 +116,7 @@ export const useDeleteClass = (classId) => {
       toast.error("Xóa thất bại!");
     },
   });
-  return { mutation };
+  return { mutation, isPending: mutation.isPending };
 };
 
 export const useEditClass = (classId, form) => {
@@ -120,20 +142,22 @@ export const useEditClass = (classId, form) => {
     form
       .validateFields()
       .then((values) => {
-        const selectedProgram = trainingPrograms.find(
-          (program) => program.id === values.trProgramName
+        const selectedTrainingProgram = trainingPrograms.find(
+          (trainingProgram) =>
+            trainingProgram.program_name == values.programName
         );
         const formattedValues = {
           ...values,
           startDate: values.startDate.format("YYYY-MM-DD"),
           endDate: values.endDate.format("YYYY-MM-DD"),
-          trProgramName: selectedProgram?.programName,
+          programId: selectedTrainingProgram?.program_id,
         };
+
         mutation.mutate(formattedValues);
       })
       .catch((errorInfo) => {
         console.log("Validation Failed:", errorInfo);
       });
   };
-  return { handleEditClass };
+  return { handleEditClass, isPending: mutation.isPending };
 };
