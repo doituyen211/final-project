@@ -33,6 +33,7 @@ public class AuthService implements IAuthService, UserDetailsService {
         Account account = mapper.map(form, Account.class);
         String encodedPassword = encoder.encode(account.getPassword());
         account.setPassword(encodedPassword);
+        account.setStatus("ACTIVE");
         repository.save(account);
     }
 
