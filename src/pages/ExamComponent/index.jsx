@@ -3,7 +3,7 @@ import {Button} from "react-bootstrap";
 import SearchComponents from "../../components/SearchComponents";
 import PagingComponent from "../../components/PagingComponent";
 import TableExamComponent from "../../components/TableExamComponent";
-import {getExams, handleCreateExam, handleDeleteExam, handleEditExam,} from "../../controllers/ExamController";
+import {getExams,handleViewExam, handleCreateExam, handleDeleteExam, handleEditExam,} from "../../controllers/ExamController";
 import ModalExamComponent from "../../components/ModalExamComponent";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,8 +12,8 @@ import DeleteExamModal from "../../components/DeleteExamModal";
 const ExamComponent = () => {
   const cols = [
     "STT",
-    "Mã môn học",
-    "Mã lớp học",
+    "Môn học",
+    "Lớp học",
     "Ngày thi",
     "Link bài thi",
     "Hành Động",
@@ -65,6 +65,7 @@ const ExamComponent = () => {
     setModalButtonTitle("Edit");
     setSelectedExam(exam);
     setShowModal(true);
+    console.log("selectedExam",exam.id);
   };
 
   const handleView = (exam) => {
@@ -135,6 +136,7 @@ const ExamComponent = () => {
   const indexOfLastRecord = currentPage * perPage;
   const indexOfFirstRecord = indexOfLastRecord - perPage;
   const currentData = dataTable.slice(indexOfFirstRecord, indexOfLastRecord);
+  console.log("currentData",currentData);
 
   return (
     <>
@@ -213,6 +215,7 @@ const ExamComponent = () => {
         </div>
       </section>
       <ModalExamComponent
+          key={modalMode}
         show={showModal}
         handleClose={() => setShowModal(false)}
         title={modalTitle}

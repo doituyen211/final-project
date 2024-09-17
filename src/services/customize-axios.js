@@ -1,13 +1,13 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: "https://66ac92fff009b9d5c7329a3b.mockapi.io",
+  baseURL: "http://localhost:9001",
 });
 // Add a response interceptor
 instance.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response.data;
+    return response.data.data;
   },
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
