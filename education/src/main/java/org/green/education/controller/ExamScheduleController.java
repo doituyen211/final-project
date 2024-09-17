@@ -2,6 +2,7 @@ package org.green.education.controller;
 
 import org.green.core.model.CoreResponse;
 import org.green.education.dto.ExamScheduleDTO;
+import org.green.education.dto.SubjectDto;
 import org.green.education.service.IExamScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -106,6 +107,25 @@ public class ExamScheduleController {
             CoreResponse<ExamScheduleDTO> response = CoreResponse.<ExamScheduleDTO>builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .message("Exam schedule not found")
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/subjects/{classId}")
+    public ResponseEntity<CoreResponse<List<SubjectDto>>> getSubjectsByClassId(@PathVariable("classId") Integer classId) {
+        try {
+            List<SubjectDto> subjects = examScheduleService.getSubjectsByClassId(classId);
+            CoreResponse<List<SubjectDto>> response = CoreResponse.<List<SubjectDto>>builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Success")
+                    .data(subjects)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            CoreResponse<List<SubjectDto>> response = CoreResponse.<List<SubjectDto>>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(e.getMessage())
                     .data(null)
                     .build();
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

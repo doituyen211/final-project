@@ -1,6 +1,7 @@
 package org.green.education.service;
 
 import org.green.education.dto.ExamScheduleDTO;
+import org.green.education.dto.SubjectDto;
 import org.green.education.entity.Class;
 import org.green.education.entity.ExamSchedule;
 import org.green.education.entity.Subject;
@@ -152,4 +153,24 @@ public class ExamScheduleService implements IExamScheduleService {
             throw new RuntimeException("ExamSchedule với ID không tồn tại");
         }
     }
+    @Override
+    public List<SubjectDto> getSubjectsByClassId(Integer classId) {
+        Optional<Class> classOptional = classRepository.findById(classId);
+        if (classOptional.isPresent()) {
+            Class cls = classOptional.get();
+            List<Subject> subjects = subjectRepository.findByTrainingProgram_ProgramId(cls.getProgram().getProgramId());
+            return subjects.stream()
+                    .map(subject -> SubjectDto.builder()
+                            .subjectId(subject.getSubjectId())
+                            .subjectName(subject.getSubjectName())
+                            .trainingDuration(subject.getTrainingDuration())
+                            .status(subject.getStatus())
+                            .trainingProgramId(subject.getTrainingProgram().getProgramId())
+                            .build())
+                    .collect(Collectors.toList());
+        } else {
+            throw new RuntimeException("Class với ID không tồn tại");
+        }
+    }
+
 }
