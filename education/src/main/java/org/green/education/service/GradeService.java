@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GradeService implements IGradeService {
@@ -141,6 +143,64 @@ public class GradeService implements IGradeService {
                     .message("Delete Grade Successfully")
                     .build();
 
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> getGradeByExamDate(int studentId) {
+        try {
+
+            List<Grade> grades = iGradeRepository.findByStudent_IdOrderByExamSchedule_ExamDateAsc(studentId);
+            Map<String, Object> result = new HashMap<>();
+            int totalGrades = grades.size();
+            double averageGrade = 0.0;
+
+            List<GradeDTO> gradeDTOList = new ArrayList<>();
+            List<Grade> gradeList = iGradeRepository.findAll();
+            for (Grade grade : gradeList) {
+                GradeDTO gradeDTO = GradeDTO.builder()
+                        .id(grade.getId())
+                        .studenName(grade.getStudent().getFullName())
+                        .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
+                        .grade(grade.getGrade())
+                        .status(grade.getStatus())
+                        .examDate(grade.getExamSchedule().getExamDate())
+                        .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
+                        .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
+                        .build();
+                gradeDTOList.add(gradeDTO);
+            }
+
+            for (int i = 0; i < totalGrades; i++) {
+                Grade grade = grades.get(i);
+                averageGrade += grade.getGrade();
+
+                if (i == 0) {
+                    result.put("First Score", grade.getGrade());
+                } else if (i == 1) {
+                    result.put("Second Score", grade.getGrade());
+                } else if (i == 2) {
+                    result.put("Third Score", grade.getGrade());
+                }
+            }
+
+            // Calculate average
+            averageGrade = averageGrade / totalGrades;
+
+            // Set status based on average grade
+            String status = (averageGrade >= 50) ? "Passed" : "Failed";
+            result.put("Average Grade", averageGrade);
+            result.put("Status", status);
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Getting Grade By Exam Date Successfully")
+                    .data(result)
+                    .build();
         } catch (Exception exp) {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
