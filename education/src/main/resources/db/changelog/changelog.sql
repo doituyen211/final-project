@@ -411,3 +411,17 @@ ALTER TABLE "account"
 ALTER TABLE "subject"
     ADD CONSTRAINT fk_training_program
         FOREIGN KEY ("training_program_id") REFERENCES "training_program"("program_id");
+-- changeset namlh:7
+ALTER TABLE "class"
+    ADD COLUMN "status" boolean;
+-- changeset namlh:8
+ALTER TABLE "student"
+    ADD COLUMN "gender" SMALLINT CHECK (gender IN (0, 1, 2));
+-- changeset namlh:9
+ALTER TABLE "student"
+    ADD COLUMN "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ADD COLUMN "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+-- changeset namlh:10
+ALTER TABLE "subject"
+    ADD COLUMN "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ADD COLUMN "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
