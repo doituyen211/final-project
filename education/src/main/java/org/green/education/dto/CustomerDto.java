@@ -45,7 +45,6 @@ public class CustomerDto {
     @JsonProperty("note")
     private String note ;
 
-    @JsonProperty("trang_thai")
     private int status;
 
     private LocalDateTime createdAt ;
