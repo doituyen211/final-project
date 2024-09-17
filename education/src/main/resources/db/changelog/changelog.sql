@@ -425,3 +425,14 @@ ALTER TABLE "student"
 ALTER TABLE "subject"
     ADD COLUMN "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ADD COLUMN "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+-- changeset namlh:11
+ALTER TABLE "student"
+    ADD COLUMN "status" SMALLINT ;
+-- changeset namlh:12
+ALTER TABLE "student"
+    ADD COLUMN "sale_id" INTEGER;
+ALTER TABLE "student"
+    ADD CONSTRAINT fk_sale_id FOREIGN KEY ("sale_id") REFERENCES "account" ("account_id");
+-- changeset namlh:13
+ALTER TABLE "account"
+    ADD COLUMN "full_name" VARCHAR(200);

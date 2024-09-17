@@ -59,6 +59,8 @@ public class Student {
     @Column(name = "program_id")
     private Integer programId;
 
+    private Integer status;
+
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", foreignKey = @ForeignKey(name = "fk_account_id"))
     private Account account;
@@ -79,5 +81,9 @@ public class Student {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt ;
+
+    @OneToOne
+    @JoinColumn(name = "sale_id", foreignKey = @ForeignKey(name = "fk_sale_id"))
+    private Account sale;
 
 }

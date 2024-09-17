@@ -14,4 +14,5 @@ public interface IGradeService {
     CoreResponse<?> updatingGrade(int id, GradeForm gradeForm);
     CoreResponse<?> deletingGrade(int id);
 
+    CoreResponse<?> getGradeByExamDate(int studentID);
 }
