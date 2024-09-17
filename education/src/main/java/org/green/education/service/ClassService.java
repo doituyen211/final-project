@@ -91,7 +91,7 @@ public class ClassService implements IClassService {
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message(message)
-                    .data(classDTOList)
+                    .data(classList)
                     .build();
 
         } catch (Exception e) {

@@ -24,6 +24,9 @@ public class Class {
     @Column(name = "class_size")
     private Integer classSize;
 
+    @Column(name = "status")
+    private boolean status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private TrainingProgram program;
