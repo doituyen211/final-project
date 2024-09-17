@@ -433,3 +433,6 @@ ALTER TABLE "student"
     ADD COLUMN "sale_id" INTEGER;
 ALTER TABLE "student"
     ADD CONSTRAINT fk_sale_id FOREIGN KEY ("sale_id") REFERENCES "account" ("account_id");
+-- changeset namlh:13
+ALTER TABLE "account"
+    ADD COLUMN "full_name" VARCHAR(200);
