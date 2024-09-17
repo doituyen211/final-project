@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/c/ec010080da941b369dcb8d1cecc3cbe1c105e3f5" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/c/ec010080da941b369dcb8d1cecc3cbe1c105e3f5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/5/f5392b80c0cfb0064cd88a5c23f40c3f0412c1a6" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/5/f5392b80c0cfb0064cd88a5c23f40c3f0412c1a6" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/AccountDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/dto/AccountDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/AccountCreateForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/AccountCreateForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/AuthRegisterForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/form/AuthRegisterForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/AuthService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +120,7 @@
       <workItem from="1725942664846" duration="641000" />
       <workItem from="1725961002529" duration="872000" />
       <workItem from="1726193816471" duration="5309000" />
-      <workItem from="1726555048097" duration="4279000" />
+      <workItem from="1726555048097" duration="4932000" />
     </task>
     <servers />
   </component>
