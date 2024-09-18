@@ -3,9 +3,40 @@ import {Card, Col, Container, Form, Row} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import './Login.scss';
 import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from "react-icons/fa";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import API from "../../store/Api";
 
 const LoginComponent = () => {
     const [action, setAction] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [fullName, setFullName] = useState('');
+    const navigate = useNavigate();
+    const [errorLogin, setErrorLogin] = useState(false); // State for handling Snackbar visibility
+
+    const handleSignIn = (event) => {
+        event.preventDefault();
+        console.log("email: " + email + " password: " + password);
+
+        axios.post(API.LOGIN, {
+            username: email,
+            email,
+            password
+        }).then(
+            (res) => {
+
+                localStorage.setItem('authToken', res.headers['authorization'] || '');
+                console.log("Headers saved to local storage : " + localStorage.getItem('authToken'));
+                navigate("/admin/dashboard");
+            }
+        ).catch(
+            (error) => {
+                console.error("Error during login:", error);
+                setErrorLogin(true);
+            }
+        );
+    };
 
     return (
         <>
@@ -165,18 +196,27 @@ const LoginComponent = () => {
                                     </Button>
                                 </div>
                                 <span>hoặc sử dụng email của bạn</span>
-                                <Form>
+                                <Form onSubmit={handleSignIn}>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
-                                            <Form.Group controlId="email">
-                                                <Form.Control type="email" placeholder="Email"/>
+                                            <Form.Group controlId="email-signin">
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                />
                                             </Form.Group>
                                         </Col>
                                     </Row>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
-                                            <Form.Group controlId="password">
-                                                <Form.Control type="password" placeholder="Password"/>
+                                            <Form.Group controlId="password-signin">
+                                                <Form.Control
+                                                    type="password" placeholder="Password"
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                />
                                             </Form.Group>
                                         </Col>
                                     </Row>
