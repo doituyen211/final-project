@@ -1,5 +1,6 @@
 import BookComponent from "./BookComponent";
 import CourseComponent from "./CourseComponent";
+import LoginComponent from "./LoginComponent";
 import ScheduleComponent2 from "./ScheduleComponent2";
 import ScoreComponent from "./ScoreComponent";
 import CustomerSaleComponent from "./CustomerSaleComponent";
@@ -26,6 +27,9 @@ import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import LoginComponent from "./LoginComponent";
 import NotFoundComponent from "./NotFoundComponent";
+import TuitionFeeComponent from "./TuitionFeeComponent";
+import PositionComponents from "./PositionComponents";
+import SubjectComponentLayout2 from "./SubjectComponentLayout2";
 
 export {
     BookComponent,
@@ -56,4 +60,26 @@ export {
     TimesheetComponent,
     LoginComponent,
     NotFoundComponent,
+  BookComponent,
+  CourseComponent,
+  ScheduleComponent3,
+  SubjectComponent,
+  LoginComponent,
+  UserComponent,
+  SubjectComponentLayout2,
+  ReservationComponent,
+  DecisionComponent,
+  DepartmentComponent,
+  QualificationComponents,
+  ContractComponents,
+  PersonelComponents,
+  LiabilityComponents,
+  ClassComponent,
+  ExamComponent,
+  TrainningProgramComponent,
+  AllowanceComponents,
+  MarketingCampaignComponent,
+  TimesheetComponent,
+  TuitionFeeComponent,
+  PositionComponents,
 };

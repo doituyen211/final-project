@@ -20,7 +20,16 @@ import {
     SubjectComponent,
     TimesheetComponent,
     TuitionFeeComponent,
-    UserComponent
+    UserComponent,
+  BookComponent,
+  ScheduleComponent3,
+  TrainningProgramComponent,
+  ClassComponent,
+  ExamComponent,
+  PositionComponents,
+  DashboardEducationComponent,
+  AttendanceComponent,
+  AttendanceStudent
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
