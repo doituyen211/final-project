@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Card, Col, Container, Form, Row} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import './Login.scss';
@@ -13,7 +13,8 @@ const LoginComponent = () => {
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const navigate = useNavigate();
-    const [errorLogin, setErrorLogin] = useState(false); // State for handling Snackbar visibility
+    const [errorLogin, setErrorLogin] = useState(false);
+    const [successSignUp, setSuccessSignUp] = useState(false);
 
     const handleSignIn = (event) => {
         event.preventDefault();
@@ -37,7 +38,47 @@ const LoginComponent = () => {
             }
         );
     };
+    const handleSignUp = (event) => {
+        event.preventDefault();
+        console.log("email: " + email + " password: " + password);
 
+        axios.post(API.REGISTER, {
+            email,
+            password,
+            fullName,
+            "role": "USER"
+        }).then(
+            (res) => {
+                setSuccessSignUp(true);
+                setAction('');
+            }
+        ).catch(
+            (error) => {
+                console.error("Error during Sign Up:", error);
+                setErrorLogin(true);
+            }
+        );
+    }
+    const handleCloseAlert = () => {
+        setErrorLogin(false); // Close alert
+    };
+
+    useEffect(() => {
+        if (successSignUp) {
+            const timer = setTimeout(() => {
+                setSuccessSignUp(false);
+            }, 5000); // 5000ms = 5 seconds
+
+            return () => clearTimeout(timer);
+        }
+        if (errorLogin) {
+            const timer = setTimeout(() => {
+                handleCloseAlert();
+            }, 5000); // 5000ms = 5 seconds
+
+            return () => clearTimeout(timer);
+        }
+    }, [errorLogin, successSignUp]);
     return (
         <>
             <Container
@@ -69,11 +110,14 @@ const LoginComponent = () => {
                                     </Button>
                                 </div>
                                 <span>hoặc sử dung email để đăng ký</span>
-                                <Form>
+                                <Form onSubmit={handleSignUp}>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
-                                            <Form.Group controlId="name">
-                                                <Form.Control type="text" placeholder="Name"/>
+                                            <Form.Group controlId="fullName">
+                                                <Form.Control type="text" placeholder="Full Name"
+                                                              value={fullName}
+                                                              onChange={(e) => setFullName(e.target.value)}
+                                                />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -81,14 +125,20 @@ const LoginComponent = () => {
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
                                             <Form.Group controlId="email">
-                                                <Form.Control type="email" placeholder="Email"/>
+                                                <Form.Control type="email" placeholder="Email"
+                                                              value={email}
+                                                              onChange={(e) => setEmail(e.target.value)}
+                                                />
                                             </Form.Group>
                                         </Col>
                                     </Row>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
                                             <Form.Group controlId="password">
-                                                <Form.Control type="password" placeholder="Password"/>
+                                                <Form.Control type="password" placeholder="Password"
+                                                              value={password}
+                                                              onChange={(e) => setPassword(e.target.value)}
+                                                />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -231,7 +281,6 @@ const LoginComponent = () => {
                                             Quên mật khẩu?
                                         </Button>
                                     </Row>
-
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
                                             <Button
@@ -299,6 +348,30 @@ const LoginComponent = () => {
                 </Col>
             </Row>
             </Container>
+            {successSignUp && (
+                <Row className="position-fixed mt-5 top-0 end-0 p-3" style={{zIndex: 1050}}>
+                    <div className="alert alert-success alert-dismissible fade show"
+                         role="alert">
+                        Sign up successful! Welcome!
+                        <button type="button" className="close" aria-label="Close"
+                                onClick={() => setSuccessSignUp(false)}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </Row>
+            )}
+            {errorLogin && (
+                <div className="position-fixed mt-5 top-0 end-0 p-3" style={{zIndex: 1050}}>
+                    <div className="alert alert-danger alert-dismissible fade show"
+                         role="alert">
+                        Login failed. Please check your credentials.
+                        <button type="button" className="close" aria-label="Close"
+                                onClick={handleCloseAlert}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
