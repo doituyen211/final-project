@@ -6,12 +6,14 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {routeSideBar} from "./route";
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {LoginComponent} from "./pages";
 
 function App() {
     return (
         <BrowserRouter>
             <LayoutDefault>
                 <Routes>
+                    <Route path="/login1" element={<LoginComponent/>}/>
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {

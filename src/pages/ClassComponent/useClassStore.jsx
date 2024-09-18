@@ -10,6 +10,15 @@ const useClassStore = create((set) => ({
   showModalDelete: false,
   setShowModalDelete: (value) => set({ showModalDelete: value }),
 
+  className: "",
+  setClassName: (value) => set({ className: value }),
+
+  startDate: "",
+  setStartDate: (value) => set({ startDate: value }),
+
+  endDate: "",
+  setEndDate: (value) => set({ endDate: value }),
+
   handleClose: () =>
     set({
       showModalView: false,

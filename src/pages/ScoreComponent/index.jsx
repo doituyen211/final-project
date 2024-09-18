@@ -1,324 +1,326 @@
+import React from "react";
+import { Card, CardBody, CardHeader } from "react-bootstrap";
+import { Space, Table, Tag } from "antd";
+import DropSearch from "./DropSearch";
+import AddForm from "./AddForm";
+import UpdateForm from "./UpdateForm";
 import axios from "axios";
-import {Table, Modal, Form, ModalHeader, ModalBody, Button} from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 export default function ScoreComponent() {
-  const [data, setData] = useState([]);
-  const [dataRow, setDataRow] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
-  const [updateDataId, setUpdateDataId] = useState(null);
-  const [show, setShow] = useState(false);
-  const [scoreNew, setNewScore] = useState([]);
+  const [gradeData, setGradeData] = React.useState([]);
+  const [trainingData, setTrainningData] = React.useState([]);
+  const [subject, setSubject] = React.useState([]);
+  const [student, setStudent] = React.useState([]);
 
-  const Url = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
+  const [newGrade, setNewGrade] = React.useState({
+    grade: "",
+    studentId: null,
+    trainingProgramId: null,
+    subjectId: null,
+    examScheduleId: null,
+  });
 
-  useEffect(() => {
+  const [dataRow, setDataRow] = React.useState({});
+
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+
+  const [show, setShow] = React.useState(false);
+  const [showAdd, setShowAdd] = React.useState(false);
+  const [searchResult, setSearchResult] = React.useState([]);
+  const [onSearch, setOnSearch] = React.useState(false);
+  const [updateSelectId, setUpdateSelectId] = React.useState(null);
+  const [deleteSelectedId, setDeleteSelectedID] = React.useState(null);
+
+  const apiUrl = "http://localhost:9001/api/v1/scores";
+  const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
+  const apiStudent = "http://localhost:9001/student";
+  const apiSubject = "http://localhost:9001/api/v1/subjects/find-all";
+  const apiExamschedule = "http://localhost:9001/api/v1/examschedules";
+
+  React.useEffect(() => {
     fetchData();
+    fetchProgramData();
+    fetchSubjectData();
+    fetchStudentData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(Url);
-      setData(response.data);
+      const res = await axios.get(apiUrl);
+      setGradeData(res.data.data);
       setLoading(false);
-    } catch (error) {
-      setError(error);
+    } catch (err) {
+      setError(err);
       setLoading(false);
     }
   };
 
+  const fetchProgramData = async () => {
+    try {
+      const res = await axios.get(apiTraining);
+      setTrainningData(res.data.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  const fetchStudentData = async () => {
+    try {
+      const res = await axios.get(apiStudent);
+      setStudent(res.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  const fetchSubjectData = async () => {
+    try {
+      const res = await axios.get(apiSubject);
+      setSubject(res.data.data);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  const handleShowUpdateForm = (data) => {
+    setShow(true);
+    setUpdateSelectId(data.id);
+    setDataRow(data);
+  };
+
+  const handleUpdate = (updatedData) => {
+    try {
+      axios
+        .put(`${apiUrl}/update-score/${updateSelectId}`, updatedData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then(() => {
+          setUpdateSelectId(null);
+          setShow(false);
+          toast.success("Record updated successfully!");
+        })
+        .catch((err) => {
+          console.error("Error details:", err.response?.data || err.message);
+
+          toast.error(
+            `Failed to update the record. ${err.message}. Please try again.`
+          );
+        });
+    } catch (err) {
+      toast.error(
+        `Failed to update the record. ${err.message}. Please try again.`
+      );
+    }
+  };
+
+  const handleShowAddForm = (data) => {
+    setShowAdd(true);
+    setDataRow(data);
+  };
+
+  const handleAddNew = (value) => {
+    setNewGrade(value);
+    try {
+      axios.post(`${apiUrl}/add-score`, newGrade);
+      toast.success("Record added successfully!");
+    } catch (err) {
+      toast.error(`Failed to add new record.${err}.Please try again.`);
+    }
+  };
+
+  const handleDelete = (id) => {
+    try {
+      axios.delete(`${apiUrl}/delete-score/${id}`);
+      setGradeData(gradeData.filter((data) => data.id !== id));
+      setDeleteSelectedID(null);
+      toast.success("Record deleted successfully!");
+    } catch (err) {
+      toast.error(`Failed to delete the record.${err}. Please try again.`);
+    }
+  };
+
+  const handleSearch = (searchEntity) => {
+    const filteredData = gradeData.filter((grade) => {
+      const matchTrainningProgram = searchEntity.trainningProgram
+        ? grade.programName === searchEntity.trainningProgram
+        : true;
+      const matchSubject = searchEntity.subject
+        ? grade.subjectName === searchEntity.subject
+        : true;
+      const matchYear = searchEntity.year
+        ? grade.courseName === searchEntity.year
+        : true;
+      const matchStatus = searchEntity.status
+        ? grade.status === searchEntity.status
+        : true;
+      return matchTrainningProgram && matchSubject && matchYear && matchStatus;
+    });
+    setSearchResult(filteredData);
+  };
+
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Student Name",
+      dataIndex: "studenName",
+      key: "studenName",
+    },
+    {
+      title: "Grade",
+      dataIndex: "grade",
+      key: "grade",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status === "Passed" ? "green" : "red"}>{status}</Tag>
+      ),
+    },
+    {
+      title: "Subject Name",
+      dataIndex: "subjectName",
+      key: "subjectName",
+    },
+    {
+      title: "Exam Date",
+      dataIndex: "examDate",
+      key: "examDate",
+    },
+    {
+      title: "Program Name",
+      dataIndex: "programName",
+      key: "programName",
+    },
+    {
+      title: "Course Name",
+      dataIndex: "courseName",
+      key: "courseName",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <button onClick={() => handleShowUpdateForm(record)}>
+            <BsPencil className="text-primary"></BsPencil>
+          </button>
+          <button onClick={() => handleDelete(record.id)}>
+            <BsTrash className="text-danger"></BsTrash>
+          </button>
+        </Space>
+      ),
+    },
+  ];
+
   if (loading)
     return (
       <div className="position-absolute top-50 start-50 translate-middle">
-        <div class="spinner-grow text-success" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
         <div class="spinner-grow text-danger" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow text-warning" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
     );
   if (error) return <p>Error occurred: {error.message}</p>;
 
-  const handleViewData = (id) => {
-    setSelectedId(id);
-  };
-
-  const handleShowUpdateForm = (data) => {
-    setShow(true);
-    setUpdateDataId(data.id);
-    setDataRow(data);
-    setNewScore([...data.grade]);
-  };
-
-  const handleSaveNewScore = (e, index) => {
-    const value = e.target.value;
-    setNewScore((prevData) => {
-      const updatedScores = [...prevData];
-      updatedScores[index] = value;
-      return updatedScores;
-    });
-  };
-
-  function handleDelete(id) {
-    try {
-      axios.delete(`${Url}/${id}`);
-      setData(data.filter((data) => data.id !== id));
-      setSelectedId(null);
-      toast.success("Record deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting data:", error);
-      toast.error("Failed to delete the record. Please try again.");
-    }
-  }
-
-  function handleUpdateScore(e) {
-    e.preventDefault();
-    try {
-      axios.put(`${Url}/${updateDataId}`, { ...dataRow, grade: scoreNew });
-      setData((prevData) =>
-        prevData.map((item) =>
-          item.id === updateDataId ? { ...item, grade: scoreNew } : item
-        )
-      );
-      setUpdateDataId(null);
-      setShow(false);
-      toast.success("Record update successfully!");
-    } catch (error) {
-      console.error("Error updating data:", error);
-      toast.error("Failed to update the record. Please try again.");
-    }
-  }
-
   return (
-    <div>
-      <div className="container mt-4">
-        <div className="row row-cols-2">
-          <div className="col-sm-6">
-            <General
-              data={data}
-              handleViewData={handleViewData}
-              selectedId={selectedId}
-              handleDelete={handleDelete}
-              handleShowUpdateForm={handleShowUpdateForm}
-            />
-          </div>
-          <div className="col-sm-5">
-            {selectedId && (
-              <>
-                <Infor data={data} selectedId={selectedId} />
-                <Detail data={data} selectedId={selectedId} />
-              </>
+    <Card>
+      <CardHeader>
+        <h3>Quản lí điểm</h3>
+      </CardHeader>
+      <CardBody className="d-flex justify-content-center">
+        <div className="container-fluid fullscreen">
+          <button className="m-2" onClick={() => handleShowAddForm(gradeData)}>
+            <BsPlus className="text-success"></BsPlus>
+          </button>
+          <div className="row">
+            <div className="col-3">
+              <DropSearch data={gradeData} onSearch={handleSearch} />
+            </div>
+            <div className="col-9">
+              <TableSearchResult
+                data={gradeData}
+                showUpdateForm={handleShowUpdateForm}
+                result={searchResult}
+                handleDelete={handleDelete}
+                onSearch={onSearch}
+                setOnSearch={setOnSearch}
+                columns={columns}
+              />
+            </div>
+            {show && updateSelectId && (
+              <UpdateForm
+                scoreData={gradeData}
+                show={show}
+                dataRow={dataRow}
+                data={gradeData}
+                handleClose={() => setShow(false)}
+                handleUpdate={handleUpdate}
+                trainingData={trainingData}
+                subject={subject}
+                student={student}
+              />
+            )}
+
+            {showAdd && (
+              <AddForm
+                scoreData={gradeData}
+                show={showAdd}
+                data={gradeData}
+                trainingData={trainingData}
+                subject={subject}
+                handleClose={() => setShowAdd(false)}
+                handleAddNew={handleAddNew}
+                student={student}
+                formData={newGrade}
+                setFormData={setNewGrade}
+              />
             )}
           </div>
-          {show && updateDataId && (
-            <UpdateForm
-              show={show}
-              handleClose={() => setShow(false)}
-              dataRow={dataRow}
-              handleSaveNewScore={handleSaveNewScore}
-              handleUpdateScore={handleUpdateScore}
-              scoreNew={scoreNew}
-            />
-          )}
         </div>
-      </div>
-      <ToastContainer />
-    </div>
+      </CardBody>
+    </Card>
   );
 }
 
-function Infor({ data, selectedId }) {
-  const reData = data.find((item) => item.id === selectedId);
-  const { name, classes, image } = reData;
+function TableSearchResult({ data, result, onSearch, setOnSearch, columns }) {
+  const sortData = data.sort((a, b) => a.id - b.id);
+  const sortResult = result.sort((a, b) => a.id - b.id);
+  let displayData = [];
+
+  if (sortResult.length !== 0) {
+    setOnSearch(true);
+    if (onSearch && sortResult.length === 0) {
+      displayData = [];
+    } else if (onSearch && sortResult.length > 0) {
+      displayData = sortResult;
+    }
+  }
+
+  // const displayData = sortResult.length > 0 ? sortResult : sortData;
 
   return (
-    <div>
-      <span style={{ fontWeight: 450, fontSize: 20 }}>Infor</span>
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th style={{ width: "4%", border: "1px solid black" }}>Id</th>
-            <th style={{ width: "4%", border: "1px solid black" }}>Name</th>
-            <th style={{ width: "4%", border: "1px solid black" }}>Class</th>
-            <th style={{ width: "4%", border: "1px solid black" }}>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style={{ border: "1px solid black" }}>{selectedId}</td>
-            <td style={{ border: "1px solid black" }}>{name}</td>
-            <td style={{ border: "1px solid black" }}>{classes}</td>
-            <td style={{ border: "1px solid black" }}>{image}</td>
-          </tr>
-        </tbody>
-      </Table>
+    <div className="container-fluid fullscreen">
+      <Card>
+        <CardBody>
+          <Table
+            columns={columns}
+            dataSource={displayData}
+            rowKey="id"
+            bordered
+          />
+        </CardBody>
+      </Card>
     </div>
-  );
-}
-
-function Detail({ data, selectedId }) {
-  const reData = data.find((item) => item.id === selectedId);
-  const { grade, status, examDate, subject } = reData;
-
-  return (
-    <div>
-      <span style={{ fontWeight: 450, fontSize: 20 }}>Detail</span>
-      <Table bordered>
-        <thead>
-          <tr>
-            <th style={{ width: "4%", border: "1px solid black" }}>Id</th>
-            <th style={{ width: "4%", border: "1px solid black" }}>Subject</th>
-            <th style={{ width: "4%", border: "1px solid black" }}>Status</th>
-            <th style={{ width: "4%", border: "1px solid black" }}>
-              Exam Date
-            </th>
-            <th style={{ width: "4%", border: "1px solid black" }}>Scores</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style={{ border: "1px solid black" }}>{selectedId}</td>
-            <td style={{ border: "1px solid black" }}>{subject.join(", ")}</td>
-            <td style={{ border: "1px solid black" }}>{status}</td>
-            <td style={{ border: "1px solid black" }}>{examDate}</td>
-            <td style={{ border: "1px solid black" }}>
-              {grade.map((score, i) => (
-                <div key={i}>{score}</div>
-              ))}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
-  );
-}
-
-function General({ data, handleViewData, handleDelete, handleShowUpdateForm }) {
-  return (
-    <div>
-      <div style={{ fontWeight: 450, fontSize: 20 }}>General</div>
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th style={{ height: "4%", border: "1px solid black" }}>Id</th>
-            <th style={{ height: "4%", border: "1px solid black" }}>Name</th>
-            <th style={{ height: "4%", border: "1px solid black" }}>Score</th>
-            <th style={{ height: "4%", border: "1px solid black" }}>Status</th>
-            <th
-              style={{ height: "4%", weight: "4%", border: "1px solid black" }}
-            >
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td style={{ border: "1px solid black" }}>{item.id}</td>
-              <td style={{ border: "1px solid black" }}>{item.name}</td>
-              <td style={{ border: "1px solid black" }}>
-                {item.grade.reduce((sum, num) => sum + Number(num), 0) /
-                  item.grade.length}
-              </td>
-              <td style={{ border: "1px solid black" }}>{item.status}</td>
-              <td style={{ border: "1px solid black" }}>
-                <Button
-                  className="m-2 btn btn-secondary btn-sm"
-                  onClick={() => handleViewData(item.id)}
-                >
-                  <i className="bi bi-eye"></i>
-                </Button>
-                <Button
-                  className="m-2 btn btn-success btn-sm"
-                  onClick={() => handleShowUpdateForm(item)}
-                >
-                  <i className="bi bi-pencil-square"></i>
-                </Button>
-                <Button
-                  className="m-2 btn btn-danger btn-sm"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  <i className="bi bi-x-octagon"></i>
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
-  );
-}
-
-function UpdateForm({
-  show,
-  handleClose,
-  dataRow,
-  handleSaveNewScore,
-  handleUpdateScore,
-  scoreNew,
-}) {
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <ModalHeader closeButton>
-        <span>Update</span>
-      </ModalHeader>
-      <ModalBody className="container">
-        <Form className="row row-cols-2" onSubmit={handleUpdateScore}>
-          <div className="col">
-            <span>Infor</span>
-            <div className="mb-3">
-              <label className="m-2">Id</label>
-              <input type="text" value={dataRow.id} disabled />
-              <label className="m-2">Name</label>
-              <input type="text" value={dataRow.name} disabled />
-              <label className="m-2">Status</label>
-              <input type="text" value={dataRow.status} disabled />
-            </div>
-          </div>
-          <div className="col">
-            <span>Detail</span>
-            <div className="mb-3">
-              <label className="m-2">Subject</label>
-              {dataRow.subject.map((sub, i) => (
-                <div className="m-2" key={i}>
-                  <input type="text" value={sub} disabled />
-                </div>
-              ))}
-              <label className="m-2">Exam Date</label>
-              <input type="text" value={dataRow.examDate} disabled />
-              <label className="m-2">Scores</label>
-              {scoreNew.map((score, i) => (
-                <input
-                  type="number"
-                  value={score}
-                  onChange={(e) => handleSaveNewScore(e, i)}
-                  key={i}
-                />
-              ))}
-            </div>
-          </div>
-          <div>
-            <button
-              type="button"
-              className="m-2 btn btn-secondary"
-              onClick={handleClose}
-            >
-              Cancel
-            </button>
-            <button className="m-2 btn btn-danger" type="submit">
-              Save
-            </button>
-          </div>
-        </Form>
-      </ModalBody>
-    </Modal>
   );
 }

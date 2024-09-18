@@ -87,8 +87,8 @@ export const routeSideBar = [
                 component: ReservationComponent,
             },
             {
-                name: "Thông tin học viên (sau xoa)",
-                icon: "nav-icon fas fa-pause-circle",
+                name: "Thông tin học viên",
+                icon: "nav-icon fas fa-user",
                 to: "/studentinfomation",
                 component: StudenInforComponent,
             },
