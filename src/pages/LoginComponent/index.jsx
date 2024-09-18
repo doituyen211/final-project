@@ -6,6 +6,8 @@ import {FaFacebook, FaGithub, FaGoogle, FaLinkedin} from "react-icons/fa";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import API from "../../store/Api";
+import Spinner from 'react-bootstrap/Spinner';
+
 
 const LoginComponent = () => {
     const [action, setAction] = useState('');
@@ -79,6 +81,30 @@ const LoginComponent = () => {
             return () => clearTimeout(timer);
         }
     }, [errorLogin, successSignUp]);
+
+    const [isSending, setIsSending] = useState(false)
+    const handleForgotPassword = (event) => {
+        event.preventDefault();
+        console.log("email: " + email);
+        setIsSending(true)
+        // setAction('');
+        const url = API.SENDTOEMAIL + '?email=' + email;
+        axios.get(url, {
+            email,
+        }).then(
+            (res) => {
+                setIsSending(false)
+                setAction('');
+                //Show notice Send email successfull
+            }
+        ).catch(
+            (error) => {
+                console.error("Error during Sign Up:", error);
+                setErrorLogin(true);
+                setIsSending(false)
+            }
+        );
+    }
     return (
         <>
             <Container
@@ -187,11 +213,16 @@ const LoginComponent = () => {
                                     </Button>
                                 </div>
                                 <span>Nhập email của bạn để khôi phục mật khẩu</span>
-                                <Form>
+                                <Form onSubmit={handleForgotPassword}>
                                     <Row className='justify-content-center align-items-center'>
                                         <Col xs={12} md={10}>
                                             <Form.Group controlId="email">
-                                                <Form.Control type="email" placeholder="Email"/>
+                                                <Form.Control
+                                                    type="email"
+                                                    placeholder="Email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                />
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -219,7 +250,21 @@ const LoginComponent = () => {
                                                     cursor: 'pointer',
                                                 }}
                                                 type="submit"
-                                            >Quên mât khẩu
+                                            >
+                                                {isSending ? (
+                                                    <>
+                                                        <Spinner
+                                                            animation="border"
+                                                            size="sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                            style={{marginRight: '5px'}}
+                                                        />
+                                                        Đang gửi...
+                                                    </>
+                                                ) : (
+                                                    'Quên mật khẩu'
+                                                )}
                                             </Button>
                                         </Col>
                                     </Row>

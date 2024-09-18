@@ -19,6 +19,7 @@ const API = {
     INFOR_STU: `${BASE_URL_INFOR_STU}/class`,
     LOGIN: `${BASE_URL_VERSION_1}/auth/login`,
     REGISTER: `${BASE_URL_VERSION_1}/auth/register`,
+    SENDTOEMAIL: `${BASE_URL_VERSION_1}/auth/send-to-email`,
     // Add other API endpoints here if needed
 };
 
