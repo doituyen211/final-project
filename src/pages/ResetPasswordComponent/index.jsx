@@ -3,6 +3,7 @@ import {Button, Card, Container, Form} from 'react-bootstrap';
 import './ResetPassword.scss';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import API from "../../store/Api";
 
 function ResetPasswordComponent() {
     const [password, setPassword] = useState('');
