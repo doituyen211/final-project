@@ -31,6 +31,15 @@ public class CourseController {
         return courseService.findALL(form,page,pageSize, sortDir, sortBy) ;
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getData(
+            CourseFilterForm form ,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+            @RequestParam(value = "sortBy", defaultValue = "Id", required = false) String sortBy
+    ) {
+        return courseService.findnoALL(form, sortDir, sortBy) ;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         return courseService.findById(id);
