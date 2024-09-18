@@ -43,7 +43,7 @@ export default function ScoreComponent() {
   const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
   const apiStudent = "http://localhost:9001/student";
   const apiSubject = "http://localhost:9001/api/v1/subjects/find-all";
-  const apiExamschedule = "http://localhost:9001/api/v1/examschedules";
+  // const apiExamschedule = "http://localhost:9001/api/v1/examschedules";
 
   React.useEffect(() => {
     fetchData();
@@ -225,7 +225,7 @@ export default function ScoreComponent() {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
+        <Space size="small">
           <Button variant="white" onClick={() => handleShowDetail(record)}>
             <BsEye className="text-secondary"></BsEye>
           </Button>
