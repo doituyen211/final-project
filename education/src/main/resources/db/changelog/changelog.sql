@@ -436,3 +436,11 @@ ALTER TABLE "student"
 -- changeset namlh:13
 ALTER TABLE "account"
     ADD COLUMN "full_name" VARCHAR(200);
+-- changeset namlh:14
+CREATE TABLE change_password_request (
+                                         id SERIAL PRIMARY KEY,
+                                         email VARCHAR(255) NOT NULL,
+                                         token VARCHAR(255) NOT NULL UNIQUE,
+                                         expiration_date TIMESTAMP NOT NULL,
+                                         used BOOLEAN NOT NULL DEFAULT FALSE
+);
