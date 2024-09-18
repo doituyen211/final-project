@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.green.education.repository.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,20 +31,29 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         super(new AntPathRequestMatcher("/api/v1/auth/login", "POST"), authenticationManager);
         this.jwtHandler = jwtHandler;
     }
-
+    @Autowired
+    private IAccountRepository repository ;
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-//        String username = request.getParameter("email");
-//        String password = request.getParameter("password");
         // Parse JSON request body
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> requestBody = objectMapper.readValue(request.getInputStream(), Map.class);
 
-        String username = requestBody.get("email");
+        // Check for either email or username in the request
+        String username =  requestBody.get("email") != null ?  requestBody.get("email")  : repository.findAccountByUsername( requestBody.get("username")).getEmail() ;
         String password = requestBody.get("password");
-        Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
-        return getAuthenticationManager().authenticate(authentication);
+
+        // Validate that the username and password are present
+        if (username == null || password == null) {
+            throw new AuthenticationException("Username or password not provided") {};
+        }
+
+        // Create an unauthenticated authentication token
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+
+        // Authenticate using the AuthenticationManager
+        return getAuthenticationManager().authenticate(authRequest);
     }
 
     @Override
