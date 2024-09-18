@@ -155,31 +155,7 @@ public class GradeService implements IGradeService {
         try {
 
             List<Grade> grades = iGradeRepository.findByStudent_IdOrderByExamSchedule_ExamDateAsc(studentId);
-            Map<String, Object> result = new HashMap<>();
-            int totalGrades = grades.size();
-            double averageGrade = 0.0;
-
-//            List<GradeDTO> gradeDTOList = new ArrayList<>();
-//            List<Grade> gradeList = iGradeRepository.findAll();
-
-            for (int i = 0; i < totalGrades; i++) {
-                Grade grade = grades.get(i);
-                averageGrade += grade.getGrade();
-
-                if (i == 0) {
-                    result.put("First Score", grade.getGrade());
-                } else if (i == 1) {
-                    result.put("Second Score", grade.getGrade());
-                } else if (i == 2) {
-                    result.put("Third Score", grade.getGrade());
-                }
-            }
-
-            // Calculate average
-            averageGrade = averageGrade / totalGrades;
-            String status = (averageGrade >= 50) ? "Passed" : "Failed";
-            result.put("Average Grade", averageGrade);
-            result.put("Status", status);
+            Map<String, Object> result = getStringObjectMap(grades);
 
             List<GradeDTO> gradeDTOList = grades.stream()
                     .map(grade -> GradeDTO.builder()
@@ -191,13 +167,14 @@ public class GradeService implements IGradeService {
                             .examDate(grade.getExamSchedule().getExamDate())
                             .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
                             .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
+                            .result(result)
                             .build())
                     .toList();
 
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Getting Grade By Exam Date Successfully")
-                    .data(Map.of("grades", gradeDTOList, "result", result))
+                    .data(gradeDTOList)
                     .build();
         } catch (Exception exp) {
             return CoreResponse.builder()
@@ -205,6 +182,32 @@ public class GradeService implements IGradeService {
                     .message(exp.getMessage())
                     .build();
         }
+    }
+
+    private static Map<String, Object> getStringObjectMap(List<Grade> grades) {
+        Map<String, Object> result = new HashMap<>();
+
+        int totalGrades = grades.size();
+        double averageGrade = 0.0;
+
+        for (int i = 0; i < totalGrades; i++) {
+            Grade grade = grades.get(i);
+            averageGrade += grade.getGrade();
+
+            if (i == 0) {
+                result.put("First Score", grade.getGrade());
+            } else if (i == 1) {
+                result.put("Second Score", grade.getGrade());
+            } else if (i == 2) {
+                result.put("Third Score", grade.getGrade());
+            }
+        }
+
+        averageGrade = totalGrades > 0 ? averageGrade / totalGrades : 0.0;
+        String status = (averageGrade >= 50) ? "Graduation" : "Failed Graduation";
+        result.put("Average Grade", averageGrade);
+        result.put("Status", status);
+        return result;
     }
 }
 

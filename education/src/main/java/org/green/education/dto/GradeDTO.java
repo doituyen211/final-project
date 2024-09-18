@@ -18,4 +18,6 @@ public class GradeDTO {
     private LocalDate examDate;
     private String programName;
     private String courseName;
+    private Object result;
+
 }
