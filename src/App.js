@@ -10,17 +10,28 @@ import SideBarLayout from "./layouts/components/SideBarLayout";
 import {LoginComponent} from "./pages";
 import HeaderLayout from "./layouts/components/HeaderLayout";
 import FooterLayout from "./layouts/components/FooterLayout";
+import PrivateRoute from "./route/PrivateRoute";
 
 function App() {
     return (
         <BrowserRouter>
             <LayoutDefault>
                 <Routes>
-                    <Route path="/login1" element={<LoginComponent/>}/>
+                    <Route path="/login" element={<LoginComponent/>}/>
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {
-                            return <Route key={index} path={item.to} element={<Component/>}/>;
+                            return <Route key={index} path={item.to} element={
+                                <>
+                                    <HeaderLayout></HeaderLayout>
+                                    <SideBarLayout></SideBarLayout>
+                                    <div className="content-wrapper">
+                                        <Component/>
+                                    </div>
+                                    <FooterLayout></FooterLayout>
+                                    <aside className="control-sidebar control-sidebar-dark"></aside>
+                                </>
+                            }/>;
                         }
 
                         return item.child.map((subItem, subIndex) => {
@@ -31,13 +42,15 @@ function App() {
                                     path={subItem.to}
                                     element={
                                         <>
-                                            <HeaderLayout></HeaderLayout>
-                                            <SideBarLayout></SideBarLayout>
-                                            <div className="content-wrapper">
-                                                <ChildComponent/>
-                                            </div>
-                                            <FooterLayout></FooterLayout>
-                                            <aside className="control-sidebar control-sidebar-dark"></aside>
+                                            <PrivateRoute>
+                                                <HeaderLayout></HeaderLayout>
+                                                <SideBarLayout></SideBarLayout>
+                                                <div className="content-wrapper">
+                                                    <subItem.component/>
+                                                </div>
+                                                <FooterLayout></FooterLayout>
+                                                <aside className="control-sidebar control-sidebar-dark"></aside>
+                                            </PrivateRoute>
                                         </>
                                     }
                                 />

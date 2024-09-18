@@ -1,5 +1,4 @@
 import {
-    ScheduleComponent,
     AllowanceComponents,
     ClassMembersComponent,
     ContractComponents,
@@ -14,7 +13,7 @@ import {
     PersonelComponents,
     QualificationComponents,
     ReservationComponent,
-    ScheduleComponent2,
+    ScheduleComponent,
     ScoreComponent,
     StudenInforComponent,
     StudentComponent,
@@ -46,7 +45,7 @@ export const routeSideBar = [
             {
                 name: "List",
                 icon: "nav-icon fas fa-tachometer-alt",
-                to: "/list",
+                to: "/form",
                 component: UserComponent,
             },
         ],
@@ -181,7 +180,7 @@ export const routeSideBar = [
             {
                 name: "Login (Sau nay xoa)",
                 icon: "nav-icon fas fa-lock",
-                to: "/Login",
+                to: "/Login1",
                 component: LoginComponent,
             },
             // {
