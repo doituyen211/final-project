@@ -7,17 +7,14 @@ import {routeSideBar} from "./route";
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {LoginComponent} from "./pages";
-import NotFoundComponent from "./pages/NotFoundComponent";
 
 function App() {
     return (
         <BrowserRouter>
-            <Routes>
-                {/* Route for Login page, no LayoutDefault */}
-                <Route path="/login" element={<LoginComponent/>}/>
+            <LayoutDefault>
+                <Routes>
+                    <Route path="/login1" element={<LoginComponent/>}/>
 
-                {/* Routes wrapped in LayoutDefault */}
-                <Route element={<LayoutDefault/>}>
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {
@@ -35,9 +32,8 @@ function App() {
                             );
                         });
                     })}
-                </Route>
-                <Route path="*" element={<NotFoundComponent/>}/>
-            </Routes>
+                </Routes>
+            </LayoutDefault>
         </BrowserRouter>
     );
 }
