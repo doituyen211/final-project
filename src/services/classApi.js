@@ -1,23 +1,26 @@
 import axios from "axios";
-// eslint-disable-next-line no-unused-vars
-import API from "../store/Api";
 
 export const classApi = {
-  getClassList() {
-    return axios.get("https://66ac7831f009b9d5c73229a5.mockapi.io/classes");
+  getClassList(className, startDate, endDate) {
+    return axios.get("http://localhost:9001/api/v1/classes", {
+      params: {
+        ...(className ? { className } : {}), // Thêm className nếu nó tồn tại
+        ...(startDate ? { startDate } : {}),
+        ...(endDate ? { endDate } : {}),
+
+        // className: className ? className : "",
+        // startDate: startDate ? startDate : "",
+        // endDate: endDate ? endDate : "",
+      },
+    });
   },
 
   getStudentByIdClass(id) {
-    return axios.get(
-      `https://66ac7831f009b9d5c73229a5.mockapi.io/students/${id}`
-    );
+    return axios.get(`http://localhost:9001/api/v1/classes/classMember/${id}`);
   },
 
   addClass(classData) {
-    return axios.post(
-      "https://66ac7831f009b9d5c73229a5.mockapi.io/classes",
-      classData
-    );
+    return axios.post("http://localhost:9001/api/v1/classes", classData);
   },
 
   deleteClass(idClass) {
@@ -28,14 +31,12 @@ export const classApi = {
 
   editClass(idClass, newData) {
     return axios.put(
-      `https://66ac7831f009b9d5c73229a5.mockapi.io/classes/${idClass}`,
+      `http://localhost:9001/api/v1/classes/${idClass}`,
       newData
     );
   },
 
   getTrainingProgram() {
-    return axios.get(
-      `https://64dc81fbe64a8525a0f699a1.mockapi.io/api/v1/trainin_program`
-    );
+    return axios.get(`http://localhost:9001/training_program/getAllPrograms`);
   },
 };

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import SelectDropdown from "./SelectDropdown";
 import axios from "axios";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "./InputComponent";
@@ -18,9 +17,32 @@ function FormComponent({
   );
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { name, value } = e.target;
+  setFormData((prev) => {
+    const updatedFormData = { ...prev, [name]: value };
+
+    // Automatically set status based on start_time, end_time, and current time
+    const { start_time, end_time } = updatedFormData;
+
+    if (start_time && end_time) {
+      const currentTime = new Date();
+      const startTimeDate = new Date(start_time);
+      const endTimeDate = new Date(end_time);
+
+      if (currentTime >= startTimeDate && currentTime <= endTimeDate) {
+        updatedFormData.status = 1; // Active status if current time is within range
+      } else {
+        updatedFormData.status = 0; // Inactive status if current time is out of range
+      }
+    } else {
+      // Default status to 0 if start_time or end_time are missing or invalid
+      updatedFormData.status = 0;
+    }
+
+    return updatedFormData;
+  });
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,12 +50,12 @@ function FormComponent({
   };
 
   useEffect(() => {
-    console.log(isView);
-    if (isEdit || isView) {
-      axios
-        .get(
-          `https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien/${idCurrent}`
-        )
+      console.log(isView);
+      if (isEdit || isView) {
+        axios
+          .get(
+            `https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence/${idCurrent}`
+          )
         .then((res) => {
           setFormData(res.data);
         })
@@ -52,18 +74,19 @@ function FormComponent({
               return (
                 <Col key={field.name} md={6} className="mb-3">
                   <Form.Group controlId={field.name}>
-                    <Form.Label>{field.label}</Form.Label>
-                    <Input
-                      type="text"
-                      id={field.name}
-                      name={field.name}
-                      value={formData[field.name] || ""}
-                      onChange={handleChange}
-                      placeholder={field.placeholder}
-                      className="form-control"
-                      disabled={isView}
-                    />
-                  </Form.Group>
+                      <Form.Label>{field.label}</Form.Label>
+                      <Input
+                        type="text"
+                        id={field.name}
+                        name={field.name}
+                        value={formData[field.name] || ""}
+                        onChange={handleChange}
+                        placeholder={field.placeholder}
+                        className="form-control"
+                        // Disable the status field if it's in edit mode (isEdit is true)
+                        disabled={isEdit && field.name === "status"}
+                      />
+                    </Form.Group>
                 </Col>
               );
             case "select":
@@ -71,21 +94,7 @@ function FormComponent({
                 <Col key={field.name} md={6} className="mb-3">
                   <Form.Group controlId={field.name}>
                     {/*<Form.Label>{field.label}</Form.Label>*/}
-                    <SelectDropdown
-                      id={field.name}
-                      apiUrl={field.apiUrl}
-                      label={field.label}
-                      defaultOption={
-                        isEdit || isView
-                          ? {
-                              value: formData[field.name],
-                              label: formData[field.name],
-                            }
-                          : field.defaultOption
-                      }
-                      onChange={(e) => handleChange(e)}
-                      disabled={isView}
-                    />
+                    
                   </Form.Group>
                 </Col>
               );

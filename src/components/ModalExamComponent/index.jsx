@@ -1,110 +1,180 @@
 import { Modal, Button } from "react-bootstrap";
 import FormInput from "../FormInputComponents";
 import { useState, useEffect } from "react";
+import DropDownComponent from "../DropDownComponent";
+import { getAllClasses, getSubjectByClassId } from "../../controllers/ExamController";
+
 const ModalExamComponent = ({
-  show,
-  handleClose,
-  title,
-  titleButton,
-  action,
-  examData = {},
-  mode = "create", // create, view, edit
-}) => {
-  const [formData, setFormData] = useState({
-    ma_mon: "",
-    ma_lop: "",
-    thoi_gian: "",
-    link_bai_thi: "",
-  });
+                                show,
+                                handleClose,
+                                title,
+                                titleButton,
+                                action,
+                                examData = {},
+                                mode = "create", // create, view, edit
+                            }) => {
+    const [formData, setFormData] = useState({
+        subject: null,
+        classField: null,
+        examDate: "",
+        examLink: "",
+    });
 
-  const formatDate = (timestamp) => {
-    if (!timestamp) return "";
+    const [subjects, setSubjects] = useState([]);
+    const [cls, setCls] = useState([]);
+    const [selectedClassId, setSelectedClassId] = useState(null);
 
-    const date = new Date(timestamp * 1000);
-    let month = "" + (date.getMonth() + 1);
-    let day = "" + date.getDate();
-    const year = date.getFullYear();
+    useEffect(() => {
+        const loadClasses = async () => {
+            try {
+                const classes = await getAllClasses();
+                console.log("Received classes data:", classes);
 
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
+                if (Array.isArray(classes)) {
+                    setCls(classes.map(cls => ({ id: cls.id, label: cls.className })));
+                } else {
+                    console.error("Unexpected data format", classes);
+                }
+            } catch (error) {
+                console.error("Error fetching subjects or classes", error);
+            }
+        };
 
-    return [year, month, day].join("-");
-  };
+        loadClasses();
+    }, []);
 
-  useEffect(() => {
-    if (examData) {
-      setFormData({
-        ma_mon: examData.ma_mon || "",
-        ma_lop: examData.ma_lop || "",
-        thoi_gian: examData.thoi_gian ? formatDate(examData.thoi_gian) : "",
-        link_bai_thi: examData.link_bai_thi || "",
-      });
-    }
-  }, [examData]);
+    // Load subjects when class is selected
+    useEffect(() => {
+        const loadSubjects = async (classId) => {
+            if (classId) {
+                try {
+                    const subjects = await getSubjectByClassId(classId);
+                    console.log("Received subjects data:", subjects);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+                    if (Array.isArray(subjects)) {
+                        setSubjects(subjects.map(subject => ({ id: subject.subject_id, label: subject.subject_name })));
+                    } else {
+                        console.error("Unexpected data format", subjects);
+                    }
+                } catch (error) {
+                    console.error("Error fetching subjects", error);
+                }
+            }
+        };
 
-  const handleAction = () => {
-    if (action) action(formData);
-    handleClose();
-  };
+        // Call loadSubjects when selectedClassId changes
+        if (selectedClassId) {
+            loadSubjects(selectedClassId);
+        }
+    }, [selectedClassId]);
 
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="d-flex justify-content-between">
-          <FormInput
-            label="Mã môn học"
-            name="ma_mon"
-            value={formData.ma_mon}
-            onChange={handleChange}
-            disabled={mode === "view"}
-          />
-          <FormInput
-            label="Mã lớp học"
-            name="ma_lop"
-            value={formData.ma_lop}
-            onChange={handleChange}
-            disabled={mode === "view"}
-          />
-        </div>
-        <FormInput
-          label="Thời gian"
-          name="thoi_gian"
-          type="date"
-          value={formData.thoi_gian}
-          onChange={handleChange}
-          disabled={mode === "view"}
-        />
-        <FormInput
-          label="Link bài thi"
-          name="link_bai_thi"
-          value={formData.link_bai_thi}
-          onChange={handleChange}
-          disabled={mode === "view"}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        {mode !== "view" && (
-          <Button variant="primary" onClick={handleAction}>
-            {titleButton}
-          </Button>
-        )}
-      </Modal.Footer>
-    </Modal>
-  );
+    useEffect(() => {
+        if (mode === "edit" || mode === "view") {
+            setFormData({
+                subject: examData.subject ? { id: null, label: examData.subject } : null,
+                classField: examData.classField ? { id: null, label: examData.classField } : null,
+                examDate: examData.examDate || "",
+                examLink: examData.examLink || "",
+            });
+
+            // Set selectedClassId if classField exists
+            const selectedClass = cls.find(c => c.label === examData.classField);
+            if (selectedClass) {
+                setSelectedClassId(selectedClass.id);
+            }
+        } else {
+            setFormData({
+                subject: null,
+                classField: null,
+                examDate: "",
+                examLink: "",
+            });
+            setSelectedClassId(null);
+        }
+    }, [examData, mode, cls]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleClassSelect = (item) => {
+        setSelectedClassId(item.id);
+        setFormData(prevData => ({ ...prevData, classField: item }));
+    };
+
+    const handleSubjectSelect = (item) => {
+        setFormData(prevData => ({ ...prevData, subject: item }));
+    };
+
+    const handleAction = () => {
+        if (action) action({
+            ...formData,
+            subject: formData.subject ? formData.subject.label : null,
+            classField: formData.classField ? formData.classField.label : null,
+        });
+        handleClose();
+    };
+
+    console.log("Check class", cls);
+    console.log("Check subjects", subjects);
+    console.log("FormData", formData);
+
+    return (
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>{title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="d-flex justify-content-between">
+                    <DropDownComponent
+                        title={"Chọn Lớp Học"}
+                        label={"Lớp Học"}
+                        mode={mode}
+                        data={cls}
+                        defaultValue={formData.classField ? formData.classField.label : null}
+                        onSelect={handleClassSelect}
+                    />
+                    <DropDownComponent
+                        title={"Chọn Môn Học"}
+                        label={"Môn Học"}
+                        mode={mode}
+                        data={subjects}
+                        defaultValue={formData.subject ? formData.subject.label : null}
+                        onSelect={handleSubjectSelect}
+                    />
+                </div>
+                <FormInput
+                    label="Thời gian"
+                    name="examDate"
+                    type="date"
+                    value={formData.examDate}
+                    onChange={handleChange}
+                    disabled={mode === "view"}
+                />
+                <FormInput
+                    label="Link bài thi"
+                    name="examLink"
+                    value={formData.examLink}
+                    onChange={handleChange}
+                    disabled={mode === "view"}
+                />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                {mode !== "view" && (
+                    <Button variant="primary" onClick={handleAction}>
+                        {titleButton}
+                    </Button>
+                )}
+            </Modal.Footer>
+        </Modal>
+    );
 };
 
 export default ModalExamComponent;

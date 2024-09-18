@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import TableComponents from "./TableComponent";
 import PagingComponent from "./PagingComponent";
 import ModalComponent from "./ModalComponent";
-import { Button } from "react-bootstrap";
+import { Button,Spinner } from "react-bootstrap";
 import axios from "axios";
-import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 
 const ReservationComponent = () => {
   const [keyword, setKeyword] = useState("");
@@ -17,28 +16,28 @@ const ReservationComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Set the number of items per page
 
-  const apiCreate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
-  const apiDelete = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
-  const apiView = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
-  const apiUpdate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/hocvien";
+  const apiCreate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const apiDelete = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const apiView = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const apiUpdate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
 
   const formFieldsProp = [
     {
-      name: "id_hoc_vien",
+      name: "student_id",
       type: "text",
       label: "Mã học viên",
       placeholder: "Nhập mã học viên",
     },
-    { name: "thoi_gian_bat_dau", type: "date", label: "Thời gian bắt đầu" },
-    { name: "ngay_ket_thuc", type: "date", label: "Thời gian kết thúc" },
+    { name: "start_time", type: "date", label: "Thời gian bắt đầu" },
+    { name: "end_time", type: "date", label: "Thời gian kết thúc" },
     {
-      name: "trang_thai",
+      name: "status",
       type: "text",
       label: "Trạng thái",
       placeholder: "Nhập trạng thái",
     },
     {
-      name: "id_ma_mon",
+      name: "subject_id",
       type: "text",
       label: "Mã môn học",
       placeholder: "Nhập Id môn học",
@@ -96,10 +95,10 @@ const ReservationComponent = () => {
     setKeyword(term);
 
     if (term) {
-      // Filter dataTable based on the id_hoc_vien field
+      // Filter dataTable based on the student_id field
       const filtered = dataTable.filter((item) => {
-        const itemIdHocVien = item.id_hoc_vien
-          ? item.id_hoc_vien.toString()
+        const itemIdHocVien = item.student_id
+          ? item.student_id.toString()
           : ""; // Convert to string if not null
         return itemIdHocVien.toLowerCase().includes(term);
       });

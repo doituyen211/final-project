@@ -43,6 +43,14 @@ function TableComponents({
     setShowConfirmModal(true);
   };
 
+  // Function to get inline style for status based on status value
+  const getStatusStyle = (status) => {
+    return {
+      color: status === 1 ? "green" : "red",
+      fontWeight: "bold",
+    };
+  };
+
   return (
     <>
       <h2>{titleTable}</h2>
@@ -58,7 +66,16 @@ function TableComponents({
             <tr key={rowIndex}>
               <td>{row.id}</td>
               {formFieldsProp.map((field, cellIndex) => (
-                <td key={cellIndex}>{row[field.name]}</td>
+                <td
+                  key={cellIndex}
+                  style={
+                    field.name === 'status' ? getStatusStyle(row[field.name]) : {}
+                  }
+                >
+                  {field.name === 'status'
+                    ? (row[field.name] === 1 ? "Đang bảo lưu" : "Hết bảo lưu")
+                    : row[field.name]}
+                </td>
               ))}
               <td className="text-center">
                 <Button
