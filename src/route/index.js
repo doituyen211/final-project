@@ -1,12 +1,17 @@
 import {
     AllowanceComponents,
+    AttendanceComponent,
+    AttendanceStudent,
+    ClassComponent,
     ClassMembersComponent,
     ContractComponents,
     CourseComponent,
     CustomerSaleComponent,
+    DashboardEducationComponent,
     DashboardSalesComponent,
     DecisionComponent,
     DepartmentComponent,
+    ExamComponent,
     LiabilityComponents,
     LoginComponent,
     MarketingCampaignComponent,
@@ -19,24 +24,10 @@ import {
     StudentComponent,
     SubjectComponent,
     TimesheetComponent,
+    TrainningProgramComponent,
     TuitionFeeComponent,
-    UserComponent,
-  BookComponent,
-  ScheduleComponent3,
-  TrainningProgramComponent,
-  ClassComponent,
-  ExamComponent,
-  PositionComponents,
-  DashboardEducationComponent,
-  AttendanceComponent,
-  AttendanceStudent
+    UserComponent
 } from "../pages";
-import ClassComponent from "../pages/ClassComponent";
-import ExamComponent from "../pages/ExamComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-import DashboardEducationComponent from "../pages/DashboardEducationComponent";
-import AttendanceComponent from "../pages/AttendanceComponent";
-import AttendanceStudent from "../pages/AttendanceStudentComponent";
 
 export const routeSideBar = [
     {

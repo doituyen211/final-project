@@ -25,23 +25,22 @@ import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
-import LoginComponent from "./LoginComponent";
 import NotFoundComponent from "./NotFoundComponent";
-import TuitionFeeComponent from "./TuitionFeeComponent";
 import PositionComponents from "./PositionComponents";
 import SubjectComponentLayout2 from "./SubjectComponentLayout2";
+import DashboardEducationComponent from "./DashboardEducationComponent";
+import AttendanceStudent from "./AttendanceStudentComponent";
+import AttendanceComponent from "./AttendanceComponent";
 
 export {
     BookComponent,
     CourseComponent,
     ScheduleComponent2,
-    SubjectComponent,
-    UserComponent,
     ScoreComponent,
+    CustomerSaleComponent,
     TuitionFeeComponent,
     MarketingCampaignComponent,
     ClassMembersComponent,
-    CustomerSaleComponent,
     StudentComponent,
     StudenInforComponent,
     DashboardSalesComponent,
@@ -60,26 +59,11 @@ export {
     TimesheetComponent,
     LoginComponent,
     NotFoundComponent,
-  BookComponent,
-  CourseComponent,
-  ScheduleComponent3,
-  SubjectComponent,
-  LoginComponent,
-  UserComponent,
-  SubjectComponentLayout2,
-  ReservationComponent,
-  DecisionComponent,
-  DepartmentComponent,
-  QualificationComponents,
-  ContractComponents,
-  PersonelComponents,
-  LiabilityComponents,
-  ClassComponent,
-  ExamComponent,
-  TrainningProgramComponent,
-  AllowanceComponents,
-  MarketingCampaignComponent,
-  TimesheetComponent,
-  TuitionFeeComponent,
-  PositionComponents,
+    UserComponent,
+    SubjectComponent,
+    PositionComponents,
+    SubjectComponentLayout2,
+    DashboardEducationComponent,
+    AttendanceStudent,
+    AttendanceComponent
 };
