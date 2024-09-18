@@ -26,6 +26,7 @@ import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import LoginComponent from "./LoginComponent";
 import NotFoundComponent from "./NotFoundComponent";
+import ResetPasswordComponent from "./ResetPasswordComponent"
 
 export {
     BookComponent,
@@ -56,4 +57,5 @@ export {
     TimesheetComponent,
     LoginComponent,
     NotFoundComponent,
+    ResetPasswordComponent
 };
