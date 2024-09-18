@@ -26,9 +26,11 @@ import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import LoginComponent from "./LoginComponent";
 import NotFoundComponent from "./NotFoundComponent";
-import ResetPasswordComponent from "./ResetPasswordComponent"
+import ResetPasswordComponent from "./ResetPasswordComponent";
+import ScheduleComponent from "./ScheduleComponent";
 
 export {
+    ScheduleComponent,
     BookComponent,
     CourseComponent,
     ScheduleComponent2,
@@ -57,5 +59,5 @@ export {
     TimesheetComponent,
     LoginComponent,
     NotFoundComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
 };
