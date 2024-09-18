@@ -1,8 +1,8 @@
-import { Modal, Button } from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
 import FormInput from "../FormInputComponents";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import DropDownComponent from "../DropDownComponent";
-import { getAllClasses, getSubjectByClassId } from "../../controllers/ExamController";
+import {getAllClasses, getSubjectByClassId} from "../../controllers/ExamController";
 
 const ModalExamComponent = ({
                                 show,
@@ -23,6 +23,7 @@ const ModalExamComponent = ({
     const [subjects, setSubjects] = useState([]);
     const [cls, setCls] = useState([]);
     const [selectedClassId, setSelectedClassId] = useState(null);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const loadClasses = async () => {
@@ -31,7 +32,7 @@ const ModalExamComponent = ({
                 console.log("Received classes data:", classes);
 
                 if (Array.isArray(classes)) {
-                    setCls(classes.map(cls => ({ id: cls.id, label: cls.className })));
+                    setCls(classes.map(cls => ({id: cls.id, label: cls.className})));
                 } else {
                     console.error("Unexpected data format", classes);
                 }
@@ -52,7 +53,7 @@ const ModalExamComponent = ({
                     console.log("Received subjects data:", subjects);
 
                     if (Array.isArray(subjects)) {
-                        setSubjects(subjects.map(subject => ({ id: subject.subject_id, label: subject.subject_name })));
+                        setSubjects(subjects.map(subject => ({id: subject.subject_id, label: subject.subject_name})));
                     } else {
                         console.error("Unexpected data format", subjects);
                     }
@@ -71,8 +72,8 @@ const ModalExamComponent = ({
     useEffect(() => {
         if (mode === "edit" || mode === "view") {
             setFormData({
-                subject: examData.subject ? { id: null, label: examData.subject } : null,
-                classField: examData.classField ? { id: null, label: examData.classField } : null,
+                subject: examData.subject ? {id: null, label: examData.subject} : null,
+                classField: examData.classField ? {id: null, label: examData.classField} : null,
                 examDate: examData.examDate || "",
                 examLink: examData.examLink || "",
             });
@@ -94,7 +95,7 @@ const ModalExamComponent = ({
     }, [examData, mode, cls]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -103,20 +104,59 @@ const ModalExamComponent = ({
 
     const handleClassSelect = (item) => {
         setSelectedClassId(item.id);
-        setFormData(prevData => ({ ...prevData, classField: item }));
+        setFormData(prevData => ({...prevData, classField: item}));
     };
 
     const handleSubjectSelect = (item) => {
-        setFormData(prevData => ({ ...prevData, subject: item }));
+        setFormData(prevData => ({...prevData, subject: item}));
+    };
+
+    // Validate form data
+    const validateFormData = () => {
+        const newErrors = {};
+
+        if (!formData.classField) {
+            newErrors.classField = "Vui lòng chọn lớp học!";
+        }
+
+        if (!formData.subject) {
+            newErrors.subject = "Vui lòng chọn môn học!";
+        }
+
+        if (!formData.examDate) {
+            newErrors.examDate = "Vui lòng chọn thời gian!";
+        }
+
+        if (!formData.examLink) {
+            newErrors.examLink = "Vui lòng nhập link bài thi!";
+        } else if (!isValidURL(formData.examLink)) {
+            newErrors.examLink = "Link không hợp lệ!";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    // Check if URL is valid
+    const isValidURL = (url) => {
+        const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(url);
     };
 
     const handleAction = () => {
-        if (action) action({
-            ...formData,
-            subject: formData.subject ? formData.subject.label : null,
-            classField: formData.classField ? formData.classField.label : null,
-        });
-        handleClose();
+        if (validateFormData()) {
+            if (action) action({
+                ...formData,
+                subject: formData.subject ? formData.subject.label : null,
+                classField: formData.classField ? formData.classField.label : null,
+            });
+            handleClose();
+        }
     };
 
     console.log("Check class", cls);
@@ -137,6 +177,7 @@ const ModalExamComponent = ({
                         data={cls}
                         defaultValue={formData.classField ? formData.classField.label : null}
                         onSelect={handleClassSelect}
+                        error={errors.classField}
                     />
                     <DropDownComponent
                         title={"Chọn Môn Học"}
@@ -145,6 +186,7 @@ const ModalExamComponent = ({
                         data={subjects}
                         defaultValue={formData.subject ? formData.subject.label : null}
                         onSelect={handleSubjectSelect}
+                        error={errors.subject}
                     />
                 </div>
                 <FormInput
@@ -154,6 +196,7 @@ const ModalExamComponent = ({
                     value={formData.examDate}
                     onChange={handleChange}
                     disabled={mode === "view"}
+                    error={errors.examDate}
                 />
                 <FormInput
                     label="Link bài thi"
@@ -161,6 +204,7 @@ const ModalExamComponent = ({
                     value={formData.examLink}
                     onChange={handleChange}
                     disabled={mode === "view"}
+                    error={errors.examLink}
                 />
             </Modal.Body>
             <Modal.Footer>
