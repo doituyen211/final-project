@@ -31,7 +31,7 @@ const LoginComponent = () => {
 
                 localStorage.setItem('authToken', res.headers['authorization'] || '');
                 console.log("Headers saved to local storage : " + localStorage.getItem('authToken'));
-                navigate("/admin/dashboard");
+                navigate("/");
             }
         ).catch(
             (error) => {
