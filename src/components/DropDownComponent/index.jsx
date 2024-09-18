@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 function DropDownComponent(props) {
-    const { title, label, mode, data, onSelect, defaultValue } = props;
+    const { title, label, mode, data, onSelect, defaultValue, error } = props;
     const [selectedItem, setSelectedItem] = useState(null);
     const isDisabled = mode === 'view';
 
@@ -15,7 +15,7 @@ function DropDownComponent(props) {
 
     const handleSelect = (item) => {
         setSelectedItem(item);
-        console.log("select item: ", item);
+        console.log("Selected item: ", item);
         if (onSelect) {
             onSelect(item);
         }
@@ -27,7 +27,7 @@ function DropDownComponent(props) {
     };
 
     return (
-        <div>
+        <div className="form-group">
             {label && <label>{label}</label>}
             <Dropdown>
                 <Dropdown.Toggle
@@ -40,7 +40,7 @@ function DropDownComponent(props) {
 
                 <Dropdown.Menu style={menuStyle}>
                     {data && data.length > 0 ? (
-                        data.map((item,index) => (
+                        data.map((item, index) => (
                             <Dropdown.Item
                                 key={`${item.label}-${index}`}
                                 onClick={() => handleSelect(item)}
@@ -54,6 +54,8 @@ function DropDownComponent(props) {
                     )}
                 </Dropdown.Menu>
             </Dropdown>
+            {/* Hiển thị lỗi */}
+            {error && <div className="invalid-feedback d-block">{error}</div>}
         </div>
     );
 }
