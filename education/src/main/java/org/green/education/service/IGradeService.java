@@ -15,4 +15,5 @@ public interface IGradeService {
     CoreResponse<?> deletingGrade(int id);
 
     CoreResponse<?> getGradeByExamDate(int studentID);
+    CoreResponse<?> getAllGradeByExamDate();
 }

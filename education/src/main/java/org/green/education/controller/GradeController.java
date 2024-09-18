@@ -18,6 +18,11 @@ public class GradeController {
         return iGradeService.getGradeByExamDate(studentId);
     }
 
+    @GetMapping("/get-all-grade-by-exam-date")
+    public CoreResponse<?> getAllGradeByExamDate() {
+        return iGradeService.getAllGradeByExamDate();
+    }
+
     @GetMapping
     public CoreResponse<?> getAllGrade() {
         return iGradeService.getAllGrade();
