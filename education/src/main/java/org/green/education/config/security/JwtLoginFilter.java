@@ -5,7 +5,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.green.education.entity.Account;
 import org.green.education.repository.IAccountRepository;
+import org.green.education.repository.IAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +35,8 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
     @Autowired
     private IAccountRepository repository ;
+    @Autowired
+    private IAuthRepository authRepository ;
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
@@ -80,9 +84,20 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                 .findFirst() // Get the first (and only) role
                 .orElseThrow(() -> new RuntimeException("User has no roles assigned"));
 
+        String username = authResult.getName();
+        Account account;
+        if ( username.contains("@")) {
+             account = authRepository.findByEmail(username);
+        }
+        else
+        {
+             account = authRepository.findByUsername(username);
+        }
+        String fullName = account.getFullName();
+        Integer accountId = account.getId();
 
         // Generate the JWT token with the username and role
-        String token = jwtHandler.generateToken(authResult.getName(), role);
+        String token = jwtHandler.generateToken(authResult.getName(),fullName, accountId,  role);
 
         // Add the token to the response header
         response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
