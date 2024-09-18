@@ -1,30 +1,66 @@
 import { useQuery } from "@tanstack/react-query";
 import { dashboardEducationApi } from "../../services/dashboardEducationApi";
+import useDashBoardStore from "./store";
 
-export const useGetGraduateClasses = () => {
+export const useGetQuantity = () => {
   const { data } = useQuery({
-    queryKey: ["graduate-classes"],
-    queryFn: dashboardEducationApi.getGraduateClasses,
+    queryKey: ["manage-quantity"],
+    queryFn: dashboardEducationApi.getQuantity,
   });
 
-  const labels = data?.data.map((item) => item.year);
-  const totalGraduateClasses = data?.data.map(
-    (item) => item.totalGraduateClasses
-  );
+  const totalStudentsAllYears = data?.data.reduce((total, yearData) => {
+    return (
+      total +
+      yearData.data.reduce((yearTotal, cur) => yearTotal + cur.totalStudents, 0)
+    );
+  }, 0);
 
-  return { labels, totalGraduateClasses };
+  const totalGraduateStudentsAllYears = data?.data.reduce((total, yearData) => {
+    return (
+      total +
+      yearData.data.reduce(
+        (yearTotal, cur) => yearTotal + cur.graduateStudents,
+        0
+      )
+    );
+  }, 0);
+
+  const totalYears = data?.data.length;
+
+  return {
+    totalStudentsAllYears,
+    totalGraduateStudentsAllYears,
+    totalYears,
+  };
 };
 
-export const useGetReserveStudent = () => {
+export const useGetQuantityPerYear = () => {
+  const year = useDashBoardStore((state) => state.year);
   const { data } = useQuery({
-    queryKey: ["reserve-student"],
-    queryFn: dashboardEducationApi.getReserveStudent,
+    queryKey: ["manage-quantity-per-year", year],
+    queryFn: () => dashboardEducationApi.getQuantityPerYear(year),
   });
 
-  const labels = data?.data.map((item) => item.year);
-  const totalReserveStudent = data?.data.map(
-    (item) => item.totalReserveStudent
+  const dataQuantityPerYear = data?.data.data;
+
+  const labels = dataQuantityPerYear?.map((item) => item.month);
+
+  const totalStudentPerYear = dataQuantityPerYear?.map(
+    (item) => item.totalStudents
   );
 
-  return { labels, totalReserveStudent };
+  const totalGraduateStudentPerYear = dataQuantityPerYear?.map(
+    (item) => item.graduateStudents
+  );
+
+  const totalReserveStudentPerYear = dataQuantityPerYear?.map(
+    (item) => item.reserveStudents
+  );
+
+  return {
+    labels,
+    totalStudentPerYear,
+    totalGraduateStudentPerYear,
+    totalReserveStudentPerYear,
+  };
 };

@@ -1,9 +1,9 @@
 import BookComponent from "./BookComponent";
 import CourseComponent from "./CourseComponent";
-import LoginComponent from "./LoginComponent";
 import ScheduleComponent2 from "./ScheduleComponent2";
 import ScoreComponent from "./ScoreComponent";
 import CustomerSaleComponent from "./CustomerSaleComponent";
+import TuitionFeeComponent from "./TuitionFeeComponent";
 import MarketingCampaignComponent from "./MarketingCampaignComponent";
 import ClassMembersComponent from "./ClassMembersComponent";
 import StudentComponent from "./StudentComponent";
@@ -24,31 +24,50 @@ import TimesheetComponent from "./TimesheetComponent";
 import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
-import TuitionFeeComponent from "./TuitionFeeComponent";
+import LoginComponent from "./LoginComponent";
+import NotFoundComponent from "./NotFoundComponent";
 import PositionComponents from "./PositionComponents";
 import SubjectComponentLayout2 from "./SubjectComponentLayout2";
+import DashboardEducationComponent from "./DashboardEducationComponent";
+import AttendanceStudent from "./AttendanceStudentComponent";
+import AttendanceComponent from "./AttendanceComponent";
+import ResetPasswordComponent from "./ResetPasswordComponent";
+import ScheduleComponent from "./ScheduleComponent";
 
 export {
-  BookComponent,
-  CourseComponent,
-  ScheduleComponent3,
-  SubjectComponent,
-  LoginComponent,
-  UserComponent,
-  SubjectComponentLayout2,
-  ReservationComponent,
-  DecisionComponent,
-  DepartmentComponent,
-  QualificationComponents,
-  ContractComponents,
-  PersonelComponents,
-  LiabilityComponents,
-  ClassComponent,
-  ExamComponent,
-  TrainningProgramComponent,
-  AllowanceComponents,
-  MarketingCampaignComponent,
-  TimesheetComponent,
-  TuitionFeeComponent,
-  PositionComponents,
+    ScheduleComponent,
+    BookComponent,
+    CourseComponent,
+    ScheduleComponent2,
+    SubjectComponent,
+    UserComponent,
+    ScoreComponent,
+    CustomerSaleComponent,
+    TuitionFeeComponent,
+    MarketingCampaignComponent,
+    ClassMembersComponent,
+    StudentComponent,
+    StudenInforComponent,
+    DashboardSalesComponent,
+    ScheduleComponent3,
+    ReservationComponent,
+    DecisionComponent,
+    DepartmentComponent,
+    QualificationComponents,
+    ContractComponents,
+    PersonelComponents,
+    LiabilityComponents,
+    ClassComponent,
+    ExamComponent,
+    TrainningProgramComponent,
+    AllowanceComponents,
+    TimesheetComponent,
+    LoginComponent,
+    NotFoundComponent,
+    ResetPasswordComponent,
+    PositionComponents,
+    SubjectComponentLayout2,
+    DashboardEducationComponent,
+    AttendanceStudent,
+    AttendanceComponent
 };
