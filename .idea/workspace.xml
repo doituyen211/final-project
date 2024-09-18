@@ -5,21 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a67417b3c0a6adbb2ed5374b74b95a7bc0f3997" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/9/29a69a4bd30e03a1514dc4dac2c6c92fff1168a1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/c/6cc179d305a117c5559b48f4eb35601ee0ec94f1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/a/8ae2280cd329147804af5f8022572eb81ed40bc9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/b/eb6f65738eac9347c3957a599d9db4c90e46572a" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ChangePasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IChangePasswordRequestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/c/ec010080da941b369dcb8d1cecc3cbe1c105e3f5" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/c/ec010080da941b369dcb8d1cecc3cbe1c105e3f5" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/a/0a67417b3c0a6adbb2ed5374b74b95a7bc0f3997" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/9/29a69a4bd30e03a1514dc4dac2c6c92fff1168a1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/6/c/6cc179d305a117c5559b48f4eb35601ee0ec94f1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/a/8ae2280cd329147804af5f8022572eb81ed40bc9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/b/eb6f65738eac9347c3957a599d9db4c90e46572a" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/education/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IAuthRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IAuthRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IAuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/education/src/main/resources/db/changelog/changelog.sql" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/resources/db/changelog/changelog.sql" afterDir="false" />
     </list>
@@ -27,6 +23,14 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,37 +46,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.EducationApplication.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.EducationApplication.executor": "Run",
-    "Spring Boot.HrApplication.executor": "Run",
-    "Spring Boot.ReceivableApplication.executor": "Debug",
-    "WebServerToolWindowFactoryState": "false",
-    "android.gradle.sync.needed": "true",
-    "git-widget-placeholder": "feature/namlh/crm__subject",
-    "jdk.selected.JAVA_MODULE": "openjdk-22",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/BE/backend-green",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "spring.configuration.checksum": "c4fd8efc7c0a733a824b19f896f75c25",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.EducationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.EducationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.HrApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ReceivableApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging feature/namlh/crm__subject&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/BE/backend-green&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;c4fd8efc7c0a733a824b19f896f75c25&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="org.green.education.service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.green.education.repository" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.EducationApplication">
     <configuration name="EducationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.green.education.EducationApplication" />
       <module name="education" />
@@ -99,6 +111,42 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="core" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.core.CoreApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EducationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="education" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.education.EducationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HrApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="hr" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.hr.HrApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReceivableApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="receivable" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.receivable.ReceivableApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SaleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="sale" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.sale.SaleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.EducationApplication" />
@@ -113,7 +161,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1725856339789</updated>
-      <workItem from="1725942664846" duration="488000" />
+      <workItem from="1725942664846" duration="641000" />
+      <workItem from="1725961002529" duration="872000" />
+      <workItem from="1726193816471" duration="5309000" />
+      <workItem from="1726555048097" duration="9511000" />
     </task>
     <servers />
   </component>

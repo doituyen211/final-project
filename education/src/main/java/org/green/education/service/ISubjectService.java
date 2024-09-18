@@ -6,14 +6,14 @@ import org.green.education.form.SubjectFilterForm;
 import org.springframework.http.ResponseEntity;
 
 public interface ISubjectService {
-    ResponseEntity<?> create(SubjectDto subjectDto);
+    CoreResponse<?> create(SubjectDto subjectDto);
 
-     ResponseEntity<?> findALL(SubjectFilterForm form , int page , int pageSize,
+    CoreResponse<?> findALL(SubjectFilterForm form , int page , int pageSize,
                                String sortDir, String sortBy     ) ;
-    ResponseEntity<?> findById(Integer id);
+    CoreResponse<?> findById(Integer id);
 
-    ResponseEntity<?> updateById(Integer id, SubjectDto subjectDto);
+    CoreResponse<?> updateById(Integer id, SubjectDto subjectDto);
 
-    ResponseEntity<?> deleteById(Integer id);
+    CoreResponse<?> deleteById(Integer id);
     CoreResponse<?> findAllNotPaging( ) ;
 }

@@ -21,17 +21,23 @@ public class JwtHandler {
     }
 
 
-    public String generateToken(String username, String role) {
-        long currenTimeMilis = System.currentTimeMillis();
+    public String generateToken(String username, String fullName, Integer accountId, String role) {
+        // Get the current time in milliseconds
+        long currentTimeMillis = System.currentTimeMillis();
+
+        // Create the JWT
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuer("com.vti")
-                .setIssuedAt(new Date(currenTimeMilis))
-                .setExpiration(new Date(currenTimeMilis + expirationInMs))
-                .claim("role", role)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
-                .compact();
+                .setSubject(username) // Set the subject (username)
+                .setIssuer("com.vti") // Set the issuer
+                .setIssuedAt(new Date(currentTimeMillis)) // Set the issued date
+                .setExpiration(new Date(currentTimeMillis + expirationInMs)) // Set the expiration date
+                .claim("role", role) // Add role claim
+                .claim("fullName", fullName) // Add full name claim
+                .claim("accountId", accountId) // Add account ID claim
+                .signWith(SignatureAlgorithm.HS512, secretKey) // Sign the token with the secret key
+                .compact(); // Generate the JWT string
     }
+
 
     public String parseEmail(String token) {
         Claims claims = Jwts.parserBuilder()

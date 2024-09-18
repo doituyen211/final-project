@@ -19,6 +19,7 @@ public class AccountCreateForm {
     @NotBlank(message = "{AccountForm.password.NotBlank }")
     private String password;
     private String firstName;
+    private String username;
     private String lastName;
     @NotEmpty(message = "Role is not Blank!")
     private Account.Role role;
