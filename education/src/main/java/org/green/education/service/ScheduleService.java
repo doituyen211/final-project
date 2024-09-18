@@ -1,5 +1,6 @@
 package org.green.education.service;
 
+import jakarta.transaction.Transactional;
 import org.green.education.dto.ClassScheduleDto;
 import org.green.education.entity.Class;
 import org.green.education.entity.ClassSchedule;
@@ -16,9 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,7 @@ public class ScheduleService implements IScheduleService {
 
     @Autowired
     private ModelMapper mapper ;
+
     @Override
     public Optional<ClassSchedule> getScheduleById(int id) {
         return scheduleRepository.findById(id);
@@ -64,23 +66,6 @@ public class ScheduleService implements IScheduleService {
         return listScheduleDTO;
     }
     @Override
-//    public List<ScheduleDTO> getAllSchedule() {
-//        List<ScheduleDTO> listScheduleDTO= new ArrayList<>();
-//        List<ClassSchedule> schedules = scheduleRepository.findAll();
-//        for (ClassSchedule classSchedule : schedules) {
-//            ScheduleDTO scheduleDTO = new ScheduleDTO();
-//            scheduleDTO.setId(classSchedule.getId());
-//            scheduleDTO.setSubjectName(classSchedule.getSubject().getSubjectName());
-//            scheduleDTO.setTime(classSchedule.getTime());
-//            scheduleDTO.setStartTime(classSchedule.getStartTime());
-//            scheduleDTO.setEndTime(classSchedule.getEndTime());
-//            scheduleDTO.setClassName(classSchedule.getMyClass().getClassName());
-//            scheduleDTO.setClassRoom(classSchedule.getClassroom());
-//            scheduleDTO.setStaffId(classSchedule.getStaffId());
-//            listScheduleDTO.add(scheduleDTO);
-//        }
-//        return listScheduleDTO;
-//    }
     public List<ClassScheduleDto> getAllSchedule() {
         return scheduleRepository.findAll().stream()
                 .map(classSchedule -> {
@@ -97,38 +82,31 @@ public class ScheduleService implements IScheduleService {
 
 
     @Override
+    @Transactional
     public void deleteSchedule(int id) {
-        scheduleRepository.deleteById(id);
+        scheduleRepository.softDelete(id);
     }
+
 
     @Override
-    public ScheduleForm updateNewSchedule(int id, ScheduleForm scheduleDTO) {
+    public ScheduleForm updateNewSchedule(int id, ScheduleForm scheduleForm) {
         ClassSchedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Schedule not found"));
-        Subject subject = subjectRepository.findById(scheduleDTO.getSubjectId()).orElseThrow(() -> new RuntimeException("subject not found"));
-        Class myClass = classRepository.findById(scheduleDTO.getClassId()).orElseThrow(() -> new RuntimeException("class not found"));
+        Subject subject = subjectRepository.findById(scheduleForm.getSubjectId()).orElseThrow(() -> new RuntimeException("subject not found"));
+        Class myClass = classRepository.findById(scheduleForm.getClassId()).orElseThrow(() -> new RuntimeException("class not found"));
+
         schedule.setSubject(subject);
-        schedule.setTime(scheduleDTO.getTime());
-        schedule.setStartTime(scheduleDTO.getStartTime());
-        schedule.setEndTime(scheduleDTO.getEndTime());
+        schedule.setTime(scheduleForm.getTime());
+        schedule.setStartTime(scheduleForm.getStartTime());
+        schedule.setEndTime(scheduleForm.getEndTime());
         schedule.setMyClass(myClass);
-        schedule.setClassroom(scheduleDTO.getClassRoom());
-        schedule.setStaffId(scheduleDTO.getStaffId());
+        schedule.setClassroom(scheduleForm.getClassRoom());
+        schedule.setStaffId(scheduleForm.getStaffId());
 
         scheduleRepository.save(schedule);
-        return scheduleDTO;
+        return scheduleForm;
     }
 
-
-//    @Override
-//    public List<ScheduleDTO> getSchedule() {
-//        try {
-//            return scheduleRepository.findSchedule();
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return null;
-//    }
 
     @Override
     public List<ClassScheduleDto> searchByClassName(String className) {
@@ -156,5 +134,47 @@ public class ScheduleService implements IScheduleService {
                     return scheduleDTO;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ScheduleForm addSchedule(ScheduleForm scheduleForm) {
+        Subject subject = subjectRepository.findById(scheduleForm.getSubjectId())
+                .orElseThrow(() -> new RuntimeException("Subject không tìm thấy"));
+
+        Class myClass = classRepository.findById(scheduleForm.getClassId())
+                .orElseThrow(() -> new RuntimeException("Class không tìm thấy"));
+
+        ClassSchedule classSchedule = new ClassSchedule();
+        classSchedule.setSubject(subject);
+        classSchedule.setTime(scheduleForm.getTime());
+        classSchedule.setStartTime(scheduleForm.getStartTime());
+        classSchedule.setEndTime(scheduleForm.getEndTime());
+        classSchedule.setMyClass(myClass);
+        classSchedule.setClassroom(scheduleForm.getClassRoom());
+        classSchedule.setStaffId(scheduleForm.getStaffId());
+
+         scheduleRepository.save(classSchedule);
+
+        return scheduleForm;
+    }
+
+    @Override
+    public List<Map<String, String>> getDistinctClassNames() {
+        return scheduleRepository.findDistinctClassNames();
+    }
+
+    @Override
+    public List<Map<String, String>> getDistinctClassrooms() {
+        return scheduleRepository.findDistinctClassrooms();
+    }
+
+    @Override
+    public List<Map<String, String>> getDistinctStaffIds() {
+        return scheduleRepository.findDistinctStaffIds();
+    }
+
+    @Override
+    public List<Map<String, String>> getDistinctSubjectNames() {
+        return scheduleRepository.findDistinctSubjectNames();
     }
 }

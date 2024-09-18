@@ -1,12 +1,12 @@
 package org.green.education.service;
 
-import org.green.education.entity.ClassSchedule;
+import org.green.education.dto.ClassScheduleDto;
 import org.green.education.entity.ClassSchedule;
 import org.green.education.form.ScheduleForm;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -15,18 +15,21 @@ public interface IScheduleService {
     Optional<ClassSchedule> getScheduleById(int id);
 
     ClassSchedule addSchedule(ClassSchedule classSchedule);
-    List<ClassSchedule> getAllSchedule();
-    List<ClassSchedule> getAllSchedule(int page , int limit);
+    List<ClassScheduleDto> getAllSchedule();
+    List<ClassScheduleDto> getAllSchedule(int page , int limit);
 
-
-//    ClassSchedule updateSchedule(int id, ClassSchedule newSchedule);
 
     void deleteSchedule(int id);
 
-
     ScheduleForm updateNewSchedule(int id, ScheduleForm scheduleDTO);
-    //
-//    List<ClassSchedule> getSchedule();
-    List<ClassSchedule> searchByClassName(String className);
-    List<ClassSchedule> searchBySubjectName(String subjectName);
+
+    List<ClassScheduleDto> searchByClassName(String className);
+    List<ClassScheduleDto> searchBySubjectName(String subjectName);
+
+    ScheduleForm addSchedule(ScheduleForm scheduleForm);
+
+    List<Map<String, String>> getDistinctSubjectNames();
+    List<Map<String, String>> getDistinctClassNames();
+    List<Map<String, String>> getDistinctClassrooms();
+    List<Map<String, String>> getDistinctStaffIds();
 }

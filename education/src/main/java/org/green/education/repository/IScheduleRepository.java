@@ -11,29 +11,32 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 public interface IScheduleRepository extends JpaRepository<ClassSchedule, Integer >, JpaSpecificationExecutor<ClassSchedule> {
-//    @Modifying
-//    @Query("SELECT new org.green.education.dto.ScheduleDTO(s.fullName, g.grade, es.examDate, sub.subjectName, tp.programName, c.courseName, g.status) " +
-//            "FROM Student s " +
-//            "JOIN Grade g ON s.id = g.id " +
-//            "JOIN ExamSchedule es ON g.id = es.id " +
-//            "JOIN Class cls ON es.id = cls.id " +
-//            "JOIN TrainingProgram tp ON cls.id = tp.programId " +
-//            "JOIN Course c ON tp.course.id = c.id " +
-//            "JOIN Subject sub ON es.id = sub.subjectId")
-//    List<ScheduleDTO> findSchedule();
-
-//    @Modifying
-//    @Query(value = "select * from class_schedule where id = ?", nativeQuery = true)
-//    Optional<ClassSchedule> getScheduleById(int id);
-
 
     @Query("SELECT cs FROM ClassSchedule cs WHERE LOWER(cs.myClass.className) LIKE LOWER(CONCAT('%', :className, '%'))")
     List<ClassSchedule> findByClassNameContaining(@Param("className") String className);
 
     @Query("SELECT cs FROM ClassSchedule cs WHERE LOWER(cs.subject.subjectName) LIKE LOWER(CONCAT('%', :subjectName, '%'))")
     List<ClassSchedule> findBySubjectNameContaining(@Param("subjectName") String subjectName);
+
+    @Modifying
+    @Query("UPDATE ClassSchedule cs SET cs.status = false WHERE cs.id = :id")
+    void softDelete(@Param("id") Integer id);
+
+    @Query("SELECT NEW map(CAST(c.id AS string) as id, c.className as name) FROM Class c")
+    List<Map<String, String>> findDistinctClassNames();
+
+    @Query("SELECT NEW map(cs.classroom as name) FROM ClassSchedule cs GROUP BY cs.classroom")
+    List<Map<String, String>> findDistinctClassrooms();
+
+    @Query("SELECT NEW map(CAST(s.subjectId AS string) as id, s.subjectName as name) FROM Subject s")
+    List<Map<String, String>> findDistinctSubjectNames();
+
+    @Query("SELECT NEW map(CAST(cs.staffId AS string) as id, CAST(cs.staffId AS string) as name) FROM ClassSchedule cs GROUP BY cs.staffId")
+    List<Map<String, String>> findDistinctStaffIds();
+
 }

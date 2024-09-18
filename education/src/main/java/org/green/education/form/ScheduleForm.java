@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,10 +18,10 @@ public class ScheduleForm {
     private String time;
 
     @JsonProperty("start_time")
-    private Date startTime;
+    private LocalDate startTime;
 
     @JsonProperty("end_time")
-    private Date endTime;
+    private LocalDate endTime;
 
     @JsonProperty("class_id")
     private Integer classId;

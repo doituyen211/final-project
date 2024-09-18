@@ -2,11 +2,13 @@ package org.green.education.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,10 +24,10 @@ public class ClassScheduleDto
     private String time;
 
     @JsonProperty("start_time")
-    private Date startTime;
+    private LocalDate startTime;
 
     @JsonProperty("end_time")
-    private Date endTime;
+    private LocalDate endTime;
 
     @JsonProperty("class_name")
     private String className;
@@ -35,4 +37,8 @@ public class ClassScheduleDto
 
     @JsonProperty("staff_id")
     private Integer StaffId;
+
+    @JsonProperty("status")
+    private Boolean status;
+
 }
