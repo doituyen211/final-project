@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -28,5 +29,8 @@ public interface ClassRepository extends JpaRepository<Class, Integer>, JpaSpeci
     List<Class> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
 
     Page<Class> findByProgram(TrainingProgram trainingProgram, Pageable pageable);
+
+    Optional<Class> findByClassName(String className);
+
 
 }

@@ -1,10 +1,7 @@
 package org.green.education.dto;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.green.education.entity.Class;
 import org.green.education.entity.ExamSchedule;
 import org.green.education.entity.Subject;
@@ -17,18 +14,13 @@ import java.util.Date;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ExamScheduleDTO {
-    Integer id;
-    Subject subject;
-    Class classField;
-    LocalDate examDate;
-    String examLink;
+    private Integer id;
+    private String subject;
+    private String classField;
+    private LocalDate examDate;
+    private String examLink;
+    private Boolean status;
 
-    public ExamScheduleDTO(Integer id, Subject subject, Class classField, LocalDate examDate, String examLink) {
-        this.id = id;
-        this.subject = subject;
-        this.classField = classField;
-        this.examDate = examDate;
-        this.examLink = examLink;
-    }
 }

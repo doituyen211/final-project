@@ -9,9 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 public class GradeForm {
     private Integer grade;
+    private Integer grade2;
+    private Integer grade3;
     private String status;
     private Integer studentId;
     private Integer subjectId;
     private Integer trainingProgramId;
     private Integer examScheduleId;
+
 }

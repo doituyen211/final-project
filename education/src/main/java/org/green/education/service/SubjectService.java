@@ -36,18 +36,26 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> create(SubjectDto subjectDto) {
+    public CoreResponse<String> create(SubjectDto subjectDto) {
         Subject subject = mapper.map(subjectDto, Subject.class);
 
         Optional<TrainingProgram> optionalProgram = programRepository.findById(subjectDto.getTrainingProgramId());
         if (optionalProgram.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Training Program not found.");
+            return CoreResponse.<String>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Training Program not found.")
+                    .data(null)
+                    .build();
         }
 
         subject.setTrainingProgram(optionalProgram.get());
         subjectRepository.save(subject);
 
-        return ResponseEntity.ok("Add successful!");
+        return CoreResponse.<String>builder()
+                .code(HttpStatus.OK.value())
+                .message("Add successful!")
+                .data("Add successful!")
+                .build();
     }
 
 
@@ -69,7 +77,7 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    public ResponseEntity<?> findALL(SubjectFilterForm form ,  int page , int pageSize,
+    public CoreResponse<?> findALL(SubjectFilterForm form ,  int page , int pageSize,
                                   String sortDir, String sortBy     ) {
         //searc
         Specification<Subject> spec = SubjectSpecification.buildSpec(form) ;
@@ -93,24 +101,43 @@ public class SubjectService implements ISubjectService {
             return subjectDto ;
         }  ).toList() );
 
-        return ResponseEntity.ok(response) ;
-    }
-    @Override
-    public ResponseEntity<?> findById(Integer id) {
-        Optional<Subject> optionalSubject = subjectRepository.findById(id);
-        if (optionalSubject.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found.");
-        }
-        SubjectDto subjectDto = mapper.map(optionalSubject.get(), SubjectDto.class);
-        return ResponseEntity.ok(subjectDto);
+        return CoreResponse.<Map<String, Object>>builder()
+                .code(HttpStatus.OK.value())
+                .message("Subjects retrieved successfully.")
+                .data(response)
+                .build();
     }
 
     @Override
-    @Transactional
-    public ResponseEntity<?> updateById(Integer id, SubjectDto subjectDto) {
+    public CoreResponse<?> findById(Integer id) {
         Optional<Subject> optionalSubject = subjectRepository.findById(id);
         if (optionalSubject.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found.");
+            return CoreResponse.<String>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Subject not found.")
+                    .data(null)
+                    .build();
+        }
+
+        SubjectDto subjectDto = mapper.map(optionalSubject.get(), SubjectDto.class);
+        return CoreResponse.<SubjectDto>builder()
+                .code(HttpStatus.OK.value())
+                .message("Subject found.")
+                .data(subjectDto)
+                .build();
+    }
+
+
+    @Override
+    @Transactional
+    public CoreResponse<?> updateById(Integer id, SubjectDto subjectDto) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(id);
+        if (optionalSubject.isEmpty()) {
+            return CoreResponse.<String>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Subject not found.")
+                    .data(null)
+                    .build();
         }
 
         Subject subject = optionalSubject.get();
@@ -118,22 +145,40 @@ public class SubjectService implements ISubjectService {
         Optional<TrainingProgram> optionalProgram = programRepository.findById(subjectDto.getTrainingProgramId());
 
         if (optionalProgram.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Training Program not found.");
+            return CoreResponse.<String>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Training Program not found.")
+                    .data(null)
+                    .build();
         }
 
         subject.setTrainingProgram(optionalProgram.get());
         subjectRepository.save(subject);
 
-        return ResponseEntity.ok("Update successful!");
+        return CoreResponse.<String>builder()
+                .code(HttpStatus.OK.value())
+                .message("Update successful!")
+                .data(null)
+                .build();
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> deleteById(Integer id) {
+    public CoreResponse<?> deleteById(Integer id) {
         if (subjectRepository.findById(id).isEmpty()) {
-            System.out.println("Cannot find Subject by Id: "+id); // log ra loi , thay bang logger
+            return CoreResponse.<String>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("Cannot find Subject by Id: " + id)
+                    .data(null)
+                    .build();
         }
+
         subjectRepository.deleteById(id);
-        return ResponseEntity.ok("Delete successful!") ;
+
+        return CoreResponse.<String>builder()
+                .code(HttpStatus.OK.value())
+                .message("Delete successful!")
+                .data(null)
+                .build();
     }
 }
