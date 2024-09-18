@@ -5,8 +5,9 @@ import DropSearch from "./DropSearch";
 import AddForm from "./AddForm";
 import UpdateForm from "./UpdateForm";
 import axios from "axios";
-import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
+import { BsPencil, BsTrash, BsPlus, BsEye } from "react-icons/bs";
 import { toast } from "react-toastify";
+import ViewDetail from "./ViewDetail";
 
 export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
@@ -29,10 +30,14 @@ export default function ScoreComponent() {
 
   const [show, setShow] = React.useState(false);
   const [showAdd, setShowAdd] = React.useState(false);
+  const [showDetail, setShowDetail] = React.useState(false);
+
   const [searchResult, setSearchResult] = React.useState([]);
   const [onSearch, setOnSearch] = React.useState(false);
+
   const [updateSelectId, setUpdateSelectId] = React.useState(null);
   const [deleteSelectedId, setDeleteSelectedID] = React.useState(null);
+  const [detailId, setDetailId] = React.useState(null);
 
   const apiUrl = "http://localhost:9001/api/v1/scores";
   const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
@@ -56,6 +61,11 @@ export default function ScoreComponent() {
       setError(err);
       setLoading(false);
     }
+  };
+
+  const handleShowDetail = (data) => {
+    setShowDetail(true);
+    setDetailId(data.id);
   };
 
   const fetchProgramData = async () => {
@@ -163,11 +173,6 @@ export default function ScoreComponent() {
   };
 
   const columns = [
-    // {
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
     {
       title: "Student Name",
       dataIndex: "studenName",
@@ -221,6 +226,9 @@ export default function ScoreComponent() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
+          <Button variant="white" onClick={() => handleShowDetail(record)}>
+            <BsEye className="text-secondary"></BsEye>
+          </Button>
           <Button variant="white" onClick={() => handleShowUpdateForm(record)}>
             <BsPencil className="text-primary"></BsPencil>
           </Button>
@@ -267,6 +275,7 @@ export default function ScoreComponent() {
                 columns={columns}
               />
             </div>
+
             {show && updateSelectId && (
               <UpdateForm
                 scoreData={gradeData}
@@ -295,6 +304,14 @@ export default function ScoreComponent() {
                 setFormData={setNewGrade}
               />
             )}
+
+            {
+              <ViewDetail
+                show={showDetail}
+                handleClosed={() => setShowDetail(false)}
+                detailId={detailId}
+              />
+            }
           </div>
         </div>
       </CardBody>
@@ -315,8 +332,6 @@ function TableSearchResult({ data, result, onSearch, setOnSearch, columns }) {
       displayData = sortResult;
     }
   }
-
-  // const displayData = sortResult.length > 0 ? sortResult : sortData;
 
   return (
     <div className="container-fluid fullscreen">
