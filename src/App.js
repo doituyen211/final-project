@@ -11,6 +11,7 @@ import {LoginComponent} from "./pages";
 import HeaderLayout from "./layouts/components/HeaderLayout";
 import FooterLayout from "./layouts/components/FooterLayout";
 import PrivateRoute from "./route/PrivateRoute";
+import NotFoundComponent from "./pages/NotFoundComponent";
 
 function App() {
     return (
@@ -57,6 +58,7 @@ function App() {
                             );
                         });
                     })}
+                    <Route path="*" element={<NotFoundComponent/>}/>
                 </Routes>
             </LayoutDefault>
         </BrowserRouter>
