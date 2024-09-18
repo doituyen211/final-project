@@ -41,8 +41,16 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         Map<String, String> requestBody = objectMapper.readValue(request.getInputStream(), Map.class);
 
         // Check for either email or username in the request
-        String username =  requestBody.get("email") != null ?  requestBody.get("email")  : repository.findAccountByUsername( requestBody.get("username")).getEmail() ;
-        String password = requestBody.get("password");
+        String email = requestBody.get("email");
+        String username;
+
+        if (email != null && email.contains("@")) {
+            username = email;
+        } else {
+            username = repository.findAccountByUsername( requestBody.get("username")).getEmail();
+        }
+
+        String password =  requestBody.get("password");
 
         // Validate that the username and password are present
         if (username == null || password == null) {
