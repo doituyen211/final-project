@@ -26,9 +26,18 @@ public class CourseController {
             CourseFilterForm form , @RequestParam(value = "page" , defaultValue = "0", required = false) int page ,
             @RequestParam(value ="pageSize", defaultValue = "10", required = false) int pageSize ,
             @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
-            @RequestParam(value = "sortBy", defaultValue = "courseId", required = false) String sortBy
+            @RequestParam(value = "sortBy", defaultValue = "Id", required = false) String sortBy
     ) {
         return courseService.findALL(form,page,pageSize, sortDir, sortBy) ;
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getData(
+            CourseFilterForm form ,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+            @RequestParam(value = "sortBy", defaultValue = "Id", required = false) String sortBy
+    ) {
+        return courseService.findnoALL(form, sortDir, sortBy) ;
     }
 
     @GetMapping("/{id}")
