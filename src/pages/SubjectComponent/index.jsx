@@ -138,6 +138,8 @@ const SubjectComponent = () => {
     }, []);
 
     const handleSearch = useCallback(() => {
+        const newUrl = `${window.location.pathname}?search=${encodeURIComponent(searchTerm)}`;
+        window.history.pushState({searchTerm}, '', newUrl);
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
@@ -150,6 +152,9 @@ const SubjectComponent = () => {
     }, []);
 
     useEffect(() => {
+        const url = new URL(window.location);
+        url.searchParams.delete('search');
+        window.history.pushState({}, '', url);
         fetchData("", currentPage);
         fetchOptions();
     }, [fetchData, currentPage]);
