@@ -1,4 +1,5 @@
 import {
+    ScheduleComponent,
     AllowanceComponents,
     ClassMembersComponent,
     ContractComponents,
@@ -20,7 +21,7 @@ import {
     SubjectComponent,
     TimesheetComponent,
     TuitionFeeComponent,
-    UserComponent
+    UserComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
@@ -120,7 +121,7 @@ export const routeSideBar = [
                 name: "Quản lý lịch học",
                 icon: "nav-icon fas fa-calendar-alt",
                 to: "/schedules",
-                component: ScheduleComponent2,
+                component: ScheduleComponent,
             },
             {
                 name: "Quản lý lịch thi",
@@ -157,7 +158,7 @@ export const routeSideBar = [
                 name: "Chến dịch quảng cáo",
                 icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
                 to: "/marketing-campaigns", // Define the route for the new component
-                component: MarketingCampaignComponent, // Add your new component here
+                component: MarketingCampaignComponent,
             },
             {
                 name: "Quản lý khách hàng",
@@ -261,6 +262,4 @@ export const routeSideBar = [
             },
         ],
     },
-
-
 ];

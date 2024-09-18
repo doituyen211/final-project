@@ -25,8 +25,10 @@ import TrainningProgramComponent from "./TrainningProgramComponent";
 import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import LoginComponent from "./LoginComponent";
+import ScheduleComponent from "./ScheduleComponent";
 
 export {
+    ScheduleComponent,
     BookComponent,
     CourseComponent,
     ScheduleComponent2,
