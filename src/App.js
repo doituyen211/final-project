@@ -14,7 +14,6 @@ function App() {
             <LayoutDefault>
                 <Routes>
                     <Route path="/login1" element={<LoginComponent/>}/>
-
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {

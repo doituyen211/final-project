@@ -20,6 +20,7 @@ const API = {
     LOGIN: `${BASE_URL_VERSION_1}/auth/login`,
     REGISTER: `${BASE_URL_VERSION_1}/auth/register`,
     SENDTOEMAIL: `${BASE_URL_VERSION_1}/auth/send-to-email`,
+    RESETPASSWORD: `${BASE_URL_VERSION_1}/auth/reset-password`,
     // Add other API endpoints here if needed
 };
 
