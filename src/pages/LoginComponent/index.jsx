@@ -201,7 +201,7 @@ const LoginComponent = () => {
                                         <Col xs={12} md={10}>
                                             <Form.Group controlId="email-signin">
                                                 <Form.Control
-                                                    type="email"
+                                                    type="text"
                                                     placeholder="Email"
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
