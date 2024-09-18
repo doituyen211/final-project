@@ -6,7 +6,10 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {routeSideBar} from "./route";
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SideBarLayout from "./layouts/components/SideBarLayout";
 import {LoginComponent} from "./pages";
+import HeaderLayout from "./layouts/components/HeaderLayout";
+import FooterLayout from "./layouts/components/FooterLayout";
 
 function App() {
     return (
@@ -26,7 +29,17 @@ function App() {
                                 <Route
                                     key={`${index}-${subIndex}`}
                                     path={subItem.to}
-                                    element={<ChildComponent/>}
+                                    element={
+                                        <>
+                                            <HeaderLayout></HeaderLayout>
+                                            <SideBarLayout></SideBarLayout>
+                                            <div className="content-wrapper">
+                                                <ChildComponent/>
+                                            </div>
+                                            <FooterLayout></FooterLayout>
+                                            <aside className="control-sidebar control-sidebar-dark"></aside>
+                                        </>
+                                    }
                                 />
                             );
                         });
