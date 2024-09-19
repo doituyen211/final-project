@@ -73,6 +73,16 @@ public class ClassService implements IClassService {
     public CoreResponse<?> getClassList() {
         try {
             List<Class> classList = classRepository.findAll();
+
+            classList.forEach(item -> {
+                if (item.getEndDate().isBefore(LocalDate.now())) {
+                    item.setStatus(false);
+                } else {
+                    item.setStatus(true);
+                }
+                classRepository.save(item);
+            });
+
             List<ClassDTO> classDTOList = classList.stream()
                     .map(item -> ClassDTO.builder()
                             .id(item.getId())
@@ -83,7 +93,7 @@ public class ClassService implements IClassService {
                             .trainingProgramName(item.getProgram().getProgramName())
                             .status(item.isStatus())
                             .build())
-                    .sorted(Comparator.comparing(ClassDTO::getId))
+                    .sorted(Comparator.comparing(ClassDTO::getId).reversed())
                     .collect(Collectors.toList());
 
             String message = classDTOList.isEmpty() ? "Empty list" : "Get list successfully";
@@ -146,6 +156,12 @@ public class ClassService implements IClassService {
             newClass.setEndDate(classForm.getEndDate());
             newClass.setProgram(trainingProgram);
 
+            if (classForm.getEndDate().isAfter(LocalDate.now()) || classForm.getEndDate().isEqual(LocalDate.now())) {
+                newClass.setStatus(true);
+            } else {
+                newClass.setStatus(false);
+            }
+
             classRepository.save(newClass);
 
             return CoreResponse.builder()
@@ -185,6 +201,12 @@ public class ClassService implements IClassService {
             presentClass.setStartDate(classForm.getStartDate());
             presentClass.setEndDate(classForm.getEndDate());
 
+            if (classForm.getEndDate().isBefore(LocalDate.now())) {
+                presentClass.setStatus(false);
+            } else {
+                presentClass.setStatus(true);
+            }
+            
             classRepository.save(presentClass);
 
             return CoreResponse.builder()
