@@ -24,7 +24,7 @@ function ResetPasswordComponent() {
         }).then(
             (res) => {
                 console.log("Đổi mật khẩu thành công!");
-                navigate("./login");
+                navigate("/login");
             }
         ).catch(
             (error) => {

@@ -7,11 +7,10 @@ import {routeSideBar} from "./route";
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBarLayout from "./layouts/components/SideBarLayout";
-import {LoginComponent} from "./pages";
+import {LoginComponent, NotFoundComponent, ResetPasswordComponent} from "./pages";
 import HeaderLayout from "./layouts/components/HeaderLayout";
 import FooterLayout from "./layouts/components/FooterLayout";
 import PrivateRoute from "./route/PrivateRoute";
-import NotFoundComponent from "./pages/NotFoundComponent";
 
 function App() {
     return (
@@ -19,6 +18,8 @@ function App() {
             <LayoutDefault>
                 <Routes>
                     <Route path="/login" element={<LoginComponent/>}/>
+                    <Route path="/reset-password" element={<ResetPasswordComponent/>}/>
+
                     {routeSideBar.map((item, index) => {
                         const Component = item.component;
                         if (item.child.length <= 0) {
