@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -68,6 +69,30 @@ public class CourseService implements ICourseService {
         }  ).toList() );
 
         return ResponseEntity.ok(response) ;
+    }
+    @Override
+    public ResponseEntity<?> findnoALL(CourseFilterForm form, String sortDir, String sortBy) {
+        // Search
+        Specification<Course> spec = CourseSpecification.buildSpec(form);
+
+        // Sort
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        // Find all courses without pagination
+        List<Course> courses = courseRepository.findAll(spec, sort);
+
+        // Map the courses to DTOs
+        List<CourseDto> courseDtos = courses.stream().map(course -> {
+            CourseDto courseDto = mapper.map(course, CourseDto.class);
+            return courseDto;
+        }).toList();
+
+        // Create response map
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalElements", courses.size());
+        response.put("content", courseDtos);
+
+        return ResponseEntity.ok(response);
     }
     @Override
     public ResponseEntity<?> findById(Integer id) {

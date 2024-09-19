@@ -1,9 +1,8 @@
 package org.green.education.dto;
 
 import lombok.*;
-import org.green.education.entity.Grade;
-
 import java.time.LocalDate;
+
 
 @Builder
 @Setter
@@ -19,4 +18,6 @@ public class GradeDTO {
     private LocalDate examDate;
     private String programName;
     private String courseName;
+    private Object result;
+
 }

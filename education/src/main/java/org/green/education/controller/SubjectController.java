@@ -26,7 +26,7 @@ public class SubjectController {
             @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
             @RequestParam(value = "sortBy", defaultValue = "subjectId", required = false) String sortBy
     ) {
-        return subjectService.findALL(form,page,pageSize, sortDir, sortBy) ;
+        return subjectService.findALL(form,page-1,pageSize, sortDir, sortBy) ;
     }
 
     @GetMapping("find-all")
@@ -49,6 +49,12 @@ public class SubjectController {
     public CoreResponse<?> deleteById(@PathVariable("id") Integer id) {
 
         return  subjectService.deleteById(id);
+    }
+
+    @GetMapping ("/programs")
+    public CoreResponse<?> GetAllProgram() {
+
+        return  subjectService.GetAllProgram();
     }
 
 }

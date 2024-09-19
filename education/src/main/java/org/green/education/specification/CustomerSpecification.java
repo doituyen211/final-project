@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import org.green.education.entity.Student;
 import org.green.education.entity.Subject;
+import org.green.education.form.CustomerFilterForm;
 import org.green.education.form.SubjectFilterForm;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerSpecification {
-    public static Specification<Student> buildSpec(SubjectFilterForm form) {
+    public static Specification<Student> buildSpec(CustomerFilterForm form) {
         return (root, query, builder) -> {
             if (form == null) {
                 return null;
