@@ -1,18 +1,13 @@
 package org.green.education.repository;
 
-import org.green.core.model.CoreResponse;
-import org.green.education.dto.ProgramDTO;
-import org.green.education.dto.StudentDTO;
-import org.green.education.dto.SubjectDto;
+import org.green.education.dto.GradeDTO;
 import org.green.education.entity.Grade;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 
 @Repository
 public interface IGradeRepository extends JpaRepository<Grade, Integer>, JpaSpecificationExecutor<Grade> {
@@ -26,12 +21,20 @@ public interface IGradeRepository extends JpaRepository<Grade, Integer>, JpaSpec
     @Query("select s.id, s.fullName from Student s")
     List<Object[]> getStudentForGrade();
 
-//    @Query()
-//    List<Grade> getAllGrade(Integer subjectId);
-//
-//    @Query("""
-//            select g from Grade g
-//            where g.id = ?1 and g.grade = ?2 and g.status = ?3 and g.examSchedule.subject.subjectName = ?4""")
-//    List<Grade> getAllGradeByExamDate(Integer id, Integer grade, String status, String subjectName, Sort sort);
+    @Query("select g from Grade g where g.activate = true")
+    List<Grade> getActiveGrade();
+
+    @Query("select g.id, s.fullName, g.grade, es.examDate, sub.subjectName, tp.programName, co.courseName, g.status " +
+            "from Grade g " +
+            "join g.student s " +
+            "join g.examSchedule es " +
+            "join es.subject sub " +
+            "join es.classField c " +
+            "join c.program tp " +
+            "join tp.course co " +
+            "where g.activate = true"
+    )
+    List<Object[]> findAllGrade();
+//    List<GradeDTO>findAllGrade();
 
 }

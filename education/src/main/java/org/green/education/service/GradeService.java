@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,11 +40,11 @@ public class GradeService implements IGradeService {
     public CoreResponse<?> getAllGrade() {
         try {
             List<GradeDTO> gradeDTOList = new ArrayList<>();
-            List<Grade> gradeList = iGradeRepository.findAll();
+            List<Grade> gradeList = iGradeRepository.getActiveGrade();
             for (Grade grade : gradeList) {
                 GradeDTO gradeDTO = GradeDTO.builder()
                         .id(grade.getId())
-                        .studenName(grade.getStudent().getFullName())
+                        .studentName(grade.getStudent().getFullName())
                         .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
                         .grade(grade.getGrade())
                         .status(grade.getStatus())
@@ -87,6 +88,7 @@ public class GradeService implements IGradeService {
             grade.setExamSchedule(examSchedule);
             grade.setGrade(gradeForm.getGrade());
             grade.setStatus(gradeForm.getStatus());
+            grade.setActivate(true);
 
             iGradeRepository.save(grade);
             return CoreResponse.builder()
@@ -134,16 +136,17 @@ public class GradeService implements IGradeService {
 
     @Override
     public CoreResponse<?> deletingGrade(int id) {
-        Grade existingGrade = getGradeById(id);
         try {
-            if (existingGrade != null) {
-                iGradeRepository.deleteById(id);
-            }
+            Grade grade = iGradeRepository.findById(id).orElseThrow(() -> new RuntimeException("Grade not found for update"));
+
+            grade.setActivate(false);
+            iGradeRepository.save(grade);
+
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Delete Grade Successfully")
+                    .data(null)
                     .build();
-
         } catch (Exception exp) {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
@@ -153,57 +156,54 @@ public class GradeService implements IGradeService {
         }
     }
 
-
     @Override
     public CoreResponse<?> getAllGradeByExamDate() {
         try {
-            List<Grade> grades = iGradeRepository.findAll();
+            List<Object[]> gradeObjects = iGradeRepository.findAllGrade();
 
-            // Group grades by student ID
-            Map<Integer, List<Grade>> gradesByStudent = grades.stream()
-                    .collect(Collectors.groupingBy(grade -> grade.getStudent().getId()));
+            // Map Object[] to GradeDTO
+            List<GradeDTO> gradeDTOList = gradeObjects.stream()
+                    .map(obj -> new GradeDTO(
+                            (Integer) obj[0],          // id
+                            (String) obj[1],     // student name
+                            (Integer) obj[2],        // grade
+                            (LocalDate) obj[3],        // exam date
+                            (String) obj[4],        // subject name
+                            (String) obj[5],        // programName
+                            (String) obj[6],       // status
+                            (String) obj[7]         // course name
+                    ))
+                    .toList();
+
+            // Continue with your business logic...
+            Map<String, List<GradeDTO>> gradesByStudent = gradeDTOList.stream()
+                    .collect(Collectors.groupingBy(GradeDTO::getStudentName));
 
             List<Map<String, Object>> responseData = new ArrayList<>();
 
-            for (Map.Entry<Integer, List<Grade>> entry : gradesByStudent.entrySet()) {
-                List<Grade> studentGrades = entry.getValue();
+            for (Map.Entry<String, List<GradeDTO>> entry : gradesByStudent.entrySet()) {
+                List<GradeDTO> studentGrades = entry.getValue();
                 Map<String, Object> result = new HashMap<>();
 
-                // Calculate scores and average
                 List<Integer> scoreList = studentGrades.stream()
-                        .map(Grade::getGrade)
+                        .map(GradeDTO::getGrade)
                         .toList();
 
                 int firstScore = !scoreList.isEmpty() ? scoreList.get(0) : 0;
                 int secondScore = scoreList.size() > 1 ? scoreList.get(1) : 0;
                 int thirdScore = scoreList.size() > 2 ? scoreList.get(2) : 0;
+
                 double averageGrade = scoreList.stream().mapToInt(Integer::intValue).average().orElse(0.0);
                 String status = averageGrade >= 50 ? "Graduation" : "Failed Graduation";
 
-                result.put("Status", status);
+                result.put("Status Graduation", status);
                 result.put("First Score", firstScore);
                 result.put("Second Score", secondScore);
                 result.put("Third Score", thirdScore);
                 result.put("Average Grade", averageGrade);
+                result.put("grade", studentGrades);
 
-                // Prepare the grades for this student
-                List<GradeDTO> gradeDTOList = studentGrades.stream()
-                        .map(grade -> GradeDTO.builder()
-                                .id(grade.getId())
-                                .studenName(grade.getStudent().getFullName())
-                                .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
-                                .grade(grade.getGrade())
-                                .status(grade.getStatus())
-                                .examDate(grade.getExamSchedule().getExamDate())
-                                .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
-                                .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
-                                .build())
-                        .collect(Collectors.toList());
-
-                // Add result and grades to the response
-                Map<String, Object> studentResult = new HashMap<>(result);
-                studentResult.put("grade", gradeDTOList);
-                responseData.add(studentResult);
+                responseData.add(result);
             }
 
             return CoreResponse.builder()
@@ -211,6 +211,7 @@ public class GradeService implements IGradeService {
                     .message("Getting Grade By Exam Date Successfully")
                     .data(responseData)
                     .build();
+
         } catch (Exception exp) {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
@@ -223,19 +224,7 @@ public class GradeService implements IGradeService {
     @Override
     public CoreResponse<?> getAllSubjectGrade() {
         try {
-            List<Object[]> subjectDtoList = iGradeRepository.getSubjectNameForGrade();
-            List<Map<String, Object>> subjects = new ArrayList<>();
-
-            for (Object[] subject : subjectDtoList) {
-                int subjectId = (Integer) subject[0];
-                String subjectName = (String) subject[1];
-
-                Map<String, Object> subjectMap = new HashMap<>();
-                subjectMap.put("subject_id", subjectId);
-                subjectMap.put("subject_name", subjectName);
-
-                subjects.add(subjectMap);
-            }
+            List<Map<String, Object>> subjects = getList(iGradeRepository.getSubjectNameForGrade(), "subject_id", "subject_name");
 
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
@@ -251,26 +240,13 @@ public class GradeService implements IGradeService {
         }
     }
 
-
     @Override
     public CoreResponse<?> getAllTrainingGrade() {
         try {
-            List<Object[]> programDtoList = iGradeRepository.getProgramNameForGrade();
-            List<Map<String, Object>> programs = new ArrayList<>();
-
-            for (Object[] subject : programDtoList) {
-                int programId = (Integer) subject[0];
-                String programName = (String) subject[1];
-
-                Map<String, Object> programMap = new HashMap<>();
-                programMap.put("subject_id", programId);
-                programMap.put("subject_name", programName);
-
-                programs.add(programMap);
-            }
+            List<Map<String, Object>> programs = getList(iGradeRepository.getProgramNameForGrade(), "program_id", "program_name");
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
-                    .message("Get Subject for Grade Successfully")
+                    .message("Get Training Program for Grade Successfully")
                     .data(programs)
                     .build();
         } catch (Exception exp) {
@@ -285,19 +261,7 @@ public class GradeService implements IGradeService {
     @Override
     public CoreResponse<?> getAllStudentGrade() {
         try {
-            List<Object[]> studentDtoList = iGradeRepository.getStudentForGrade();
-            List<Map<String, Object>> students = new ArrayList<>();
-
-            for (Object[] student : studentDtoList) {
-                int id = (Integer) student[0];
-                String fullName = (String) student[1];
-
-                Map<String, Object> studentMap = new HashMap<>();
-                studentMap.put("student_id", id);
-                studentMap.put("student_name", fullName);
-
-                students.add(studentMap);
-            }
+            List<Map<String, Object>> students = getList(iGradeRepository.getStudentForGrade(), "student_id", "student_name");
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Get Subject for Grade Successfully")
@@ -310,6 +274,22 @@ public class GradeService implements IGradeService {
                     .data(null)
                     .build();
         }
+    }
+
+    private List<Map<String, Object>> getList(List<Object[]> iGradeRepository, String g_id, String g_name) {
+        List<Map<String, Object>> lists = new ArrayList<>();
+
+        for (Object[] list : iGradeRepository) {
+            int id = (Integer) list[0];
+            String name = (String) list[1];
+
+            Map<String, Object> listMap = new HashMap<>();
+            listMap.put(g_id, id);
+            listMap.put(g_name, name);
+
+            lists.add(listMap);
+        }
+        return lists;
     }
 
 }
