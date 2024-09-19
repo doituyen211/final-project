@@ -1,7 +1,9 @@
-import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import moment from "moment";
 import { useEffect } from "react";
-import { useEditClass, useGetTrainingProgram } from "../hooks";
+import { SelectTrainingProgram } from "../components/SelectTrainingProgram";
+import { DatePickerComponent } from "../components/DatePickerComponent";
+import { useEditClass } from "../hooks";
 import useClassStore from "../useClassStore";
 
 const ModalEdit = () => {
@@ -10,7 +12,6 @@ const ModalEdit = () => {
   const dataRow = useClassStore((state) => state.dataRow);
   const handleClose = useClassStore((state) => state.handleClose);
   const { handleEditClass, isPending } = useEditClass(dataRow.id, form);
-  const { data } = useGetTrainingProgram();
 
   useEffect(() => {
     if (dataRow) {
@@ -40,47 +41,34 @@ const ModalEdit = () => {
       }
     >
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
-        <Form.Item
-          label="Tên chương trình đào tạo"
-          name="programName"
-          required={false}
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập tên chương trình đào tạo",
-            },
-          ]}
-        >
-          <Select
-            placeholder="Chọn chương trình đào tạo"
-            options={data?.map((option) => ({
-              value: option.program_name,
-              label: option.program_name,
-            }))}
-          />
-        </Form.Item>
+        <SelectTrainingProgram />
+
         <Form.Item
           label="Tên lớp"
           name="className"
           required={false}
-          rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
+          rules={[{ required: true, message: "Hãy nhập tên lớp" }]}
         >
-          <Input />
+          <Input placeholder="Nhập tên lớp" />
         </Form.Item>
+
         <Form.Item label="Sĩ số" name="classSize">
           <Input disabled />
         </Form.Item>
-        <Form.Item label="Ngày bắt đầu" name="startDate">
-          <DatePicker disabled />
-        </Form.Item>
-        <Form.Item
-          label="Ngày kết thúc"
-          name="endDate"
-          required={false}
-          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc" }]}
-        >
-          <DatePicker />
-        </Form.Item>
+
+        <DatePickerComponent
+          label={"Ngày bắt đầu"}
+          name={"startDate"}
+          disable={true}
+        />
+
+        <DatePickerComponent
+          label={"Ngày kết thúc"}
+          name={"endDate"}
+          message={"Hãy chọn ngày kết thúc"}
+          placeholder={"Chọn ngày kết thúc"}
+          disable={false}
+        />
       </Form>
     </Modal>
   );

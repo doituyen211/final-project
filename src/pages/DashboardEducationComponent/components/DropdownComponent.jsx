@@ -28,7 +28,7 @@ const DropdownComponent = () => {
       placement="bottom"
       arrow
     >
-      <Button>Chọn năm học</Button>
+      <Button>{year ? `Năm ${year}` : "Chọn năm học"}</Button>
     </Dropdown>
   );
 };
