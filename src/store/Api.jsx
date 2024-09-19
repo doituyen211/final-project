@@ -10,9 +10,9 @@ const BASE_URL_INFOR_STU =
 // Common API endpoints
 const API = {
     SUBJECT: `${BASE_URL_VERSION_1}/subjects`,
-    COURSE: `${BASE_URL}/khoa_hoc`,
+    COURSE: `${BASE_URL_VERSION_1}/course`,
     SCHEDULE: `${BASE_URL}/lich_hoc`,
-    CLASSMEMBERS: `${BASE_URL}/thanh_vien_lop`,
+    CLASSMEMBERS: `${BASE_URL_VERSION_1}/cm`,
     EXAM_SCHEDULE: `${BASE_URL}/v1/examschedules`,
     CLASS: `${BASE_URL}/class`,
     TRAINNING_PROGRAM: `${BASE_URL_TP}/training_program`,
