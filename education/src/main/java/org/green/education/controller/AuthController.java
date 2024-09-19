@@ -4,12 +4,12 @@ package org.green.education.controller;
 
 
 import org.green.education.form.AuthRegisterForm;
+import org.green.education.form.ChangePasswordForm;
 import org.green.education.service.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -27,5 +27,22 @@ public class AuthController {
         service.create(form);
     }
 
+    @GetMapping("/send-to-email")
+    public ResponseEntity<String> sendToEmail(@RequestParam("email") String email) {
+        return service.sendToEmail(email);
+    }
+
+
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("token") String token,@RequestBody ChangePasswordForm form) {
+        try {
+            form.setToken(token);
+            service.resetPassword(form);
+            return ResponseEntity.ok("Change Password successful!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
 }

@@ -18,21 +18,19 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
-
 public class ClassMembersService implements IClassMembersService {
 
     @Autowired
-    private IClassMembersRepository classMembersRepository ;
+    private IClassMembersRepository classMembersRepository;
     @Autowired
-    private ITrainingProgramRepository programRepository ;
+    private ITrainingProgramRepository programRepository;
     @Autowired
-    private ModelMapper mapper ;
+    private ModelMapper mapper;
 
     @Override
     @Transactional
@@ -77,6 +75,7 @@ public class ClassMembersService implements IClassMembersService {
 
         return ResponseEntity.ok(response);
     }
+
     @Override
     public ResponseEntity<?> findById(Integer id) {
         Optional<ClassMembers> optionalClassMembers = classMembersRepository.findById(id);
@@ -107,9 +106,10 @@ public class ClassMembersService implements IClassMembersService {
     @Transactional
     public ResponseEntity<?> deleteById(Integer id) {
         if (classMembersRepository.findById(id).isEmpty()) {
-            System.out.println("Cannot find by Id: "+id); // log ra loi , thay bang logger
+            System.out.println("Cannot find by Id: " + id); // log ra loi , thay bang logger
         }
         classMembersRepository.deleteById(id);
-        return ResponseEntity.ok("Delete successful!") ;
+        return ResponseEntity.ok("Delete successful!");
     }
+
 }

@@ -3,6 +3,7 @@ package org.green.education.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 
 //@NamedNativeQuery: Được sử dụng để định nghĩa các truy vấn SQL thuần túy có tên mà có thể được gọi lại từ mã nguồn. Điều này giúp quản lý các truy vấn SQL lớn hoặc phức tạp một cách hiệu quả hơn.
