@@ -51,4 +51,10 @@ public class SubjectController {
         return  subjectService.deleteById(id);
     }
 
+    @GetMapping ("/programs")
+    public CoreResponse<?> GetAllProgram() {
+
+        return  subjectService.GetAllProgram();
+    }
+
 }
