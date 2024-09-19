@@ -12,13 +12,12 @@ import java.time.LocalDate;
 public class GradeDTO {
     private Integer id;
     private Integer grade;
-    private Integer grade2;
-    private Integer grade3;
     private String status;
-    private Long averageGrade;
     private String studenName;
     private String subjectName;
     private LocalDate examDate;
     private String programName;
     private String courseName;
+    private Object result;
+
 }

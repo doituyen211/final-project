@@ -2,6 +2,9 @@ package org.green.education.service;
 
 import org.green.core.model.CoreResponse;
 import org.green.education.dto.GradeDTO;
+import org.green.education.dto.ProgramDTO;
+import org.green.education.dto.StudentDTO;
+import org.green.education.dto.SubjectDto;
 import org.green.education.entity.*;
 import org.green.education.form.GradeForm;
 import org.green.education.repository.*;
@@ -9,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GradeService implements IGradeService {
@@ -151,55 +152,63 @@ public class GradeService implements IGradeService {
         }
     }
 
+
     @Override
-    public CoreResponse<?> getGradeByExamDate(int studentId) {
+    public CoreResponse<?> getAllGradeByExamDate() {
         try {
+            List<Grade> grades = iGradeRepository.findAll();
 
-            List<Grade> grades = iGradeRepository.findByStudent_IdOrderByExamSchedule_ExamDateAsc(studentId);
-            Map<String, Object> result = new HashMap<>();
-            int totalGrades = grades.size();
-            double averageGrade = 0.0;
+            // Group grades by student ID
+            Map<Integer, List<Grade>> gradesByStudent = grades.stream()
+                    .collect(Collectors.groupingBy(grade -> grade.getStudent().getId()));
 
-            List<GradeDTO> gradeDTOList = new ArrayList<>();
-            List<Grade> gradeList = iGradeRepository.findAll();
-            for (Grade grade : gradeList) {
-                GradeDTO gradeDTO = GradeDTO.builder()
-                        .id(grade.getId())
-                        .studenName(grade.getStudent().getFullName())
-                        .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
-                        .grade(grade.getGrade())
-                        .status(grade.getStatus())
-                        .examDate(grade.getExamSchedule().getExamDate())
-                        .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
-                        .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
-                        .build();
-                gradeDTOList.add(gradeDTO);
+            List<Map<String, Object>> responseData = new ArrayList<>();
+
+            for (Map.Entry<Integer, List<Grade>> entry : gradesByStudent.entrySet()) {
+                List<Grade> studentGrades = entry.getValue();
+                Map<String, Object> result = new HashMap<>();
+
+                // Calculate scores and average
+                List<Integer> scoreList = studentGrades.stream()
+                        .map(Grade::getGrade)
+                        .toList();
+
+                int firstScore = !scoreList.isEmpty() ? scoreList.get(0) : 0;
+                int secondScore = scoreList.size() > 1 ? scoreList.get(1) : 0;
+                int thirdScore = scoreList.size() > 2 ? scoreList.get(2) : 0;
+                double averageGrade = scoreList.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+                String status = averageGrade >= 50 ? "Graduation" : "Failed Graduation";
+
+                result.put("Status", status);
+                result.put("First Score", firstScore);
+                result.put("Second Score", secondScore);
+                result.put("Third Score", thirdScore);
+                result.put("Average Grade", averageGrade);
+
+                // Prepare the grades for this student
+                List<GradeDTO> gradeDTOList = studentGrades.stream()
+                        .map(grade -> GradeDTO.builder()
+                                .id(grade.getId())
+                                .studenName(grade.getStudent().getFullName())
+                                .subjectName(grade.getExamSchedule().getSubject().getSubjectName())
+                                .grade(grade.getGrade())
+                                .status(grade.getStatus())
+                                .examDate(grade.getExamSchedule().getExamDate())
+                                .programName(grade.getExamSchedule().getSubject().getTrainingProgram().getProgramName())
+                                .courseName(grade.getExamSchedule().getSubject().getTrainingProgram().getCourse().getCourseName())
+                                .build())
+                        .collect(Collectors.toList());
+
+                // Add result and grades to the response
+                Map<String, Object> studentResult = new HashMap<>(result);
+                studentResult.put("grade", gradeDTOList);
+                responseData.add(studentResult);
             }
 
-            for (int i = 0; i < totalGrades; i++) {
-                Grade grade = grades.get(i);
-                averageGrade += grade.getGrade();
-
-                if (i == 0) {
-                    result.put("First Score", grade.getGrade());
-                } else if (i == 1) {
-                    result.put("Second Score", grade.getGrade());
-                } else if (i == 2) {
-                    result.put("Third Score", grade.getGrade());
-                }
-            }
-
-            // Calculate average
-            averageGrade = averageGrade / totalGrades;
-
-            // Set status based on average grade
-            String status = (averageGrade >= 50) ? "Passed" : "Failed";
-            result.put("Average Grade", averageGrade);
-            result.put("Status", status);
             return CoreResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("Getting Grade By Exam Date Successfully")
-                    .data(result)
+                    .data(responseData)
                     .build();
         } catch (Exception exp) {
             return CoreResponse.builder()
@@ -208,5 +217,57 @@ public class GradeService implements IGradeService {
                     .build();
         }
     }
+
+    @Override
+    public CoreResponse<?> getAllSubjectGrade() {
+        try {
+            List<SubjectDto> subjectDtoList = iGradeRepository.getSubjectNameForGrade();
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get Subject for Grade Successfully")
+                    .data(subjectDtoList)
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> getAllTrainingGrade() {
+        try {
+            List<ProgramDTO> programDTOList = iGradeRepository.getProgramNameForGrade();
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get All Grade Successfully")
+                    .data(programDTOList)
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> getAllStudentGrade() {
+        try {
+            List<StudentDTO> studentDTOList = iGradeRepository.getStudentForGrade();
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get All Grade Successfully")
+                    .data(studentDTOList)
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .build();
+        }
+    }
+
 }
 
