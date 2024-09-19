@@ -24,4 +24,6 @@ public interface IClassService {
     CoreResponse<?> findByClassNameContainingIgnoreCase(String className);
 
     CoreResponse<?> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
+
+    CoreResponse<?> deleteClass(int classId);
 }

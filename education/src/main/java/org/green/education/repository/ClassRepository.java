@@ -1,5 +1,6 @@
 package org.green.education.repository;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.green.education.dto.ClassDTO;
 import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
@@ -32,5 +33,7 @@ public interface ClassRepository extends JpaRepository<Class, Integer>, JpaSpeci
 
     Optional<Class> findByClassName(String className);
 
+    @Query("SELECT c FROM Class c WHERE c.active = true")
+    List<Class> getClassIsActive();
 
 }
