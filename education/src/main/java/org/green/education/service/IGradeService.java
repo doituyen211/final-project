@@ -25,8 +25,8 @@ public interface IGradeService {
 
     CoreResponse<?> getAllGradeByExamDate();
 
-//    CoreResponse<?> getAllSubjectGrade();
-//    CoreResponse<?> getAllTrainingGrade();
-//    CoreResponse<?> getAllStudentGrade();
+    CoreResponse<?> getAllSubjectGrade();
+    CoreResponse<?> getAllTrainingGrade();
+    CoreResponse<?> getAllStudentGrade();
 
 }

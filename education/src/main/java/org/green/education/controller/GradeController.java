@@ -24,19 +24,20 @@ public class GradeController {
         return iGradeService.getAllGradeByExamDate();
     }
 
-//    @GetMapping("/subject-for-grade")
-//    public CoreResponse<?> getSubjectNameGrade() {
-//        return iGradeService.getAllSubjectGrade();
-//    }
-//    @GetMapping("/training-program-for-grade")
-//    public CoreResponse<?> getTrainingNameGrade() {
-//        return iGradeService.getAllTrainingGrade();
-//    }
-//
-//    @GetMapping("/student-for-grade")
-//    public CoreResponse<?> getStudentNameGrade() {
-//        return iGradeService.getAllStudentGrade();
-//    }
+    @GetMapping("/subject-for-grade")
+    public CoreResponse<?> getSubjectNameGrade() {
+        return iGradeService.getAllSubjectGrade();
+    }
+
+    @GetMapping("/training-program-for-grade")
+    public CoreResponse<?> getTrainingNameGrade() {
+        return iGradeService.getAllTrainingGrade();
+    }
+
+    @GetMapping("/student-for-grade")
+    public CoreResponse<?> getStudentNameGrade() {
+        return iGradeService.getAllStudentGrade();
+    }
 
     @GetMapping
     public CoreResponse<?> getAllGrade() {

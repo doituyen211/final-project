@@ -2,9 +2,6 @@ package org.green.education.service;
 
 import org.green.core.model.CoreResponse;
 import org.green.education.dto.GradeDTO;
-import org.green.education.dto.ProgramDTO;
-import org.green.education.dto.StudentDTO;
-import org.green.education.dto.SubjectDto;
 import org.green.education.entity.*;
 import org.green.education.form.GradeForm;
 import org.green.education.repository.*;
@@ -65,6 +62,7 @@ public class GradeService implements IGradeService {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message(exp.getMessage())
+                    .data(null)
                     .build();
         }
     }
@@ -100,6 +98,7 @@ public class GradeService implements IGradeService {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message(exp.getMessage())
+                    .data(null)
                     .build();
         }
     }
@@ -128,6 +127,7 @@ public class GradeService implements IGradeService {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message(exp.getMessage())
+                    .data(null)
                     .build();
         }
     }
@@ -148,6 +148,7 @@ public class GradeService implements IGradeService {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message(exp.getMessage())
+                    .data(null)
                     .build();
         }
     }
@@ -214,60 +215,102 @@ public class GradeService implements IGradeService {
             return CoreResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message(exp.getMessage())
+                    .data(null)
                     .build();
         }
     }
 
-//    @Override
-//    public CoreResponse<?> getAllSubjectGrade() {
-//        try {
-//            List<SubjectDto> subjectDtoList = iGradeRepository.getSubjectNameForGrade();
-//            return CoreResponse.builder()
-//                    .code(HttpStatus.OK.value())
-//                    .message("Get Subject for Grade Successfully")
-//                    .data(subjectDtoList)
-//                    .build();
-//        } catch (Exception exp) {
-//            return CoreResponse.builder()
-//                    .code(HttpStatus.BAD_REQUEST.value())
-//                    .message(exp.getMessage())
-//                    .build();
-//        }
-//    }
-//
-//    @Override
-//    public CoreResponse<?> getAllTrainingGrade() {
-//        try {
-//            List<ProgramDTO> programDTOList = iGradeRepository.getProgramNameForGrade();
-//            return CoreResponse.builder()
-//                    .code(HttpStatus.OK.value())
-//                    .message("Get All Grade Successfully")
-//                    .data(programDTOList)
-//                    .build();
-//        } catch (Exception exp) {
-//            return CoreResponse.builder()
-//                    .code(HttpStatus.BAD_REQUEST.value())
-//                    .message(exp.getMessage())
-//                    .build();
-//        }
-//    }
-//
-//    @Override
-//    public CoreResponse<?> getAllStudentGrade() {
-//        try {
-//            List<StudentDTO> studentDTOList = iGradeRepository.getStudentForGrade();
-//            return CoreResponse.builder()
-//                    .code(HttpStatus.OK.value())
-//                    .message("Get All Grade Successfully")
-//                    .data(studentDTOList)
-//                    .build();
-//        } catch (Exception exp) {
-//            return CoreResponse.builder()
-//                    .code(HttpStatus.BAD_REQUEST.value())
-//                    .message(exp.getMessage())
-//                    .build();
-//        }
-//    }
+    @Override
+    public CoreResponse<?> getAllSubjectGrade() {
+        try {
+            List<Object[]> subjectDtoList = iGradeRepository.getSubjectNameForGrade();
+            List<Map<String, Object>> subjects = new ArrayList<>();
+
+            for (Object[] subject : subjectDtoList) {
+                int subjectId = (Integer) subject[0];
+                String subjectName = (String) subject[1];
+
+                Map<String, Object> subjectMap = new HashMap<>();
+                subjectMap.put("subject_id", subjectId);
+                subjectMap.put("subject_name", subjectName);
+
+                subjects.add(subjectMap);
+            }
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get Subject for Grade Successfully")
+                    .data(subjects)
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .data(null)
+                    .build();
+        }
+    }
+
+
+    @Override
+    public CoreResponse<?> getAllTrainingGrade() {
+        try {
+            List<Object[]> programDtoList = iGradeRepository.getProgramNameForGrade();
+            List<Map<String, Object>> programs = new ArrayList<>();
+
+            for (Object[] subject : programDtoList) {
+                int programId = (Integer) subject[0];
+                String programName = (String) subject[1];
+
+                Map<String, Object> programMap = new HashMap<>();
+                programMap.put("subject_id", programId);
+                programMap.put("subject_name", programName);
+
+                programs.add(programMap);
+            }
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get Subject for Grade Successfully")
+                    .data(programs)
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .data(null)
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> getAllStudentGrade() {
+        try {
+            List<Object[]> studentDtoList = iGradeRepository.getStudentForGrade();
+            List<Map<String, Object>> students = new ArrayList<>();
+
+            for (Object[] student : studentDtoList) {
+                int id = (Integer) student[0];
+                String fullName = (String) student[1];
+
+                Map<String, Object> studentMap = new HashMap<>();
+                studentMap.put("student_id", id);
+                studentMap.put("student_name", fullName);
+
+                students.add(studentMap);
+            }
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Get Subject for Grade Successfully")
+                    .data(students)
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
+                    .data(null)
+                    .build();
+        }
+    }
 
 }
 
