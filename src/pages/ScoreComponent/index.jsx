@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardBody, CardHeader, Button } from "react-bootstrap";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Button,
+  Pagination,
+} from "react-bootstrap";
 import { Space, Table, Tag } from "antd";
 import DropSearch from "./DropSearch";
 import AddForm from "./AddForm";
@@ -40,10 +46,9 @@ export default function ScoreComponent() {
   const [detailId, setDetailId] = React.useState(null);
 
   const apiUrl = "http://localhost:9001/api/v1/scores";
-  const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
-  const apiStudent = "http://localhost:9001/student";
-  const apiSubject = "http://localhost:9001/api/v1/subjects/find-all";
-  // const apiExamschedule = "http://localhost:9001/api/v1/examschedules";
+  const apiTraining = `${apiUrl}/training-program-for-grade`;
+  const apiStudent = `${apiUrl}/student-for-grade`;
+  const apiSubject = `${apiUrl}/subject-for-grade`;
 
   React.useEffect(() => {
     fetchData();
@@ -80,7 +85,7 @@ export default function ScoreComponent() {
   const fetchStudentData = async () => {
     try {
       const res = await axios.get(apiStudent);
-      setStudent(res.data);
+      setStudent(res.data.data);
     } catch (err) {
       setError(err);
     }
@@ -175,21 +180,11 @@ export default function ScoreComponent() {
   const columns = [
     {
       title: "Student Name",
-      dataIndex: "studenName",
-      key: "studenName",
+      dataIndex: "studentName",
+      key: "studentName",
     },
     {
-      title: "Grade 1st",
-      dataIndex: "grade",
-      key: "grade",
-    },
-    {
-      title: "Grade 2nd",
-      dataIndex: "grade",
-      key: "grade",
-    },
-    {
-      title: "Grade 3th",
+      title: "Grade",
       dataIndex: "grade",
       key: "grade",
     },

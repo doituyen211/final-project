@@ -53,12 +53,12 @@ export default function UpdateForm({
   );
 
   const studentOptions = Array.from(
-    new Set(student.map((item) => item.id))
+    new Set(student.map((item) => item.student_id))
   ).map((id) => {
-    const stu = student.find((item) => item.id === id);
+    const stu = student.find((item) => item.student_id === id);
     return {
       value: id,
-      label: stu.fullName,
+      label: stu.student_name,
     };
   });
 

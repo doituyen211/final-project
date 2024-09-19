@@ -35,15 +35,15 @@ export default function AddForm({
     };
   });
 
-  const studentOption = Array.from(new Set(student.map((item) => item.id))).map(
-    (id) => {
-      const studen = student.find((item) => item.id === id);
-      return {
-        value: id,
-        label: studen.fullName,
-      };
-    }
-  );
+  const studentOption = Array.from(
+    new Set(student.map((item) => item.student_id))
+  ).map((id) => {
+    const studen = student.find((item) => item.student_id === id);
+    return {
+      value: id,
+      label: studen.student_name,
+    };
+  });
 
   const examDateOption = Array.from(new Set(data.map((item) => item.id))).map(
     (id) => {

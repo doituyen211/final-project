@@ -64,7 +64,7 @@ export default function ViewDetail({ show, handleClosed, detailId }) {
                   {gradeData.grade.map((grade, idx) => (
                     <tr key={grade.id}>
                       <td>{idx + 1}</td>
-                      <td>{grade.studenName}</td>
+                      <td>{grade.studentName}</td>
                       <td>{grade.subjectName}</td>
                       <td>{grade.grade}</td>
                       <td>{grade.status}</td>
