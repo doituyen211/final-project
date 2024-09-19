@@ -57,6 +57,7 @@ public class CustomerService implements ICustomerService {
             CustomerDto customerDto = mapper.map(customer, CustomerDto.class) ;
             customerDto.setProgramInterest(programRepository.findById(customer.getProgramId()).get().getProgramName());
             customerDto.setResponsiblePersonId(customer.getSale().getId());
+            customerDto.setResponsiblePerson(customer.getSale().getFullName());
             return customerDto ;
         }  ).toList() );
 //

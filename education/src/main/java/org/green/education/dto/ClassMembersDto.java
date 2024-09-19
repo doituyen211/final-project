@@ -8,7 +8,7 @@ import lombok.Data;
 public class ClassMembersDto {
 
     @JsonProperty("id")
-    private Integer Id;
+    private Integer id;
 
     @JsonProperty("student_id")
     private Integer studentId;

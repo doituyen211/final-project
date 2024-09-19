@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/training_program")
+@RequestMapping("api/v1/training_program")
 @RequiredArgsConstructor
 public class TrainingProgramController {
     private final ITrainingProgramService trainingProgramService;

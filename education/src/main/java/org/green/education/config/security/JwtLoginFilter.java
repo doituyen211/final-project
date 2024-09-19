@@ -5,6 +5,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.green.education.entity.Account;
+import org.green.education.repository.IAccountRepository;
+import org.green.education.repository.IAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,20 +33,39 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         super(new AntPathRequestMatcher("/api/v1/auth/login", "POST"), authenticationManager);
         this.jwtHandler = jwtHandler;
     }
-
+    @Autowired
+    private IAccountRepository repository ;
+    @Autowired
+    private IAuthRepository authRepository ;
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-//        String username = request.getParameter("email");
-//        String password = request.getParameter("password");
         // Parse JSON request body
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> requestBody = objectMapper.readValue(request.getInputStream(), Map.class);
 
-        String username = requestBody.get("email");
-        String password = requestBody.get("password");
-        Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
-        return getAuthenticationManager().authenticate(authentication);
+        // Check for either email or username in the request
+        String email = requestBody.get("email");
+        String username;
+
+        if (email != null && email.contains("@")) {
+            username = email;
+        } else {
+            username = repository.findAccountByUsername( requestBody.get("username")).getEmail();
+        }
+
+        String password =  requestBody.get("password");
+
+        // Validate that the username and password are present
+        if (username == null || password == null) {
+            throw new AuthenticationException("Username or password not provided") {};
+        }
+
+        // Create an unauthenticated authentication token
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+
+        // Authenticate using the AuthenticationManager
+        return getAuthenticationManager().authenticate(authRequest);
     }
 
     @Override
@@ -62,9 +84,20 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                 .findFirst() // Get the first (and only) role
                 .orElseThrow(() -> new RuntimeException("User has no roles assigned"));
 
+        String username = authResult.getName();
+        Account account;
+        if ( username.contains("@")) {
+             account = authRepository.findByEmail(username);
+        }
+        else
+        {
+             account = authRepository.findByUsername(username);
+        }
+        String fullName = account.getFullName();
+        Integer accountId = account.getId();
 
         // Generate the JWT token with the username and role
-        String token = jwtHandler.generateToken(authResult.getName(), role);
+        String token = jwtHandler.generateToken(authResult.getName(),fullName, accountId,  role);
 
         // Add the token to the response header
         response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);

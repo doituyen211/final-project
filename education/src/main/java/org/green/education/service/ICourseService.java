@@ -10,10 +10,14 @@ public interface ICourseService {
 
     ResponseEntity<?> findALL(CourseFilterForm form , int page , int pageSize,
                               String sortDir, String sortBy     ) ;
+
     ResponseEntity<?> findById(Integer id);
 
     ResponseEntity<?> updateById(Integer id, CourseDto courseDto);
 
     ResponseEntity<?> deleteById(Integer id);
+
+    ResponseEntity<?> findnoALL(CourseFilterForm form ,
+                              String sortDir, String sortBy     ) ;
 
 }
