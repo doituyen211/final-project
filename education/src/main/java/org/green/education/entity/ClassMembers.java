@@ -23,7 +23,7 @@ public class ClassMembers {
     private Integer classId;
 
     @Column
-    private String status ;
+    private Integer status ;
 
 
 }

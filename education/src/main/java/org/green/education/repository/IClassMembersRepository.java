@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface IClassMembersRepository
         extends JpaRepository<ClassMembers,Integer >, JpaSpecificationExecutor<ClassMembers> {
-    Optional<ClassMembers> findClassMembersByStatus(String name) ;
+    Optional<ClassMembers> findClassMembersByStatus(Integer name) ;
 }
