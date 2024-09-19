@@ -14,7 +14,7 @@ const API = {
   CLASSMEMBERS: `${BASE_URL}/thanh_vien_lop`,
 
   CLASS: `${BASE_URL}/class`,
-  TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`,
+  TRAINNING_PROGRAM: `${BASE_URL_TP}/training_program`,
   INFOR_STU: `${BASE_URL_INFOR_STU}/class`,
 
   // Add other API endpoints here if needed
