@@ -6,17 +6,22 @@ import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
 import org.green.education.form.ClassForm;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
 public interface IClassService {
-    CoreResponse<?> getClassList(int page, int limit);
+    CoreResponse<?> getClassById(int classId);
 
-    CoreResponse<?> getStudentByClassId(int classId, int page, int limit);
+    CoreResponse<?> getClassList();
+
+    CoreResponse<?> getStudentByClassId(int classId);
 
     CoreResponse<?> createClass(ClassForm classForm);
 
     CoreResponse<?> editClass(int classId, ClassForm classForm);
 
-    CoreResponse<?> getClassById(int classId);
+    CoreResponse<?> findByClassNameContainingIgnoreCase(String className);
+
+    CoreResponse<?> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
 }

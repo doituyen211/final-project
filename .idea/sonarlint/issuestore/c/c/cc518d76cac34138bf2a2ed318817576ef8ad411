@@ -1,14 +1,15 @@
 
 A
-java:S1452	"&Remove usage of generic wildcard type.(Õî£†ùÿÿÿÿ
+java:S1452	"&Remove usage of generic wildcard type.(õŠ±îýÿÿÿÿ
+<
+java:S1452"&Remove usage of generic wildcard type.(¯±³
 A
-java:S1452"&Remove usage of generic wildcard type.(„ëð‘ûÿÿÿÿ
+java:S1452"&Remove usage of generic wildcard type.(Ãü®ˆþÿÿÿÿ
 <
-java:S1452"&Remove usage of generic wildcard type.(á’›ž
-;
-java:S1452"&Remove usage of generic wildcard type.( ®’
-
+java:S1452"&Remove usage of generic wildcard type.(ä“ë”
 <
-java:S1452"&Remove usage of generic wildcard type.(’Õ­½
+java:S1452"&Remove usage of generic wildcard type.(Ç¬Î¹
 H
 java:S1452"&Remove usage of generic wildcard type.(çû”¹þÿÿÿÿ8õ’·Ï2
+f
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8–ââŸ2

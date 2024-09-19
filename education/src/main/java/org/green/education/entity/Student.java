@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,6 +40,9 @@ public class Student {
 
     @Column(name = "source", length = Integer.MAX_VALUE)
     private String source;
+    @Column(name = "gender", nullable = false)
+
+    private Integer gender;
 
     @Column(name = "campaign_id")
     private Integer campaignId;
@@ -52,6 +59,8 @@ public class Student {
     @Column(name = "program_id")
     private Integer programId;
 
+    private Integer status;
+
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", foreignKey = @ForeignKey(name = "fk_account_id"))
     private Account account;
@@ -59,5 +68,22 @@ public class Student {
     @OneToOne
     @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_account_id"))
     private LeaveOfAbsence leaveOfAbsence;
+
+    @OneToMany(mappedBy = "student")
+    private List<ClassMember> classMemberList ;
+
+    @OneToMany(mappedBy = "student")
+    private List<Attendance> attendanceList;
+
+
+    @CreationTimestamp
+    private LocalDateTime createdAt ;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt ;
+
+    @OneToOne
+    @JoinColumn(name = "sale_id", foreignKey = @ForeignKey(name = "fk_sale_id"))
+    private Account sale;
 
 }
