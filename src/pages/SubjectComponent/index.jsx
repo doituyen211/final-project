@@ -47,7 +47,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Chương trình đào tạo",
                 placeholder: "Chọn 1 chương trình đào tạo",
-                apiUrl: "/data/program.json",
+                apiUrl: "http://localhost:9001/api/v1/subjects/programs",
                 defaultOption: {
                     value: "",
                     label: "Chọn 1 chương trình đào tạo",
@@ -169,7 +169,7 @@ const SubjectComponent = () => {
                 axios.get("/data/status.json"),
                 axios.get("/data/program.json"),
             ]);
-            setStatusOptions(statusResponse.data);
+            setStatusOptions(statusResponse.data.data);
             setProgramOptions(programResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
