@@ -218,56 +218,56 @@ public class GradeService implements IGradeService {
         }
     }
 
-    @Override
-    public CoreResponse<?> getAllSubjectGrade() {
-        try {
-            List<SubjectDto> subjectDtoList = iGradeRepository.getSubjectNameForGrade();
-            return CoreResponse.builder()
-                    .code(HttpStatus.OK.value())
-                    .message("Get Subject for Grade Successfully")
-                    .data(subjectDtoList)
-                    .build();
-        } catch (Exception exp) {
-            return CoreResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(exp.getMessage())
-                    .build();
-        }
-    }
-
-    @Override
-    public CoreResponse<?> getAllTrainingGrade() {
-        try {
-            List<ProgramDTO> programDTOList = iGradeRepository.getProgramNameForGrade();
-            return CoreResponse.builder()
-                    .code(HttpStatus.OK.value())
-                    .message("Get All Grade Successfully")
-                    .data(programDTOList)
-                    .build();
-        } catch (Exception exp) {
-            return CoreResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(exp.getMessage())
-                    .build();
-        }
-    }
-
-    @Override
-    public CoreResponse<?> getAllStudentGrade() {
-        try {
-            List<StudentDTO> studentDTOList = iGradeRepository.getStudentForGrade();
-            return CoreResponse.builder()
-                    .code(HttpStatus.OK.value())
-                    .message("Get All Grade Successfully")
-                    .data(studentDTOList)
-                    .build();
-        } catch (Exception exp) {
-            return CoreResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(exp.getMessage())
-                    .build();
-        }
-    }
+//    @Override
+//    public CoreResponse<?> getAllSubjectGrade() {
+//        try {
+//            List<SubjectDto> subjectDtoList = iGradeRepository.getSubjectNameForGrade();
+//            return CoreResponse.builder()
+//                    .code(HttpStatus.OK.value())
+//                    .message("Get Subject for Grade Successfully")
+//                    .data(subjectDtoList)
+//                    .build();
+//        } catch (Exception exp) {
+//            return CoreResponse.builder()
+//                    .code(HttpStatus.BAD_REQUEST.value())
+//                    .message(exp.getMessage())
+//                    .build();
+//        }
+//    }
+//
+//    @Override
+//    public CoreResponse<?> getAllTrainingGrade() {
+//        try {
+//            List<ProgramDTO> programDTOList = iGradeRepository.getProgramNameForGrade();
+//            return CoreResponse.builder()
+//                    .code(HttpStatus.OK.value())
+//                    .message("Get All Grade Successfully")
+//                    .data(programDTOList)
+//                    .build();
+//        } catch (Exception exp) {
+//            return CoreResponse.builder()
+//                    .code(HttpStatus.BAD_REQUEST.value())
+//                    .message(exp.getMessage())
+//                    .build();
+//        }
+//    }
+//
+//    @Override
+//    public CoreResponse<?> getAllStudentGrade() {
+//        try {
+//            List<StudentDTO> studentDTOList = iGradeRepository.getStudentForGrade();
+//            return CoreResponse.builder()
+//                    .code(HttpStatus.OK.value())
+//                    .message("Get All Grade Successfully")
+//                    .data(studentDTOList)
+//                    .build();
+//        } catch (Exception exp) {
+//            return CoreResponse.builder()
+//                    .code(HttpStatus.BAD_REQUEST.value())
+//                    .message(exp.getMessage())
+//                    .build();
+//        }
+//    }
 
 }
 

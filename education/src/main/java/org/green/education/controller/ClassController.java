@@ -69,4 +69,9 @@ public class ClassController {
 
         return response;
     }
+
+    @DeleteMapping("/{classId}")
+    public CoreResponse<?> deleteClass(@PathVariable int classId) {
+        return iClassService.deleteClass(classId);
+    }
 }

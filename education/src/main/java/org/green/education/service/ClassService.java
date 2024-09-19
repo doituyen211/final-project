@@ -4,9 +4,12 @@ import org.green.core.model.CoreResponse;
 import org.green.education.dto.ClassDTO;
 import org.green.education.dto.ClassMemberDTO;
 import org.green.education.entity.Class;
+import org.green.education.entity.ClassMember;
+import org.green.education.entity.ClassMembers;
 import org.green.education.entity.TrainingProgram;
 import org.green.education.form.ClassForm;
 import org.green.education.repository.ClassRepository;
+import org.green.education.repository.IClassMembersRepository;
 import org.green.education.repository.ITrainingProgramRepository;
 import org.green.education.response.ClassListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class ClassService implements IClassService {
 
     @Autowired
     ITrainingProgramRepository trainingProgramRepository;
+
+    @Autowired
+    IClassMembersRepository iClassMembersRepository;
 
     // If id invalid in DB then use try catch to handle exception
     @Override
@@ -72,7 +78,7 @@ public class ClassService implements IClassService {
     @Override
     public CoreResponse<?> getClassList() {
         try {
-            List<Class> classList = classRepository.findAll();
+            List<Class> classList = classRepository.getClassIsActive();
 
             classList.forEach(item -> {
                 if (item.getEndDate().isBefore(LocalDate.now())) {
@@ -80,8 +86,13 @@ public class ClassService implements IClassService {
                 } else {
                     item.setStatus(true);
                 }
+
+                int classSize = iClassMembersRepository.countStudentsByClassId(item.getId());
+                item.setClassSize(classSize);
+
                 classRepository.save(item);
             });
+
 
             List<ClassDTO> classDTOList = classList.stream()
                     .map(item -> ClassDTO.builder()
@@ -92,6 +103,7 @@ public class ClassService implements IClassService {
                             .endDate(item.getEndDate())
                             .trainingProgramName(item.getProgram().getProgramName())
                             .status(item.isStatus())
+                            .active(item.getActive())
                             .build())
                     .sorted(Comparator.comparing(ClassDTO::getId).reversed())
                     .collect(Collectors.toList());
@@ -148,13 +160,16 @@ public class ClassService implements IClassService {
         try {
             TrainingProgram trainingProgram = trainingProgramRepository.findById(classForm.getProgramId())
                     .orElseThrow(() -> new Exception("Không tìm thấy chương trình đào tạo với id là " + classForm.getProgramId()));
-
             Class newClass = new Class();
+
+            int classSize = iClassMembersRepository.countStudentsByClassId(newClass.getId());
+
             newClass.setClassName(classForm.getClassName());
-            newClass.setClassSize(classForm.getClassSize());
+            newClass.setClassSize(classSize);
             newClass.setStartDate(classForm.getStartDate());
             newClass.setEndDate(classForm.getEndDate());
             newClass.setProgram(trainingProgram);
+            newClass.setActive(true);
 
             if (classForm.getEndDate().isAfter(LocalDate.now()) || classForm.getEndDate().isEqual(LocalDate.now())) {
                 newClass.setStatus(true);
@@ -197,7 +212,7 @@ public class ClassService implements IClassService {
 
             presentClass.setProgram(trainingProgram);
             presentClass.setClassName(classForm.getClassName());
-            presentClass.setClassSize(classForm.getClassSize());
+//            presentClass.setClassSize(classForm.getClassSize());
             presentClass.setStartDate(classForm.getStartDate());
             presentClass.setEndDate(classForm.getEndDate());
 
@@ -206,7 +221,7 @@ public class ClassService implements IClassService {
             } else {
                 presentClass.setStatus(true);
             }
-            
+
             classRepository.save(presentClass);
 
             return CoreResponse.builder()
@@ -311,6 +326,27 @@ public class ClassService implements IClassService {
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .message("An unexpected error occurred")
                     .data(null)
+                    .build();
+        }
+    }
+
+    @Override
+    public CoreResponse<?> deleteClass(int classId) {
+        try {
+            Class presentClass = classRepository.findById(classId)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học này"));
+
+            presentClass.setActive(false);
+            classRepository.save(presentClass);
+
+            return CoreResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("delete successfully")
+                    .build();
+        } catch (Exception exp) {
+            return CoreResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(exp.getMessage())
                     .build();
         }
     }
