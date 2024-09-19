@@ -1,5 +1,5 @@
 import API from '../store/Api';
-import axios from './customize-axios';
+import axios from 'axios';
 
 const fetchAllTrainingPrograms = (page, searchItem = '') => {
     return axios.get(`${API.TRAINNING_PROGRAM}?search=${searchItem}&page=${page}&limit=5`);
