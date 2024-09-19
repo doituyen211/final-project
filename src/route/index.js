@@ -8,6 +8,7 @@ import {
     DecisionComponent,
     DepartmentComponent,
     LiabilityComponents,
+    LogoutComponent,
     MarketingCampaignComponent,
     PersonelComponents,
     QualificationComponents,
@@ -19,7 +20,7 @@ import {
     SubjectComponent,
     TimesheetComponent,
     TuitionFeeComponent,
-    UserComponent,
+    UserComponent
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
@@ -260,4 +261,11 @@ export const routeSideBar = [
             },
         ],
     },
+    {
+        name: "Đăng xuất",
+        icon: "nav-icon fas fa-sign-out-alt",
+        to: "/logout",
+        component: LogoutComponent,
+        child: [],
+    }
 ];
