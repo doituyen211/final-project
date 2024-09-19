@@ -111,7 +111,7 @@ export const routeSideBar = [
                 component: AttendanceComponent,
             },
             {
-                name: "Quản lý khoá học",
+                name: "Quản lý năm học",
                 icon: "nav-icon fas fa-clipboard-list",
                 component: CourseComponent,
                 to: "/courses",
