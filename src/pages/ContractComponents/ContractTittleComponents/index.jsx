@@ -10,41 +10,101 @@ import Papa from "papaparse";
 const ContractTitleComponents = ({ contracts, onSearch, onAddContract }) => {
   const [dataExport, setDataExport] = useState([]);
   const [importData, setImportData] = useState([]); // useState để lưu trữ dữ liệu nhập
+  const [selectedType, setSelectedType] = useState("");
+  const [minSalary, setMinSalary] = useState("");
+  const [maxSalary, setMaxSalary] = useState("");
 
+  const contractTypeMap = {
+    fulltime: "Hợp đồng lao động chính thức",
+    parttime: "Hợp đồng lao động parttime",
+    freelance: "Hợp đồng Freelance",
+    probationary: "Hợp đồng thử việc",
+    intern: "Hợp đồng thực tập",
+  };
+  const contractTypeMaps = [
+    "Hợp đồng lao động chính thức",
+    "Hợp đồng lao động parttime",
+    "Hợp đồng Freelance",
+    "Hợp đồng thử việc",
+    "Hợp đồng thực tập",
+  ];
+  const contractSalaries = [
+    "Dưới 10 triệu",
+    "Từ 10 triệu đến 30 triệu",
+    "Từ 30 triệu đến 50 triệu",
+    "Trên 50 triệu",
+  ];
+
+  // Tìm kiếm theo loại hợp đồng và id nhân viên
+
+  // Hàm tìm kiếm cập nhật
   const handleSearch = (searchTerm) => {
-    const searchValue = searchTerm.toLowerCase();
+    const searchValue = searchTerm ? searchTerm.toLowerCase() : "";
 
     const filteredContracts = contracts.filter((contract) => {
-      const employeeId = contract.employeeId
-        ? contract.employeeId.toLowerCase()
+      const employee_id = contract.employee_id
+        ? contract.employee_id.toLowerCase()
         : "";
-      const contractType = contract.contractType
-        ? contract.contractType.toLowerCase()
+      const contractType = contract.contract_type
+        ? (contractTypeMap[contract.contract_type] || "").toLowerCase()
         : "";
-      const salary = contract.salary
-        ? contract.salary.toString().toLowerCase()
+      const contract_id = contract.contract_id
+        ? contract.contract_id.toLowerCase()
         : "";
-      const startDate = contract.startDate
-        ? contract.startDate.toLowerCase()
-        : "";
-      const endDate = contract.endDate ? contract.endDate.toLowerCase() : "";
-      const status = contract.status
-        ? contract.status
-          ? "active"
-          : "inactive"
-        : "";
+      const salary = contract.luongCB ? contract.luongCB : 0;
 
-      return (
-        employeeId.includes(searchValue) ||
+      const matchesSearchTerm =
+        employee_id.includes(searchValue) ||
         contractType.includes(searchValue) ||
-        salary.includes(searchValue) ||
-        startDate.includes(searchValue) ||
-        endDate.includes(searchValue) ||
-        status.includes(searchValue)
-      );
+        contract_id.includes(searchValue);
+
+      const matchesContractType =
+        selectedType === "" ||
+        (contractTypeMaps.includes(selectedType) &&
+          contractType.includes(selectedType.toLowerCase()));
+
+      const matchesSalary =
+        (minSalary === "" && maxSalary === "") ||
+        (salary >= minSalary && salary <= maxSalary);
+
+      return matchesSearchTerm && matchesContractType && matchesSalary;
     });
 
     onSearch(filteredContracts);
+  };
+
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+    handleSearch(""); // Gọi hàm tìm kiếm lại khi loại hợp đồng thay đổi
+  };
+
+  // Hàm xử lý thay đổi giá trị trong dropdown lương
+  const handleSalaryChange = (e) => {
+    const value = e.target.value;
+
+    // Phân tích giá trị từ dropdown để thiết lập minSalary và maxSalary
+    switch (value) {
+      case "Dưới 10 triệu":
+        setMinSalary(0);
+        setMaxSalary(10000000);
+        break;
+      case "Từ 10 triệu đến 30 triệu":
+        setMinSalary(10000000);
+        setMaxSalary(30000000);
+        break;
+      case "Từ 30 triệu đến 50 triệu":
+        setMinSalary(30000000);
+        setMaxSalary(50000000);
+        break;
+      case "Trên 50 triệu":
+        setMinSalary(50000000);
+        setMaxSalary(Infinity);
+        break;
+      default:
+        setMinSalary("");
+        setMaxSalary("");
+        break;
+    }
   };
 
   // Xử lí click button import file :
@@ -209,23 +269,71 @@ const ContractTitleComponents = ({ contracts, onSearch, onAddContract }) => {
   };
 
   return (
-    <div className="row contract-tittle d-flex justify-content-between align-items-center">
-      <div className="col-sm-6">
+    <div className="contract-tittle row d-flex justify-content-between align-items-center">
+      <div className="col-sm-4">
         <h2>DANH SÁCH HỢP ĐỒNG</h2>
       </div>
-      <div className="action-button col-sm-6 d-flex justify-content-end align-items-center">
+      <div className="action-button col-sm-8 d-flex justify-content-end align-items-center">
+        <div className="filter-section">
+          <select
+            id="contractType"
+            value={selectedType}
+            onChange={handleTypeChange}
+            className="filter-select"
+          >
+            <option value="">Chọn loại hợp đồng</option>
+            {contractTypeMaps.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+
+          <select
+            id="salaryRange"
+            value={
+              minSalary === 0 && maxSalary === 10000000
+                ? "Dưới 10 triệu"
+                : minSalary === 10000000 && maxSalary === 30000000
+                  ? "Từ 10 triệu đến 30 triệu"
+                  : minSalary === 30000000 && maxSalary === 50000000
+                    ? "Từ 30 triệu đến 50 triệu"
+                    : minSalary === 50000000
+                      ? "Trên 50 triệu"
+                      : ""
+            }
+            onChange={handleSalaryChange}
+            className="filter-select"
+          >
+            <option value="">Chọn mức lương</option>
+            {contractSalaries.map((salary, index) => (
+              <option key={index} value={salary}>
+                {salary}
+              </option>
+            ))}
+          </select>
+        </div>
         <SearchComponents onSearch={handleSearch} />
         <ButtonComponents
           className="btn btn-success align-items-center"
-          onClick={handleImportClick}
+          onClick={() => document.getElementById("import").click()}
         >
           <i className="fas fa-file-excel"></i>
         </ButtonComponents>
-        <input id="import" type="file" hidden onChange={handleFileChange} />
+        <input
+          id="import"
+          type="file"
+          hidden
+          onChange={() => {
+            /* Handle file change logic */
+          }}
+        />
         <CSVLink
           data={dataExport}
           asyncOnClick={true}
-          onClick={getContractExport}
+          onClick={() => {
+            /* Handle export logic */
+          }}
           filename={"List-Contract.csv"}
           className="btn btn-danger align-items-center"
         >
