@@ -112,7 +112,7 @@ const SubjectComponent = () => {
                 // if (search !== "" || status !== "" || program !== "") page = 1;
                 const {data} = (await axios.get(api, {
                     params: {
-                        page: page - 1,
+                        page: page,
                         pageSize: 10,
                         search,
                         status,
@@ -124,7 +124,7 @@ const SubjectComponent = () => {
                     ...prevState,
                     dataTable: data.content,
                 }));
-                setCurrentPage(data.page);
+                setCurrentPage(data.page + 1);
                 setTotalPages(data.totalPages);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -216,7 +216,7 @@ const SubjectComponent = () => {
                 .then((res) => setFormData(res.data))
                 .catch((err) => console.error("Error fetching data:", err));
         }
-    }, [actionModal, initialIdCurrent]);
+    }, []);
 
     return (
         <>
@@ -355,7 +355,7 @@ const SubjectComponent = () => {
                                                     <td>
                                                         {index +
                                                             10 *
-                                                            (currentPage) +
+                                                            (currentPage - 1) +
                                                             1}
                                                     </td>
                                                     <td>
