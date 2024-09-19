@@ -1,10 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
-import { Formik, Form as FormikForm } from 'formik';
+import {Button, Col, Form, Row} from 'react-bootstrap';
+import {Form as FormikForm, Formik} from 'formik';
 import * as Yup from 'yup';
-import axios from "axios"; // Ensure this is correctly imported
+import axios from 'axios'; // Ensure this is correctly imported
 
-const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, programOptions, statusOptions , formFieldsProp}) => {
+const CustomerSaleForm = ({
+                              initialData,
+                              actionModal,
+                              onSubmit,
+                              onCancel,
+                              programOptions,
+                              statusOptions,
+                              formFieldsProp
+                          }) => {
     // Create validation schema statically
     const validationSchema = Yup.object().shape(
         formFieldsProp.reduce((acc, field) => {
@@ -16,16 +24,19 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
     const [fieldOptions, setFieldOptions] = useState({});
 
     useEffect(() => {
-        console.log("Get Option Select ")
         const fetchOptions = async (url, fieldName) => {
             try {
                 const response = await axios.get(url);
                 setFieldOptions(prevOptions => ({
                     ...prevOptions,
-                    [fieldName]: response.data
+                    [fieldName]: Array.isArray(response.data.data) ? response.data.data : [] // Ensure it's an array
                 }));
             } catch (error) {
                 console.error(`Error fetching options for ${fieldName}:`, error);
+                setFieldOptions(prevOptions => ({
+                    ...prevOptions,
+                    [fieldName]: [] // Default to an empty array on error
+                }));
             }
         };
 
@@ -43,12 +54,11 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
             onSubmit={onSubmit}
             enableReinitialize={true} // Add this line to enable reinitialization
         >
-            {({ handleChange, values, errors, touched }) => (
+            {({handleChange, values, errors, touched}) => (
                 <FormikForm>
-                    {/*<h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>*/}
                     <Row>
                         {formFieldsProp.map((field, index) => {
-                            const { name, label, type,placeholder, defaultOption,apiUrl } = field;
+                            const {name, label, type, placeholder, defaultOption} = field;
                             const options = fieldOptions[name] || []; // Get options for the field
 
                             return (
@@ -61,18 +71,19 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
                                                 name={name}
                                                 value={values[name] || ''}
                                                 onChange={handleChange}
-                                                disabled={actionModal === "VIEW"}
+                                                disabled={actionModal === 'VIEW'}
                                             >
-                                                <option value="">{defaultOption?.label || "Select an option"}</option>
-                                                {options.map(option => (
+                                                <option value="">
+                                                    {defaultOption?.label || 'Select an option'}
+                                                </option>
+                                                {Array.isArray(options) && options.map(option => (
                                                     <option key={option.id} value={option.id}>
                                                         {option.name}
                                                     </option>
                                                 ))}
                                             </Form.Control>
-
-                                        ) : type === 'select' ? (
-                                            options.map(option => (
+                                        ) : type === 'checkbox' ? (
+                                            Array.isArray(options) && options.map(option => (
                                                 <Form.Check
                                                     key={option.id}
                                                     type="checkbox"
@@ -82,26 +93,17 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
                                                     label={option.name}
                                                     checked={values[name]?.includes(option.id)}
                                                     onChange={handleChange}
-                                                    disabled={actionModal === "VIEW"}
+                                                    disabled={actionModal === 'VIEW'}
                                                 />
                                             ))
-                                        ): (
-                                            // <Input
-                                            //     type={type}
-                                            //     name={name}
-                                            //     value={values[name] || ''}
-                                            //     onChange={handleChange}
-                                            //     placeholder={placeholder}
-                                            //     className="form-control"
-                                            //     disabled={actionModal === "VIEW"}
-                                            // />
+                                        ) : (
                                             <Form.Control
                                                 type={type}
                                                 name={name}
                                                 value={values[name] || ''}
                                                 onChange={handleChange}
                                                 placeholder={placeholder}
-                                                disabled={actionModal === "VIEW"}
+                                                disabled={actionModal === 'VIEW'}
                                             />
                                         )}
                                         {errors[name] && touched[name] ? (
@@ -111,91 +113,20 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
                                 </Col>
                             );
                         })}
-                        {/*<Col md={6} className='mb-3'>*/}
-                        {/*    <Form.Group controlId="subject_name">*/}
-                        {/*        <Form.Label>Tên môn học</Form.Label>*/}
-                        {/*        <Input*/}
-                        {/*            type="text"*/}
-                        {/*            name="subject_name"*/}
-                        {/*            value={values.subject_name || ''}*/}
-                        {/*            onChange={handleChange}*/}
-                        {/*            placeholder="Nhập tên môn học"*/}
-                        {/*            className="form-control"*/}
-                        {/*            disabled={actionModal === "VIEW"}*/}
-                        {/*        />*/}
-                        {/*        {errors.subject_name && touched.subject_name ? (*/}
-                        {/*            <div className="text-danger">{errors.subject_name}</div>*/}
-                        {/*        ) : null}*/}
-                        {/*    </Form.Group>*/}
-                        {/*</Col>*/}
-                        {/*<Col md={6} className='mb-3'>*/}
-                        {/*    <Form.Group controlId="training_duration">*/}
-                        {/*        <Form.Label>Thời lượng</Form.Label>*/}
-                        {/*        <Input*/}
-                        {/*            type="number"*/}
-                        {/*            name="training_duration"*/}
-                        {/*            value={values.training_duration || ''}*/}
-                        {/*            onChange={handleChange}*/}
-                        {/*            placeholder="Nhập thời lượng"*/}
-                        {/*            className="form-control"*/}
-                        {/*            disabled={actionModal === "VIEW"}*/}
-                        {/*        />*/}
-                        {/*        {errors.training_duration && touched.training_duration ? (*/}
-                        {/*            <div className="text-danger">{errors.training_duration}</div>*/}
-                        {/*        ) : null}*/}
-                        {/*    </Form.Group>*/}
-                        {/*</Col>*/}
-                        {/*<Col md={6} className='mb-3'>*/}
-                        {/*    <Form.Group controlId="training_program_id">*/}
-                        {/*        <Form.Label>Chương trình đào tạo</Form.Label>*/}
-                        {/*        <Form.Control*/}
-                        {/*            as="select"*/}
-                        {/*            name="training_program_id"*/}
-                        {/*            value={values.training_program_id || ''}*/}
-                        {/*            onChange={handleChange}*/}
-                        {/*            disabled={actionModal === "VIEW"}*/}
-                        {/*        >*/}
-                        {/*            <option value="">Chọn chương trình đào tạo</option>*/}
-                        {/*            {programOptions.map(option => (*/}
-                        {/*                <option key={option.value} value={option.id}>*/}
-                        {/*                    {option.name}*/}
-                        {/*                </option>*/}
-                        {/*            ))}*/}
-                        {/*        </Form.Control>*/}
-                        {/*        {errors.training_program_id && touched.training_program_id ? (*/}
-                        {/*            <div className="text-danger">{errors.training_program_id}</div>*/}
-                        {/*        ) : null}*/}
-                        {/*    </Form.Group>*/}
-                        {/*</Col>*/}
-                        {/*<Col md={6} className='mb-3'>*/}
-                        {/*    <Form.Group controlId="status">*/}
-                        {/*        <Form.Label>Trạng thái</Form.Label>*/}
-                        {/*        <Form.Control*/}
-                        {/*            as="select"*/}
-                        {/*            name="status"*/}
-                        {/*            value={values.status || ''}*/}
-                        {/*            onChange={handleChange}*/}
-                        {/*            disabled={actionModal === "VIEW"}*/}
-                        {/*        >*/}
-                        {/*            <option value="">Chọn trạng thái</option>*/}
-                        {/*            {statusOptions.map(option => (*/}
-                        {/*                <option key={option.value} value={option.id}>*/}
-                        {/*                    {option.name}*/}
-                        {/*                </option>*/}
-                        {/*            ))}*/}
-                        {/*        </Form.Control>*/}
-                        {/*        {errors.status && touched.status ? (*/}
-                        {/*            <div className="text-danger">{errors.status}</div>*/}
-                        {/*        ) : null}*/}
-                        {/*    </Form.Group>*/}
-                        {/*</Col>*/}
                     </Row>
                     <div className="d-flex justify-content-center">
-                        <Button variant="secondary" className="me-2" type="button" onClick={onCancel}>Huỷ bỏ</Button>
-                        {actionModal === 'VIEW'
-                            ? <Button variant="primary" type="button">Chỉnh sửa</Button>
-                            : <Button variant="primary" type="submit">Lưu lại</Button>
-                        }
+                        <Button variant="secondary" className="me-2" type="button" onClick={onCancel}>
+                            Huỷ bỏ
+                        </Button>
+                        {actionModal === 'VIEW' ? (
+                            <Button variant="primary" type="button">
+                                Chỉnh sửa
+                            </Button>
+                        ) : (
+                            <Button variant="primary" type="submit">
+                                Lưu lại
+                            </Button>
+                        )}
                     </div>
                 </FormikForm>
             )}
@@ -204,4 +135,3 @@ const CustomerSaleForm = ({ initialData, actionModal, onSubmit, onCancel, progra
 };
 
 export default CustomerSaleForm;
-
