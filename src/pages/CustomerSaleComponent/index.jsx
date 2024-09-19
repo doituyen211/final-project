@@ -169,10 +169,10 @@ const CustomerSaleComponent = () => {
         try {
             const [statusResponse, programResponse, paymentResponse] = await Promise.all([
                 axios.get("/data/status.json"),
-                axios.get("/data/program.json"),
+                axios.get("http://localhost:9001/api/v1/subjects/programs"),
                 axios.get("/data/phuongthucthanhtoan.json")
             ]);
-            setStatusOptions(statusResponse.data);
+            setStatusOptions(statusResponse.data.data);
             setProgramOptions(programResponse.data);
             setPaymentOptions(paymentResponse.data);
         } catch (error) {
