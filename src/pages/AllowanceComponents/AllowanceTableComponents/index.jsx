@@ -1,28 +1,7 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
-function AllowanceTableComponents() {
-    // Fetch data from API or local state
-    const [data, setData] = React.useState([]);
-
-    const handleEdit = (item) => {
-        // Implement logic to edit item
-        console.log('Edit item:', item);
-    };
-
-    const handleDelete = (item) => {
-        // Implement logic to delete item
-        console.log('Delete item:', item);
-    };
-
-    React.useEffect(() => {
-        // Fetch data from API or local state
-        fetch('https://66ad1d32b18f3614e3b4736d.mockapi.io')
-            .then(response => response.json())
-            .then(data => setData(data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
-
+function AllowanceTableComponents({ data, onEdit, onDelete }) {
     return (
         <Table striped bordered hover>
             <thead>
@@ -44,12 +23,13 @@ function AllowanceTableComponents() {
                     <td>{item.idCV}</td>
                     <td>{item.loaiPC}</td>
                     <td>{item.luongPC}</td>
-                    <td>{item.trangThai ? 'Active' : 'Inactive'}</td>
+                    <td>{item.trangThai ? 'Hoạt động' : 'Không hoạt động'}</td>
                     <td>{item.create_at}</td>
                     <td>{item.update_at}</td>
                     <td>
-                        <button onClick={() => handleEdit(item)}>Edit</button>
-                        <button onClick={() => handleDelete(item)}>Delete</button>
+                        <Button variant="info" onClick={() => onEdit(item)}>Xem</Button>
+                        <Button variant="warning" onClick={() => onEdit(item)}>Sửa</Button>
+                        <Button variant="danger" onClick={() => onDelete(item)}>Xóa</Button>
                     </td>
                 </tr>
             ))}

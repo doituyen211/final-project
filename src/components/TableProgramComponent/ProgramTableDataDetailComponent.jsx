@@ -15,7 +15,7 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
             setIsLoading(true)
             let response = await fetchClassesByProgramId(currentPage, id);
             if (response) {
-                setClasses(response)
+                setClasses(response.data)
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -28,7 +28,7 @@ const DataTableDetailComponent = ({ show, handleClose, data }) => {
             setIsLoading(true);
             let response = await fetchSubjectsByProgramId(currentPage, id);
             if (response) {
-                setSubjects(response)
+                setSubjects(response.data)
             }
         } catch (error) {
             console.error("Error fetching data:", error);

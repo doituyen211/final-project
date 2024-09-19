@@ -1,472 +1,570 @@
 [
   {
-    "id": 1,
-    "contract_type": "Hợp đồng lao động chính thức",
-    "contract_id": "HD_0001",
-    "start_date": "2024-01-01",
-    "end_date": "2025-12-31",
-    "contract_code": "SD0001",
+    "contract_id": "HD_1002",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "2",
     "description": [
-      "contract1.doc",
-      "contract2.pdf"
-    ],
-    "employee_id": "NS_0001",
-    "status": 1,
-    "created_at": "2024-01-01",
-    "updated_at": "2024-01-01",
-    "luongCB": 1000000
-  },
-  {
-    "id": 2,
-    "contract_type": "Hợp đồng lao động parttime",
-    "contract_id": "HD_0002",
-    "start_date": "2024-02-01",
-    "end_date": "2024-08-01",
-    "contract_code": "SD0002",
-    "description": [
-      "contract2.doc"
-    ],
-    "employee_id": "NS_0002",
-    "status": 1,
-    "created_at": "2024-02-01",
-    "updated_at": "2024-02-01",
-    "luongCB": 800000
-  },
-  {
-    "id": 3,
-    "contract_type": "Hợp đồng Freelance",
-    "contract_id": "HD_0003",
-    "start_date": "2024-03-01",
-    "end_date": "2024-12-31",
-    "contract_code": "SD0003",
-    "description": [
-      "contract3.docx"
-    ],
-    "employee_id": "NS_0003",
-    "status": 1,
-    "created_at": "2024-03-01",
-    "updated_at": "2024-03-01",
-    "luongCB": 1200000
-  },
-  {
-    "id": 4,
-    "contract_type": "Hợp đồng thử việc",
-    "contract_id": "HD_0004",
-    "start_date": "2024-04-01",
-    "end_date": "2024-09-30",
-    "contract_code": "SD0004",
-    "description": [
-      "contract4.pdf"
+      "Project A.docx",
+      "Project A.pdf"
     ],
     "employee_id": "NS_0004",
-    "status": 1,
-    "created_at": "2024-04-01",
-    "updated_at": "2024-04-01",
-    "luongCB": 900000
+    "status": true,
+    "create_at": 1723781623,
+    "update_at": 1723781623,
+    "luongCB": "12000000",
+    "id": "2",
+    "created_at": "2024-08-16T04:50",
+    "updated_at": "2024-08-16T04:55"
   },
   {
-    "id": 5,
-    "contract_type": "Hợp đồng thực tập",
-    "contract_id": "HD_0005",
-    "start_date": "2024-05-01",
-    "end_date": "2024-10-31",
-    "contract_code": "SD0005",
+    "contract_id": "HD_1003",
+    "contract_type": "parttime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "3",
     "description": [
-      "contract5.doc"
+      "Marketing Plan.docx",
+      "Marketing Plan.pdf"
     ],
     "employee_id": "NS_0005",
-    "status": 1,
-    "created_at": "2024-05-01",
-    "updated_at": "2024-05-01",
-    "luongCB": 500000
+    "status": true,
+    "create_at": 1723781723,
+    "update_at": 1723781723,
+    "luongCB": "8000000",
+    "id": "3",
+    "created_at": "2024-08-16T04:56",
+    "updated_at": "2024-08-16T05:01"
   },
   {
-    "id": 6,
-    "contract_type": "Hợp đồng lao động chính thức",
-    "contract_id": "HD_0006",
-    "start_date": "2024-06-01",
-    "end_date": "2025-06-01",
-    "contract_code": "SD0006",
+    "contract_id": "HD_1004",
+    "contract_type": "freelance",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "4",
     "description": [
-      "contract6.docx",
-      "contract7.pdf"
+      "Website Design.docx",
+      "Website Design.pdf"
     ],
     "employee_id": "NS_0006",
-    "status": 1,
-    "created_at": "2024-06-01",
-    "updated_at": "2024-06-01",
-    "luongCB": 1100000
+    "status": true,
+    "create_at": 1723781823,
+    "update_at": 1723781823,
+    "luongCB": "15000000",
+    "id": "4",
+    "created_at": "2024-08-16T05:02",
+    "updated_at": "2024-08-16T05:07"
   },
   {
-    "id": 7,
-    "contract_type": "Hợp đồng lao động parttime",
-    "contract_id": "HD_0007",
-    "start_date": "2024-07-01",
-    "end_date": "2024-12-31",
-    "contract_code": "SD0007",
+    "contract_id": "HD_1005",
+    "contract_type": "probationary",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "5",
     "description": [
-      "contract8.doc"
+      "New Hire.docx",
+      "New Hire.pdf"
     ],
     "employee_id": "NS_0007",
-    "status": 1,
-    "created_at": "2024-07-01",
-    "updated_at": "2024-07-01",
-    "luongCB": 850000
+    "status": true,
+    "create_at": 1723781923,
+    "update_at": 1723781923,
+    "luongCB": "7000000",
+    "id": "5",
+    "created_at": "2024-08-16T05:08",
+    "updated_at": "2024-08-16T05:13"
   },
   {
-    "id": 8,
-    "contract_type": "Hợp đồng Freelance",
-    "contract_id": "HD_0008",
+    "contract_id": "HD_1006",
+    "contract_type": "intern",
     "start_date": "2024-08-01",
-    "end_date": "2024-12-31",
-    "contract_code": "SD0008",
+    "end_date": "2024-09-01",
+    "contract_code": "6",
     "description": [
-      "contract9.docx"
+      "Internship.docx",
+      "Internship.pdf"
     ],
     "employee_id": "NS_0008",
-    "status": 1,
-    "created_at": "2024-08-01",
-    "updated_at": "2024-08-01",
-    "luongCB": 1300000
+    "status": true,
+    "create_at": 1723782023,
+    "update_at": 1723782023,
+    "luongCB": "4000000",
+    "id": "6",
+    "created_at": "2024-08-16T05:14",
+    "updated_at": "2024-08-16T05:19"
   },
   {
-    "id": 9,
-    "contract_type": "Hợp đồng thử việc",
-    "contract_id": "HD_0009",
-    "start_date": "2024-09-01",
-    "end_date": "2024-12-31",
-    "contract_code": "SD0009",
+    "contract_id": "HD_1007",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "7",
     "description": [
-      "contract10.pdf"
+      "Software Development.docx",
+      "Software Development.pdf"
     ],
     "employee_id": "NS_0009",
-    "status": 1,
-    "created_at": "2024-09-01",
-    "updated_at": "2024-09-01",
-    "luongCB": 950000
+    "status": true,
+    "create_at": 1723782123,
+    "update_at": 1723782123,
+    "luongCB": "13000000",
+    "id": "7",
+    "created_at": "2024-08-16T05:20",
+    "updated_at": "2024-08-16T05:25"
   },
   {
-    "id": 10,
-    "contract_type": "Hợp đồng thực tập",
-    "contract_id": "HD_0010",
-    "start_date": "2024-10-01",
-    "end_date": "2024-12-31",
-    "contract_code": "SD0010",
+    "contract_id": "HD_1008",
+    "contract_type": "parttime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "8",
     "description": [
-      "contract11.doc"
+      "Content Writing.docx",
+      "Content Writing.pdf"
     ],
     "employee_id": "NS_0010",
-    "status": 1,
-    "created_at": "2024-10-01",
-    "updated_at": "2024-10-01",
-    "luongCB": 600000
+    "status": true,
+    "create_at": 1723782223,
+    "update_at": 1723782223,
+    "luongCB": "9000000",
+    "id": "8",
+    "created_at": "2024-08-16T05:26",
+    "updated_at": "2024-08-16T05:31"
   },
   {
-    "id": 11,
-    "contract_type": "Hợp đồng lao động chính thức",
-    "contract_id": "HD_0011",
-    "start_date": "2024-11-01",
-    "end_date": "2025-11-01",
-    "contract_code": "SD0011",
+    "contract_id": "HD_1009",
+    "contract_type": "freelance",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "9",
     "description": [
-      "contract12.docx",
-      "contract13.pdf"
+      "App Development.docx",
+      "App Development.pdf"
     ],
     "employee_id": "NS_0011",
-    "status": 1,
-    "created_at": "2024-11-01",
-    "updated_at": "2024-11-01",
-    "luongCB": 1050000
+    "status": true,
+    "create_at": 1723782323,
+    "update_at": 1723782323,
+    "luongCB": "16000000",
+    "id": "9",
+    "created_at": "2024-08-16T05:32",
+    "updated_at": "2024-08-16T05:37"
   },
   {
-    "id": 12,
-    "contract_type": "Hợp đồng lao động parttime",
-    "contract_id": "HD_0012",
-    "start_date": "2024-12-01",
-    "end_date": "2025-06-01",
-    "contract_code": "SD0012",
+    "contract_id": "HD_1010",
+    "contract_type": "probationary",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "10",
     "description": [
-      "contract14.doc"
+      "Sales.docx",
+      "Sales.pdf"
     ],
     "employee_id": "NS_0012",
-    "status": 1,
-    "created_at": "2024-12-01",
-    "updated_at": "2024-12-01",
-    "luongCB": 800000
+    "status": true,
+    "create_at": 1723782423,
+    "update_at": 1723782423,
+    "luongCB": "7500000",
+    "id": "10",
+    "created_at": "2024-08-16T05:38",
+    "updated_at": "2024-08-16T05:43"
   },
   {
-    "id": 13,
-    "contract_type": "Hợp đồng Freelance",
-    "contract_id": "HD_0013",
-    "start_date": "2025-01-01",
-    "end_date": "2025-06-30",
-    "contract_code": "SD0013",
+    "contract_id": "HD_1011",
+    "contract_type": "intern",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "11",
     "description": [
-      "contract15.docx"
+      "Database Internship.docx",
+      "Database Internship.pdf"
     ],
     "employee_id": "NS_0013",
-    "status": 1,
-    "created_at": "2025-01-01",
-    "updated_at": "2025-01-01",
-    "luongCB": 1150000
+    "status": true,
+    "create_at": 1723782523,
+    "update_at": 1723782523,
+    "luongCB": "3500000",
+    "id": "11",
+    "created_at": "2024-08-16T05:44",
+    "updated_at": "2024-08-16T05:49"
   },
   {
-    "id": 14,
-    "contract_type": "Hợp đồng thử việc",
-    "contract_id": "HD_0014",
-    "start_date": "2025-02-01",
-    "end_date": "2025-07-31",
-    "contract_code": "SD0014",
+    "contract_id": "HD_1012",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "12",
     "description": [
-      "contract16.pdf"
+      "Graphic Design.docx",
+      "Graphic Design.pdf"
     ],
     "employee_id": "NS_0014",
-    "status": 1,
-    "created_at": "2025-02-01",
-    "updated_at": "2025-02-01",
-    "luongCB": 950000
+    "status": true,
+    "create_at": 1723782623,
+    "update_at": 1723782623,
+    "luongCB": "11000000",
+    "id": "12",
+    "created_at": "2024-08-16T05:50",
+    "updated_at": "2024-08-16T05:55"
   },
   {
-    "id": 15,
-    "contract_type": "Hợp đồng thực tập",
-    "contract_id": "HD_0015",
-    "start_date": "2025-03-01",
-    "end_date": "2025-08-31",
-    "contract_code": "SD0015",
+    "contract_id": "HD_1013",
+    "contract_type": "parttime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "13",
     "description": [
-      "contract17.doc"
+      "Social Media.docx",
+      "Social Media.pdf"
     ],
     "employee_id": "NS_0015",
-    "status": 1,
-    "created_at": "2025-03-01",
-    "updated_at": "2025-03-01",
-    "luongCB": 550000
+    "status": true,
+    "create_at": 1723782723,
+    "update_at": 1723782723,
+    "luongCB": "8500000",
+    "id": "13",
+    "created_at": "2024-08-16T05:56",
+    "updated_at": "2024-08-16T06:01"
   },
   {
-    "id": 16,
-    "contract_type": "Hợp đồng lao động chính thức",
-    "contract_id": "HD_0016",
-    "start_date": "2025-04-01",
-    "end_date": "2026-04-01",
-    "contract_code": "SD0016",
+    "contract_id": "HD_1014",
+    "contract_type": "freelance",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "14",
     "description": [
-      "contract18.docx",
-      "contract19.pdf"
+      "SEO Optimization.docx",
+      "SEO Optimization.pdf"
     ],
     "employee_id": "NS_0016",
-    "status": 1,
-    "created_at": "2025-04-01",
-    "updated_at": "2025-04-01",
-    "luongCB": 1100000
+    "status": true,
+    "create_at": 1723782823,
+    "update_at": 1723782823,
+    "luongCB": "17000000",
+    "id": "14",
+    "created_at": "2024-08-16T06:02",
+    "updated_at": "2024-08-16T06:07"
   },
   {
-    "id": 17,
-    "contract_type": "Hợp đồng lao động parttime",
-    "contract_id": "HD_0017",
-    "start_date": "2025-05-01",
-    "end_date": "2025-11-01",
-    "contract_code": "SD0017",
+    "contract_id": "HD_1015",
+    "contract_type": "probationary",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "15",
     "description": [
-      "contract20.doc"
+      "HR Management.docx",
+      "HR Management.pdf"
     ],
     "employee_id": "NS_0017",
-    "status": 1,
-    "created_at": "2025-05-01",
-    "updated_at": "2025-05-01",
-    "luongCB": 850000
+    "status": true,
+    "create_at": 1723782923,
+    "update_at": 1723782923,
+    "luongCB": "7200000",
+    "id": "15",
+    "created_at": "2024-08-16T06:08",
+    "updated_at": "2024-08-16T06:13"
   },
   {
-    "id": 18,
-    "contract_type": "Hợp đồng Freelance",
-    "contract_id": "HD_0018",
-    "start_date": "2025-06-01",
-    "end_date": "2025-12-31",
-    "contract_code": "SD0018",
+    "contract_id": "HD_1016",
+    "contract_type": "intern",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "16",
     "description": [
-      "contract21.docx"
+      "Content Creation.docx",
+      "Content Creation.pdf"
     ],
     "employee_id": "NS_0018",
-    "status": 1,
-    "created_at": "2025-06-01",
-    "updated_at": "2025-06-01",
-    "luongCB": 1250000
+    "status": true,
+    "create_at": 1723783023,
+    "update_at": 1723783023,
+    "luongCB": "3600000",
+    "id": "16",
+    "created_at": "2024-08-16T06:14",
+    "updated_at": "2024-08-16T06:19"
   },
   {
-    "id": 19,
-    "contract_type": "Hợp đồng thử việc",
-    "contract_id": "HD_0019",
-    "start_date": "2025-07-01",
-    "end_date": "2025-12-31",
-    "contract_code": "SD0019",
+    "contract_id": "HD_1017",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "17",
     "description": [
-      "contract22.pdf"
+      "Network Security.docx",
+      "Network Security.pdf"
     ],
     "employee_id": "NS_0019",
-    "status": 1,
-    "created_at": "2025-07-01",
-    "updated_at": "2025-07-01",
-    "luongCB": 950000
+    "status": true,
+    "create_at": 1723783123,
+    "update_at": 1723783123,
+    "luongCB": "14000000",
+    "id": "17",
+    "created_at": "2024-08-16T06:20",
+    "updated_at": "2024-08-16T06:25"
   },
   {
-    "id": 20,
-    "contract_type": "Hợp đồng thực tập",
-    "contract_id": "HD_0020",
-    "start_date": "2025-08-01",
-    "end_date": "2025-12-31",
-    "contract_code": "SD0020",
+    "contract_id": "HD_1018",
+    "contract_type": "parttime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "18",
     "description": [
-      "contract23.doc"
+      "Customer Service.docx",
+      "Customer Service.pdf"
     ],
     "employee_id": "NS_0020",
-    "status": 1,
-    "created_at": "2025-08-01",
-    "updated_at": "2025-08-01",
-    "luongCB": 600000
+    "status": true,
+    "create_at": 1723783223,
+    "update_at": 1723783223,
+    "luongCB": "9500000",
+    "id": "18",
+    "created_at": "2024-08-16T06:26",
+    "updated_at": "2024-08-16T06:31"
   },
   {
-    "id": 21,
-    "contract_type": "Hợp đồng lao động chính thức",
-    "contract_id": "HD_0021",
-    "start_date": "2025-09-01",
-    "end_date": "2026-09-01",
-    "contract_code": "SD0021",
+    "contract_id": "HD_1019",
+    "contract_type": "freelance",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "19",
     "description": [
-      "contract24.docx",
-      "contract25.pdf"
+      "E-commerce Strategy.docx",
+      "E-commerce Strategy.pdf"
     ],
     "employee_id": "NS_0021",
-    "status": 1,
-    "created_at": "2025-09-01",
-    "updated_at": "2025-09-01",
-    "luongCB": 1050000
+    "status": true,
+    "create_at": 1723783323,
+    "update_at": 1723783323,
+    "luongCB": "18000000",
+    "id": "19",
+    "created_at": "2024-08-16T06:32",
+    "updated_at": "2024-08-16T06:37"
   },
   {
-    "id": 22,
-    "contract_type": "Hợp đồng lao động parttime",
-    "contract_id": "HD_0022",
-    "start_date": "2025-10-01",
-    "end_date": "2026-03-01",
-    "contract_code": "SD0022",
+    "contract_id": "HD_1020",
+    "contract_type": "probationary",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "20",
     "description": [
-      "contract26.doc"
+      "Project Management.docx",
+      "Project Management.pdf"
     ],
     "employee_id": "NS_0022",
-    "status": 1,
-    "created_at": "2025-10-01",
-    "updated_at": "2025-10-01",
-    "luongCB": 800000
+    "status": true,
+    "create_at": 1723783423,
+    "update_at": 1723783423,
+    "luongCB": "7700000",
+    "id": "20",
+    "created_at": "2024-08-16T06:38",
+    "updated_at": "2024-08-16T06:43"
   },
   {
-    "id": 23,
-    "contract_type": "Hợp đồng Freelance",
-    "contract_id": "HD_0023",
-    "start_date": "2025-11-01",
-    "end_date": "2026-04-30",
-    "contract_code": "SD0023",
+    "contract_id": "HD_1021",
+    "contract_type": "intern",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "21",
     "description": [
-      "contract27.docx"
+      "Tech Support.docx",
+      "Tech Support.pdf"
     ],
     "employee_id": "NS_0023",
-    "status": 1,
-    "created_at": "2025-11-01",
-    "updated_at": "2025-11-01",
-    "luongCB": 1300000
+    "status": true,
+    "create_at": 1723783523,
+    "update_at": 1723783523,
+    "luongCB": "3700000",
+    "id": "21",
+    "created_at": "2024-08-16T06:44",
+    "updated_at": "2024-08-16T06:49"
   },
   {
-    "id": 24,
-    "contract_type": "Hợp đồng thử việc",
-    "contract_id": "HD_0024",
-    "start_date": "2025-12-01",
-    "end_date": "2026-06-30",
-    "contract_code": "SD0024",
+    "contract_id": "HD_1022",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "22",
     "description": [
-      "contract28.pdf"
+      "Business Analysis.docx",
+      "Business Analysis.pdf"
     ],
     "employee_id": "NS_0024",
-    "status": 1,
-    "created_at": "2025-12-01",
-    "updated_at": "2025-12-01",
-    "luongCB": 950000
+    "status": true,
+    "create_at": 1723783623,
+    "update_at": 1723783623,
+    "luongCB": "12500000",
+    "id": "22",
+    "created_at": "2024-08-16T06:50",
+    "updated_at": "2024-08-16T06:55"
   },
   {
-    "id": 25,
-    "contract_type": "Hợp đồng thực tập",
-    "contract_id": "HD_0025",
-    "start_date": "2026-01-01",
-    "end_date": "2026-06-30",
-    "contract_code": "SD0025",
+    "contract_id": "HD_1023",
+    "contract_type": "parttime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "23",
     "description": [
-      "contract29.doc"
+      "Data Entry.docx",
+      "Data Entry.pdf"
     ],
     "employee_id": "NS_0025",
-    "status": 1,
-    "created_at": "2026-01-01",
-    "updated_at": "2026-01-01",
-    "luongCB": 550000
+    "status": true,
+    "create_at": 1723783723,
+    "update_at": 1723783723,
+    "luongCB": "9200000",
+    "id": "23",
+    "created_at": "2024-08-16T06:56",
+    "updated_at": "2024-08-16T07:01"
   },
   {
-    "id": 26,
-    "contract_type": "Hợp đồng lao động chính thức",
-    "contract_id": "HD_0026",
-    "start_date": "2026-02-01",
-    "end_date": "2027-02-01",
-    "contract_code": "SD0026",
+    "contract_id": "HD_1024",
+    "contract_type": "freelance",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "24",
     "description": [
-      "contract30.docx",
-      "contract31.pdf"
+      "Business Consulting.docx",
+      "Business Consulting.pdf"
     ],
     "employee_id": "NS_0026",
-    "status": 1,
-    "created_at": "2026-02-01",
-    "updated_at": "2026-02-01",
-    "luongCB": 1100000
+    "status": true,
+    "create_at": 1723783823,
+    "update_at": 1723783823,
+    "luongCB": "19000000",
+    "id": "24",
+    "created_at": "2024-08-16T07:02",
+    "updated_at": "2024-08-16T07:07"
   },
   {
-    "id": 27,
-    "contract_type": "Hợp đồng lao động parttime",
-    "contract_id": "HD_0027",
-    "start_date": "2026-03-01",
-    "end_date": "2026-09-01",
-    "contract_code": "SD0027",
+    "contract_id": "HD_1025",
+    "contract_type": "probationary",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "25",
     "description": [
-      "contract32.doc"
+      "Technical Writer.docx",
+      "Technical Writer.pdf"
     ],
     "employee_id": "NS_0027",
-    "status": 1,
-    "created_at": "2026-03-01",
-    "updated_at": "2026-03-01",
-    "luongCB": 850000
+    "status": true,
+    "create_at": 1723783923,
+    "update_at": 1723783923,
+    "luongCB": "7300000",
+    "id": "25",
+    "created_at": "2024-08-16T07:08",
+    "updated_at": "2024-08-16T07:13"
   },
   {
-    "id": 28,
-    "contract_type": "Hợp đồng Freelance",
-    "contract_id": "HD_0028",
-    "start_date": "2026-04-01",
-    "end_date": "2026-09-30",
-    "contract_code": "SD0028",
+    "contract_id": "HD_1026",
+    "contract_type": "intern",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "26",
     "description": [
-      "contract33.docx"
+      "Graphic Design.docx",
+      "Graphic Design.pdf"
     ],
     "employee_id": "NS_0028",
-    "status": 1,
-    "created_at": "2026-04-01",
-    "updated_at": "2026-04-01",
-    "luongCB": 1250000
+    "status": true,
+    "create_at": 1723784023,
+    "update_at": 1723784023,
+    "luongCB": "3500000",
+    "id": "26",
+    "created_at": "2024-08-16T07:14",
+    "updated_at": "2024-08-16T07:19"
   },
   {
-    "id": 29,
-    "contract_type": "Hợp đồng thử việc",
-    "contract_id": "HD_0029",
-    "start_date": "2026-05-01",
-    "end_date": "2026-11-01",
-    "contract_code": "SD0029",
+    "contract_id": "HD_1027",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "27",
     "description": [
-      "contract34.pdf"
+      "Software Development.docx",
+      "Software Development.pdf"
     ],
     "employee_id": "NS_0029",
-    "status": 1,
-    "created_at": "2026-05-01",
-    "updated_at": "2026-05-01",
-    "luongCB": 950000
+    "status": true,
+    "create_at": 1723784123,
+    "update_at": 1723784123,
+    "luongCB": "15000000",
+    "id": "27",
+    "created_at": "2024-08-16T07:20",
+    "updated_at": "2024-08-16T07:25"
+  },
+  {
+    "contract_id": "HD_1028",
+    "contract_type": "parttime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "28",
+    "description": [
+      "Market Research.docx",
+      "Market Research.pdf"
+    ],
+    "employee_id": "NS_0030",
+    "status": true,
+    "create_at": 1723784223,
+    "update_at": 1723784223,
+    "luongCB": "9100000",
+    "id": "28",
+    "created_at": "2024-08-16T07:26",
+    "updated_at": "2024-08-16T07:31"
+  },
+  {
+    "contract_id": "HD_1029",
+    "contract_type": "freelance",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "29",
+    "description": [
+      "Business Development.docx",
+      "Business Development.pdf"
+    ],
+    "employee_id": "NS_0031",
+    "status": true,
+    "create_at": 1723784323,
+    "update_at": 1723784323,
+    "luongCB": "20000000",
+    "id": "29",
+    "created_at": "2024-08-16T07:32",
+    "updated_at": "2024-08-16T07:37"
+  },
+  {
+    "contract_id": "HD_1030",
+    "contract_type": "probationary",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "30",
+    "description": [
+      "Database Administration.docx",
+      "Database Administration.pdf"
+    ],
+    "employee_id": "NS_0032",
+    "status": true,
+    "create_at": 1723784423,
+    "update_at": 1723784423,
+    "luongCB": "7500000",
+    "id": "30",
+    "created_at": "2024-08-16T07:38",
+    "updated_at": "2024-08-16T07:43"
+  },
+  {
+    "contract_id": "HD_1111",
+    "contract_type": "fulltime",
+    "start_date": "2024-08-01",
+    "end_date": "2024-09-01",
+    "contract_code": "123",
+    "description": [
+      "Java final test.docx",
+      "Java final test.pdf"
+    ],
+    "employee_id": "NS_0011",
+    "status": true,
+    "created_at": "2024-08-16T06:09",
+    "updated_at": "2024-08-16T06:20",
+    "luongCB": "9500001111",
+    "id": "31"
   }
 ]

@@ -1,28 +1,18 @@
 import React from "react";
-import {
-  Table,
-  Card,
-  CardBody,
-  CardHeader,
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from "react-bootstrap";
+import { Card, CardBody, CardHeader } from "react-bootstrap";
+import { Space, Table, Tag } from "antd";
 import DropSearch from "./DropSearch";
 import AddForm from "./AddForm";
 import UpdateForm from "./UpdateForm";
 import axios from "axios";
 import { BsPencil, BsTrash, BsPlus } from "react-icons/bs";
-import { toast, ToastContainer } from "react-toastify";
-import { CloseSquareFilled } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export default function ScoreComponent() {
   const [gradeData, setGradeData] = React.useState([]);
   const [trainingData, setTrainningData] = React.useState([]);
   const [subject, setSubject] = React.useState([]);
   const [student, setStudent] = React.useState([]);
-
-  // const [newGrade, setNewGrade] = React.useState([]);
 
   const [newGrade, setNewGrade] = React.useState({
     grade: "",
@@ -40,6 +30,7 @@ export default function ScoreComponent() {
   const [show, setShow] = React.useState(false);
   const [showAdd, setShowAdd] = React.useState(false);
   const [searchResult, setSearchResult] = React.useState([]);
+  const [onSearch, setOnSearch] = React.useState(false);
   const [updateSelectId, setUpdateSelectId] = React.useState(null);
   const [deleteSelectedId, setDeleteSelectedID] = React.useState(null);
 
@@ -47,8 +38,7 @@ export default function ScoreComponent() {
   const apiTraining = "http://localhost:9001/training_program/getAllPrograms";
   const apiStudent = "http://localhost:9001/student";
   const apiSubject = "http://localhost:9001/api/v1/subjects/find-all";
-  // const apiExamSche = ""
-  // const apiMock = "https://66b2e33c7fba54a5b7eab653.mockapi.io/grades/grade";
+  const apiExamschedule = "http://localhost:9001/api/v1/examschedules";
 
   React.useEffect(() => {
     fetchData();
@@ -60,13 +50,14 @@ export default function ScoreComponent() {
   const fetchData = async () => {
     try {
       const res = await axios.get(apiUrl);
-      setGradeData(res.data);
+      setGradeData(res.data.data);
       setLoading(false);
     } catch (err) {
       setError(err);
       setLoading(false);
     }
   };
+
   const fetchProgramData = async () => {
     try {
       const res = await axios.get(apiTraining);
@@ -75,6 +66,7 @@ export default function ScoreComponent() {
       setError(err);
     }
   };
+
   const fetchStudentData = async () => {
     try {
       const res = await axios.get(apiStudent);
@@ -83,6 +75,7 @@ export default function ScoreComponent() {
       setError(err);
     }
   };
+
   const fetchSubjectData = async () => {
     try {
       const res = await axios.get(apiSubject);
@@ -170,6 +163,66 @@ export default function ScoreComponent() {
     setSearchResult(filteredData);
   };
 
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Student Name",
+      dataIndex: "studenName",
+      key: "studenName",
+    },
+    {
+      title: "Grade",
+      dataIndex: "grade",
+      key: "grade",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status === "Passed" ? "green" : "red"}>{status}</Tag>
+      ),
+    },
+    {
+      title: "Subject Name",
+      dataIndex: "subjectName",
+      key: "subjectName",
+    },
+    {
+      title: "Exam Date",
+      dataIndex: "examDate",
+      key: "examDate",
+    },
+    {
+      title: "Program Name",
+      dataIndex: "programName",
+      key: "programName",
+    },
+    {
+      title: "Course Name",
+      dataIndex: "courseName",
+      key: "courseName",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <button onClick={() => handleShowUpdateForm(record)}>
+            <BsPencil className="text-primary"></BsPencil>
+          </button>
+          <button onClick={() => handleDelete(record.id)}>
+            <BsTrash className="text-danger"></BsTrash>
+          </button>
+        </Space>
+      ),
+    },
+  ];
+
   if (loading)
     return (
       <div className="position-absolute top-50 start-50 translate-middle">
@@ -200,6 +253,9 @@ export default function ScoreComponent() {
                 showUpdateForm={handleShowUpdateForm}
                 result={searchResult}
                 handleDelete={handleDelete}
+                onSearch={onSearch}
+                setOnSearch={setOnSearch}
+                columns={columns}
               />
             </div>
             {show && updateSelectId && (
@@ -237,56 +293,32 @@ export default function ScoreComponent() {
   );
 }
 
-function TableSearchResult({ data, showUpdateForm, result, handleDelete }) {
-  const displayData = result.length > 0 ? result : data;
+function TableSearchResult({ data, result, onSearch, setOnSearch, columns }) {
+  const sortData = data.sort((a, b) => a.id - b.id);
+  const sortResult = result.sort((a, b) => a.id - b.id);
+  let displayData = [];
+
+  if (sortResult.length !== 0) {
+    setOnSearch(true);
+    if (onSearch && sortResult.length === 0) {
+      displayData = [];
+    } else if (onSearch && sortResult.length > 0) {
+      displayData = sortResult;
+    }
+  }
+
+  // const displayData = sortResult.length > 0 ? sortResult : sortData;
 
   return (
     <div className="container-fluid fullscreen">
       <Card>
         <CardBody>
-          <Table hover>
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Tranning Program</th>
-                <th>Subject</th>
-                <th>Year</th>
-                <th>Exam Date</th>
-                <th>First Score</th>
-                <th>Second Score</th>
-                <th>Third Score</th>
-                <th>Average Score</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {displayData.map((grade, i) => (
-                <tr key={i}>
-                  <td>{grade.id}</td>
-                  <td>{grade.studenName}</td>
-                  <td>{grade.programName}</td>
-                  <td>{grade.subjectName}</td>
-                  <td>{grade.courseName}</td>
-                  <td>{grade.examDate}</td>
-                  <td>{grade.grade}</td>
-                  <td>sscore</td>
-                  <td>tscore</td>
-                  <td>aver</td>
-                  <td>{grade.status}</td>
-                  <td>
-                    <button onClick={() => showUpdateForm(grade)}>
-                      <BsPencil className="text-primary"></BsPencil>
-                    </button>
-                    <button onClick={() => handleDelete(grade.id)}>
-                      <BsTrash className="text-danger"></BsTrash>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <Table
+            columns={columns}
+            dataSource={displayData}
+            rowKey="id"
+            bordered
+          />
         </CardBody>
       </Card>
     </div>

@@ -1,36 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 
-function AllowanceEditComponents({ item, handleClose, handleSave }) {
-    const [formState, setFormState] = useState({
-        id: item.id,
-        idCV: item.idCV,
-        loaiPC: item.loaiPC,
-        luongPC: item.luongPC,
-        trangThai: item.trangThai,
-        create_at: item.create_at,
-        update_at: item.update_at,
+function AllowanceEditComponents({ show, handleClose, item, handleSave }) {
+    const [formState, setFormState] = useState(item || {
+        idCV: '',
+        loaiPC: '',
+        luongPC: '',
+        trangThai: false,
+        create_at: '',
+        update_at: '',
     });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleSave(formState);
-        handleClose();
+    useEffect(() => {
+        if (item) {
+            setFormState(item);
+        }
+    }, [item]);
+
+    const handleSubmit = () => {
+        if (formState) {
+            handleSave(formState);
+            handleClose();
+        }
     };
-console.log('render AllowanceEditComponents: ');
+
     return (
-        <Modal show onHide={handleClose}>
+        <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit Phụ cấp</Modal.Title>
+                <Modal.Title>Chỉnh sửa phụ cấp</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    {/* Repeat above for other form fields */}
-                    <Button type="submit">Save Changes</Button>
-                </Form>
+                <Form.Group>
+                    <Form.Label>ID Chức vụ</Form.Label>
+                    <Form.Control
+                        type="number"
+                        value={formState.idCV || ''}
+                        onChange={(e) => setFormState({ ...formState, idCV: e.target.value })}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Loại phụ cấp</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={formState.loaiPC || ''}
+                        onChange={(e) => setFormState({ ...formState, loaiPC: e.target.value })}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Lương phụ cấp</Form.Label>
+                    <Form.Control
+                        type="number"
+                        value={formState.luongPC || ''}
+                        onChange={(e) => setFormState({ ...formState, luongPC: e.target.value })}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Ngày tạo</Form.Label>
+                    <Form.Control
+                        type="date"
+                        value={formState.create_at || ''}
+                        onChange={(e) => setFormState({ ...formState, create_at: e.target.value })}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Ngày sửa</Form.Label>
+                    <Form.Control
+                        type="date"
+                        value={formState.update_at || ''}
+                        onChange={(e) => setFormState({ ...formState, update_at: e.target.value })}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Check
+                        type="checkbox"
+                        label="Hoạt động"
+                        checked={formState.trangThai || false}
+                        onChange={(e) => setFormState({ ...formState, trangThai: e.target.checked })}
+                    />
+                </Form.Group>
             </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Đóng
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
+                    Lưu thay đổi
+                </Button>
+            </Modal.Footer>
         </Modal>
     );
 }
+
 
 export default AllowanceEditComponents;

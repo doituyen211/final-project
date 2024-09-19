@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import { Modal, ModalHeader, ModalBody } from "react-bootstrap";
 
@@ -12,8 +12,6 @@ export default function UpdateForm({
   student,
   data,
 }) {
-  const [valueChange, setValueChange] = React.useState(null);
-
   // Initialize the state with default values
   const [updateData, setUpdateData] = useState({
     grade: "",
@@ -178,7 +176,7 @@ export default function UpdateForm({
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-3 d-flex flex-column">
             <label className="form-label">Grade:</label>
             <input
               type="number"

@@ -453,6 +453,7 @@ function MarketingCampaignComponent(props) {
                                                 nen_tang_qc: e.target.value,
                                             })
                                         }
+                                        className="w-100"
                                     >
                                         <option value="">Chọn nền tảng</option>
                                         {platforms.map((platform) => (
@@ -551,6 +552,7 @@ function MarketingCampaignComponent(props) {
                                                 trang_thai: e.target.value,
                                             })
                                         }
+                                        className="w-100"
                                     >
                                         <option value="">
                                             Chọn trạng thái
