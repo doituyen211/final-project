@@ -8,7 +8,6 @@ import {
     DecisionComponent,
     DepartmentComponent,
     LiabilityComponents,
-    LoginComponent,
     MarketingCampaignComponent,
     PersonelComponents,
     QualificationComponents,
@@ -172,17 +171,17 @@ export const routeSideBar = [
                 component: TrainningProgramComponent,
             },
             {
-                name: "Điểm danh của tao",
+                name: "Điểm danh của học viên",
                 icon: "nav-icon fas fa-cogs",
                 to: "/my-attendance",
                 component: AttendanceStudent,
             },
-            {
-                name: "Login (Sau nay xoa)",
-                icon: "nav-icon fas fa-lock",
-                to: "/Login1",
-                component: LoginComponent,
-            },
+            // {
+            //     name: "Login (Sau nay xoa)",
+            //     icon: "nav-icon fas fa-lock",
+            //     to: "/Login1",
+            //     component: LoginComponent,
+            // },
             // {
             //     name: "Login (Sau nay xoa)",
             //     icon: "nav-icon fas fa-lock",
