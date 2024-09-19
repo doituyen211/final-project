@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +62,9 @@ public class LeaveOfAbsenceController {
     }
 
     @PostMapping
-    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> createLeaveOfAbsence(@Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
+    public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> createLeaveOfAbsence(
+            @Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             // Handle validation errors
             StringBuilder errorMessage = new StringBuilder();
@@ -98,20 +101,16 @@ public class LeaveOfAbsenceController {
                     .build());
         }
 
-        // Ensure status is valid
-        if (leaveOfAbsenceCreateForm.getStatus() < 0 || leaveOfAbsenceCreateForm.getStatus() > 1) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message("Status must be either 0 or 1")
-                    .build());
-        }
-
         LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
         leaveOfAbsence.setStudent(studentOpt.get());
         leaveOfAbsence.setSubject(subjectOpt.get());
         leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
         leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
-        leaveOfAbsence.setStatus(leaveOfAbsenceCreateForm.getStatus());
+
+        // Calculate status based on startTime and endTime
+        Date now = new Date();
+        int status = (now.after(leaveOfAbsenceCreateForm.getStartTime()) && now.before(leaveOfAbsenceCreateForm.getEndTime())) ? 1 : 0;
+        leaveOfAbsence.setStatus(status);
 
         CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.save(leaveOfAbsence);
         return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
@@ -120,6 +119,7 @@ public class LeaveOfAbsenceController {
                 .message(response.getMessage())
                 .build());
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
@@ -172,18 +172,15 @@ public class LeaveOfAbsenceController {
         }
         leaveOfAbsence.setSubject(subjectOpt.get());
 
-        // Ensure status is valid
-        if (leaveOfAbsenceCreateForm.getStatus() < 0 || leaveOfAbsenceCreateForm.getStatus() > 1) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message("Status must be either 0 or 1")
-                    .build());
-        }
 
         // Update other fields
         leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
         leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
-        leaveOfAbsence.setStatus(leaveOfAbsenceCreateForm.getStatus());
+
+        // Calculate status based on startDate and endDate
+        Date now = new Date();
+        int status = (now.after(leaveOfAbsence.getStartDate()) && now.before(leaveOfAbsence.getEndDate())) ? 1 : 0;
+        leaveOfAbsence.setStatus(status);
 
         CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.updateLeaveOfAbsence(id, leaveOfAbsence);
         return ResponseEntity.status(response.getCode()).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
