@@ -1,10 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
-import { Formik, Field, Form as FormikForm } from 'formik';
+import {Button, Col, Form, Row} from 'react-bootstrap';
+import {Form as FormikForm, Formik} from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"; // Ensure this is correctly imported
 
-const FormComponentWithValidation = ({ initialData, actionModal, onSubmit, onCancel, programOptions, statusOptions , formFieldsProp}) => {
+const FormComponentWithValidation = ({
+                                         initialData,
+                                         actionModal,
+                                         onSubmit,
+                                         onCancel,
+                                         programOptions,
+                                         statusOptions,
+                                         formFieldsProp
+                                     }) => {
     // Create validation schema statically
     const validationSchema = Yup.object().shape(
         formFieldsProp.reduce((acc, field) => {
@@ -20,9 +28,10 @@ const FormComponentWithValidation = ({ initialData, actionModal, onSubmit, onCan
         const fetchOptions = async (url, fieldName) => {
             try {
                 const response = await axios.get(url);
+                console.log(JSON.stringify(response))
                 setFieldOptions(prevOptions => ({
                     ...prevOptions,
-                    [fieldName]: response.data
+                    [fieldName]: response.data.data
                 }));
             } catch (error) {
                 console.error(`Error fetching options for ${fieldName}:`, error);
@@ -43,12 +52,12 @@ const FormComponentWithValidation = ({ initialData, actionModal, onSubmit, onCan
             onSubmit={onSubmit}
             enableReinitialize={true} // Add this line to enable reinitialization
         >
-            {({ handleChange, values, errors, touched }) => (
+            {({handleChange, values, errors, touched}) => (
                 <FormikForm>
                     <h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>
                     <Row>
                         {formFieldsProp.map((field, index) => {
-                            const { name, label, type,placeholder, defaultOption,apiUrl } = field;
+                            const {name, label, type, placeholder, defaultOption, apiUrl} = field;
                             const options = fieldOptions[name] || []; // Get options for the field
 
                             return (
