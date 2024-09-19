@@ -11,5 +11,8 @@ java:S1452"&Remove usage of generic wildcard type.(ä“ë”
 java:S1452"&Remove usage of generic wildcard type.(Ç¬Î¹
 H
 java:S1452"&Remove usage of generic wildcard type.(çû”¹şÿÿÿÿ8õ’·Ï2
+j	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€µ»İ8ßŒÉ 2
+C
+java:S1452"&Remove usage of generic wildcard type.(€µ»İ8àŒÉ 2
 f
 java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8–ââŸ2
