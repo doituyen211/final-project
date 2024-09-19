@@ -47,7 +47,6 @@ export {
     TuitionFeeComponent,
     MarketingCampaignComponent,
     ClassMembersComponent,
-    CustomerSaleComponent,
     StudentComponent,
     StudenInforComponent,
     DashboardSalesComponent,
