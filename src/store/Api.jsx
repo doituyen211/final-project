@@ -15,23 +15,13 @@ const API = {
     CLASSMEMBERS: `${BASE_URL}/thanh_vien_lop`,
     EXAM_SCHEDULE: `${BASE_URL}/v1/examschedules`,
     CLASS: `${BASE_URL}/class`,
-    TRAINNING_PROGRAM: `${BASE_URL_TP}/trainin_program`,
+    TRAINNING_PROGRAM: `${BASE_URL_TP}/training_program`,
     INFOR_STU: `${BASE_URL_INFOR_STU}/class`,
     LOGIN: `${BASE_URL_VERSION_1}/auth/login`,
     REGISTER: `${BASE_URL_VERSION_1}/auth/register`,
     SENDTOEMAIL: `${BASE_URL_VERSION_1}/auth/send-to-email`,
     RESETPASSWORD: `${BASE_URL_VERSION_1}/auth/reset-password`,
     // Add other API endpoints here if needed
-  SUBJECT: `${BASE_URL}/subject`,
-  COURSE: `${BASE_URL}/khoa_hoc`,
-  SCHEDULE: `${BASE_URL}/lich_hoc`,
-  CLASSMEMBERS: `${BASE_URL}/thanh_vien_lop`,
-
-  CLASS: `${BASE_URL}/class`,
-  TRAINNING_PROGRAM: `${BASE_URL_TP}/training_program`,
-  INFOR_STU: `${BASE_URL_INFOR_STU}/class`,
-
-  // Add other API endpoints here if needed
 };
 
 export default API;
