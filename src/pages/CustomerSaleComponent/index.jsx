@@ -43,7 +43,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Chương trình học quan tâm",
                 placeholder: "Chọn chương trình học",
-                apiUrl: "/data/program.json",
+                apiUrl: "http://localhost:9001/api/v1/subjects/programs",
                 defaultOption: {value: "", label: "Chọn chương trình học"},
                 validation: Yup.string().required('Chương trình học là bắt buộc'),
             },
@@ -56,10 +56,10 @@ const INITIAL_STATE = {
             },
             {
                 name: "responsible_person",
-                type: "select",
+                type: "text",
                 label: "Người phụ trách",
                 placeholder: "Chọn người phụ trách",
-                apiUrl: "/data/responsible_person.json", // URL to fetch options for responsible persons
+                apiUrl: "/data/responsible_person.json",
                 defaultOption: {value: "", label: "Chọn người phụ trách"},
                 validation: Yup.string().required('Người phụ trách là bắt buộc'),
             },
@@ -96,7 +96,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Trạng thái",
                 placeholder: "Chọn trạng thái",
-                apiUrl: "/data/status.json", // URL to fetch options for status
+                apiUrl: "/data/status.json",
                 defaultOption: {value: "", label: "Chọn trạng thái"},
                 validation: Yup.string().required('Trạng thái là bắt buộc'),
             },
@@ -153,13 +153,13 @@ const CustomerSaleComponent = () => {
         async (search = "", page = 1) => {
             try {
                 const {data} = await axios.get(`http://localhost:9001/api/v1/customers?search=${search}&page=${page - 1}`);
-                console.log("DATA" + JSON.stringify(data.data.content))
                 setState(prevState => ({
                     ...prevState,
                     dataTable: data.data.content,
                 }));
                 setCurrentPage(page);
-                setTotalPages(data.totalPages);
+                // console.log("DATA" + JSON.stringify(data.data.totalPages))
+                setTotalPages(data.data.totalPages);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -316,43 +316,48 @@ const CustomerSaleComponent = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex mb-4">
-                                        <div className="col-md-5 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus1"
-                                                aria-label="Status"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={state.modalProps.formFieldsProp.status}
-                                                onChange={(e) => setState(prevState => ({
-                                                    ...prevState,
-                                                    modalProps: {
-                                                        ...prevState.modalProps,
-                                                        status: e.target.value
-                                                    }
-                                                }))}
-                                            >
-                                                <option value="">Chọn trạng thái</option>
-                                                {statusOptions.map((option) => (
-                                                    <option key={option.value} value={option.id}>{option.name}</option>
-                                                ))}
-                                            </Form.Select>
-                                            <Form.Select
-                                                id="staff"
-                                                aria-label="staff"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={state.modalProps.formFieldsProp.status}
-                                                onChange={(e) => setState(prevState => ({
-                                                    ...prevState,
-                                                    modalProps: {
-                                                        ...prevState.modalProps,
-                                                        status: e.target.value
-                                                    }
-                                                }))}
-                                            >
-                                                <option value="">Chọn nhân viên</option>
-                                                {statusOptions.map((option) => (
-                                                    <option key={option.value} value={option.id}>{option.name}</option>
-                                                ))}
-                                            </Form.Select>
+                                        <div className="col-md-8 d-flex align-items-center gap-3">
+                                            <div className="d-flex align-items-center gap-2">
+                                                <Form.Select
+                                                    id="programStatus1"
+                                                    aria-label="Status"
+                                                    className="form-select rounded-pill border-secondary flex-fill "
+                                                    value={state.modalProps.formFieldsProp.status}
+                                                    onChange={(e) => setState(prevState => ({
+                                                        ...prevState,
+                                                        modalProps: {
+                                                            ...prevState.modalProps,
+                                                            status: e.target.value
+                                                        }
+                                                    }))}
+                                                >
+                                                    <option value="">Chọn trạng thái</option>
+                                                    {statusOptions.map((option) => (
+                                                        <option key={option.value}
+                                                                value={option.id}>{option.name}</option>
+                                                    ))}
+                                                </Form.Select>
+                                                <Form.Select
+                                                    id="staff"
+                                                    aria-label="staff"
+                                                    className="form-select rounded-pill border-secondary flex-fill "
+                                                    value={state.modalProps.formFieldsProp.status}
+                                                    onChange={(e) => setState(prevState => ({
+                                                        ...prevState,
+                                                        modalProps: {
+                                                            ...prevState.modalProps,
+                                                            status: e.target.value
+                                                        }
+                                                    }))}
+                                                >
+                                                    <option value="">Chọn nhân viên</option>
+                                                    {statusOptions.map((option) => (
+                                                        <option key={option.value}
+                                                                value={option.id}>{option.name}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            </div>
+
                                             <div className="d-flex align-items-center gap-2">
                                                 <h6 className="mb-0">Từ:</h6>
                                                 <div className="flex-fill">
@@ -504,8 +509,8 @@ const CustomerSaleComponent = () => {
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
-                                                page={currentPage}
-                                                totalPages={totalPages}
+                                                currentPage={currentPage}
+                                                totalPage={totalPages}
                                                 onPageChange={handlePageChange}
                                             />
                                         </div>
