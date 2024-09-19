@@ -5,15 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/security/JwtHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/security/JwtHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/security/JwtLoginFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/config/security/JwtLoginFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IAuthRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/repository/IAuthRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/EducationApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/EducationApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ClassMembersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/ClassMembersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IClassMembersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/service/IClassMembersService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -24,7 +38,15 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="education" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -37,42 +59,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.EducationApplication.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.EducationApplication.executor": "Run",
-    "Spring Boot.HrApplication.executor": "Run",
-    "Spring Boot.ReceivableApplication.executor": "Debug",
-    "WebServerToolWindowFactoryState": "false",
-    "android.gradle.sync.needed": "true",
-    "git-widget-placeholder": "Merging feature/namlh/crm__subject",
-    "jdk.selected.JAVA_MODULE": "openjdk-22",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/BE/backend-green",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "spring.configuration.checksum": "c4fd8efc7c0a733a824b19f896f75c25",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.EducationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.EducationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.HrApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ReceivableApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/namlh/crm__subject&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/BE/backend-green&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;c4fd8efc7c0a733a824b19f896f75c25&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="org.green.education.service" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.green.education.repository" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EducationApplication">
     <configuration name="EducationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.green.education.EducationApplication" />
       <module name="education" />
@@ -99,11 +134,56 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="core" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.core.CoreApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EducationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="education" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.education.EducationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HrApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="hr" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.hr.HrApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReceivableApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="receivable" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.receivable.ReceivableApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SaleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="sale" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.sale.SaleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.EducationApplication" />
+        <item itemvalue="Application.EducationApplication" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -116,7 +196,7 @@
       <workItem from="1725942664846" duration="641000" />
       <workItem from="1725961002529" duration="872000" />
       <workItem from="1726193816471" duration="5309000" />
-      <workItem from="1726555048097" duration="8261000" />
+      <workItem from="1726555048097" duration="9511000" />
     </task>
     <servers />
   </component>
