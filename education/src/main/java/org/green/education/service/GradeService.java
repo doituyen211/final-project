@@ -160,8 +160,6 @@ public class GradeService implements IGradeService {
     public CoreResponse<?> getAllGradeByExamDate() {
         try {
             List<Object[]> gradeObjects = iGradeRepository.findAllGrade();
-
-            // Map Object[] to GradeDTO
             List<GradeDTO> gradeDTOList = gradeObjects.stream()
                     .map(obj -> new GradeDTO(
                             (Integer) obj[0],          // id
@@ -175,7 +173,6 @@ public class GradeService implements IGradeService {
                     ))
                     .toList();
 
-            // Continue with your business logic...
             Map<String, List<GradeDTO>> gradesByStudent = gradeDTOList.stream()
                     .collect(Collectors.groupingBy(GradeDTO::getStudentName));
 
