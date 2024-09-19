@@ -4,13 +4,9 @@ export const classApi = {
   getClassList(className, startDate, endDate) {
     return axios.get("http://localhost:9001/api/v1/classes", {
       params: {
-        ...(className ? { className } : {}), // Thêm className nếu nó tồn tại
+        ...(className ? { className } : {}),
         ...(startDate ? { startDate } : {}),
         ...(endDate ? { endDate } : {}),
-
-        // className: className ? className : "",
-        // startDate: startDate ? startDate : "",
-        // endDate: endDate ? endDate : "",
       },
     });
   },
@@ -24,9 +20,7 @@ export const classApi = {
   },
 
   deleteClass(idClass) {
-    return axios.delete(
-      `https://66ac7831f009b9d5c73229a5.mockapi.io/classes/${idClass}`
-    );
+    return axios.delete(`http://localhost:9001/api/v1/classes/${idClass}`);
   },
 
   editClass(idClass, newData) {
@@ -37,6 +31,8 @@ export const classApi = {
   },
 
   getTrainingProgram() {
-    return axios.get(`http://localhost:9001/training_program/getAllPrograms`);
+    return axios.get(
+      `http://localhost:9001/api/v1/training_program/getAllPrograms`
+    );
   },
 };

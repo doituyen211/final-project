@@ -34,7 +34,6 @@ const DisplayQuantity = () => {
             <div className="mt-3 text-sm">{totalYears} năm</div>
           </div>
         </div>
-        <div>Another Quantity :v</div>
       </div>
     </div>
   );

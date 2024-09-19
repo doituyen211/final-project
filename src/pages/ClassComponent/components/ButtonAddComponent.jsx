@@ -14,7 +14,7 @@ const ButtonAddComponent = () => {
     >
       Thêm mới
       <div>
-        <Plus size={22} />
+        <Plus size={20} />
       </div>
     </Button>
   );
