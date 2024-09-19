@@ -28,6 +28,7 @@ import LoginComponent from "./LoginComponent";
 import NotFoundComponent from "./NotFoundComponent";
 import ResetPasswordComponent from "./ResetPasswordComponent";
 import ScheduleComponent from "./ScheduleComponent";
+import LogoutComponent from "./LogoutComponent";
 
 export {
     ScheduleComponent,
@@ -60,4 +61,5 @@ export {
     LoginComponent,
     NotFoundComponent,
     ResetPasswordComponent,
+    LogoutComponent
 };
