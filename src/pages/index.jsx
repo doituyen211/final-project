@@ -33,6 +33,7 @@ import AttendanceStudent from "./AttendanceStudentComponent";
 import AttendanceComponent from "./AttendanceComponent";
 import ResetPasswordComponent from "./ResetPasswordComponent";
 import ScheduleComponent from "./ScheduleComponent";
+import LogoutComponent from "./LogoutComponent";
 
 export {
     ScheduleComponent,
@@ -46,6 +47,7 @@ export {
     TuitionFeeComponent,
     MarketingCampaignComponent,
     ClassMembersComponent,
+    CustomerSaleComponent,
     StudentComponent,
     StudenInforComponent,
     DashboardSalesComponent,
@@ -69,5 +71,6 @@ export {
     SubjectComponentLayout2,
     DashboardEducationComponent,
     AttendanceStudent,
-    AttendanceComponent
+    AttendanceComponent,
+    LogoutComponent
 };

@@ -112,7 +112,7 @@ const SubjectComponent = () => {
                 // if (search !== "" || status !== "" || program !== "") page = 1;
                 const {data} = (await axios.get(api, {
                     params: {
-                        page: page,
+                        page: page - 1,
                         pageSize: 10,
                         search,
                         status,
@@ -355,8 +355,7 @@ const SubjectComponent = () => {
                                                     <td>
                                                         {index +
                                                             10 *
-                                                            (currentPage -
-                                                                1) +
+                                                            (currentPage) +
                                                             1}
                                                     </td>
                                                     <td>

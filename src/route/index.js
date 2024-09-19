@@ -13,7 +13,7 @@ import {
     DepartmentComponent,
     ExamComponent,
     LiabilityComponents,
-    LoginComponent,
+    LogoutComponent,
     MarketingCampaignComponent,
     PersonelComponents,
     QualificationComponents,
@@ -26,7 +26,7 @@ import {
     TimesheetComponent,
     TrainningProgramComponent,
     TuitionFeeComponent,
-    UserComponent,
+    UserComponent
 } from "../pages";
 
 export const routeSideBar = [
@@ -172,17 +172,17 @@ export const routeSideBar = [
                 component: TrainningProgramComponent,
             },
             {
-                name: "Điểm danh của tao",
+                name: "Điểm danh của học viên",
                 icon: "nav-icon fas fa-cogs",
                 to: "/my-attendance",
                 component: AttendanceStudent,
             },
-            {
-                name: "Login (Sau nay xoa)",
-                icon: "nav-icon fas fa-lock",
-                to: "/Login1",
-                component: LoginComponent,
-            },
+            // {
+            //     name: "Login (Sau nay xoa)",
+            //     icon: "nav-icon fas fa-lock",
+            //     to: "/Login1",
+            //     component: LoginComponent,
+            // },
             // {
             //     name: "Login (Sau nay xoa)",
             //     icon: "nav-icon fas fa-lock",
@@ -261,4 +261,11 @@ export const routeSideBar = [
             },
         ],
     },
+    {
+        name: "Đăng xuất",
+        icon: "nav-icon fas fa-sign-out-alt",
+        to: "/logout",
+        component: LogoutComponent,
+        child: [],
+    }
 ];
