@@ -8,7 +8,10 @@ import org.green.education.entity.Subject;
 import org.green.education.repository.ClassRepository;
 import org.green.education.repository.IExamScheduleRepository;
 import org.green.education.repository.ISubjectRepository;
+import org.green.education.response.ExamScheduleListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,6 +54,24 @@ public class ExamScheduleService implements IExamScheduleService {
     }
 
     @Override
+    public List<ExamScheduleDTO> findAllExamSchedule() {
+        List<ExamScheduleDTO> examscheduleDTOList = new ArrayList<>();
+        List<ExamSchedule> examSchedules = examScheduleRepository.findAllExamSchedule();
+        for (ExamSchedule examschedule : examSchedules) {
+            ExamScheduleDTO examScheduleledto = ExamScheduleDTO.builder()
+                    .id(examschedule.getId())
+                    .examLink(examschedule.getExamLink())
+                    .subject(examschedule.getSubject().getSubjectName())
+                    .classField(examschedule.getClassField().getClassName())
+                    .examDate(examschedule.getExamDate())
+                    .status(examschedule.getStatus())
+                    .build();
+            examscheduleDTOList.add(examScheduleledto);
+        }
+        return examscheduleDTOList;
+    }
+
+    @Override
     public ExamScheduleDTO findExamScheduleById(Integer id) {
         Optional<ExamSchedule> examScheduleOptional = examScheduleRepository.findById(id);
         if (examScheduleOptional.isPresent()){
@@ -75,6 +96,7 @@ public class ExamScheduleService implements IExamScheduleService {
         Optional<Subject> subjectOptional = subjectRepository.findSubjectBySubjectName(examScheduleDTO.getSubject());
         Optional<Class> classOptional = classRepository.findByClassName(examScheduleDTO.getClassField());
         if (subjectOptional.isPresent() && classOptional.isPresent()) {
+            // Chuyển DTO thành entity
             ExamSchedule examSchedule = new ExamSchedule();
             examSchedule.setSubject(subjectOptional.get());
             examSchedule.setClassField(classOptional.get());
@@ -82,7 +104,7 @@ public class ExamScheduleService implements IExamScheduleService {
             examSchedule.setExamLink(examScheduleDTO.getExamLink());
             examSchedule.setStatus(examScheduleDTO.getStatus());
 
-            // Save examSchedule to database
+            // Lưu vào cơ sở dữ liệu
             ExamSchedule savedExamSchedule = examScheduleRepository.save(examSchedule);
 
             // Returns DTO after successful save
@@ -107,7 +129,9 @@ public class ExamScheduleService implements IExamScheduleService {
 
             //update
             Optional<Subject> subjectOptional = subjectRepository.findSubjectBySubjectName(examScheduleDTO.getSubject());
+            System.out.println("subjectOptional: " + subjectOptional);
             Optional<Class> classOptional = classRepository.findByClassName(examScheduleDTO.getClassField());
+            System.out.println("classOptional: " + classOptional);
             if (subjectOptional.isPresent() && classOptional.isPresent()) {
                 examSchedule.setSubject(subjectOptional.get());
                 examSchedule.setClassField(classOptional.get());
@@ -171,6 +195,27 @@ public class ExamScheduleService implements IExamScheduleService {
         } else {
             throw new RuntimeException("Class với ID không tồn tại");
         }
+    }
+
+    @Override
+    public ExamScheduleListResponse getExamSchedulePaged(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page,size);
+        Page<ExamSchedule> examSchedulePage = examScheduleRepository.findAll(pageRequest);
+
+        List<ExamScheduleDTO> examScheduleDTOList = new ArrayList<>();
+
+        for (ExamSchedule examSchedule : examSchedulePage) {
+            ExamScheduleDTO examScheduleDTO = ExamScheduleDTO.builder()
+                    .id(examSchedule.getId())
+                    .examLink(examSchedule.getExamLink())
+                    .subject(examSchedule.getSubject().getSubjectName())
+                    .classField(examSchedule.getClassField().getClassName())
+                    .examDate(examSchedule.getExamDate())
+                    .status(examSchedule.getStatus())
+                    .build();
+            examScheduleDTOList.add(examScheduleDTO);
+        }
+        return new ExamScheduleListResponse(examScheduleDTOList,examSchedulePage.getTotalPages());
     }
 
 }
