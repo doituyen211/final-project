@@ -25,13 +25,13 @@ public interface IGradeRepository extends JpaRepository<Grade, Integer>, JpaSpec
 //    @Query(value = "select full_name, student_id from Student ", nativeQuery = true)
 //    List<StudentDTO> getStudentForGrade();
 
-    @Query("select new org.green.education.dto.SubjectDto(s.subjectId, s.subjectName) from Subject s")
-    List<SubjectDto> getSubjectNameForGrade();
-
-    @Query("select new org.green.education.dto.ProgramDTO(tp.programId, tp.programName) from TrainingProgram tp")
-    List<ProgramDTO> getProgramNameForGrade();
-
-    @Query("select new org.green.education.dto.StudentDTO(s.id, s.fullName) from Student s")
-    List<StudentDTO> getStudentForGrade();
+//    @Query("select new org.green.education.dto.SubjectDto(s.subjectId, s.subjectName) from Subject s")
+//    List<SubjectDto> getSubjectNameForGrade();
+//
+//    @Query("select new org.green.education.dto.ProgramDTO(tp.programId, tp.programName) from TrainingProgram tp")
+//    List<ProgramDTO> getProgramNameForGrade();
+//
+//    @Query("select new org.green.education.dto.StudentDTO(s.id, s.fullName) from Student s")
+//    List<StudentDTO> getStudentForGrade();
 
 }
