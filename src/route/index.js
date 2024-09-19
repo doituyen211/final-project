@@ -172,7 +172,7 @@ export const routeSideBar = [
                 component: TrainningProgramComponent,
             },
             {
-                name: "Điểm danh của tao",
+                name: "Điểm danh của tôi",
                 icon: "nav-icon fas fa-cogs",
                 to: "/my-attendance",
                 component: AttendanceStudent,
