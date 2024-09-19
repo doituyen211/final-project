@@ -5,7 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import TableComponents from '../../components/TableComponent';
 // import SelectDropdown from '../../components/SelectDownButton';
 import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../../components/FormComponent";
+import FormComponent from "./FormComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 
@@ -20,7 +20,7 @@ const INITIAL_STATE = {
         action: "",
         formFieldsProp: [
             {
-                name: "nam_khoa_hoc",
+                name: "course_name",
                 type: "text",
                 label: "Năm khóa học",
                 placeholder: "Nhập năm khóa học",
@@ -31,6 +31,7 @@ const INITIAL_STATE = {
         api: API.COURSE,
     },
 };
+
 
 // Các cột của bảng
 const COLUMNS = [
@@ -48,11 +49,9 @@ const CourseComponent = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const [program, setProgram] = useState("");
-    const [status, setStatus] = useState("");
     const [dataForm, setDataForm] = useState({
-        ma_khoa_hoc: "",
-        nam_khoa_hoc: "",
+        course_id: "",
+        course_name: "",
     });
 
     const api = API.COURSE;
@@ -65,16 +64,12 @@ const CourseComponent = () => {
                     page: page,
                     pageSize: 10,
                     search,
-                    status,
-                    program,
                 });
                 const { data } = await axios.get(api, {
                     params: {
                         page: page,
                         pageSize: 10,
                         search,
-                        status,
-                        program,
                     },
                 });
                 setState((prevState) => ({
@@ -87,7 +82,7 @@ const CourseComponent = () => {
                 console.error("Error fetching data:", error);
             }
         },
-        [api, status, program]
+        [api]
     );
 
 
@@ -100,16 +95,7 @@ const CourseComponent = () => {
 
     const handleSearch = useCallback(() => {
         fetchData(searchTerm);
-    }, [fetchData, searchTerm]);
-
-    const handleProgramChange = useCallback((event) => {
-        setProgram(event.target.value);
-    }, []);
-
-    const handleStatusChange = useCallback((event) => {
-        setStatus(event.target.value);
-    }, []);
-    
+    }, [fetchData, searchTerm]);  
 
     useEffect(() => {
         fetchData("", currentPage);
@@ -122,7 +108,7 @@ const CourseComponent = () => {
     
     // Hàm xử lý xác nhận xóa
     const confirmDelete = (item) => {
-        setDeleteItemId(item.ma_khoa_hoc);
+        setDeleteItemId(item.course_id);
         setShowConfirmModal(true);
     };
 
@@ -218,7 +204,7 @@ const CourseComponent = () => {
                                             </Button>
                                         </div>
                                         {/*/!* Nút thêm mới *!/*/}
-                                        <div className="col-md-3 d-flex align-items-center justify-content-end">
+                                        {/* <div className="col-md-3 d-flex align-items-center justify-content-end">
                                            <Button
                                                 variant="primary"
                                                 size="m"
@@ -229,7 +215,7 @@ const CourseComponent = () => {
                                                <i className="bi bi-plus-circle me-2"></i>
                                                Thêm mới
                                             </Button>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     {/* Bảng dữ liệu */}
@@ -242,19 +228,19 @@ const CourseComponent = () => {
                                             state.modalProps.formFieldsProp
                                         }
                                         getData={fetchData}
-                                        actionView={(khoa_hoc) => {
+                                        actionView={(course) => {
                                             setInitialIdCurrent(
-                                                khoa_hoc.ma_khoa_hoc
+                                                course.course_id
                                             );
                                             setActionModal("VIEW");
-                                            setDataForm(khoa_hoc);
+                                            setDataForm(course);
                                         }}
-                                        actionEdit={(khoa_hoc) => {
+                                        actionEdit={(course) => {
                                             setInitialIdCurrent(
-                                                khoa_hoc.ma_khoa_hoc
+                                                course.course_id
                                             );
                                             setActionModal("EDIT");
-                                            setDataForm(khoa_hoc);
+                                            setDataForm(course);
                                         }}
                                         actionDelete={confirmDelete}
                                         useModal={false}

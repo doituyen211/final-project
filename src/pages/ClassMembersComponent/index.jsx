@@ -1,42 +1,48 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
-//import {useModal,actionEdit,row,openModal,row}  from "../../components/TableComponent";
-import TableComponents from '../../components/TableComponent';
-// import SelectDropdown from '../../components/SelectDownButton';
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import DeleteComponent from "../../components/DeleteItemComponent";
-import FormComponent from "../../pages/CourseComponent/FormComponent";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
+import FormComponentWithValidation from "./FormComponentWithValidation";
+import * as Yup from 'yup';
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
+import { toast, ToastContainer } from "react-toastify";
+import Input from "../../components/InputComponents";
 
-// Hằng số định nghĩa trạng thái khởi tạo và các cột của bảng
 const INITIAL_STATE = {
-    dataTable: [], // Dữ liệu bảng
-    titleTable: "CourseComponent", // Tiêu đề của bảng
-    classTable: "table table-bordered table-hover", // Lớp CSS của bảng
-    modalShow: false, // Trạng thái hiển thị modal
+    dataTable: [],
+    titleTable: "ClassMembersComponent",
+    classTable: "table table-bordered table-hover",
+    modalShow: false,
     modalProps: {
         show: false,
         action: "",
         formFieldsProp: [
             {
-                name: "ma_hoc_vien",
-                type: "text",
+                name: "student_id",
+                type: "number",
                 label: "Mã học viên",
                 placeholder: "Nhập mã học viên",
+
             },
             {
-                name: "ma_lop",
-                type: "text",
+                name: "class_id",
+                type: "number",
                 label: "Mã lớp",
                 placeholder: "Nhập mã lớp",
+
             },
             {
-                name: "trang_thai",
+                name: "status",
                 type: "select",
                 label: "Trạng thái",
                 placeholder: "Chọn trạng thái",
-                apiUrl: "/data/status.json",
+                options: [
+                    { value: "", label: "Chọn trạng thái" },
+                    { value: 1, label: "Đang học" },  // Sử dụng số thay vì chuỗi
+                    { value: 2, label: "Hoàn thành" },  // Sử dụng số thay vì chuỗi
+                  ],
             },
         ],
         initialIsEdit: false,
@@ -45,7 +51,6 @@ const INITIAL_STATE = {
     },
 };
 
-// Các cột của bảng
 const COLUMNS = [
     "STT",
     "Mã học viên",
@@ -63,13 +68,20 @@ const ClassMembersComponent = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const [program, setProgram] = useState("");
+    const [idclass, setIdclass] = useState("");
     const [status, setStatus] = useState("");
-    const [dataForm, setDataForm] = useState({
+    const [idstudent, setIdstudent] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+
+
+    const [statusOptions, setStatusOptions] = useState([]);
+    const [idstudentOptions, setIdstudentOptions] = useState([]);
+    const [idclassOptions, setIdclassOptions] = useState([]);
+    const [formData, setFormData] = useState({
         id: "",
-        ma_hoc_vien: "",
-        ma_lop: "",
-        trang_thai: "",
+        student_id: "",
+        class_id: "",
+        status: "",
     });
 
     const api = API.CLASSMEMBERS;
@@ -78,23 +90,24 @@ const ClassMembersComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                console.log("RENDER with", {
-                    page: page,
-                    pageSize: 10,
-                    search,
-                    status,
-                    program,
-                });
+                if (search !== "" || status !== "" || idclass !== ""|| idstudent !== "") page = 1;
+    
+                console.log("Fetching data with:", { page, pageSize: 10, search, status, classid: idclass,studentid:idstudent });
+    
                 const { data } = await axios.get(api, {
                     params: {
                         page: page,
                         pageSize: 10,
                         search,
                         status,
-                        program,
+                        classid: idclass,
+                        studentid:idstudent, // Đảm bảo ma_lop được gửi đúng
                     },
                 });
-                setState((prevState) => ({
+    
+                console.log("Data fetched:", data); // Kiểm tra dữ liệu trả về từ API
+    
+                setState(prevState => ({
                     ...prevState,
                     dataTable: data.content,
                 }));
@@ -104,13 +117,10 @@ const ClassMembersComponent = () => {
                 console.error("Error fetching data:", error);
             }
         },
-        [api, status, program]
+        [api, status, idclass,idstudent] // Đảm bảo fetchData phụ thuộc vào idclass
     );
-
-
-    //Search
-    const [searchTerm, setSearchTerm] = useState("");
-
+    
+    
     const handleSearchChange = useCallback((event) => {
         setSearchTerm(event.target.value);
     }, []);
@@ -119,36 +129,108 @@ const ClassMembersComponent = () => {
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
-    const handleProgramChange = useCallback((event) => {
-        setProgram(event.target.value);
+    const handleIdstudentChange = useCallback((event) => {
+        setIdstudent(event.target.value);
     }, []);
+    const handleIdclassChange = useCallback((event) => {
+        const selectedClassId = event.target.value;
+        console.log("Selected class ID:", selectedClassId); // Thêm log để kiểm tra
+        setIdclass(selectedClassId);
+        fetchData(searchTerm, 1);
+    }, [fetchData, searchTerm]);
 
     const handleStatusChange = useCallback((event) => {
         setStatus(event.target.value);
     }, []);
-    
 
+    // useEffect(() => {
+
+    //     fetchData("", currentPage);
+    //     fetchOptions();
+    // }, [fetchData, currentPage]);
     useEffect(() => {
         fetchData("", currentPage);
-        console.log("Render ClassMembersComponent");
-    }, [fetchData, currentPage]);
-
+        fetchOptions();
+        console.log("Class ID changed:", idclass); // Thêm log để kiểm tra
+        fetchData(searchTerm, 1);
+    }, [idclass, fetchData, searchTerm ,fetchData, currentPage]);
     
 
     const handlePageChange = useCallback((pageNumber) => {
         setCurrentPage(pageNumber);
     }, []);
-    
+
+    const fetchOptions = useCallback(async () => {
+        try {
+            // Fetch the paginated class members data
+            const response = await axios.get(API.CLASSMEMBERS, {
+                params: { page: 1, pageSize: 10 } // Adjust params as necessary
+            });
+
+            const data = response.data.content;
+
+            // Extract unique status options
+            const statusOptions = Array.from(new Set(data.map(item => item.status)))
+                .map(status => ({
+                    value: status,
+                    label: status === 1 ? 'Đang học' : 'Hoàn thành'
+                }));
+
+            const idstudentOptions = Array.from(new Set(data.map(item => item.student_id)))
+                .map(student_id => ({
+                    value: student_id,
+                    label: student_id.toString()
+                }));
+
+            const idclassOptions = Array.from(new Set(data.map(item => item.class_id)))
+                .map(class_id => ({
+                    value: class_id,
+                    label: class_id.toString()
+                }));
+
+            // Update the state with the new options
+            setStatusOptions(statusOptions);
+            setIdstudentOptions(idstudentOptions);
+            setIdclassOptions(idclassOptions);
+
+        } catch (error) {
+            console.error("Error fetching options:", error);
+        }
+    }, []);
+
     // Hàm xử lý xác nhận xóa
     const confirmDelete = (item) => {
         setDeleteItemId(item.id);
         setShowConfirmModal(true);
     };
 
-    // Hàm xử lý xác nhận xóa và cập nhật dữ liệu
-    const handleDeleteConfirmation = () => {
-        fetchData();
+    const handleSubmit = async (data) => {
+        try {
+            console.log("FROM FORM : ", data)
+            const url = actionModal === 'EDIT' ? `${api}/${initialIdCurrent}` : api;
+            const method = actionModal === 'EDIT' ? axios.put : axios.post;
+            await method(url, data);
+            toast.success(`${actionModal === 'EDIT' ? 'Cập nhật' : 'Thêm mới'} thành công!`);
+            fetchData(searchTerm, currentPage);
+            setFormData({
+                id: "",
+                student_id: "",
+                class_id: "",
+                status: "",
+            });
+        } catch (error) {
+            console.error(`Error ${actionModal.toLowerCase()} item:`, error);
+            toast.error(`Failed to ${actionModal.toLowerCase()} item.`);
+        }
     };
+
+    useEffect(() => {
+        if (actionModal === 'EDIT' || actionModal === 'VIEW') {
+            axios.get(`${api}/${initialIdCurrent}`)
+                .then(res => setFormData(res.data))
+                .catch(err => console.error('Error fetching data:', err));
+        }
+    }, [actionModal, initialIdCurrent]);
 
     return (
         <>
@@ -156,22 +238,12 @@ const ClassMembersComponent = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Quản lý khóa học</h1>
+                            <h1>Quản lý thành viên lớp</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item">
-                                    <button
-                                        onClick={() =>
-                                            console.log("Home clicked")
-                                        }
-                                    >
-                                        Home
-                                    </button>
-                                </li>
-                                <li className="breadcrumb-item active">
-                                Quản lý khóa học
-                                </li>
+                                <li className="breadcrumb-item active">Home</li>
+                                <li className="breadcrumb-item active">Quản lý thành viên lớp</li>
                             </ol>
                         </div>
                     </div>
@@ -180,43 +252,56 @@ const ClassMembersComponent = () => {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row justify-content-center">
-                        {/* Card cho Form Component */}
-                        <div className="col-md-3">
+                         <div className="col-md-3">
                             <div className="card">
                                 <div className="card-body">
-                                    <FormComponent
-                                        title={
-                                            actionModal === "EDIT"
-                                                ? "Cập Nhật"
-                                                : actionModal === "CREATE"
-                                                ? "Thêm Mới"
-                                                : "Chi tiết"
-                                        }
-                                        fields={state.modalProps.formFieldsProp}
-                                        getData={fetchData}
-                                        action={actionModal}
-                                        idCurrent={initialIdCurrent}
-                                        onClose={() => {
-                                            // Refresh page by fetching data again
-                                            fetchData(searchTerm, currentPage);
-                                            setInitialIdCurrent(null); // Reset current ID if needed
-                                            setActionModal("CREATE"); // Reset action if needed
+                                    <FormComponentWithValidation
+                                        formFieldsProp={state.modalProps.formFieldsProp}
+                                        initialData={formData}
+                                        actionModal={actionModal}
+                                        onSubmit={handleSubmit}
+                                        onCancel={() => {
+                                            setState(prev => ({ ...prev, modalShow: false }));
                                         }}
-                                        api={api}
-                                        dataForm={dataForm}
+                                        // statusOptions={statusOptions}
+                                        // programOptions={programOptions}
                                     />
                                 </div>
                             </div>
                         </div>
-
-                        {/* Card cho các bộ lọc, ô tìm kiếm và nút thêm mới */}
                         <div className="col-md-9">
-                            <div className="card mb-4">
+                            <div className="card">
                                 <div className="card-body">
-                                    <div className="row mb-4">
+                                    <h3 className="text-start mb-4">Danh sách thành viên lớp</h3>
+                                    <div className="d-flex mb-4">
                                         {/* Bộ lọc */}
-                                        
-                                        <div className="col-md-6 d-flex align-items-center gap-3">
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus2"
+                                                aria-label="Program"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={idclass}
+                                                onChange={handleIdclassChange}
+                                            >
+                                                {/* <option value="">
+                                                    Tên lớp - Mã lớp
+                                                </option> */}
+                                                <option value="">
+                                                    Mã lớp
+                                                </option>
+                                                {/* Kiểm tra dữ liệu trả về */}
+                                                {idclassOptions.map(option => (
+                                                    <option
+                                                        key={option.value} // Use value as key
+                                                        value={option.value} // Use value as the option value
+                                                    >
+                                                        {option.label} {/* Display label */}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-2 d-flex align-items-center gap-3"></div>
+                                        <div className="col-md-7 d-flex align-items-center gap-3">
                                             <input
                                                 type="text"
                                                 className="form-control rounded-pill border-secondary flex-fill"
@@ -224,10 +309,16 @@ const ClassMembersComponent = () => {
                                                 aria-label="Search input"
                                                 value={searchTerm}
                                                 onChange={handleSearchChange}
+                                                onKeyDown={(event) => {
+                                                    if (event.key === 'Enter') {
+                                                        event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
+                                                        handleSearch(); // Gọi hàm tìm kiếm
+                                                    }
+                                                }}
                                             />
                                             <Button
                                                 variant="outline-secondary"
-                                                size="m"
+                                                size="sm"
                                                 aria-label="Search"
                                                 className="d-flex align-items-center px-3 rounded-pill"
                                                 onClick={handleSearch}
@@ -235,40 +326,105 @@ const ClassMembersComponent = () => {
                                                 <i className="bi bi-search"></i>
                                             </Button>
                                         </div>
-                                        {/*/!* Nút thêm mới *!/*/}
-                                        <div className="col-md-3 d-flex align-items-center justify-content-end">
+                                    </div>
+                                    <div className="d-flex mb-4">
+                                        <div className="col-md-3 d-flex align-items-center gap-3"></div>
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="statusSelect"
+                                                aria-label="Status"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={status}
+                                                onChange={handleStatusChange}
+                                            >
+                                                <option value="">Chọn trạng thái</option>
+                                                {statusOptions.map(option => (
+                                                    <option
+                                                        key={option.value} // Use value as key
+                                                        value={option.value} // Use value as the option value
+                                                    >
+                                                        {option.label} {/* Display label */}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </div>
+                                        <div className="col-md-3 d-flex align-items-center gap-3">
+                                            <Form.Select
+                                                id="programStatus1"
+                                                aria-label="Status"
+                                                className="form-select rounded-pill border-secondary flex-fill"
+                                                value={idstudent}
+                                                onChange={handleIdstudentChange}
+                                            >
+                                                <option value="">
+                                                    Chọn học viên
+                                                </option>
+                                                {idstudentOptions.map(option => (
+                                                    <option
+                                                        key={option.value} // Use value as key
+                                                        value={option.value} // Use value as the option value
+                                                    >
+                                                        {option.label} {/* Display label */}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
                                         </div>
                                     </div>
-
-                                    {/* Bảng dữ liệu */}
-                                    <TableComponents
-                                        cols={COLUMNS}
-                                        dataTable={state.dataTable}
-                                        classTable={state.classTable}
-                                        api={api}
-                                        formFieldsProp={
-                                            state.modalProps.formFieldsProp
-                                        }
-                                        getData={fetchData}
-                                        actionView={(thanh_vien_lop) => {
-                                            setInitialIdCurrent(
-                                                thanh_vien_lop.id
-                                            );
-                                            setActionModal("VIEW");
-                                            setDataForm(thanh_vien_lop);
-                                        }}
-                                        actionEdit={(thanh_vien_lop) => {
-                                            setInitialIdCurrent(
-                                                thanh_vien_lop.id
-                                            );
-                                            setActionModal("EDIT");
-                                            setDataForm(thanh_vien_lop);
-                                        }}
-                                        actionDelete={confirmDelete}
-                                        useModal={false}
-                                        currentPage={currentPage}
-                                    />
-
+                                    <Table className={state.classTable}>
+                                        <thead>
+                                            <tr>
+                                                {COLUMNS.map((col, index) => (
+                                                    <th key={index}>{col}</th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {state.dataTable.map((item, index) => (
+                                                <tr key={item.id}>
+                                                    <td>{index + 10 * (currentPage - 1) + 1}</td>
+                                                    <td>{item.student_id}</td>
+                                                    <td>{item.class_id}</td>
+                                                    <td className={
+                                                        item.status === 1 ? "text-success" :
+                                                        item.status === 2 ? "text-secondary" : ""
+                                                    }>
+                                                        {item.status === 1 ? 'Đang học' :
+                                                         item.status === 2 ? 'Hoàn thành' : 'N/A'}
+                                                    </td>
+                                                    <td>
+                                                        <Button
+                                                            variant="light"
+                                                            className="me-1"
+                                                            onClick={() => {
+                                                                setFormData(item)
+                                                                setInitialIdCurrent(item.id);
+                                                                setActionModal('VIEW')
+                                                            }}
+                                                        >
+                                                            <BsEye />
+                                                        </Button>
+                                                        <Button
+                                                            variant="primary"
+                                                            className="me-1"
+                                                            onClick={() => {
+                                                                setFormData(item)
+                                                                setInitialIdCurrent(item.id);
+                                                                setActionModal('EDIT')
+                                                            }}
+                                                        >
+                                                            <BsPencil />
+                                                        </Button>
+                                                        <Button
+                                                            variant="danger"
+                                                            onClick={() => confirmDelete(item)}
+                                                        >
+                                                            <BsTrash />
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
                                     {/* Phân trang */}
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
@@ -285,18 +441,18 @@ const ClassMembersComponent = () => {
                     </div>
                 </div>
             </section>
-
+            <ToastContainer />
+            {/* Modal xác nhận xóa */}
             {/* Modal xác nhận xóa */}
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
-                onConfirm={handleDeleteConfirmation}
+                onConfirm={() => fetchData()}
                 deleteItemID={deleteItemId}
                 apiDelete={api}
             />
         </>
     );
 };
-
 
 export default ClassMembersComponent;
