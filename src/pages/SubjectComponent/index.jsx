@@ -1,14 +1,15 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Form, Table } from "react-bootstrap";
-import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
-import { toast, ToastContainer } from "react-toastify";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button, Form, Table} from "react-bootstrap";
+import {BsEye, BsPencil, BsTrash} from "react-icons/bs";
+import {toast, ToastContainer} from "react-toastify";
 import * as Yup from "yup";
 import DeleteComponent from "../../components/DeleteItemComponent";
 import FormComponentWithValidation from "../../components/FormComponentWithValidation";
 import PagingComponent from "../../components/PagingComponent";
 import API from "../../store/Api";
 import "./SubjectComponent.scss";
+
 const INITIAL_STATE = {
     dataTable: [],
     titleTable: "SubjectComponent",
@@ -60,7 +61,7 @@ const INITIAL_STATE = {
                 label: "Trạng thái",
                 placeholder: "Chọn trạng thái",
                 apiUrl: "/data/status.json",
-                defaultOption: { value: "", label: "Chọn trạng thái" },
+                defaultOption: {value: "", label: "Chọn trạng thái"},
                 validation: Yup.string().required("Trạng thái là bắt buộc"),
             },
         ],
@@ -109,7 +110,7 @@ const SubjectComponent = () => {
         async (search = "", page = 1) => {
             try {
                 // if (search !== "" || status !== "" || program !== "") page = 1;
-                const { data } = await axios.get(api, {
+                const {data} = (await axios.get(api, {
                     params: {
                         page: page,
                         pageSize: 10,
@@ -117,7 +118,8 @@ const SubjectComponent = () => {
                         status,
                         program,
                     },
-                });
+                })).data;
+                console.log(JSON.stringify(data))
                 setState((prevState) => ({
                     ...prevState,
                     dataTable: data.content,
@@ -136,6 +138,8 @@ const SubjectComponent = () => {
     }, []);
 
     const handleSearch = useCallback(() => {
+        const newUrl = `${window.location.pathname}?search=${encodeURIComponent(searchTerm)}`;
+        window.history.pushState({searchTerm}, '', newUrl);
         fetchData(searchTerm);
     }, [fetchData, searchTerm]);
 
@@ -148,6 +152,9 @@ const SubjectComponent = () => {
     }, []);
 
     useEffect(() => {
+        const url = new URL(window.location);
+        url.searchParams.delete('search');
+        window.history.pushState({}, '', url);
         fetchData("", currentPage);
         fetchOptions();
     }, [fetchData, currentPage]);
@@ -335,104 +342,104 @@ const SubjectComponent = () => {
                                     </div>
                                     <Table className={state.classTable}>
                                         <thead>
-                                            <tr>
-                                                {COLUMNS.map((col, index) => (
-                                                    <th key={index}>{col}</th>
-                                                ))}
-                                            </tr>
+                                        <tr>
+                                            {COLUMNS.map((col, index) => (
+                                                <th key={index}>{col}</th>
+                                            ))}
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            {state.dataTable.map(
-                                                (item, index) => (
-                                                    <tr key={item.subject_id}>
-                                                        <td>
-                                                            {index +
-                                                                10 *
-                                                                    (currentPage -
-                                                                        1) +
-                                                                1}
-                                                        </td>
-                                                        <td>
-                                                            {item.subject_name}
-                                                        </td>
-                                                        <td>
-                                                            {
-                                                                item.training_duration
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            {programOptions.find(
-                                                                (program) =>
-                                                                    program.id ===
-                                                                    item.training_program_id
-                                                            )?.name || "N/A"}
-                                                        </td>
-                                                        <td
-                                                            className={
-                                                                item.status ===
-                                                                0
-                                                                    ? "text-success"
-                                                                    : item.status ===
-                                                                      1
+                                        {state.dataTable.map(
+                                            (item, index) => (
+                                                <tr key={item.subject_id}>
+                                                    <td>
+                                                        {index +
+                                                            10 *
+                                                            (currentPage -
+                                                                1) +
+                                                            1}
+                                                    </td>
+                                                    <td>
+                                                        {item.subject_name}
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            item.training_duration
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {programOptions.find(
+                                                            (program) =>
+                                                                program.id ===
+                                                                item.training_program_id
+                                                        )?.name || "N/A"}
+                                                    </td>
+                                                    <td
+                                                        className={
+                                                            item.status ===
+                                                            0
+                                                                ? "text-success"
+                                                                : item.status ===
+                                                                1
                                                                     ? "text-secondary"
                                                                     : ""
+                                                        }
+                                                    >
+                                                        {statusOptions.find(
+                                                            (status) =>
+                                                                status.id ===
+                                                                item.status
+                                                        )?.name || "N/A"}
+                                                    </td>
+                                                    <td className="col-2">
+                                                        <Button
+                                                            variant="link"
+                                                            className="me-1"
+                                                            onClick={() => {
+                                                                setFormData(
+                                                                    item
+                                                                );
+                                                                setInitialIdCurrent(
+                                                                    item.subject_id
+                                                                );
+                                                                setActionModal(
+                                                                    "VIEW"
+                                                                );
+                                                            }}
+                                                        >
+                                                            <BsEye className="text-secondary"/>
+                                                        </Button>
+                                                        <Button
+                                                            variant="link"
+                                                            className="me-1"
+                                                            onClick={() => {
+                                                                setFormData(
+                                                                    item
+                                                                );
+                                                                setInitialIdCurrent(
+                                                                    item.subject_id
+                                                                );
+                                                                setActionModal(
+                                                                    "EDIT"
+                                                                );
+                                                            }}
+                                                        >
+                                                            <BsPencil className="text-primary"/>
+                                                        </Button>
+                                                        <Button
+                                                            variant="link"
+                                                            onClick={() =>
+                                                                confirmDelete(
+                                                                    item
+                                                                )
                                                             }
                                                         >
-                                                            {statusOptions.find(
-                                                                (status) =>
-                                                                    status.id ===
-                                                                    item.status
-                                                            )?.name || "N/A"}
-                                                        </td>
-                                                        <td className="col-2">
-                                                            <Button
-                                                                variant="link"
-                                                                className="me-1"
-                                                                onClick={() => {
-                                                                    setFormData(
-                                                                        item
-                                                                    );
-                                                                    setInitialIdCurrent(
-                                                                        item.subject_id
-                                                                    );
-                                                                    setActionModal(
-                                                                        "VIEW"
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <BsEye className="text-secondary" />
-                                                            </Button>
-                                                            <Button
-                                                                variant="link"
-                                                                className="me-1"
-                                                                onClick={() => {
-                                                                    setFormData(
-                                                                        item
-                                                                    );
-                                                                    setInitialIdCurrent(
-                                                                        item.subject_id
-                                                                    );
-                                                                    setActionModal(
-                                                                        "EDIT"
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <BsPencil className="text-primary" />
-                                                            </Button>
-                                                            <Button
-                                                                variant="link"
-                                                                onClick={() =>
-                                                                    confirmDelete(
-                                                                        item
-                                                                    )
-                                                                }
-                                                            >
-                                                                <BsTrash className="text-danger" />
-                                                            </Button>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            )}
+                                                            <BsTrash className="text-danger"/>
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
                                         </tbody>
                                     </Table>
                                     {/* Phân trang */}
@@ -451,7 +458,7 @@ const SubjectComponent = () => {
                     </div>
                 </div>
             </section>
-            <ToastContainer />
+            <ToastContainer/>
             {/* Modal xác nhận xóa */}
             {/* Modal xác nhận xóa */}
             <DeleteComponent

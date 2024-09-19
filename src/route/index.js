@@ -13,14 +13,14 @@ import {
     PersonelComponents,
     QualificationComponents,
     ReservationComponent,
-    ScheduleComponent2,
+    ScheduleComponent,
     ScoreComponent,
     StudenInforComponent,
     StudentComponent,
     SubjectComponent,
     TimesheetComponent,
     TuitionFeeComponent,
-    UserComponent
+    UserComponent,
 } from "../pages";
 import ClassComponent from "../pages/ClassComponent";
 import ExamComponent from "../pages/ExamComponent";
@@ -45,7 +45,7 @@ export const routeSideBar = [
             {
                 name: "List",
                 icon: "nav-icon fas fa-tachometer-alt",
-                to: "/list",
+                to: "/form",
                 component: UserComponent,
             },
         ],
@@ -86,8 +86,8 @@ export const routeSideBar = [
                 component: ReservationComponent,
             },
             {
-                name: "Thông tin học viên (sau xoa)",
-                icon: "nav-icon fas fa-pause-circle",
+                name: "Thông tin học viên",
+                icon: "nav-icon fas fa-user",
                 to: "/studentinfomation",
                 component: StudenInforComponent,
             },
@@ -120,7 +120,7 @@ export const routeSideBar = [
                 name: "Quản lý lịch học",
                 icon: "nav-icon fas fa-calendar-alt",
                 to: "/schedules",
-                component: ScheduleComponent2,
+                component: ScheduleComponent,
             },
             {
                 name: "Quản lý lịch thi",
@@ -157,7 +157,7 @@ export const routeSideBar = [
                 name: "Chến dịch quảng cáo",
                 icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
                 to: "/marketing-campaigns", // Define the route for the new component
-                component: MarketingCampaignComponent, // Add your new component here
+                component: MarketingCampaignComponent,
             },
             {
                 name: "Quản lý khách hàng",
@@ -180,7 +180,7 @@ export const routeSideBar = [
             {
                 name: "Login (Sau nay xoa)",
                 icon: "nav-icon fas fa-lock",
-                to: "/Login",
+                to: "/Login1",
                 component: LoginComponent,
             },
             // {
@@ -261,6 +261,4 @@ export const routeSideBar = [
             },
         ],
     },
-
-
 ];

@@ -32,7 +32,7 @@ const ModalAdd = () => {
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
         <Form.Item
           label="Tên chương trình đào tạo"
-          name="trProgramName"
+          name="programName"
           required={false}
           rules={[
             {
@@ -44,14 +44,14 @@ const ModalAdd = () => {
           <Select
             placeholder="Chọn chương trình đào tạo"
             options={data?.map((option) => ({
-              value: option.id,
-              label: option.programName,
+              value: option.program_name,
+              label: option.program_name,
             }))}
           />
         </Form.Item>
         <Form.Item
           label="Tên lớp"
-          name="name"
+          name="className"
           required={false}
           rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
         >
@@ -59,7 +59,7 @@ const ModalAdd = () => {
         </Form.Item>
         <Form.Item
           label="Sĩ số"
-          name="size"
+          name="classSize"
           required={false}
           rules={[
             { required: true, message: "Vui lòng nhập sĩ số" },

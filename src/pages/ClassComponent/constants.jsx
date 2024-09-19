@@ -34,15 +34,15 @@ export const TableHasActionCols = () => {
   };
   return [
     {
-      dataIndex: "trProgramName",
+      dataIndex: "trainingProgramName",
       title: "Tên chương trình đào tạo",
     },
     {
-      dataIndex: "name",
+      dataIndex: "className",
       title: "Tên lớp",
     },
     {
-      dataIndex: "size",
+      dataIndex: "classSize",
       title: "Sĩ số",
     },
     {
@@ -84,21 +84,18 @@ export const TableHasActionCols = () => {
 export const TableNoActionCols = () => {
   return [
     {
-      dataIndex: "name",
+      dataIndex: "studentName",
       title: "Tên học viên",
     },
     {
+      dataIndex: "status",
       title: "Trạng thái",
       render: (_, record) => (
         <>
           {record.status ? (
-            <span className="bg-success text-white rounded px-2 py-1">
-              Đang học
-            </span>
+            <span className="text-green">Đang học</span>
           ) : (
-            <span className="bg-secondary text-white rounded px-2 py-1">
-              Đã thôi học
-            </span>
+            <span className="text-gray">Đã thôi học</span>
           )}
         </>
       ),
