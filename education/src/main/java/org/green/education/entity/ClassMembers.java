@@ -13,22 +13,17 @@ import lombok.NoArgsConstructor;
 public class ClassMembers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id", nullable = false)
+    private  Integer id ;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @Column(name = "student_id")
+    private Integer studentId;
 
-    @ManyToOne
-    @JoinColumn(name = "class_id")
-    private Class mclass;
+    @Column(name = "class_id")
+    private Integer classId;
 
-    private String status;
+    @Column
+    private String status ;
 
-//    @ManyToOne
-//    @JoinColumn(name = "student_id", referencedColumnName = "student_id", foreignKey = @ForeignKey(name = "fk_student_id"))
-//    private Student student;
 
-//    @ManyToOne
-//    private Class class;
 }
