@@ -167,10 +167,10 @@ const SubjectComponent = () => {
         try {
             const [statusResponse, programResponse] = await Promise.all([
                 axios.get("/data/status.json"),
-                axios.get("/data/program.json"),
+                axios.get("http://localhost:9001/api/v1/subjects/programs"),
             ]);
             setStatusOptions(statusResponse.data.data);
-            setProgramOptions(programResponse.data);
+            setProgramOptions(programResponse.data.data);
         } catch (error) {
             console.error("Error fetching options:", error);
         }
