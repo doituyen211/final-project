@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormInput = ({label, type, name, value, onChange, placeholder, error, disabled}) => {
+const FormInput = ({label, type, name, value, onChange, placeholder, error,disabled}) => {
     return (
         <div className="form-group">
             <label>{label}</label>

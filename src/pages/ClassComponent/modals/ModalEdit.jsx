@@ -15,9 +15,9 @@ const ModalEdit = () => {
   useEffect(() => {
     if (dataRow) {
       form.setFieldsValue({
-        trProgramName: dataRow.trProgramName,
-        name: dataRow.name,
-        size: dataRow.size,
+        programName: dataRow.trainingProgramName,
+        className: dataRow.className,
+        classSize: dataRow.classSize,
         startDate: moment(dataRow.startDate),
         endDate: moment(dataRow.endDate),
       });
@@ -42,7 +42,7 @@ const ModalEdit = () => {
       <Form form={form} labelCol={{ span: 10 }} className="mt-4">
         <Form.Item
           label="Tên chương trình đào tạo"
-          name="trProgramName"
+          name="programName"
           required={false}
           rules={[
             {
@@ -54,20 +54,20 @@ const ModalEdit = () => {
           <Select
             placeholder="Chọn chương trình đào tạo"
             options={data?.map((option) => ({
-              value: option.id,
-              label: option.programName,
+              value: option.program_name,
+              label: option.program_name,
             }))}
           />
         </Form.Item>
         <Form.Item
           label="Tên lớp"
-          name="name"
+          name="className"
           required={false}
           rules={[{ required: true, message: "Vui lòng nhập tên lớp" }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Sĩ số" name="size">
+        <Form.Item label="Sĩ số" name="classSize">
           <Input disabled />
         </Form.Item>
         <Form.Item label="Ngày bắt đầu" name="startDate">

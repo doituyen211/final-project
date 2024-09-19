@@ -2,42 +2,49 @@ import axios from "./customize-axios";
 
 // Fetch all exams
 const fetchAllExam = () => {
-  return axios.get("/api/exam");
+  return axios.get("/api/v1/examschedules");
 };
 
+//fetch all classes
+const fetchAllClasses = () => {
+  return axios.get("/api/v1/classes");
+}
+
+const fetchSubjectsByClassId = (classId) => {
+  return axios.get(`/api/v1/examschedules/subjects/${classId}`);
+}
+//get detail exam
+const getDetailExam = (examId) =>{
+  return axios.get(`/api/v1/examschedules/showdetail/${examId}`);
+}
 // Create a new exam
-const postCreateExam = (ma_mon, ma_lop, thoi_gian, link_bai_thi) => {
-  const createdAt = Math.floor(Date.now() / 1000);
-  const updatedAt = Math.floor(Date.now() / 1000);
-  return axios.post("api/exam", {
-    ma_mon,
-    ma_lop,
-    thoi_gian,
-    link_bai_thi,
-    createdAt,
-    updatedAt,
+const postCreateExam = (subject, classField, examDate, examLink) => {
+  return axios.post("/api/v1/examschedules/createExamSchedule", {
+    subject,
+    classField,
+    examDate,
+    examLink,
+    status:false,
   });
 };
 
 // Update an exam
-const putEditExam = (id, ma_mon, ma_lop, thoi_gian, link_bai_thi) => {
-  const updatedAt = Math.floor(Date.now() / 1000);
-  return axios.put(`api/exam/${id}`, {
-    ma_mon,
-    ma_lop,
-    thoi_gian,
-    link_bai_thi,
-    updatedAt,
+const putEditExam = (id, subject, classField, examDate, examLink) => {
+  return axios.put(`/api/v1/examschedules/updateExamSchedule/${id}`, {
+    subject,
+    classField,
+    examDate,
+    examLink,
+    status:false,
   });
-};
+}
 
 // Delete an exam
 const deleteExam = (id) => {
-  const updatedAt = Math.floor(Date.now() / 1000);
-  return axios.put(`api/exam/${id}`, {
+  return axios.put(`/api/v1/examschedules/deleteExamSchedule/${id}`, {
     status: true,
-    updatedAt,
   });
 };
 
-export { fetchAllExam, postCreateExam, putEditExam, deleteExam };
+
+export { fetchAllExam,fetchAllClasses,fetchSubjectsByClassId,getDetailExam, postCreateExam, putEditExam, deleteExam };

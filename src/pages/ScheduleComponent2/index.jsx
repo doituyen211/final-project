@@ -1,276 +1,217 @@
-import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { Space, Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
-import { toast, ToastContainer } from "react-toastify";
-import * as Yup from "yup";
+import { ToastContainer } from "react-toastify";
 import DeleteComponent from "../../components/DeleteItemComponent";
-import Input from "../../components/InputComponents";
 import PagingComponent from "../../components/PagingComponent";
-import API from "../../store/Api";
 import "./schedule2.scss";
 
-const INITIAL_STATE = {
-    dataTable: [],
-    titleTable: "ScheduleComponent",
-    classTable: "table table-bordered table-hover",
-    modalShow: false,
-    modalProps: {
-        show: false,
-        action: "",
-        formFieldsProp: [
-            {
-                name: "ma_mon_hoc",
-                type: "text",
-                label: "Tên môn học",
-                placeholder: "Nhập tên môn học",
-                validation: Yup.string()
-                    .matches(
-                        /^[a-zA-Z0-9_-]+$/,
-                        "Schedule Name can only contain letters, numbers, underscores, and hyphens"
-                    )
-                    .required("Schedule Name is required"),
-            },
-            {
-                name: "phong_hoc",
-                type: "text",
-                label: "Phòng Học",
-                placeholder: "Nhập Phòng Học",
-                validation: Yup.number()
-                    .typeError("Duration must be a number")
-                    .required("Duration is required")
-                    .positive("Duration must be a positive number")
-                    .integer("Duration must be an integer"),
-            },
-            {
-                name: "thoi_gian_bat_dau",
-                type: "date",
-                label: "Thời Gian Bắt Đầu",
-            },
-
-            {
-                name: "thoi_gian_ket_thuc",
-                type: "date",
-                label: "Thời Gian Kết Thúc",
-            },
-            {
-                name: "ma_lop",
-                type: "select",
-                label: "Mã Lớp",
-                placeholder: "Chọn Mã Lớp",
-                apiUrl: "/data/IDClass.json",
-                defaultOption: {
-                    value: "",
-                    label: "Chọn 1 Mã Lớp",
-                },
-                validation: Yup.string().required("Program Name is required"),
-            },
-            {
-                name: "id_nhan_su",
-                type: "select",
-                label: "Giảng Viên",
-                placeholder: "Chọn Giảng Viên",
-                apiUrl: "/data/lecturers.json",
-                defaultOption: { value: "", label: "Chọn Giảng Viên" },
-                validation: Yup.string().required("Status is required"),
-            },
-        ],
-        initialIsEdit: false,
-        initialIdCurrent: null,
-        api: API.SCHEDULE,
-    },
-};
-
-// Các cột của bảng
-const COLUMNS = [
-    "STT",
-    "Tên môn học",
-    "Phòng Học",
-    "Thời Gian Bắt Đầu",
-    "Thời Gian Kết Thúc",
-    "Mã Lớp",
-    "Giảng Viên",
-    "",
-];
-
 const ScheduleComponent2 = () => {
-    // Function to format datetime from YYYY-MM-DDTHH:MM to YYYY/MM/DD HH:MM
-    const formatDateTimeToCustomFormat = (datetime) => {
-        console.log("datetime: ", datetime);
-    };
-
-    // const parseDateTimeFromCustomFormat = (datetime) => {
-    //     if (datetime !== "") {
-    //         const [date, time] = (datetime || "").split(" ");
-    //         if (!date || !time) return ""; // Additional safeguard
-    //         const [year, month, day] = (date || "").split("/");
-    //         const [hour, minute] = (time || "").split(":");
-    //         return `${year}-${month}-${day}T${hour}:${minute}`;
-    //     }
-    // };
-
-    // Handle date change
-    const handleDateChange = (e) => {
-        const newDate = e.target.value; // YYYY-MM-DD
-        console.log("Return Date Input" + newDate);
-        // const formattedDate = formatDateTimeToCustomFormat(newDate + "T00:00"); // Assumes midnight time
-        setFormData({
-            ...formData,
-            thoi_gian_bat_dau: newDate,
-        });
-    };
-
-    const [state, setState] = useState(INITIAL_STATE);
-    const [deleteItemId, setDeleteItemId] = useState(null);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [actionModal, setActionModal] = useState("CREATE");
-    const [initialIdCurrent, setInitialIdCurrent] = useState(null);
+    const [state, setState] = useState({
+        dataTable: [],
+        classTable: "table table-striped",
+        modalShow: false,
+    });
+    const [formData, setFormData] = useState({});
+    const [actionModal, setActionModal] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
-    const [program, setProgram] = useState("");
-    const [status, setStatus] = useState("");
-    const [classR, setClassR] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState(null);
+    const [classR, setClassR] = useState("");
+    const [lecturerStatus, setLecturerStatus] = useState("");
+    const [originalData, setOriginalData] = useState([]);
 
-    const [LecturerOptions, setLecturerOptions] = useState([]);
-    const [IDClassOptions, setIDClassOptions] = useState([]);
-    const [ClassRoomOptions, setClassRoomResponse] = useState([]);
-    const [formData, setFormData] = useState({
-        id: "",
-        ma_mon_hoc: "",
-        phong_hoc: "",
-        thoi_gian_bat_dau: "",
-        thoi_gian_ket_thuc: "",
-        ma_lop: "",
-        id_nhan_su: "",
-    });
-
-    const api = API.SCHEDULE;
-
-    // Fetch data with optional filters
-    const fetchData = useCallback(
-        async (search = "", page = 1) => {
+    useEffect(() => {
+        const fetchData = async () => {
             try {
-                const { data } = await axios.get(api, {
-                    params: {
-                        page: page,
-                        pageSize: 10,
-                        search,
-                        classR,
-                        status,
-                        program,
-                    },
-                });
-                setState((prevState) => ({
-                    ...prevState,
-                    dataTable: data.content,
+                const response = await fetch(
+                    "http://localhost:9001/schedule/all"
+                );
+                const data = await response.json();
+                setOriginalData(data); // Lưu dữ liệu gốc
+                setState((prev) => ({
+                    ...prev,
+                    dataTable: data,
                 }));
-                setCurrentPage(data.page);
-                setTotalPages(data.totalPages);
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error("Error fetching data: ", error);
             }
-        },
-        [api, classR, status, program]
-    );
+        };
 
-    const handleSearchChange = useCallback((event) => {
-        setSearchTerm(event.target.value);
-    }, []);
-
-    const handleSearch = useCallback(() => {
-        fetchData(searchTerm);
-    }, [fetchData, searchTerm]);
-
-    const handleClassRChange = useCallback((event) => {
-        setClassR(event.target.value);
-    }, []);
-
-    const handleProgramChange = useCallback((event) => {
-        setProgram(event.target.value);
-    }, []);
-
-    const handleStatusChange = useCallback((event) => {
-        setStatus(event.target.value);
+        fetchData();
+        console.log(fetchData);
     }, []);
 
     useEffect(() => {
-        fetchData("", currentPage);
-        fetchOptions();
-    }, [fetchData, currentPage]);
+        const handleSearch = async () => {
+            try {
+                let url = `http://localhost:9001/schedule/search?page=${
+                    currentPage - 1
+                }&limit=10`;
+                if (searchTerm) {
+                    url += `&subjectName=${encodeURIComponent(searchTerm)}`;
+                    // Cập nhật URL trong thanh địa chỉ mà không tải lại trang
+                    window.history.pushState(
+                        null,
+                        "",
+                        `/schedule?subjectName=${encodeURIComponent(
+                            searchTerm
+                        )}`
+                    );
+                } else {
+                    // Nếu không có từ khóa tìm kiếm, xóa query params trong URL
+                    window.history.pushState(null, "", "/schedules");
+                }
 
-    const handlePageChange = useCallback((pageNumber) => {
-        setCurrentPage(pageNumber);
-    }, []);
+                const response = await fetch(url);
 
-    const fetchOptions = useCallback(async () => {
-        try {
-            const [ClassRoomResponse, LecturerResponse, IDClassResponse] =
-                await Promise.all([
-                    axios.get("/data/ClassRoom.json"),
-                    axios.get("/data/lecturers.json"),
-                    axios.get("/data/IDClass.json"),
-                ]);
-            setClassRoomResponse(ClassRoomResponse.data);
-            setLecturerOptions(LecturerResponse.data);
-            setIDClassOptions(IDClassResponse.data);
-        } catch (error) {
-            console.error("Error fetching options:", error);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setState((prev) => ({
+                    ...prev,
+                    dataTable: data,
+                }));
+            } catch (error) {
+                console.error("Error searching data: ", error);
+            }
+        };
+
+        if (searchTerm === "") {
+            // Khi xóa tìm kiếm, phục hồi dữ liệu gốc
+            setState((prev) => ({
+                ...prev,
+                dataTable: originalData,
+            }));
+            // Xóa query params trong URL nhưng giữ phần /schedule
+            window.history.pushState(null, "", "/schedules");
+        } else {
+            handleSearch();
         }
-    }, []);
+    }, [searchTerm, currentPage, originalData]);
 
-    // Hàm xử lý xác nhận xóa
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleChange = (event) => {
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
     const confirmDelete = (item) => {
         setDeleteItemId(item.id);
         setShowConfirmModal(true);
     };
 
-    const handleDeleteConfirmation = async () => {
-        fetchData();
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Thêm logic xử lý thêm mới hoặc cập nhật dữ liệu ở đây
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+    const handleClassRChange = (event) => {
+        setClassR(event.target.value);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const url =
-                actionModal === "EDIT" ? `${api}/${initialIdCurrent}` : api;
-            const method = actionModal === "EDIT" ? axios.put : axios.post;
-            await method(url, formData);
-            toast.success(
-                `${
-                    actionModal === "EDIT" ? "Cập nhật" : "Thêm mới"
-                } thành công!`
-            );
-            fetchData(searchTerm, currentPage);
-            setFormData({
-                id: "",
-                ma_mon_hoc: "",
-                phong_hoc: "",
-                thoi_gian_bat_dau: "",
-                thoi_gian_ket_thuc: "",
-                ma_lop: "",
-                id_nhan_su: "",
-            });
-        } catch (error) {
-            console.error(`Error ${actionModal.toLowerCase()} item:`, error);
-            toast.error(`Failed to ${actionModal.toLowerCase()} item.`);
-        }
+    const handleStatusChange = (event) => {
+        setLecturerStatus(event.target.value);
     };
 
-    useEffect(() => {
-        if (actionModal === "EDIT" || actionModal === "VIEW") {
-            axios
-                .get(`${api}/${initialIdCurrent}`)
-                .then((res) => setFormData(res.data))
-                .catch((err) => console.error("Error fetching data:", err));
-        }
-    }, [actionModal, initialIdCurrent]);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
+
+    const columns = [
+        {
+            title: "Subject Name",
+            dataIndex: "subject_name",
+            key: "subject_name",
+        },
+        {
+            title: "Time",
+            dataIndex: "time",
+            key: "time",
+        },
+        {
+            title: "Start Time",
+            dataIndex: "start_time",
+            key: "start_time",
+        },
+        {
+            title: "End Time",
+            dataIndex: "end_time",
+            key: "end_time",
+        },
+        {
+            title: "Class Name",
+            dataIndex: "class_name",
+            key: "class_name",
+        },
+        {
+            title: "Classroom",
+            dataIndex: "classroom",
+            key: "classroom",
+        },
+        {
+            title: "Staff ID",
+            dataIndex: "staff_id",
+            key: "staff_id",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button
+                        variant="link"
+                        className="me-1"
+                        onClick={() => {
+                            setFormData({
+                                ...record,
+                            });
+                            setActionModal("VIEW");
+                            handleShow();
+                        }}
+                    >
+                        <BsEye className="text-secondary" />
+                    </Button>
+
+                    <Button
+                        variant="link"
+                        className="me-1"
+                        onClick={() => {
+                            setFormData({
+                                ...record,
+                            });
+                            setActionModal("EDIT");
+                            handleShow();
+                        }}
+                    >
+                        <BsPencil className="text-primary" />
+                    </Button>
+
+                    <Button
+                        variant="link"
+                        onClick={() => confirmDelete(record)}
+                    >
+                        <BsTrash className="text-danger" />
+                    </Button>
+                </Space>
+            ),
+        },
+    ];
 
     return (
         <>
@@ -294,326 +235,107 @@ const ScheduleComponent2 = () => {
             <section className="content">
                 <div className="container-fluid">
                     <div className="row justify-content-center">
-                        <div className="col-md-4">
+                        <div className="col-md-12">
                             <div className="card">
                                 <div className="card-body">
-                                    <Form onSubmit={handleSubmit}>
-                                        <h3 className="text-start mb-4">
-                                            {actionModal === "EDIT"
-                                                ? "Cập Nhật"
-                                                : "Thêm Mới"}
-                                        </h3>
-                                        <Row>
-                                            <Col md={6} className="mb-3">
-                                                <Form.Group controlId="ma_mon_hoc">
-                                                    <Form.Label>
-                                                        Tên môn học
-                                                    </Form.Label>
-                                                    <Input
-                                                        type="text"
-                                                        name="ma_mon_hoc"
-                                                        value={
-                                                            formData.ma_mon_hoc ||
-                                                            ""
-                                                        }
-                                                        onChange={handleChange}
-                                                        placeholder="Nhập tên môn học"
-                                                        className="form-control"
-                                                        disabled={
-                                                            actionModal ===
-                                                            "VIEW"
-                                                        }
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className="mb-3">
-                                                <Form.Group controlId="phong_hoc">
-                                                    <Form.Label>
-                                                        Phòng học
-                                                    </Form.Label>
-                                                    <Input
-                                                        type="text"
-                                                        name="phong_hoc"
-                                                        value={
-                                                            formData.phong_hoc ||
-                                                            ""
-                                                        }
-                                                        onChange={handleChange}
-                                                        placeholder="Nhập phòng học"
-                                                        className="form-control"
-                                                        disabled={
-                                                            actionModal ===
-                                                            "VIEW"
-                                                        }
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className="mb-3">
-                                                <Form.Group controlId="thoi_gian_bat_dau">
-                                                    <Form.Label>
-                                                        Thời gian bắt đầu
-                                                    </Form.Label>
-                                                    <Input
-                                                        type="text"
-                                                        name="thoi_gian_bat_dau"
-                                                        value={
-                                                            formData.thoi_gian_bat_dau ||
-                                                            ""
-                                                        }
-                                                        onChange={handleChange}
-                                                        className="form-control"
-                                                        disabled={
-                                                            actionModal ===
-                                                            "VIEW"
-                                                        }
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className="mb-3">
-                                                <Form.Group controlId="thoi_gian_ket_thuc">
-                                                    <Form.Label>
-                                                        Thời gian kết thúc
-                                                    </Form.Label>
-                                                    <Input
-                                                        type="text"
-                                                        name="thoi_gian_ket_thuc"
-                                                        value={
-                                                            formData.thoi_gian_ket_thuc ||
-                                                            ""
-                                                        }
-                                                        onChange={handleChange}
-                                                        className="form-control"
-                                                        disabled={
-                                                            actionModal ===
-                                                            "VIEW"
-                                                        }
-                                                    />
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className="mb-3">
-                                                <Form.Group controlId="ma_lop">
-                                                    <Form.Label>
-                                                        Chọn mã lớp
-                                                    </Form.Label>
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="ma_lop"
-                                                        value={
-                                                            formData.ma_lop ||
-                                                            ""
-                                                        }
-                                                        onChange={handleChange}
-                                                        disabled={
-                                                            actionModal ===
-                                                            "VIEW"
-                                                        }
-                                                    >
-                                                        <option value="">
-                                                            Chọn mã lớp
-                                                        </option>
-                                                        {IDClassOptions.map(
-                                                            (option) => (
-                                                                <option
-                                                                    key={
-                                                                        option.value
-                                                                    }
-                                                                    value={
-                                                                        option.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        option.name
-                                                                    }
-                                                                </option>
-                                                            )
-                                                        )}
-                                                    </Form.Control>
-                                                </Form.Group>
-                                            </Col>
-                                            <Col md={6} className="mb-3">
-                                                <Form.Group controlId="id_nhan_su">
-                                                    <Form.Label>
-                                                        Giảng viên
-                                                    </Form.Label>
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="id_nhan_su"
-                                                        value={
-                                                            formData.id_nhan_su ||
-                                                            ""
-                                                        }
-                                                        onChange={handleChange}
-                                                        disabled={
-                                                            actionModal ===
-                                                            "VIEW"
-                                                        }
-                                                    >
-                                                        <option value="">
-                                                            Chọn giảng viên
-                                                        </option>
-                                                        {LecturerOptions.map(
-                                                            (option) => (
-                                                                <option
-                                                                    key={
-                                                                        option.value
-                                                                    }
-                                                                    value={
-                                                                        option.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        option.name
-                                                                    }
-                                                                </option>
-                                                            )
-                                                        )}
-                                                    </Form.Control>
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                        <div className="d-flex justify-content-center">
-                                            <Button
-                                                variant="secondary"
-                                                className="me-2"
-                                                type="button"
-                                                onClick={() =>
-                                                    setState((prev) => ({
-                                                        ...prev,
-                                                        modalShow: false,
-                                                    }))
-                                                }
-                                            >
-                                                Huỷ bỏ
-                                            </Button>
-                                            {actionModal === "VIEW" ? (
-                                                <Button
-                                                    variant="primary"
-                                                    type="button"
-                                                >
-                                                    Chỉnh sửa
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="primary"
-                                                    type="submit"
-                                                >
-                                                    Lưu lại
-                                                </Button>
-                                            )}
-                                        </div>
-                                        {/*<ToastContainer/> /!* Add ToastContainer here *!/*/}
-                                    </Form>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-8">
-                            <div className="card">
-                                <div className="card-body">
-                                    <h3 className="text-start mb-4">
-                                        Danh sách lịch học
-                                    </h3>
-                                    <div className="d-flex mb-4 gap-2">
+                                    <div className="d-flex justify-content-between mb-4">
+                                        <h4 className="text-start">
+                                            Danh sách lịch học
+                                        </h4>
+                                    </div>
+                                    <div className="d-flex justify-content-between mb-4 gap-2">
                                         {/* Bộ lọc */}
-                                        <div className="col-md-2.5 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programClassR"
-                                                aria-label="ClassR"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={classR}
-                                                onChange={handleClassRChange}
-                                            >
-                                                <option value="">
-                                                    Chọn phòng học
-                                                </option>
-                                                {ClassRoomOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
+                                        <div className="col-md-2.5 d-flex gap-3">
+                                            <div className="">
+                                                <Form.Select
+                                                    id="programClassR"
+                                                    aria-label="ClassR"
+                                                    className="rounded-pill border-secondary flex-fill custom-width"
+                                                    value={classR}
+                                                    onChange={
+                                                        handleClassRChange
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        Chọn lớp học
+                                                    </option>
+                                                </Form.Select>
+                                            </div>
+                                            <div className="">
+                                                <Form.Select
+                                                    id="programStatus1"
+                                                    aria-label="Status"
+                                                    className="rounded-pill border-secondary flex-fill custom-width"
+                                                    value={lecturerStatus}
+                                                    onChange={
+                                                        handleStatusChange
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        Chọn phòng học
+                                                    </option>
+                                                </Form.Select>
+                                            </div>
+                                            <div className="">
+                                                <Form.Select
+                                                    id="programStatus2"
+                                                    aria-label="Status"
+                                                    className="rounded-pill border-secondary flex-fill custom-width"
+                                                    value={lecturerStatus}
+                                                    onChange={
+                                                        handleStatusChange
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        Chọn giảng viên
+                                                    </option>
+                                                </Form.Select>
+                                            </div>
                                         </div>
-                                        <div className="col-md-2 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus2"
-                                                aria-label="Program"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={program}
-                                                onChange={handleProgramChange}
-                                            >
-                                                <option value="">
-                                                    Chọn mã lớp
-                                                </option>
-                                                {IDClassOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
-                                        <div className="col-md-2.8 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus1"
-                                                aria-label="Status"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={status}
-                                                onChange={handleStatusChange}
-                                            >
-                                                <option value="">
-                                                    Chọn giảng viên
-                                                </option>
-                                                {LecturerOptions.map(
-                                                    (option) => (
-                                                        <option
-                                                            key={option.value}
-                                                            value={option.id}
-                                                        >
-                                                            {option.name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </Form.Select>
-                                        </div>
-
-                                        <div className="col-md-5 d-flex align-items-start divSearch">
+                                        <div className="col-md-4 d-flex divSearch">
                                             <input
                                                 type="text"
-                                                placeholder="Search..."
-                                                aria-label="Search input"
+                                                className=""
+                                                placeholder="Tìm kiếm"
                                                 value={searchTerm}
                                                 onChange={handleSearchChange}
-                                                onKeyDown={(event) => {
-                                                    if (event.key === "Enter") {
-                                                        event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
-                                                        handleSearch(); // Gọi hàm tìm kiếm
-                                                    }
-                                                }}
                                             />
                                             <Button
-                                                variant="outline-secondary"
-                                                size="sm"
-                                                aria-label="Search"
-                                                onClick={handleSearch}
+                                                variant=""
+                                                className="ms-2 rounded-circle"
                                             >
-                                                <i className="bi bi-search"></i>
+                                                <i className="fas fa-search"></i>
+                                            </Button>
+                                        </div>
+                                        <div className="col-md-2.5 d-flex">
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => {
+                                                    setFormData({});
+                                                    setActionModal("ADD");
+                                                    handleShow();
+                                                }}
+                                            >
+                                                Thêm Mới
                                             </Button>
                                         </div>
                                     </div>
-                                    <Table className={state.classTable}>
+                                    {/* <Table
+                                        bordered
+                                        hover
+                                        className={state.classTable}
+                                    >
                                         <thead>
                                             <tr>
-                                                {COLUMNS.map((col, index) => (
-                                                    <th key={index}>{col}</th>
-                                                ))}
+                                                <th>#</th>
+                                                <th>Subject Name</th>
+                                                <th>Time</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Class Name</th>
+                                                <th>Classroom</th>
+                                                <th>Staff ID</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -628,59 +350,33 @@ const ScheduleComponent2 = () => {
                                                                 1}
                                                         </td>
                                                         <td>
-                                                            {item.ma_mon_hoc}
+                                                            {item.subject_name}
+                                                        </td>
+                                                        <td>{item.time}</td>
+                                                        <td>
+                                                            {moment(
+                                                                item.start_time
+                                                            ).format(
+                                                                "MM/DD/YYYY"
+                                                            )}
                                                         </td>
                                                         <td>
-                                                            {item.phong_hoc}
+                                                            {moment(
+                                                                item.end_time
+                                                            ).format(
+                                                                "MM/DD/YYYY"
+                                                            )}
                                                         </td>
                                                         <td>
-                                                            {
-                                                                item.thoi_gian_bat_dau
-                                                            }
+                                                            {item.class_name}
                                                         </td>
                                                         <td>
-                                                            {
-                                                                item.thoi_gian_ket_thuc
-                                                            }
+                                                            {item.classroom}
                                                         </td>
-                                                        <td
-                                                            className={
-                                                                item.ma_lop ===
-                                                                0
-                                                                    ? "text-success"
-                                                                    : item.ma_lop ===
-                                                                      1
-                                                                    ? "text-secondary"
-                                                                    : ""
-                                                            }
-                                                        >
-                                                            {IDClassOptions.find(
-                                                                (program) =>
-                                                                    program.id ===
-                                                                    item.ma_lop
-                                                            )?.name || "N/A"}
-                                                        </td>
-
-                                                        <td
-                                                            className={
-                                                                item.id_nhan_su ===
-                                                                0
-                                                                    ? "text-success"
-                                                                    : item.id_nhan_su ===
-                                                                      1
-                                                                    ? "text-secondary"
-                                                                    : ""
-                                                            }
-                                                        >
-                                                            {LecturerOptions.find(
-                                                                (status) =>
-                                                                    status.id ===
-                                                                    item.id_nhan_su
-                                                            )?.name || "N/A"}
-                                                        </td>
+                                                        <td>{item.staffId}</td>
                                                         <td>
                                                             <Button
-                                                                variant="light"
+                                                                variant="link"
                                                                 className="me-1"
                                                                 onClick={() => {
                                                                     setFormData(
@@ -688,59 +384,58 @@ const ScheduleComponent2 = () => {
                                                                             ...item,
                                                                         }
                                                                     );
-                                                                    setInitialIdCurrent(
-                                                                        item.id
-                                                                    );
                                                                     setActionModal(
                                                                         "VIEW"
                                                                     );
+                                                                    handleShow();
                                                                 }}
                                                             >
-                                                                <BsEye />
+                                                                <BsEye className="text-secondary" />
                                                             </Button>
                                                             <Button
-                                                                variant="primary"
+                                                                variant="link"
                                                                 className="me-1"
                                                                 onClick={() => {
                                                                     setFormData(
-                                                                        item
-                                                                    );
-                                                                    setInitialIdCurrent(
-                                                                        item.id
+                                                                        {
+                                                                            ...item,
+                                                                        }
                                                                     );
                                                                     setActionModal(
                                                                         "EDIT"
                                                                     );
+                                                                    handleShow();
                                                                 }}
                                                             >
-                                                                <BsPencil />
+                                                                <BsPencil className="text-primary" />
                                                             </Button>
                                                             <Button
-                                                                variant="danger"
+                                                                variant="link"
                                                                 onClick={() =>
                                                                     confirmDelete(
                                                                         item
                                                                     )
                                                                 }
                                                             >
-                                                                <BsTrash />
+                                                                <BsTrash className="text-danger" />
                                                             </Button>
                                                         </td>
                                                     </tr>
                                                 )
                                             )}
                                         </tbody>
-                                    </Table>
-                                    {/* Phân trang */}
-                                    <div className="row justify-content-center mt-3">
-                                        <div className="col-auto">
-                                            <PagingComponent
-                                                totalPage={totalPages}
-                                                currentPage={currentPage}
-                                                onPageChange={handlePageChange}
-                                            />
-                                        </div>
-                                    </div>
+                                    </Table> */}
+                                    <Table
+                                        columns={columns}
+                                        dataSource={originalData}
+                                        rowKey="id"
+                                    />
+                                    {/* Pagination */}
+                                    <PagingComponent
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        onPageChange={handlePageChange}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -748,14 +443,167 @@ const ScheduleComponent2 = () => {
                 </div>
             </section>
             <ToastContainer />
-            {/* Modal xác nhận xóa */}
             <DeleteComponent
                 show={showConfirmModal}
                 onHide={() => setShowConfirmModal(false)}
-                onConfirm={() => fetchData()}
-                deleteItemID={deleteItemId}
-                apiDelete={api}
+                onDelete={() => {
+                    // Thêm logic xóa dữ liệu ở đây
+                    setShowConfirmModal(false);
+                }}
             />
+            {/* Modal Form */}
+            <div
+                className={`modal fade ${showModal ? "show d-block" : ""}`}
+                id="exampleModal"
+                tabIndex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+                style={{ display: showModal ? "block" : "none" }}
+            >
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">
+                                {actionModal === "ADD"
+                                    ? "Thêm Mới"
+                                    : "Chỉnh Sửa"}
+                            </h5>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                onClick={handleClose}
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <Form onSubmit={handleSubmit}>
+                            <div className="modal-body">
+                                <Row>
+                                    {/* Cột bên trái */}
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>
+                                                Subject Name
+                                            </Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="subjectId"
+                                                value={
+                                                    formData.subject_name || ""
+                                                }
+                                                onChange={handleChange}
+                                                placeholder="Enter Subject Name"
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Start Time</Form.Label>
+                                            <Form.Control
+                                                type="date"
+                                                name="startTime"
+                                                value={
+                                                    formData.start_time || ""
+                                                }
+                                                onChange={handleChange}
+                                                placeholder="Enter Start Time"
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Class Name</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="classId"
+                                                value={
+                                                    formData.class_name || ""
+                                                }
+                                                onChange={handleChange}
+                                                placeholder="Enter Class Name"
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Staff Name</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="staffId"
+                                                value={
+                                                    formData.staff_name || ""
+                                                }
+                                                onChange={handleChange}
+                                                placeholder="Enter Staff ID"
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    {/* Cột bên phải */}
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Time</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="time"
+                                                value={formData.time || ""}
+                                                onChange={handleChange}
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                                placeholder="Enter Time"
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>End Time</Form.Label>
+                                            <Form.Control
+                                                type="date"
+                                                name="endTime"
+                                                value={formData.end_time || ""}
+                                                onChange={handleChange}
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                                placeholder="Enter End Time"
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Classroom</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="classroom"
+                                                value={formData.classroom || ""}
+                                                onChange={handleChange}
+                                                readOnly={
+                                                    actionModal === "VIEW"
+                                                }
+                                                placeholder="Enter Classroom"
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            </div>
+                            <div className="modal-footer">
+                                <Button
+                                    variant="secondary"
+                                    onClick={handleClose}
+                                >
+                                    Close
+                                </Button>
+                                <Button variant="primary" type="submit">
+                                    {actionModal === "ADD"
+                                        ? "Add"
+                                        : "Save changes"}
+                                </Button>
+                            </div>
+                        </Form>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };
