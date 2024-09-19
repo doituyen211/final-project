@@ -112,9 +112,10 @@ const COLUMNS = [
     "Giới tính",
     "Chương trình học quan tâm",
     "Thời gian ghi nhận",
+    "Thời gian cập nhập",
     "Người phụ trách",
     "Số điện thoại",
-    "Nguồn",
+    // "Nguồn",
     "Địa chỉ (nếu cần)",
     "Ghi chú",
     "Trạng thái",
@@ -151,10 +152,11 @@ const CustomerSaleComponent = () => {
     const fetchData = useCallback(
         async (search = "", page = 1) => {
             try {
-                const {data} = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
+                const {data} = await axios.get(`http://localhost:9001/api/v1/customers?search=${search}&page=${page - 1}`);
+                console.log("DATA" + JSON.stringify(data.data.content))
                 setState(prevState => ({
                     ...prevState,
-                    dataTable: data,
+                    dataTable: data.data.content,
                 }));
                 setCurrentPage(page);
                 setTotalPages(data.totalPages);
@@ -173,7 +175,7 @@ const CustomerSaleComponent = () => {
                 axios.get("/data/phuongthucthanhtoan.json")
             ]);
             setStatusOptions(statusResponse.data.data);
-            setProgramOptions(programResponse.data);
+            setProgramOptions(programResponse.data.data);
             setPaymentOptions(paymentResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
@@ -434,38 +436,68 @@ const CustomerSaleComponent = () => {
                                         </thead>
                                         <tbody>
                                         {state.dataTable.map((item, index) => (
-                                            <tr key={item.subject_id}>
+                                            <tr key={item.id}>
+                                                {/* Display the current index adjusted for pagination */}
                                                 <td>{index + 10 * (currentPage - 1) + 1}</td>
-                                                <td>
-                                                    {programOptions.find(program => program.id === item.id_ctdt)?.name || 'N/A'}
-                                                </td>
-                                                <td>{item.so_tien}</td>
-                                                <td>
-                                                    {item.phuong_thuc_thanh_toan
-                                                        .map(value => paymentOptions.find(option => option.id === value)?.name || 'N/A')
-                                                        .join(', ')
-                                                    }
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+
+                                                {/* Display the program interest name */}
+                                                <td>{item.customer_name}</td>
+
+                                                {/* Gender: you can format this based on the gender value */}
+                                                <td>{item.gender === "1" ? "Male" : "Female"}</td>
+
+                                                {/* Display the program_interest */}
+                                                <td>{item.program_interest}</td>
+
+                                                {/* Created at */}
+                                                <td>{new Date(item.createdAt).toLocaleString()}</td>
+
+                                                {/* Updated at */}
+                                                <td>{new Date(item.updatedAt).toLocaleString()}</td>
+
+                                                {/* Display the responsible person */}
+                                                <td>{item.responsible_person}</td>
+
+                                                {/* Display the phone number */}
+                                                <td>{item.phone_number}</td>
+
+                                                {/*/!* Facebook link *!/*/}
+                                                {/*<td>*/}
+                                                {/*    <a href={`https://${item.facebookLink}`} target="_blank"*/}
+                                                {/*       rel="noopener noreferrer">*/}
+                                                {/*        {item.facebookLink}*/}
+                                                {/*    </a>*/}
+                                                {/*</td>*/}
+
+
+                                                {/* Display the address */}
+                                                <td>{item.address}</td>
+
+                                                {/* Display the address */}
+                                                <td>{item.note}</td>
+
+
+                                                {/* Status (active, inactive, etc.) */}
+                                                <td>{item.status === 1 ? "Active" : "Inactive"}</td>
+
                                                 <td className="text-center">
-                                                    <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsEye className="text-secondary"/>
-                                                    </Button>
-                                                    <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsPencil className="text-primary"/>
-                                                    </Button>
-                                                    <Button variant="link" onClick={() => confirmDelete(item)}>
-                                                        <BsTrash className="text-danger"/>
-                                                    </Button>
+                                                    <div
+                                                        className="d-flex flex-row flex-md-column justify-content-center gap-2">
+                                                        <Button variant="link" onClick={() => handleEdit(item.id)}>
+                                                            <BsEye className="text-secondary"/>
+                                                        </Button>
+                                                        <Button variant="link" onClick={() => handleEdit(item.id)}>
+                                                            <BsPencil className="text-primary"/>
+                                                        </Button>
+                                                        <Button variant="link" onClick={() => confirmDelete(item)}>
+                                                            <BsTrash className="text-danger"/>
+                                                        </Button>
+                                                    </div>
                                                 </td>
+
                                             </tr>
                                         ))}
+
                                         </tbody>
                                     </Table>
                                     {/* Phân trang */}
