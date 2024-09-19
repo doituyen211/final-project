@@ -36,9 +36,10 @@ const TrainningProgramComponent = () => {
     try {
       setIsLoading(true);
       let response = await fetchAllTrainingPrograms(page, searchItem);
+      console.log(response)
       if (response || response.data) {
         // console.log("DATA" + JSON.stringify(response))
-        setDataTable(response);
+        setDataTable(response.data);
         setTotalPages(10);
       }
     } catch (error) {
