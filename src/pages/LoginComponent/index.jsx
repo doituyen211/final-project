@@ -12,6 +12,7 @@ import Spinner from 'react-bootstrap/Spinner';
 const LoginComponent = () => {
     const [action, setAction] = useState('');
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const navigate = useNavigate();
@@ -47,6 +48,7 @@ const LoginComponent = () => {
         axios.post(API.REGISTER, {
             email,
             password,
+            username,
             fullName,
             "role": "USER"
         }).then(
@@ -154,6 +156,16 @@ const LoginComponent = () => {
                                                 <Form.Control type="email" placeholder="Email"
                                                               value={email}
                                                               onChange={(e) => setEmail(e.target.value)}
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row className='justify-content-center align-items-center'>
+                                        <Col xs={12} md={10}>
+                                            <Form.Group controlId="username">
+                                                <Form.Control type="text" placeholder="Username"
+                                                              value={username}
+                                                              onChange={(e) => setUsername(e.target.value)}
                                                 />
                                             </Form.Group>
                                         </Col>
