@@ -45,30 +45,37 @@ public class ClassMembersService implements IClassMembersService {
     }
 
     @Override
-    public ResponseEntity<?> findALL(ClassMembersFillterForm form , int page , int pageSize,
-                                     String sortDir, String sortBy     ) {
-        //search
-        Specification<ClassMembers> spec = ClassMembersSpecification.buildSpec(form) ;
+    public ResponseEntity<?> findALL(ClassMembersFillterForm form, int page, int pageSize,
+                                     String sortDir, String sortBy) {
+        // Convert page number from 1-based to 0-based
+        int zeroBasedPage = page - 1;
 
-        //Sort
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending() ;
+        // Search
+        Specification<ClassMembers> spec = ClassMembersSpecification.buildSpec(form);
 
-        //Paging
-        Pageable pageable = PageRequest.of(page,pageSize,sort) ;
+        // Sort
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
 
-        Page<ClassMembers> classMembers = classMembersRepository.findAll(spec,pageable) ;
+        // Paging
+        Pageable pageable = PageRequest.of(zeroBasedPage, pageSize, sort);
 
+        // Fetch the data
+        Page<ClassMembers> classMembers = classMembersRepository.findAll(spec, pageable);
+
+        // Prepare the response
         Map<String, Object> response = new HashMap<>();
-        response.put("page",page);
-        response.put("pageSize",pageSize) ;
-        response.put("totalPages",classMembers.getTotalPages()) ;
-        response.put("totalElements",classMembers.getTotalElements()) ;
+        response.put("page", page); // Keep the original page number for the response
+        response.put("pageSize", pageSize);
+        response.put("totalPages", classMembers.getTotalPages());
+        response.put("totalElements", classMembers.getTotalElements());
         response.put("content", classMembers.getContent().stream().map(classMember -> {
-            ClassMembersDto classMembersDto = mapper.map(classMember, ClassMembersDto.class) ;
-            return classMembersDto ;
-        }  ).toList() );
+            ClassMembersDto classMembersDto = mapper.map(classMember, ClassMembersDto.class);
+            return classMembersDto;
+        }).toList());
 
-        return ResponseEntity.ok(response) ;
+        return ResponseEntity.ok(response);
     }
     @Override
     public ResponseEntity<?> findById(Integer id) {
