@@ -16,13 +16,11 @@ public class ClassMembers {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @Column(name = "student_id")
+    private Integer studentId;
 
-    @ManyToOne
-    @JoinColumn(name = "class_id")
-    private Class mclass;
+    @Column(name = "class_id")
+    private Integer classId;
 
     private Integer status;
 
