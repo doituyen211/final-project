@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e372ff80-0a63-47e5-927e-46d9b6d39d20" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/SalaryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/converter/SalaryConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/dto/SalaryDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/request/SalarySearch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/response/SalaryRespons.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/entity/Salary.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/entity/Salary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/repository/SalaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/repository/SalaryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/ISalaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/ISalaryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/SalaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/SalaryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/resources/db/changelog/changelog-master.sql" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/resources/db/changelog/changelog-master.sql" afterDir="false" />
-    </list>
+    <list default="true" id="e372ff80-0a63-47e5-927e-46d9b6d39d20" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -252,7 +240,7 @@
       <workItem from="1726582342239" duration="264000" />
       <workItem from="1726582621534" duration="6720000" />
       <workItem from="1726628420535" duration="5795000" />
-      <workItem from="1726797902548" duration="8025000" />
+      <workItem from="1726797902548" duration="8373000" />
     </task>
     <servers />
   </component>
