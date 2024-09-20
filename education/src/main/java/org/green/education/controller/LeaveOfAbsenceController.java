@@ -118,8 +118,6 @@ public class LeaveOfAbsenceController {
                 .code(response.getCode())
                 .message(response.getMessage())
                 .build());
-    }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
@@ -154,7 +152,7 @@ public class LeaveOfAbsenceController {
 
         // Update student
         Optional<Student> studentOpt = studentRepository.findById(leaveOfAbsenceCreateForm.getStudentId());
-        if (!studentOpt.isPresent()) {
+        if (!studentOpt.isPresent()) {-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message("Student Id does not exist")

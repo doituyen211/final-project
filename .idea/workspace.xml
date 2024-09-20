@@ -13,6 +13,18 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -22,8 +34,20 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="education" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -49,7 +73,11 @@
     "git-widget-placeholder": "be/khainq/reser",
     "jdk.selected.JAVA_MODULE": "openjdk-22",
     "kotlin-language-version-configured": "true",
+<<<<<<< HEAD
     "last_opened_file_path": "C:/Users/pc/Desktop/be/backend-green",
+=======
+    "last_opened_file_path": "C:/Users/pc/Desktop/New folder",
+>>>>>>> education
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -85,7 +113,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.EducationApplication">
+  <component name="RunManager" selected="Spring Boot.EducationApplication">
     <configuration name="EducationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.green.education.EducationApplication" />
       <module name="education" />
@@ -151,6 +179,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.EducationApplication" />
+        <item itemvalue="Application.EducationApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -174,7 +203,12 @@
       <workItem from="1725961002529" duration="872000" />
       <workItem from="1726193816471" duration="5309000" />
       <workItem from="1726555048097" duration="9511000" />
+<<<<<<< HEAD
       <workItem from="1726798278649" duration="6542000" />
+=======
+      <workItem from="1726810353498" duration="7000" />
+      <workItem from="1726810526556" duration="30000" />
+>>>>>>> education
     </task>
     <servers />
   </component>

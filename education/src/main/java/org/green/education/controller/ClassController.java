@@ -17,14 +17,24 @@ public class ClassController {
     @Autowired
     IClassService iClassService;
 
+    @GetMapping
+    public CoreResponse<?> getClassList(
+            @RequestParam(required = false) String className,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
+
+        if (className != null) {
+            return iClassService.findByClassNameContainingIgnoreCase(className);
+        } else if (startDate != null && endDate != null) {
+            return iClassService.findByStartDateAndEndDate(startDate, endDate);
+        } else {
+            return iClassService.getClassList();
+        }
+    }
+
     @GetMapping("/{classId}")
     public CoreResponse<?> getClassById(@PathVariable int classId) {
         return iClassService.getClassById(classId);
-    }
-
-    @GetMapping("")
-    public CoreResponse<?> getClassList() {
-        return iClassService.getClassList();
     }
 
     @GetMapping("/classMember/{classId}")
@@ -60,18 +70,8 @@ public class ClassController {
         return response;
     }
 
-    @GetMapping("/searchByClassName")
-    public CoreResponse<?> findByClassNameContainingIgnoreCase(
-            @RequestParam String className) {
-        return iClassService.findByClassNameContainingIgnoreCase(className);
+    @DeleteMapping("/{classId}")
+    public CoreResponse<?> deleteClass(@PathVariable int classId) {
+        return iClassService.deleteClass(classId);
     }
-
-    @GetMapping("/searchByDate")
-    public CoreResponse<?> findByStartDateAndEndDate(
-            @RequestParam LocalDate startDate,
-            @RequestParam LocalDate endDate) {
-        return iClassService.findByStartDateAndEndDate(startDate, endDate);
-    }
-
-
 }

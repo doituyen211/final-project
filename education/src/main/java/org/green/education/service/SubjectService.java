@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectService implements ISubjectService {
@@ -181,4 +182,25 @@ public class SubjectService implements ISubjectService {
                 .data(null)
                 .build();
     }
+    @Override
+    public CoreResponse<?> GetAllProgram() {
+        // Fetch all training programs
+        List<TrainingProgram> programs = programRepository.findAll(Sort.by(Sort.Direction.ASC, "programId"));
+
+        // Map the TrainingProgram entities to a simple DTO with only id and name
+        List<Map<String, Object>> programDtos = programs.stream().map(program -> {
+            Map<String, Object> programDto = new HashMap<>();
+            programDto.put("id", program.getProgramId());
+            programDto.put("name", program.getProgramName());
+            return programDto;
+        }).collect(Collectors.toList());
+
+        // Return the response with the mapped data
+        return CoreResponse.builder()
+                .code(200)
+                .message("Training programs retrieved successfully")
+                .data(programDtos)
+                .build();
+    }
+
 }
