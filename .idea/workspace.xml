@@ -5,19 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e372ff80-0a63-47e5-927e-46d9b6d39d20" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/RewardDisciplineController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/converter/RDConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/request/RDSearch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/response/RDResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/SalaryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/converter/SalaryConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/dto/SalaryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/request/SalarySearch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/response/SalaryRespons.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/ContractController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/dto/RewardDisciplineDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/dto/RewardDisciplineDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/response/ContractResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/model/response/ContractResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/repository/RewardDisciplineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/repository/RewardDisciplineRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/IRewardDisciplineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/IRewardDisciplineService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/RewardDisciplineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/RewardDisciplineService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/util/UploadFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/util/UploadFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/entity/Salary.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/entity/Salary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/repository/SalaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/repository/SalaryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/ISalaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/ISalaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/SalaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/SalaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr/src/main/resources/db/changelog/changelog-master.sql" beforeDir="false" afterPath="$PROJECT_DIR$/hr/src/main/resources/db/changelog/changelog-master.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,22 +51,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitLabMergeRequestFiltersHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPENED",
-    "assignee": {
-      "type": "org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue",
-      "username": "anhcv",
-      "fullname": "Chu Văn Anh"
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;anhcv&quot;,
+      &quot;fullname&quot;: &quot;Chu Văn Anh&quot;
     }
   }
-}]]></component>
-  <component name="GitLabMergeRequestsSettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "first": "https://git.lsd.vn/green-academy/backend-green.git",
-    "second": "cf5718ed-13a9-4d24-a4d0-b8cb853bd787"
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://git.lsd.vn/green-academy/backend-green.git&quot;,
+    &quot;second&quot;: &quot;cf5718ed-13a9-4d24-a4d0-b8cb853bd787&quot;
   }
-}]]></component>
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -119,7 +117,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.EducationApplication.executor": "Run",
-    "Spring Boot.HrApplication.executor": "Debug",
+    "Spring Boot.HrApplication.executor": "Run",
     "Spring Boot.ReceivableApplication.executor": "Debug",
     "git-widget-placeholder": "feature/anhcv/contract",
     "ignore.virus.scanning.warn.message": "true",
@@ -254,6 +252,7 @@
       <workItem from="1726582342239" duration="264000" />
       <workItem from="1726582621534" duration="6720000" />
       <workItem from="1726628420535" duration="5795000" />
+      <workItem from="1726797902548" duration="8025000" />
     </task>
     <servers />
   </component>
@@ -291,24 +290,6 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/RewardDisciplineController.java</url>
-          <line>77</line>
-          <properties class="org.green.hr.controller.RewardDisciplineController" method="createRewardDiscipline">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="53" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/ContractService.java</url>
-          <line>36</line>
-          <properties class="org.green.hr.service.impl.ContractService" method="handleSaveContract">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/QualificationController.java</url>
@@ -349,16 +330,6 @@
           <url>file://$PROJECT_DIR$/hr/src/main/java/org/green/hr/service/impl/RewardDisciplineService.java</url>
           <line>54</line>
           <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/RewardDisciplineController.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/hr/src/main/java/org/green/hr/controller/RewardDisciplineController.java</url>
-          <line>86</line>
-          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

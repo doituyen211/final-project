@@ -26,7 +26,7 @@ public class RewardDisciplineController {
     @Autowired
     private UploadFile uploadFile;
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<CoreResponse> getAllRewardDisciplines(@RequestParam(name = "page", defaultValue = "1", required = false) int pageNo,
                                                         @RequestParam(name = "size", defaultValue = "10", required = false) int pageSize) {
 
