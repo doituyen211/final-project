@@ -15,27 +15,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TimeOffDTO {
-
-  Long timeOffId;
+public class WorkProcessDTO {
+  Long workProcessId;
+  Integer timeOff;
   @JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
-  Date dateStart;
-
-  @JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
-  @NotNull(message = "DATE_NOT_NULL")
-  Date dateEnd;
-
-  Integer dayNumber;
-
+  Date workDate;
   @NotNull(message = "STATUS_NULL")
   @Min(value = 0, message = "STATUS_MIN_0")
   @Max(value = 1, message = "STATUS_MAX_1")
   Short status;
-
   @JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
   Date createAt;
   @JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
   Date updateAt;
   @NotNull(message = "EMPLOYEE_NOT_FOUND")
   Long employeeId;
+  @NotNull(message = "REWARD_DISCIPLINE_NOT_FOUND")
+  Long rewardDisciplineId;
 }

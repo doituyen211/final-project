@@ -1,7 +1,6 @@
 package org.green.hr.service;
 
 import java.util.List;
-import org.green.hr.dto.SalaryAdvanceDTO;
 import org.green.hr.dto.TimeOffDTO;
 
 public interface ITimeOffService {

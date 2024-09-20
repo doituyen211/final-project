@@ -39,9 +39,6 @@ public class TimeOffService implements ITimeOffService {
   public TimeOffDTO updateTimeOff(long timeOffId, TimeOffDTO timeOffDTO) {
     TimeOff timeOff = timeOffRepository.findById(timeOffId)
         .orElseThrow(() -> new AppException(ErrorCode.TIME_OFF_NOT_FOUND));
-    if (timeOffDTO.getDateEnd().before(timeOffDTO.getDateStart())) {
-      throw new AppException(ErrorCode.DATE_END_BEFORE_DATE_START);
-    }
     timeOff.setDateStart(timeOffDTO.getDateStart());
     timeOff.setDateEnd(timeOffDTO.getDateEnd());
     long diffInMillies = Math.abs(timeOffDTO.getDateEnd().getTime() - timeOffDTO.getDateStart().getTime());
