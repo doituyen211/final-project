@@ -45,30 +45,37 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public ResponseEntity<?> findALL(CourseFilterForm form , int page , int pageSize,
-                                     String sortDir, String sortBy     ) {
-        //search
-        Specification<Course> spec = CourseSpecification.buildSpec(form) ;
+    public ResponseEntity<?> findALL(CourseFilterForm form, int page, int pageSize,
+                                     String sortDir, String sortBy) {
+        // Convert page number from 1-based to 0-based
+        int zeroBasedPage = page - 1;
 
-        //Sort
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending() ;
+        // Search
+        Specification<Course> spec = CourseSpecification.buildSpec(form);
 
-        //Paging
-        Pageable pageable = PageRequest.of(page,pageSize,sort) ;
+        // Sort
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
 
-        Page<Course> courses = courseRepository.findAll(spec,pageable) ;
+        // Paging
+        Pageable pageable = PageRequest.of(zeroBasedPage, pageSize, sort);
 
+        // Fetch the data
+        Page<Course> courses = courseRepository.findAll(spec, pageable);
+
+        // Prepare the response
         Map<String, Object> response = new HashMap<>();
-        response.put("page",page);
-        response.put("pageSize",pageSize) ;
-        response.put("totalPages",courses.getTotalPages()) ;
-        response.put("totalElements",courses.getTotalElements()) ;
-        response.put("content", courses.getContent().stream().map(course  -> {
-            CourseDto courseDto = mapper.map(course, CourseDto.class) ;
-            return courseDto ;
-        }  ).toList() );
+        response.put("page", page); // Keep the original page number for the response
+        response.put("pageSize", pageSize);
+        response.put("totalPages", courses.getTotalPages());
+        response.put("totalElements", courses.getTotalElements());
+        response.put("content", courses.getContent().stream().map(course -> {
+            CourseDto courseDto = mapper.map(course, CourseDto.class);
+            return courseDto;
+        }).toList());
 
-        return ResponseEntity.ok(response) ;
+        return ResponseEntity.ok(response);
     }
     @Override
     public ResponseEntity<?> findnoALL(CourseFilterForm form, String sortDir, String sortBy) {
