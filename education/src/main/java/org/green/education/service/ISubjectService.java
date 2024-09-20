@@ -16,4 +16,5 @@ public interface ISubjectService {
 
     CoreResponse<?> deleteById(Integer id);
     CoreResponse<?> findAllNotPaging( ) ;
+    CoreResponse<?> GetAllProgram( ) ;
 }

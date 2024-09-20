@@ -1,15 +1,20 @@
 
-X
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ
-A
-java:S1452"&Remove usage of generic wildcard type.(Ž‰£Õøÿÿÿÿ
-A
-java:S1452"&Remove usage of generic wildcard type.(¹áÅ™ùÿÿÿÿ
-<
-java:S1452!"&Remove usage of generic wildcard type.(åíËŠ
-A
-java:S1452'"&Remove usage of generic wildcard type.(¼ôûöýÿÿÿÿ
-A
-java:S1452,"&Remove usage of generic wildcard type.(ïòî™ûÿÿÿÿ
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8¢Ì É 2
+H
+java:S1452"&Remove usage of generic wildcard type.(Ž‰£Õøÿÿÿÿ8¤Ì É 2
+H
+java:S1452"&Remove usage of generic wildcard type.(¹áÅ™ùÿÿÿÿ8¥Ì É 2
 C
-java:S14521"&Remove usage of generic wildcard type.(‚ÓºÅ8ñ¾²Ï2
+java:S1452!"&Remove usage of generic wildcard type.(åíËŠ8¨Ì É 2
+H
+java:S1452'"&Remove usage of generic wildcard type.(¼ôûöýÿÿÿÿ8¨Ì É 2
+H
+java:S1452,"&Remove usage of generic wildcard type.(ïòî™ûÿÿÿÿ8©Ì É 2
+C
+java:S14521"&Remove usage of generic wildcard type.(‚ÓºÅ8ªÌ É 2
+j	java:S1007"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÒƒî8ªÌ É 2
+C
+java:S14527"&Remove usage of generic wildcard type.(µÒƒî8«Ì É 2
+f
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8«Ì É 2

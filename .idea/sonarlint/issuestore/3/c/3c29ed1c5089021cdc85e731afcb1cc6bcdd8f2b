@@ -1,7 +1,11 @@
 
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8†”ÔáŸ2
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÇÔÉ 2
 _
-java:S6813 "BRemove this field injection and use constructor injection instead.(êæÄŞ8†”ÔáŸ2
+java:S6813!"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÈÔÉ 2
 _
-java:S6813""BRemove this field injection and use constructor injection instead.(êæÄŞ8†”ÔáŸ2
+java:S6813#"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÈÔÉ 2
+p
+java:S6204Ä"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(œçÖß8ºª•É 2
+f
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8æß™É 2

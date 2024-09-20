@@ -1,9 +1,11 @@
 package org.green.education.service;
 
+import org.green.core.model.CoreResponse;
 import org.green.education.dto.CustomerDto;
 import org.green.education.dto.SubjectDto;
 import org.green.education.entity.Student;
 import org.green.education.entity.Subject;
+import org.green.education.form.CustomerFilterForm;
 import org.green.education.form.SubjectFilterForm;
 import org.green.education.repository.IStudentRepository;
 import org.green.education.repository.ITrainingProgramRepository;
@@ -32,10 +34,10 @@ public class CustomerService implements ICustomerService {
     private ModelMapper mapper ;
 
     @Override
-    public ResponseEntity<?> findALL(SubjectFilterForm form, int page, int pageSize,
-                                     String sortDir, String sortBy) {
+    public CoreResponse<?> findALL(CustomerFilterForm form, int page, int pageSize,
+                                   String sortDir, String sortBy) {
 
-        //searc
+        //search
         Specification<Student> spec = CustomerSpecification.buildSpec(form) ;
 
         //Sort
@@ -53,11 +55,16 @@ public class CustomerService implements ICustomerService {
         response.put("totalElements",customers.getTotalElements()) ;
         response.put("content", customers.getContent().stream().map(customer -> {
             CustomerDto customerDto = mapper.map(customer, CustomerDto.class) ;
-            customerDto.setProgramInterestId(customer.getProgramId());
+            customerDto.setProgramInterest(programRepository.findById(customer.getProgramId()).get().getProgramName());
+            customerDto.setResponsiblePersonId(customer.getSale().getId());
+            customerDto.setResponsiblePerson(customer.getSale().getFullName());
             return customerDto ;
         }  ).toList() );
 //
-        return ResponseEntity.ok("ok") ;
-
+        return CoreResponse.<Map<String, Object>>builder()
+                .code(200)
+                .message("Success")
+                .data(response)
+                .build();
     }
 }
