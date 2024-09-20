@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="adding skeleton schedule">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/controller/LeaveOfAbsenceController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +45,9 @@
     <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -67,10 +70,10 @@
     "Spring Boot.ReceivableApplication.executor": "Debug",
     "WebServerToolWindowFactoryState": "false",
     "android.gradle.sync.needed": "true",
-    "git-widget-placeholder": "7369db50",
+    "git-widget-placeholder": "education",
     "jdk.selected.JAVA_MODULE": "openjdk-22",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/BE/backend-green",
+    "last_opened_file_path": "C:/Users/pc/Desktop/New folder",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -197,6 +200,7 @@
       <workItem from="1726193816471" duration="5309000" />
       <workItem from="1726555048097" duration="9511000" />
       <workItem from="1726810353498" duration="7000" />
+      <workItem from="1726810526556" duration="30000" />
     </task>
     <servers />
   </component>
