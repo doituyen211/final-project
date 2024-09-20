@@ -193,11 +193,11 @@ public class GradeService implements IGradeService {
                 double averageGrade = scoreList.stream().mapToInt(Integer::intValue).average().orElse(0.0);
                 String status = averageGrade >= 50 ? "Graduation" : "Failed Graduation";
 
-                result.put("Status Graduation", status);
-                result.put("First Score", firstScore);
-                result.put("Second Score", secondScore);
-                result.put("Third Score", thirdScore);
-                result.put("Average Grade", averageGrade);
+                result.put("status_Graduation", status);
+                result.put("first_Score", firstScore);
+                result.put("second_Score", secondScore);
+                result.put("third_Score", thirdScore);
+                result.put("average_Grade", averageGrade);
                 result.put("grade", studentGrades);
 
                 responseData.add(result);
