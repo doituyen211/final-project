@@ -74,7 +74,7 @@ export default function UpdateForm({
       if (dataRow) {
         setUpdateData({
           grade: dataRow.grade || "",
-          studentId: findIdByName(dataRow.studenName, studentOptions) || "",
+          studentId: findIdByName(dataRow.studentName, studentOptions) || "",
           trainingProgramId:
             findIdByName(dataRow.programName, trainningProgramOptions) || "",
           subjectId: findIdByName(dataRow.subjectName, subjectOptions) || "",
