@@ -17,6 +17,6 @@ public class ClassMembersDto {
     private Integer classId;
 
     @JsonProperty("status")
-    private String status;
+    private Integer status;
 
 }

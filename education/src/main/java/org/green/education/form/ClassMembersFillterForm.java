@@ -8,6 +8,7 @@ public class ClassMembersFillterForm {
 
     String search ;
     Integer status ;
-    Integer program ;
+    Integer classid ;
+    Integer studentid ;
 
 }

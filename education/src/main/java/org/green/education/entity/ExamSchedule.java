@@ -34,4 +34,6 @@ public class ExamSchedule {
 
     @Column(name = "status")
     private Boolean status;
+
+
 }

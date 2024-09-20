@@ -21,9 +21,10 @@ public class ClassMembersController {
         return classMembersService.create(classMembersDto);
     }
 
+
     @GetMapping()
     public ResponseEntity<?> getData(
-            ClassMembersFillterForm form , @RequestParam(value = "page" , defaultValue = "0", required = false) int page ,
+            ClassMembersFillterForm form , @RequestParam(value = "page" , defaultValue = "1", required = false) int page ,
             @RequestParam(value ="pageSize", defaultValue = "10", required = false) int pageSize ,
             @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
             @RequestParam(value = "sortBy", defaultValue = "Id", required = false) String sortBy

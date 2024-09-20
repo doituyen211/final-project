@@ -104,12 +104,12 @@ public class LeaveOfAbsenceController {
         LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
         leaveOfAbsence.setStudent(studentOpt.get());
         leaveOfAbsence.setSubject(subjectOpt.get());
-        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
-        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
+        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartDate());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndDate());
 
         // Calculate status based on startTime and endTime
         Date now = new Date();
-        int status = (now.after(leaveOfAbsenceCreateForm.getStartTime()) && now.before(leaveOfAbsenceCreateForm.getEndTime())) ? 1 : 0;
+        int status = (now.after(leaveOfAbsenceCreateForm.getStartDate()) && now.before(leaveOfAbsenceCreateForm.getEndDate())) ? 1 : 0;
         leaveOfAbsence.setStatus(status);
 
         CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.save(leaveOfAbsence);
@@ -118,8 +118,6 @@ public class LeaveOfAbsenceController {
                 .code(response.getCode())
                 .message(response.getMessage())
                 .build());
-    }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
@@ -154,7 +152,7 @@ public class LeaveOfAbsenceController {
 
         // Update student
         Optional<Student> studentOpt = studentRepository.findById(leaveOfAbsenceCreateForm.getStudentId());
-        if (!studentOpt.isPresent()) {
+        if (!studentOpt.isPresent()) {-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CoreResponse.<LeaveOfAbsenceDTO>builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message("Student Id does not exist")
@@ -174,8 +172,8 @@ public class LeaveOfAbsenceController {
 
 
         // Update other fields
-        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
-        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
+        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartDate());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndDate());
 
         // Calculate status based on startDate and endDate
         Date now = new Date();
