@@ -8,9 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface IClassMembersRepository
-        extends JpaRepository<ClassMembers, Integer>, JpaSpecificationExecutor<ClassMembers> {
-    Optional<ClassMembers> findClassMembersByStatus(String name);
+        extends JpaRepository<ClassMembers,Integer >, JpaSpecificationExecutor<ClassMembers> {
+    Optional<ClassMembers> findClassMembersByStatus(Integer name) ;
 
-    @Query("select count(cm.student) from ClassMembers cm where cm.mclass.id = ?1")
+    @Query("select count(cm.studentId) from ClassMembers cm where cm.classId = ?1")
     int countStudentsByClassId(Integer classId);
+
+    
 }

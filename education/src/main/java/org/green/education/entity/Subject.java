@@ -2,8 +2,7 @@ package org.green.education.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,10 +1,7 @@
 package org.green.education.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -37,8 +34,10 @@ public class TrainingProgram {
     private int trainingDuration ;
 
     @OneToMany(mappedBy = "trainingProgram")
+    @ToString.Exclude
     private List<Subject> listsubjects ;
 //
     @OneToMany(mappedBy = "program")
+    @ToString.Exclude
     private List<Class> listClasses ;
 }

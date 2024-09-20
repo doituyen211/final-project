@@ -44,21 +44,27 @@ public class ClassMembersService implements IClassMembersService {
 
     @Override
     public ResponseEntity<?> findALL(ClassMembersFillterForm form, int page, int pageSize,
-            String sortDir, String sortBy) {
-        // search
+                                     String sortDir, String sortBy) {
+        // Convert page number from 1-based to 0-based
+        int zeroBasedPage = page - 1;
+
+        // Search
         Specification<ClassMembers> spec = ClassMembersSpecification.buildSpec(form);
 
         // Sort
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
 
         // Paging
-        Pageable pageable = PageRequest.of(page, pageSize, sort);
+        Pageable pageable = PageRequest.of(zeroBasedPage, pageSize, sort);
 
+        // Fetch the data
         Page<ClassMembers> classMembers = classMembersRepository.findAll(spec, pageable);
 
+        // Prepare the response
         Map<String, Object> response = new HashMap<>();
-        response.put("page", page);
+        response.put("page", page); // Keep the original page number for the response
         response.put("pageSize", pageSize);
         response.put("totalPages", classMembers.getTotalPages());
         response.put("totalElements", classMembers.getTotalElements());

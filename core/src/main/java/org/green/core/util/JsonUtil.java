@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class JsonUtil {
     @Autowired
     private ObjectMapper mapper;
+
     public String toJson(Object obj) {
         try {
             return mapper.writeValueAsString(obj);
