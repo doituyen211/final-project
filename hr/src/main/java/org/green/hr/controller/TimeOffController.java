@@ -1,15 +1,14 @@
 package org.green.hr.controller;
 
-
 import static org.green.core.constant.Constant.SUCCESS;
 import static org.green.core.constant.Constant.SUCCESS_MESSAGE;
 
 import jakarta.validation.Valid;
 import org.green.core.model.response.CoreResponse;
-import org.green.hr.dto.OvertimeDTO;
-import org.green.hr.repository.OverTimeRepository;
-import org.green.hr.service.IOverTimeService;
-import org.green.hr.service.impl.OverTimeService;
+import org.green.hr.dto.TimeOffDTO;
+import org.green.hr.repository.TimeOffRepository;
+import org.green.hr.service.ITimeOffService;
+import org.green.hr.service.impl.TimeOffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,59 +20,62 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hr/overtime")
-
-public class OvertimeController {
+@RequestMapping("/hr/timeOff")
+public class TimeOffController {
 
   @Autowired
-  private OverTimeRepository overTimeRepository;
+  private TimeOffRepository timeOffRepository;
   @Autowired
-  private IOverTimeService iOverTimeService;
+  private ITimeOffService iTimeOffService;
   @Autowired
-  private OverTimeService overTimeService;
+  private TimeOffService timeOffService;
 
-  @PostMapping("/addOvertime")
-  ResponseEntity<CoreResponse> addOvertime(@RequestBody @Valid OvertimeDTO overtimeDTO) {
-    OvertimeDTO addOvertime = overTimeService.addOverTime(overtimeDTO);
+  @PostMapping("/addTimeOff")
+  ResponseEntity<CoreResponse> addTimeOff(@RequestBody @Valid TimeOffDTO timeOffDTO) {
+    TimeOffDTO addTimeOff = timeOffService.addTimeOff(timeOffDTO);
     CoreResponse response = new CoreResponse()
         .setCode(SUCCESS)
         .setMessage(SUCCESS_MESSAGE)
-        .setData(addOvertime);
+        .setData(addTimeOff);
     return ResponseEntity.ok(response);
   }
-  @PostMapping("/updateOvertime/{overtimeId}")
-  ResponseEntity<CoreResponse> updateOvertime(@PathVariable("overtimeId") @Valid long overtimeId,
-      @RequestBody @Valid OvertimeDTO overtimeDTO) {
-    OvertimeDTO updateOvertime = overTimeService.updateOvertime(overtimeId,overtimeDTO);
+
+  @PostMapping("/updateTimeOff/{timeOffId}")
+  ResponseEntity<CoreResponse> updateTimeOff(@PathVariable("timeOffId") long timeOffId,
+      @RequestBody @Valid TimeOffDTO timeOffDTO) {
+    TimeOffDTO updateTimeOff = timeOffService.updateTimeOff(timeOffId, timeOffDTO);
     CoreResponse response = new CoreResponse()
         .setCode(SUCCESS)
         .setMessage(SUCCESS_MESSAGE)
-        .setData(updateOvertime);
+        .setData(updateTimeOff);
     return ResponseEntity.ok(response);
   }
-  @DeleteMapping("deleteOvertime/{overtimeId}")
-  ResponseEntity<CoreResponse> deleteOvertime(@PathVariable("overtimeId") long overtimeId) {
-    OvertimeDTO deletedOvertime = overTimeService.deleteOvertime(overtimeId);
+
+  @DeleteMapping("/deleteTimeOff/{timeOffId}")
+  ResponseEntity<CoreResponse> deleteTimeOff(@PathVariable("timeOffId") long timeOffId) {
+    TimeOffDTO deletedTimeOff = timeOffService.deleteTimeOff(timeOffId);
     CoreResponse response = new CoreResponse()
         .setCode(SUCCESS)
         .setMessage(SUCCESS_MESSAGE)
-        .setData(deletedOvertime);
+        .setData(deletedTimeOff);
     return ResponseEntity.ok(response);
   }
-  @GetMapping("/getAllOvertime")
-  ResponseEntity<CoreResponse> getAllOvertime() {
+
+  @GetMapping("/getTimeOff")
+  ResponseEntity<CoreResponse> getAllTimeOff() {
     CoreResponse response = new CoreResponse()
         .setCode(SUCCESS)
         .setMessage(SUCCESS_MESSAGE)
-        .setData(iOverTimeService.getAllOvertimes());
+        .setData(iTimeOffService.getTimeOff());
     return ResponseEntity.ok(response);
   }
-  @GetMapping("/getOvertimeById/{overtimeId}")
-  ResponseEntity<CoreResponse> getOvertimeById(@PathVariable("overtimeId") long overtimeId) {
+
+  @GetMapping("/getTimeOff/{timeOffId}")
+  ResponseEntity<CoreResponse> getTimeOffById(@PathVariable("timeOffId") long timeOffId) {
     CoreResponse response = new CoreResponse()
         .setCode(SUCCESS)
         .setMessage(SUCCESS_MESSAGE)
-        .setData(iOverTimeService.getOvertimeById(overtimeId));
+        .setData(iTimeOffService.getTimeOffById(timeOffId));
     return ResponseEntity.ok(response);
   }
 }
