@@ -19,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="core" options="-parameters" />
       <module name="education" options="-parameters" />
+      <module name="green-backennd" options="" />
       <module name="hr" options="-parameters" />
       <module name="receivable" options="-parameters" />
       <module name="sale" options="-parameters" />
