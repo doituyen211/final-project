@@ -150,15 +150,23 @@ const CustomerSaleComponent = () => {
     const api = API.SUBJECT;
 
     const fetchData = useCallback(
-        async (search = "", page = 1) => {
+        async (search = "", page = 1, status = 1, fromDate = "", toDate = "") => {
             try {
-                const {data} = await axios.get(`http://localhost:9001/api/v1/customers?search=${search}&page=${page - 1}`);
+                const query = new URLSearchParams({
+                    search: search,
+                    page: page - 1,
+                    status: status || 1,
+                    fromDate: fromDate || "",
+                    toDate: toDate || "",
+                }).toString();
+
+                const {data} = await axios.get(`http://localhost:9001/api/v1/customers?${query}`);
+                console.log(`http://localhost:9001/api/v1/customers?${query}`)
                 setState(prevState => ({
                     ...prevState,
                     dataTable: data.data.content,
                 }));
                 setCurrentPage(page);
-                // console.log("DATA" + JSON.stringify(data.data.totalPages))
                 setTotalPages(data.data.totalPages);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -166,6 +174,7 @@ const CustomerSaleComponent = () => {
         },
         [api]
     );
+
 
     const fetchOptions = useCallback(async () => {
         try {
@@ -186,9 +195,15 @@ const CustomerSaleComponent = () => {
         fetchData("", currentPage);
         fetchOptions();
     }, [fetchData, currentPage, fetchOptions]);
+
     const handleSearch = () => {
-        fetchData(state.searchTerm, currentPage);
+        const status = state.modalProps.formFieldsProp.status || ""; // get status filter value
+        const fromDate = state.modalProps.formFieldsProp.fromDate || ""; // get fromDate filter value
+        const toDate = state.modalProps.formFieldsProp.toDate || ""; // get toDate filter value
+
+        fetchData(state.searchTerm, currentPage, status, fromDate, toDate);
     };
+
     const handleEdit = (id) => {
         setInitialIdCurrent(id);
         setActionModal("EDIT");
@@ -321,13 +336,16 @@ const CustomerSaleComponent = () => {
                                                 <Form.Select
                                                     id="programStatus1"
                                                     aria-label="Status"
-                                                    className="form-select rounded-pill border-secondary flex-fill "
+                                                    className="form-select rounded-pill border-secondary flex-fill"
                                                     value={state.modalProps.formFieldsProp.status}
                                                     onChange={(e) => setState(prevState => ({
                                                         ...prevState,
                                                         modalProps: {
                                                             ...prevState.modalProps,
-                                                            status: e.target.value
+                                                            formFieldsProp: {
+                                                                ...prevState.modalProps.formFieldsProp,
+                                                                status: e.target.value,
+                                                            }
                                                         }
                                                     }))}
                                                 >
@@ -337,32 +355,32 @@ const CustomerSaleComponent = () => {
                                                                 value={option.id}>{option.name}</option>
                                                     ))}
                                                 </Form.Select>
-                                                <Form.Select
-                                                    id="staff"
-                                                    aria-label="staff"
-                                                    className="form-select rounded-pill border-secondary flex-fill "
-                                                    value={state.modalProps.formFieldsProp.status}
-                                                    onChange={(e) => setState(prevState => ({
-                                                        ...prevState,
-                                                        modalProps: {
-                                                            ...prevState.modalProps,
-                                                            status: e.target.value
-                                                        }
-                                                    }))}
-                                                >
-                                                    <option value="">Chọn nhân viên</option>
-                                                    {statusOptions.map((option) => (
-                                                        <option key={option.value}
-                                                                value={option.id}>{option.name}</option>
-                                                    ))}
-                                                </Form.Select>
+
+                                                {/*<Form.Select*/}
+                                                {/*    id="staff"*/}
+                                                {/*    aria-label="staff"*/}
+                                                {/*    className="form-select rounded-pill border-secondary flex-fill "*/}
+                                                {/*    value={state.modalProps.formFieldsProp.status}*/}
+                                                {/*    onChange={(e) => setState(prevState => ({*/}
+                                                {/*        ...prevState,*/}
+                                                {/*        modalProps: {*/}
+                                                {/*            ...prevState.modalProps,*/}
+                                                {/*            status: e.target.value*/}
+                                                {/*        }*/}
+                                                {/*    }))}*/}
+                                                {/*>*/}
+                                                {/*    <option value="">Chọn nhân viên</option>*/}
+                                                {/*    {statusOptions.map((option) => (*/}
+                                                {/*        <option key={option.value}*/}
+                                                {/*                value={option.id}>{option.name}</option>*/}
+                                                {/*    ))}*/}
+                                                {/*</Form.Select>*/}
                                             </div>
+
 
                                             <div className="d-flex align-items-center gap-2">
                                                 <h6 className="mb-0">Từ:</h6>
                                                 <div className="flex-fill">
-                                                    <label htmlFor="fromDate" className="form-label sr-only">Ngày bắt
-                                                        đầu</label>
                                                     <input
                                                         type="date"
                                                         id="fromDate"
@@ -372,7 +390,10 @@ const CustomerSaleComponent = () => {
                                                             ...prevState,
                                                             modalProps: {
                                                                 ...prevState.modalProps,
-                                                                fromDate: e.target.value
+                                                                formFieldsProp: {
+                                                                    ...prevState.modalProps.formFieldsProp,
+                                                                    fromDate: e.target.value
+                                                                }
                                                             }
                                                         }))}
                                                     />
@@ -382,8 +403,6 @@ const CustomerSaleComponent = () => {
                                             <div className="d-flex align-items-center gap-2">
                                                 <h6 className="mb-0">Đến:</h6>
                                                 <div className="flex-fill">
-                                                    <label htmlFor="toDate" className="form-label sr-only">Ngày kết
-                                                        thúc</label>
                                                     <input
                                                         type="date"
                                                         id="toDate"
@@ -393,13 +412,15 @@ const CustomerSaleComponent = () => {
                                                             ...prevState,
                                                             modalProps: {
                                                                 ...prevState.modalProps,
-                                                                toDate: e.target.value
+                                                                formFieldsProp: {
+                                                                    ...prevState.modalProps.formFieldsProp,
+                                                                    toDate: e.target.value
+                                                                }
                                                             }
                                                         }))}
                                                     />
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div className="col-md-4  d-flex align-items-center gap-3">
