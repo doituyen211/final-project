@@ -118,8 +118,6 @@ public class LeaveOfAbsenceController {
                 .code(response.getCode())
                 .message(response.getMessage())
                 .build());
-    }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<CoreResponse<LeaveOfAbsenceDTO>> updateLeaveOfAbsence(@PathVariable int id, @Valid @RequestBody LeaveOfAbsenceCreateForm leaveOfAbsenceCreateForm, BindingResult bindingResult) {
