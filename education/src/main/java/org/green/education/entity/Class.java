@@ -42,5 +42,4 @@ public class Class {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-
 }

@@ -48,6 +48,10 @@
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -93,19 +97,6 @@
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="org.green.education.service" />
     </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.green.education.repository" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="configurationTypes">
-      <set>
-        <option value="KtorApplicationConfigurationType" />
-        <option value="MicronautRunConfigurationType" />
-        <option value="QuarkusRunConfigurationType" />
-        <option value="SpringBootApplicationConfigurationType" />
-      </set>
-    </option>
   </component>
   <component name="RunManager" selected="Spring Boot.EducationApplication">
     <configuration name="EducationApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -130,42 +121,6 @@
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
       <module name="backend-green" />
       <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="core" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.core.CoreApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EducationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="education" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.education.EducationApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HrApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="hr" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.hr.HrApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReceivableApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="receivable" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.receivable.ReceivableApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SaleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="sale" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.green.sale.SaleApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -196,7 +151,10 @@
       <workItem from="1725942664846" duration="641000" />
       <workItem from="1725961002529" duration="872000" />
       <workItem from="1726193816471" duration="5309000" />
-      <workItem from="1726555048097" duration="9511000" />
+      <workItem from="1726566265331" duration="1934000" />
+      <workItem from="1726647223010" duration="289000" />
+      <workItem from="1726649158604" duration="23352000" />
+      <workItem from="1726797729028" duration="226000" />
     </task>
     <servers />
   </component>
@@ -213,5 +171,36 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/education/src/main/java/org/green/education/service/ExamScheduleService.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/education/src/main/java/org/green/education/service/ExamScheduleService.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/education/src/main/java/org/green/education/service/ExamScheduleService.java</url>
+          <line>132</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/education/src/main/java/org/green/education/service/ExamScheduleService.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/education/src/main/java/org/green/education/service/ExamScheduleService.java</url>
+          <line>143</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
