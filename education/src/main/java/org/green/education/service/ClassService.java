@@ -260,6 +260,8 @@ public class ClassService implements IClassService {
                             .startDate(item.getStartDate())
                             .endDate(item.getEndDate())
                             .trainingProgramName(item.getProgram().getProgramName())
+                            .status(item.isStatus())
+                            .active(item.getActive())
                             .build())
                     .sorted(Comparator.comparing(ClassDTO::getId))
                     .collect(Collectors.toList());
@@ -302,6 +304,8 @@ public class ClassService implements IClassService {
                             .startDate(item.getStartDate())
                             .endDate(item.getEndDate())
                             .trainingProgramName(item.getProgram().getProgramName())
+                            .status(item.isStatus())
+                            .active(item.getActive())
                             .build())
                     .sorted(Comparator.comparing(ClassDTO::getId))
                     .collect(Collectors.toList());
