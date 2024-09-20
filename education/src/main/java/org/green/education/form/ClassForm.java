@@ -19,8 +19,8 @@ public class ClassForm {
     @Size(max = 100, message = "Tên lớp học không được vượt quá 100 ký tự")
     private String className;
 
-    @Min(value = 1, message = "Kích thước lớp phải là số dương")
-    private int classSize;
+//    @Min(value = 1, message = "Kích thước lớp phải là số dương")
+//    private int classSize;
 
     @NotNull(message = "Ngày bắt đầu không được để trống")
     private LocalDate startDate;
