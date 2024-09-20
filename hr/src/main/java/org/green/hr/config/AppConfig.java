@@ -9,14 +9,12 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @ComponentScan(basePackages = {"org.green.core"})
 public class AppConfig {
-
-  @Bean
-  public RestTemplate restTemplate() {
-    return new RestTemplate();
-  }
-
-  @Bean
-  public ModelMapper modelMapper() {
-    return new ModelMapper();
-  }
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

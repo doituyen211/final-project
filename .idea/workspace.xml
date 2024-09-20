@@ -76,6 +76,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/hoanglong/salaryAdvance" />
+                    <option name="lastUsedInstant" value="1726660019" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/hoanglong/overtime" />
                     <option name="lastUsedInstant" value="1726554506" />
                   </RecentBranch>
@@ -251,8 +255,10 @@
       <workItem from="1726555546581" duration="8792000" />
       <workItem from="1726582342239" duration="264000" />
       <workItem from="1726582621534" duration="6720000" />
-      <workItem from="1726628420535" duration="5795000" />
-      <workItem from="1726797902548" duration="8025000" />
+      <workItem from="1726628420535" duration="7127000" />
+      <workItem from="1726649325746" duration="11418000" />
+      <workItem from="1726711137420" duration="16477000" />
+      <workItem from="1726754674417" duration="5485000" />
     </task>
     <servers />
   </component>
