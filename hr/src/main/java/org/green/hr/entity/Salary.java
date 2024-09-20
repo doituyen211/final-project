@@ -2,11 +2,17 @@ package org.green.hr.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
 @lombok.Getter
 @lombok.Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "salary")
 public class Salary {
@@ -14,28 +20,22 @@ public class Salary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "contract_id", nullable = false)
+    @Column(name = "contract_id")
     private Long contractId;
 
-    @NotNull
-    @Column(name = "overtime_id", nullable = false)
+    @Column(name = "overtime_id")
     private Long overtimeId;
 
-    @NotNull
-    @Column(name = "allowance_id", nullable = false)
+    @Column(name = "allowance_id")
     private Long allowanceId;
 
-    @NotNull
-    @Column(name = "salary_advance_id", nullable = false)
+    @Column(name = "salary_advance_id")
     private Long salaryAdvanceId;
 
-    @NotNull
-    @Column(name = "reward_discipline_id", nullable = false)
+    @Column(name = "reward_discipline_id")
     private Long rewardDisciplineId;
 
-    @NotNull
-    @Column(name = "time_off_id", nullable = false)
+    @Column(name = "time_off_id")
     private Long timeOffId;
 
     @NotNull

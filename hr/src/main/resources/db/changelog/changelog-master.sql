@@ -251,3 +251,11 @@ ALTER TABLE qualification
 ALTER TABLE reward_discipline
     ADD COLUMN IF NOT EXISTS rd_images VARCHAR(255);
 
+-- changeset salary:4
+ALTER TABLE salary ALTER COLUMN contract_id DROP NOT NULL;
+-- changeset reward_discipline:5
+ALTER TABLE salary ALTER COLUMN overtime_id DROP NOT NULL;
+ALTER TABLE salary ALTER COLUMN allowance_id DROP NOT NULL;
+ALTER TABLE salary ALTER COLUMN salary_advance_id DROP NOT NULL;
+ALTER TABLE salary ALTER COLUMN reward_discipline_id DROP NOT NULL;
+ALTER TABLE salary ALTER COLUMN time_off_id DROP NOT NULL;
