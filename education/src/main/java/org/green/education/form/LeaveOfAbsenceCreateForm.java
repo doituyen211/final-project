@@ -13,10 +13,10 @@ public class LeaveOfAbsenceCreateForm {
     private Integer studentId;
 
     @NotNull(message = "Start Time is required")
-    private Date startTime;
+    private Date startDate;
 
     @NotNull(message = "End Time is required")
-    private Date endTime;
+    private Date endDate;
 
     @NotNull(message = "Subject Id is required")
     @Positive(message = "Subject Id must be positive")
