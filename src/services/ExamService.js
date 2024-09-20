@@ -2,7 +2,7 @@ import axios from "./customize-axios";
 
 // Fetch all exams
 const fetchAllExam = () => {
-  return axios.get("/api/v1/examschedules");
+  return axios.get("/api/v1/examschedules/getAllExamSchedules");
 };
 
 //fetch all classes
