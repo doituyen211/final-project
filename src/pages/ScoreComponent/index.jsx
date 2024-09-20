@@ -221,9 +221,6 @@ export default function ScoreComponent() {
       key: "action",
       render: (_, record) => (
         <Space size="small">
-          <Button variant="white" onClick={() => handleShowDetail(record)}>
-            <BsEye className="text-secondary"></BsEye>
-          </Button>
           <Button variant="white" onClick={() => handleShowUpdateForm(record)}>
             <BsPencil className="text-primary"></BsPencil>
           </Button>
