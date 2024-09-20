@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="deploy get-subject-by-id">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Class.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Class.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ExamSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/ExamSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Subject.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/Subject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/TrainingProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/education/src/main/java/org/green/education/entity/TrainingProgram.java" afterDir="false" />
-    </list>
+    <list default="true" id="500cf413-91aa-4288-aed1-f5b923fd3374" name="Changes" comment="deploy get-subject-by-id" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,7 +148,7 @@
       <workItem from="1726566265331" duration="1934000" />
       <workItem from="1726647223010" duration="289000" />
       <workItem from="1726649158604" duration="23352000" />
-      <workItem from="1726797729028" duration="3000" />
+      <workItem from="1726797729028" duration="226000" />
     </task>
     <servers />
   </component>
