@@ -104,12 +104,12 @@ public class LeaveOfAbsenceController {
         LeaveOfAbsence leaveOfAbsence = new LeaveOfAbsence();
         leaveOfAbsence.setStudent(studentOpt.get());
         leaveOfAbsence.setSubject(subjectOpt.get());
-        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
-        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
+        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartDate());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndDate());
 
         // Calculate status based on startTime and endTime
         Date now = new Date();
-        int status = (now.after(leaveOfAbsenceCreateForm.getStartTime()) && now.before(leaveOfAbsenceCreateForm.getEndTime())) ? 1 : 0;
+        int status = (now.after(leaveOfAbsenceCreateForm.getStartDate()) && now.before(leaveOfAbsenceCreateForm.getEndDate())) ? 1 : 0;
         leaveOfAbsence.setStatus(status);
 
         CoreResponse<LeaveOfAbsence> response = leaveOfAbsenceService.save(leaveOfAbsence);
@@ -174,8 +174,8 @@ public class LeaveOfAbsenceController {
 
 
         // Update other fields
-        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartTime());
-        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndTime());
+        leaveOfAbsence.setStartDate(leaveOfAbsenceCreateForm.getStartDate());
+        leaveOfAbsence.setEndDate(leaveOfAbsenceCreateForm.getEndDate());
 
         // Calculate status based on startDate and endDate
         Date now = new Date();
