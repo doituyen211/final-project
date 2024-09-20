@@ -122,25 +122,47 @@ const ReservationComponent = () => {
 
   const handleSave = (formData) => {
     const { action } = modalProps;
-
+  
+    // Calculate the status based on the start and end dates
+    const calculateStatus = (startDate, endDate) => {
+      const now = new Date();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      return now >= start && now <= end ? 1 : 0; // 1 if active, 0 otherwise
+    };
+  
+    // Update the formData with calculated status
+    const updatedFormData = {
+      ...formData,
+      status: calculateStatus(formData.startDate, formData.endDate), // Calculate status
+    };
+  
+    console.log('FormData to be saved:', updatedFormData); // Log the data being sent
+  
     if (action === "CREATE") {
       axios
-        .post(apiCreate, formData)
+        .post(apiCreate, updatedFormData)
         .then(() => {
           setModalShow(false);
-          getData();
+          getData(); // Refresh the data after successful creation
+          console.log("Successfully created");
         })
         .catch((err) => console.error("Error creating data:", err));
     } else if (action === "EDIT") {
+      console.log(`Sending PUT request to ${apiUpdate}/${modalProps.initialIdCurrent}`);
       axios
-        .put(`${apiUpdate}/${modalProps.initialIdCurrent}`, formData)
+        .put(`${apiUpdate}/${modalProps.initialIdCurrent}`, updatedFormData)
         .then(() => {
           setModalShow(false);
-          getData();
+          getData(); // Refresh the data after successful update
+          console.log("Successfully updated");
         })
-        .catch((err) => console.error("Error updating data:", err));
+        .catch((err) => {
+          console.error("Error updating data:", err);
+        });
     }
   };
+  
 
   const handleDelete = (id) => {
     const selectedItem = dataTable.find((item) => item.id === id);

@@ -5,7 +5,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 function FormComponent({
   fields,
   onSubmit,
-  formData: initialFormData, // Receive formData prop
+  formData: initialFormData = {}, // Ensure formData is initialized with an empty object
   isEdit,
   onClose,
   isView,
@@ -14,10 +14,13 @@ function FormComponent({
     fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
   );
 
-  // Update formData when the initialFormData changes (for edit/view mode)
+  // Update formData when initialFormData changes (e.g., in edit/view mode)
   useEffect(() => {
     if (initialFormData) {
-      setFormData(initialFormData); // Update with actual data from backend
+      setFormData((prev) => ({
+        ...prev,
+        ...initialFormData, // Merge existing form data with the initial data
+      }));
     }
   }, [initialFormData]);
 
@@ -51,7 +54,7 @@ function FormComponent({
                       value={formData[field.name] || ""}
                       onChange={handleChange}
                       placeholder={field.placeholder}
-                      disabled={isView}
+                      disabled={isView} // Disable the field in view mode
                     />
                   </Form.Group>
                 </Col>
@@ -67,7 +70,7 @@ function FormComponent({
                       name={field.name}
                       value={formData[field.name] || ""}
                       onChange={handleChange}
-                      disabled={isView}
+                      disabled={isView} // Disable the field in view mode
                     />
                   </Form.Group>
                 </Col>
@@ -84,7 +87,7 @@ function FormComponent({
                       value={formData[field.name] || ""}
                       onChange={handleChange}
                       placeholder={field.placeholder}
-                      disabled={isView}
+                      disabled={isView} // Disable the field in view mode
                     />
                   </Form.Group>
                 </Col>
@@ -100,12 +103,17 @@ function FormComponent({
                       name={field.name}
                       value={formData[field.name] || ""}
                       onChange={handleChange}
-                      disabled={isView}
+                      disabled={isView} // Disable the field in view mode
                     >
                       <option value="">
                         {field.defaultOption?.label || "Select an option"}
                       </option>
-                      {/* Dynamically load options */}
+                      {field.options &&
+                        field.options.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
                     </Form.Control>
                   </Form.Group>
                 </Col>
@@ -116,14 +124,7 @@ function FormComponent({
         })}
       </Row>
       <div className="d-flex justify-content-center">
-        <Button
-          variant="secondary"
-          className="me-2"
-          type="button"
-          onClick={onClose}
-        >
-          Close
-        </Button>
+        
         {!isView && (
           <Button variant="primary" type="submit">
             {isEdit ? "Save Changes" : "Submit"}
@@ -141,6 +142,12 @@ FormComponent.propTypes = {
       type: PropTypes.oneOf(["text", "select", "date", "number"]).isRequired,
       label: PropTypes.string.isRequired,
       placeholder: PropTypes.string,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string.isRequired,
+          label: PropTypes.string.isRequired,
+        })
+      ),
     })
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
