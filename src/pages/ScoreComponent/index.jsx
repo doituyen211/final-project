@@ -334,6 +334,7 @@ function TableSearchResult({ data, result, onSearch, setOnSearch, columns }) {
             dataSource={displayData}
             rowKey="id"
             bordered
+            size="small"
           />
         </CardBody>
       </Card>
