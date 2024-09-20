@@ -26,18 +26,27 @@ import PersonelComponents from "./PersonelComponents";
 import AllowanceComponents from "./AllowanceComponents";
 import LoginComponent from "./LoginComponent";
 import NotFoundComponent from "./NotFoundComponent";
+import PositionComponents from "./PositionComponents";
+import SubjectComponentLayout2 from "./SubjectComponentLayout2";
+import DashboardEducationComponent from "./DashboardEducationComponent";
+import AttendanceStudent from "./AttendanceStudentComponent";
+import AttendanceComponent from "./AttendanceComponent";
+import ResetPasswordComponent from "./ResetPasswordComponent";
+import ScheduleComponent from "./ScheduleComponent";
+import LogoutComponent from "./LogoutComponent";
 
 export {
+    ScheduleComponent,
     BookComponent,
     CourseComponent,
     ScheduleComponent2,
     SubjectComponent,
     UserComponent,
     ScoreComponent,
+    CustomerSaleComponent,
     TuitionFeeComponent,
     MarketingCampaignComponent,
     ClassMembersComponent,
-    CustomerSaleComponent,
     StudentComponent,
     StudenInforComponent,
     DashboardSalesComponent,
@@ -56,4 +65,11 @@ export {
     TimesheetComponent,
     LoginComponent,
     NotFoundComponent,
+    ResetPasswordComponent,
+    PositionComponents,
+    SubjectComponentLayout2,
+    DashboardEducationComponent,
+    AttendanceStudent,
+    AttendanceComponent,
+    LogoutComponent
 };

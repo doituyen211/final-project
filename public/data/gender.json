@@ -3,20 +3,18 @@
   "message": "",
   "data": [
     {
-      "id": 0,
-      "name": "Inactive"
-    },
-    {
       "id": 1,
-      "name": "Active"
+      "name": "Male"
     },
     {
       "id": 2,
-      "name": "Pending"
+      "name": "Female"
     },
     {
       "id": 3,
-      "name": "Suspended"
+      "name": "Other"
     }
   ]
 }
+
+

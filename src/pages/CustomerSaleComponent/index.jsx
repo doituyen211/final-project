@@ -43,7 +43,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Chương trình học quan tâm",
                 placeholder: "Chọn chương trình học",
-                apiUrl: "/data/program.json",
+                apiUrl: "http://localhost:9001/api/v1/subjects/programs",
                 defaultOption: {value: "", label: "Chọn chương trình học"},
                 validation: Yup.string().required('Chương trình học là bắt buộc'),
             },
@@ -56,10 +56,10 @@ const INITIAL_STATE = {
             },
             {
                 name: "responsible_person",
-                type: "select",
+                type: "text",
                 label: "Người phụ trách",
                 placeholder: "Chọn người phụ trách",
-                apiUrl: "/data/responsible_person.json", // URL to fetch options for responsible persons
+                apiUrl: "/data/responsible_person.json",
                 defaultOption: {value: "", label: "Chọn người phụ trách"},
                 validation: Yup.string().required('Người phụ trách là bắt buộc'),
             },
@@ -96,7 +96,7 @@ const INITIAL_STATE = {
                 type: "select",
                 label: "Trạng thái",
                 placeholder: "Chọn trạng thái",
-                apiUrl: "/data/status.json", // URL to fetch options for status
+                apiUrl: "/data/status.json",
                 defaultOption: {value: "", label: "Chọn trạng thái"},
                 validation: Yup.string().required('Trạng thái là bắt buộc'),
             },
@@ -112,9 +112,10 @@ const COLUMNS = [
     "Giới tính",
     "Chương trình học quan tâm",
     "Thời gian ghi nhận",
+    "Thời gian cập nhập",
     "Người phụ trách",
     "Số điện thoại",
-    "Nguồn",
+    // "Nguồn",
     "Địa chỉ (nếu cần)",
     "Ghi chú",
     "Trạng thái",
@@ -149,15 +150,24 @@ const CustomerSaleComponent = () => {
     const api = API.SUBJECT;
 
     const fetchData = useCallback(
-        async (search = "", page = 1) => {
+        async (search = "", page = 1, status = 1, fromDate = "", toDate = "") => {
             try {
-                const {data} = await axios.get(`https://66aa0b5b613eced4eba7559a.mockapi.io/tuitiofee?search=${search}&page=${page}&limit=5`);
+                const query = new URLSearchParams({
+                    search: search,
+                    page: page - 1,
+                    status: status || 1,
+                    fromDate: fromDate || "",
+                    toDate: toDate || "",
+                }).toString();
+
+                const {data} = await axios.get(`http://localhost:9001/api/v1/customers?${query}`);
+                console.log(`http://localhost:9001/api/v1/customers?${query}`)
                 setState(prevState => ({
                     ...prevState,
-                    dataTable: data,
+                    dataTable: data.data.content,
                 }));
                 setCurrentPage(page);
-                setTotalPages(data.totalPages);
+                setTotalPages(data.data.totalPages);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -165,15 +175,16 @@ const CustomerSaleComponent = () => {
         [api]
     );
 
+
     const fetchOptions = useCallback(async () => {
         try {
             const [statusResponse, programResponse, paymentResponse] = await Promise.all([
                 axios.get("/data/status.json"),
-                axios.get("/data/program.json"),
+                axios.get("http://localhost:9001/api/v1/subjects/programs"),
                 axios.get("/data/phuongthucthanhtoan.json")
             ]);
-            setStatusOptions(statusResponse.data);
-            setProgramOptions(programResponse.data);
+            setStatusOptions(statusResponse.data.data);
+            setProgramOptions(programResponse.data.data);
             setPaymentOptions(paymentResponse.data);
         } catch (error) {
             console.error("Error fetching options:", error);
@@ -184,9 +195,15 @@ const CustomerSaleComponent = () => {
         fetchData("", currentPage);
         fetchOptions();
     }, [fetchData, currentPage, fetchOptions]);
+
     const handleSearch = () => {
-        fetchData(state.searchTerm, currentPage);
+        const status = state.modalProps.formFieldsProp.status || ""; // get status filter value
+        const fromDate = state.modalProps.formFieldsProp.fromDate || ""; // get fromDate filter value
+        const toDate = state.modalProps.formFieldsProp.toDate || ""; // get toDate filter value
+
+        fetchData(state.searchTerm, currentPage, status, fromDate, toDate);
     };
+
     const handleEdit = (id) => {
         setInitialIdCurrent(id);
         setActionModal("EDIT");
@@ -314,48 +331,56 @@ const CustomerSaleComponent = () => {
                                         </div>
                                     </div>
                                     <div className="d-flex mb-4">
-                                        <div className="col-md-5 d-flex align-items-center gap-3">
-                                            <Form.Select
-                                                id="programStatus1"
-                                                aria-label="Status"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={state.modalProps.formFieldsProp.status}
-                                                onChange={(e) => setState(prevState => ({
-                                                    ...prevState,
-                                                    modalProps: {
-                                                        ...prevState.modalProps,
-                                                        status: e.target.value
-                                                    }
-                                                }))}
-                                            >
-                                                <option value="">Chọn trạng thái</option>
-                                                {statusOptions.map((option) => (
-                                                    <option key={option.value} value={option.id}>{option.name}</option>
-                                                ))}
-                                            </Form.Select>
-                                            <Form.Select
-                                                id="staff"
-                                                aria-label="staff"
-                                                className="form-select rounded-pill border-secondary flex-fill"
-                                                value={state.modalProps.formFieldsProp.status}
-                                                onChange={(e) => setState(prevState => ({
-                                                    ...prevState,
-                                                    modalProps: {
-                                                        ...prevState.modalProps,
-                                                        status: e.target.value
-                                                    }
-                                                }))}
-                                            >
-                                                <option value="">Chọn nhân viên</option>
-                                                {statusOptions.map((option) => (
-                                                    <option key={option.value} value={option.id}>{option.name}</option>
-                                                ))}
-                                            </Form.Select>
+                                        <div className="col-md-8 d-flex align-items-center gap-3">
+                                            <div className="d-flex align-items-center gap-2">
+                                                <Form.Select
+                                                    id="programStatus1"
+                                                    aria-label="Status"
+                                                    className="form-select rounded-pill border-secondary flex-fill"
+                                                    value={state.modalProps.formFieldsProp.status}
+                                                    onChange={(e) => setState(prevState => ({
+                                                        ...prevState,
+                                                        modalProps: {
+                                                            ...prevState.modalProps,
+                                                            formFieldsProp: {
+                                                                ...prevState.modalProps.formFieldsProp,
+                                                                status: e.target.value,
+                                                            }
+                                                        }
+                                                    }))}
+                                                >
+                                                    <option value="">Chọn trạng thái</option>
+                                                    {statusOptions.map((option) => (
+                                                        <option key={option.value}
+                                                                value={option.id}>{option.name}</option>
+                                                    ))}
+                                                </Form.Select>
+
+                                                {/*<Form.Select*/}
+                                                {/*    id="staff"*/}
+                                                {/*    aria-label="staff"*/}
+                                                {/*    className="form-select rounded-pill border-secondary flex-fill "*/}
+                                                {/*    value={state.modalProps.formFieldsProp.status}*/}
+                                                {/*    onChange={(e) => setState(prevState => ({*/}
+                                                {/*        ...prevState,*/}
+                                                {/*        modalProps: {*/}
+                                                {/*            ...prevState.modalProps,*/}
+                                                {/*            status: e.target.value*/}
+                                                {/*        }*/}
+                                                {/*    }))}*/}
+                                                {/*>*/}
+                                                {/*    <option value="">Chọn nhân viên</option>*/}
+                                                {/*    {statusOptions.map((option) => (*/}
+                                                {/*        <option key={option.value}*/}
+                                                {/*                value={option.id}>{option.name}</option>*/}
+                                                {/*    ))}*/}
+                                                {/*</Form.Select>*/}
+                                            </div>
+
+
                                             <div className="d-flex align-items-center gap-2">
                                                 <h6 className="mb-0">Từ:</h6>
                                                 <div className="flex-fill">
-                                                    <label htmlFor="fromDate" className="form-label sr-only">Ngày bắt
-                                                        đầu</label>
                                                     <input
                                                         type="date"
                                                         id="fromDate"
@@ -365,7 +390,10 @@ const CustomerSaleComponent = () => {
                                                             ...prevState,
                                                             modalProps: {
                                                                 ...prevState.modalProps,
-                                                                fromDate: e.target.value
+                                                                formFieldsProp: {
+                                                                    ...prevState.modalProps.formFieldsProp,
+                                                                    fromDate: e.target.value
+                                                                }
                                                             }
                                                         }))}
                                                     />
@@ -375,8 +403,6 @@ const CustomerSaleComponent = () => {
                                             <div className="d-flex align-items-center gap-2">
                                                 <h6 className="mb-0">Đến:</h6>
                                                 <div className="flex-fill">
-                                                    <label htmlFor="toDate" className="form-label sr-only">Ngày kết
-                                                        thúc</label>
                                                     <input
                                                         type="date"
                                                         id="toDate"
@@ -386,13 +412,15 @@ const CustomerSaleComponent = () => {
                                                             ...prevState,
                                                             modalProps: {
                                                                 ...prevState.modalProps,
-                                                                toDate: e.target.value
+                                                                formFieldsProp: {
+                                                                    ...prevState.modalProps.formFieldsProp,
+                                                                    toDate: e.target.value
+                                                                }
                                                             }
                                                         }))}
                                                     />
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div className="col-md-4  d-flex align-items-center gap-3">
@@ -434,46 +462,76 @@ const CustomerSaleComponent = () => {
                                         </thead>
                                         <tbody>
                                         {state.dataTable.map((item, index) => (
-                                            <tr key={item.subject_id}>
+                                            <tr key={item.id}>
+                                                {/* Display the current index adjusted for pagination */}
                                                 <td>{index + 10 * (currentPage - 1) + 1}</td>
-                                                <td>
-                                                    {programOptions.find(program => program.id === item.id_ctdt)?.name || 'N/A'}
-                                                </td>
-                                                <td>{item.so_tien}</td>
-                                                <td>
-                                                    {item.phuong_thuc_thanh_toan
-                                                        .map(value => paymentOptions.find(option => option.id === value)?.name || 'N/A')
-                                                        .join(', ')
-                                                    }
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+
+                                                {/* Display the program interest name */}
+                                                <td>{item.customer_name}</td>
+
+                                                {/* Gender: you can format this based on the gender value */}
+                                                <td>{item.gender === "1" ? "Male" : "Female"}</td>
+
+                                                {/* Display the program_interest */}
+                                                <td>{item.program_interest}</td>
+
+                                                {/* Created at */}
+                                                <td>{new Date(item.createdAt).toLocaleString()}</td>
+
+                                                {/* Updated at */}
+                                                <td>{new Date(item.updatedAt).toLocaleString()}</td>
+
+                                                {/* Display the responsible person */}
+                                                <td>{item.responsible_person}</td>
+
+                                                {/* Display the phone number */}
+                                                <td>{item.phone_number}</td>
+
+                                                {/*/!* Facebook link *!/*/}
+                                                {/*<td>*/}
+                                                {/*    <a href={`https://${item.facebookLink}`} target="_blank"*/}
+                                                {/*       rel="noopener noreferrer">*/}
+                                                {/*        {item.facebookLink}*/}
+                                                {/*    </a>*/}
+                                                {/*</td>*/}
+
+
+                                                {/* Display the address */}
+                                                <td>{item.address}</td>
+
+                                                {/* Display the address */}
+                                                <td>{item.note}</td>
+
+
+                                                {/* Status (active, inactive, etc.) */}
+                                                <td>{item.status === 1 ? "Active" : "Inactive"}</td>
+
                                                 <td className="text-center">
-                                                    <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsEye className="text-secondary"/>
-                                                    </Button>
-                                                    <Button variant="link" onClick={() => handleEdit(item.subject_id)}>
-                                                        <BsPencil className="text-primary"/>
-                                                    </Button>
-                                                    <Button variant="link" onClick={() => confirmDelete(item)}>
-                                                        <BsTrash className="text-danger"/>
-                                                    </Button>
+                                                    <div
+                                                        className="d-flex flex-row flex-md-column justify-content-center gap-2">
+                                                        <Button variant="link" onClick={() => handleEdit(item.id)}>
+                                                            <BsEye className="text-secondary"/>
+                                                        </Button>
+                                                        <Button variant="link" onClick={() => handleEdit(item.id)}>
+                                                            <BsPencil className="text-primary"/>
+                                                        </Button>
+                                                        <Button variant="link" onClick={() => confirmDelete(item)}>
+                                                            <BsTrash className="text-danger"/>
+                                                        </Button>
+                                                    </div>
                                                 </td>
+
                                             </tr>
                                         ))}
+
                                         </tbody>
                                     </Table>
                                     {/* Phân trang */}
                                     <div className="row justify-content-center mt-3">
                                         <div className="col-auto">
                                             <PagingComponent
-                                                page={currentPage}
-                                                totalPages={totalPages}
+                                                currentPage={currentPage}
+                                                totalPage={totalPages}
                                                 onPageChange={handlePageChange}
                                             />
                                         </div>

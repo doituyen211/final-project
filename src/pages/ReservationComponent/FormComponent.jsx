@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import Input from "./InputComponent";
 
 function FormComponent({
   fields,
   onSubmit,
+  formData: initialFormData = {}, // Ensure formData is initialized with an empty object
   isEdit,
-  idCurrent,
   onClose,
   isView,
 }) {
@@ -16,54 +14,28 @@ function FormComponent({
     fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
   );
 
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prev) => {
-    const updatedFormData = { ...prev, [name]: value };
-
-    // Automatically set status based on start_time, end_time, and current time
-    const { start_time, end_time } = updatedFormData;
-
-    if (start_time && end_time) {
-      const currentTime = new Date();
-      const startTimeDate = new Date(start_time);
-      const endTimeDate = new Date(end_time);
-
-      if (currentTime >= startTimeDate && currentTime <= endTimeDate) {
-        updatedFormData.status = 1; // Active status if current time is within range
-      } else {
-        updatedFormData.status = 0; // Inactive status if current time is out of range
-      }
-    } else {
-      // Default status to 0 if start_time or end_time are missing or invalid
-      updatedFormData.status = 0;
+  // Update formData when initialFormData changes (e.g., in edit/view mode)
+  useEffect(() => {
+    if (initialFormData) {
+      setFormData((prev) => ({
+        ...prev,
+        ...initialFormData, // Merge existing form data with the initial data
+      }));
     }
+  }, [initialFormData]);
 
-    return updatedFormData;
-  });
-};
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(formData); // Submit the form data
   };
-
-  useEffect(() => {
-      console.log(isView);
-      if (isEdit || isView) {
-        axios
-          .get(
-            `https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence/${idCurrent}`
-          )
-        .then((res) => {
-          setFormData(res.data);
-        })
-        .catch((err) => {
-          console.error("Error fetching data:", err);
-        });
-    }
-  }, [isEdit, idCurrent, isView]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -74,27 +46,16 @@ function FormComponent({
               return (
                 <Col key={field.name} md={6} className="mb-3">
                   <Form.Group controlId={field.name}>
-                      <Form.Label>{field.label}</Form.Label>
-                      <Input
-                        type="text"
-                        id={field.name}
-                        name={field.name}
-                        value={formData[field.name] || ""}
-                        onChange={handleChange}
-                        placeholder={field.placeholder}
-                        className="form-control"
-                        // Disable the status field if it's in edit mode (isEdit is true)
-                        disabled={isEdit && field.name === "status"}
-                      />
-                    </Form.Group>
-                </Col>
-              );
-            case "select":
-              return (
-                <Col key={field.name} md={6} className="mb-3">
-                  <Form.Group controlId={field.name}>
-                    {/*<Form.Label>{field.label}</Form.Label>*/}
-                    
+                    <Form.Label>{field.label}</Form.Label>
+                    <Form.Control
+                      type="text"
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name] || ""}
+                      onChange={handleChange}
+                      placeholder={field.placeholder}
+                      disabled={isView} // Disable the field in view mode
+                    />
                   </Form.Group>
                 </Col>
               );
@@ -107,9 +68,9 @@ function FormComponent({
                       type="date"
                       id={field.name}
                       name={field.name}
-                      value={formData[field.name]}
+                      value={formData[field.name] || ""}
                       onChange={handleChange}
-                      disabled={isView}
+                      disabled={isView} // Disable the field in view mode
                     />
                   </Form.Group>
                 </Col>
@@ -123,11 +84,37 @@ function FormComponent({
                       type="number"
                       id={field.name}
                       name={field.name}
-                      value={formData[field.name]}
+                      value={formData[field.name] || ""}
                       onChange={handleChange}
                       placeholder={field.placeholder}
-                      disabled={isView}
+                      disabled={isView} // Disable the field in view mode
                     />
+                  </Form.Group>
+                </Col>
+              );
+            case "select":
+              return (
+                <Col key={field.name} md={6} className="mb-3">
+                  <Form.Group controlId={field.name}>
+                    <Form.Label>{field.label}</Form.Label>
+                    <Form.Control
+                      as="select"
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name] || ""}
+                      onChange={handleChange}
+                      disabled={isView} // Disable the field in view mode
+                    >
+                      <option value="">
+                        {field.defaultOption?.label || "Select an option"}
+                      </option>
+                      {field.options &&
+                        field.options.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                    </Form.Control>
                   </Form.Group>
                 </Col>
               );
@@ -137,21 +124,10 @@ function FormComponent({
         })}
       </Row>
       <div className="d-flex justify-content-center">
-        <Button
-          variant="secondary"
-          className="me-2"
-          type="button"
-          onClick={onClose}
-        >
-          Close
-        </Button>
-        {isView ? (
+        
+        {!isView && (
           <Button variant="primary" type="submit">
-            Edit
-          </Button>
-        ) : (
-          <Button variant="primary" type="submit">
-            Save Changes
+            {isEdit ? "Save Changes" : "Submit"}
           </Button>
         )}
       </div>
@@ -166,16 +142,19 @@ FormComponent.propTypes = {
       type: PropTypes.oneOf(["text", "select", "date", "number"]).isRequired,
       label: PropTypes.string.isRequired,
       placeholder: PropTypes.string,
-      apiUrl: PropTypes.string, // Add apiUrl for select fields
-      defaultOption: PropTypes.shape({
-        value: PropTypes.string.isRequired,
-        label: PropTypes.string,
-      }), // Add defaultOption for select fields
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string.isRequired,
+          label: PropTypes.string.isRequired,
+        })
+      ),
     })
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
+  formData: PropTypes.object, // Allow formData to be passed in
   isEdit: PropTypes.bool.isRequired,
-  idCurrent: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onClose: PropTypes.func.isRequired,
+  isView: PropTypes.bool.isRequired,
 };
 
 export default FormComponent;

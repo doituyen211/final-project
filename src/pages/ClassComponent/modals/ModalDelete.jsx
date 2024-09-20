@@ -23,7 +23,7 @@ const ModalDelete = () => {
         </>
       }
     >
-      Bạn có chắc muốn xóa lớp <b>{dataRow.name}</b> này không?
+      Bạn có chắc muốn xóa lớp <b>{dataRow.className}</b> này không?
     </Modal>
   );
 };

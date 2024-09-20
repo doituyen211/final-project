@@ -1,33 +1,33 @@
 import {
     AllowanceComponents,
+    AttendanceComponent,
+    AttendanceStudent,
+    ClassComponent,
     ClassMembersComponent,
     ContractComponents,
     CourseComponent,
     CustomerSaleComponent,
+    DashboardEducationComponent,
     DashboardSalesComponent,
     DecisionComponent,
     DepartmentComponent,
+    ExamComponent,
     LiabilityComponents,
-    LoginComponent,
+    LogoutComponent,
     MarketingCampaignComponent,
     PersonelComponents,
     QualificationComponents,
     ReservationComponent,
-    ScheduleComponent2,
+    ScheduleComponent,
     ScoreComponent,
     StudenInforComponent,
     StudentComponent,
     SubjectComponent,
     TimesheetComponent,
+    TrainningProgramComponent,
     TuitionFeeComponent,
     UserComponent
 } from "../pages";
-import ClassComponent from "../pages/ClassComponent";
-import ExamComponent from "../pages/ExamComponent";
-import TrainningProgramComponent from "../pages/TrainningProgramComponent";
-import DashboardEducationComponent from "../pages/DashboardEducationComponent";
-import AttendanceComponent from "../pages/AttendanceComponent";
-import AttendanceStudent from "../pages/AttendanceStudentComponent";
 
 export const routeSideBar = [
     {
@@ -45,7 +45,7 @@ export const routeSideBar = [
             {
                 name: "List",
                 icon: "nav-icon fas fa-tachometer-alt",
-                to: "/list",
+                to: "/form",
                 component: UserComponent,
             },
         ],
@@ -111,7 +111,7 @@ export const routeSideBar = [
                 component: AttendanceComponent,
             },
             {
-                name: "Quản lý khoá học",
+                name: "Quản lý năm học",
                 icon: "nav-icon fas fa-clipboard-list",
                 component: CourseComponent,
                 to: "/courses",
@@ -120,7 +120,7 @@ export const routeSideBar = [
                 name: "Quản lý lịch học",
                 icon: "nav-icon fas fa-calendar-alt",
                 to: "/schedules",
-                component: ScheduleComponent2,
+                component: ScheduleComponent,
             },
             {
                 name: "Quản lý lịch thi",
@@ -157,7 +157,7 @@ export const routeSideBar = [
                 name: "Chến dịch quảng cáo",
                 icon: "nav-icon fas fa-money-bill-wave", // Use the appropriate icon for your marketing campaign
                 to: "/marketing-campaigns", // Define the route for the new component
-                component: MarketingCampaignComponent, // Add your new component here
+                component: MarketingCampaignComponent,
             },
             {
                 name: "Quản lý khách hàng",
@@ -172,17 +172,17 @@ export const routeSideBar = [
                 component: TrainningProgramComponent,
             },
             {
-                name: "Điểm danh của tao",
+                name: "Điểm danh của học viên",
                 icon: "nav-icon fas fa-cogs",
                 to: "/my-attendance",
                 component: AttendanceStudent,
             },
-            {
-                name: "Login (Sau nay xoa)",
-                icon: "nav-icon fas fa-lock",
-                to: "/Login",
-                component: LoginComponent,
-            },
+            // {
+            //     name: "Login (Sau nay xoa)",
+            //     icon: "nav-icon fas fa-lock",
+            //     to: "/Login1",
+            //     component: LoginComponent,
+            // },
             // {
             //     name: "Login (Sau nay xoa)",
             //     icon: "nav-icon fas fa-lock",
@@ -261,6 +261,11 @@ export const routeSideBar = [
             },
         ],
     },
-
-
+    {
+        name: "Đăng xuất",
+        icon: "nav-icon fas fa-sign-out-alt",
+        to: "/logout",
+        component: LogoutComponent,
+        child: [],
+    }
 ];

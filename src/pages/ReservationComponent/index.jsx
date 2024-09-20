@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableComponents from "./TableComponent";
 import PagingComponent from "./PagingComponent";
 import ModalComponent from "./ModalComponent";
-import { Button,Spinner } from "react-bootstrap";
+import DeleteComponent from "./DeleteComponent";
+import { Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 
 const ReservationComponent = () => {
-  const [keyword, setKeyword] = useState("");
   const [dataTable, setDataTable] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [paginatedData, setPaginatedData] = useState([]);
-  const [titleTable, setTitleTable] = useState("");
-  const [classTable, setClassTable] = useState("");
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Set the number of items per page
+  const [keyword, setKeyword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [modalProps, setModalProps] = useState({
+    action: "",
+    formFieldsProp: [],
+    initialIsEdit: false,
+    initialIdCurrent: null,
+  });
+  const [deleteModalShow, setDeleteModalShow] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(null); // Selected item for deletion
 
-  const apiCreate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
-  const apiDelete = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
-  const apiView = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
-  const apiUpdate = "https://66ac93a1f009b9d5c7329ca9.mockapi.io/api/leaveofabsence";
+  const itemsPerPage = 10;
+  const apiCreate = "http://localhost:9001/api/leave-of-absence";
+  const apiDelete = "http://localhost:9001/api/leave-of-absence";
+  const apiView = "http://localhost:9001/api/leave-of-absence";
+  const apiUpdate = "http://localhost:9001/api/leave-of-absence";
 
+  // Ensure formFieldsProp is correctly defined based on the backend schema
   const formFieldsProp = [
     {
-      name: "student_id",
+      name: "studentId",
       type: "text",
       label: "Mã học viên",
       placeholder: "Nhập mã học viên",
     },
-    { name: "start_time", type: "date", label: "Thời gian bắt đầu" },
-    { name: "end_time", type: "date", label: "Thời gian kết thúc" },
+    { name: "startDate", type: "date", label: "Thời gian bắt đầu" },
+    { name: "endDate", type: "date", label: "Thời gian kết thúc" },
     {
       name: "status",
       type: "text",
@@ -37,10 +47,10 @@ const ReservationComponent = () => {
       placeholder: "Nhập trạng thái",
     },
     {
-      name: "subject_id",
+      name: "subjectId",
       type: "text",
       label: "Mã môn học",
-      placeholder: "Nhập Id môn học",
+      placeholder: "Nhập mã môn học",
     },
   ];
 
@@ -57,30 +67,25 @@ const ReservationComponent = () => {
   // Get data from API
   const getData = async (page = 1) => {
     try {
-      const res = await axios.get(apiView);
-      const allData = res.data;
-      setDataTable(allData);
-      setFilteredData(allData);
-      setTitleTable("ReservationComponent");
-      setClassTable("table table-bordered table-hover");
-
-      const total = Math.ceil(allData.length / itemsPerPage);
-      setTotalPage(total);
-      paginateData(allData, page);
+      setLoading(true);
+      const res = await axios.get(
+        `${apiView}?page=${page - 1}&size=${itemsPerPage}`
+      );
+      const { content, totalPages } = res.data.data;
+      setDataTable(content);
+      setFilteredData(content);
+      setTotalPage(totalPages);
+      paginateData(content, page);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getData();
   }, []);
-
-  // Handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    paginateData(filteredData, pageNumber);
-  };
 
   // Pagination logic
   const paginateData = (data, page) => {
@@ -89,48 +94,126 @@ const ReservationComponent = () => {
     setPaginatedData(paginated);
   };
 
-  // Handle search
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    getData(pageNumber);
+  };
+
   const handleSearch = (event) => {
-    const term = event.target.value.toLowerCase(); // Get the search term in lowercase
+    const term = event.target.value.toLowerCase();
     setKeyword(term);
 
     if (term) {
-      // Filter dataTable based on the student_id field
       const filtered = dataTable.filter((item) => {
-        const itemIdHocVien = item.student_id
-          ? item.student_id.toString()
-          : ""; // Convert to string if not null
+        const itemIdHocVien = item.studentId ? item.studentId.toString() : "";
         return itemIdHocVien.toLowerCase().includes(term);
       });
-
       setFilteredData(filtered);
-      paginateData(filtered, 1); // Reset to first page for search results
+      paginateData(filtered, 1);
       setCurrentPage(1);
-      setTotalPage(Math.ceil(filtered.length / itemsPerPage)); // Recalculate total pages for search results
+      setTotalPage(Math.ceil(filtered.length / itemsPerPage));
     } else {
       setFilteredData(dataTable);
-      paginateData(dataTable, 1); // Reset to first page if search term is cleared
+      paginateData(dataTable, 1);
       setCurrentPage(1);
-      setTotalPage(Math.ceil(dataTable.length / itemsPerPage)); // Recalculate total pages
+      setTotalPage(Math.ceil(dataTable.length / itemsPerPage));
     }
   };
 
-  // Modal handling
-  const [modalShow, setModalShow] = useState(false);
-  const [modalProps, setModalProps] = useState({
-    show: modalShow,
-    action: "",
-    formFieldsProp: formFieldsProp,
-    initialIsEdit: false,
-    initialIdCurrent: null,
-    apiUpdate: apiUpdate,
-    apiCreate: apiCreate,
-  });
-
   const handleSave = (formData) => {
-    console.log("Saving data...");
-    console.log("Form data:", formData);
-    // Your save logic here
+    const { action } = modalProps;
+  
+    // Calculate the status based on the start and end dates
+    const calculateStatus = (startDate, endDate) => {
+      const now = new Date();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      return now >= start && now <= end ? 1 : 0; // 1 if active, 0 otherwise
+    };
+  
+    // Update the formData with calculated status
+    const updatedFormData = {
+      ...formData,
+      status: calculateStatus(formData.startDate, formData.endDate), // Calculate status
+    };
+  
+    console.log('FormData to be saved:', updatedFormData); // Log the data being sent
+  
+    if (action === "CREATE") {
+      axios
+        .post(apiCreate, updatedFormData)
+        .then(() => {
+          setModalShow(false);
+          getData(); // Refresh the data after successful creation
+          console.log("Successfully created");
+        })
+        .catch((err) => console.error("Error creating data:", err));
+    } else if (action === "EDIT") {
+      console.log(`Sending PUT request to ${apiUpdate}/${modalProps.initialIdCurrent}`);
+      axios
+        .put(`${apiUpdate}/${modalProps.initialIdCurrent}`, updatedFormData)
+        .then(() => {
+          setModalShow(false);
+          getData(); // Refresh the data after successful update
+          console.log("Successfully updated");
+        })
+        .catch((err) => {
+          console.error("Error updating data:", err);
+        });
+    }
+  };
+  
+
+  const handleDelete = (id) => {
+    const selectedItem = dataTable.find((item) => item.id === id);
+    setDeleteItem(selectedItem);
+    setDeleteModalShow(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteItem) {
+      axios
+        .delete(`${apiDelete}/${deleteItem.id}`)
+        .then(() => {
+          console.log("Deleted item:", deleteItem);
+          setDeleteModalShow(false);
+          getData();
+        })
+        .catch((err) => {
+          console.error("Error deleting data:", err);
+          // Optional: Add user feedback for delete failure
+        });
+    }
+  };
+
+  const handleAddNew = () => {
+    setModalProps({
+      action: "CREATE",
+      formFieldsProp,
+      initialIsEdit: false,
+      initialIdCurrent: null,
+    });
+    setModalShow(true);
+  };
+
+  const handleEdit = (id) => {
+    setModalProps({
+      action: "EDIT",
+      formFieldsProp,
+      initialIsEdit: true,
+      initialIdCurrent: id,
+    });
+    setModalShow(true);
+  };
+
+  const handleView = (id) => {
+    setModalProps({
+      action: "VIEW",
+      formFieldsProp,
+      initialIsEdit: false,
+      initialIdCurrent: id,
+    });
+    setModalShow(true);
   };
 
   return (
@@ -169,56 +252,49 @@ const ReservationComponent = () => {
                           aria-label="Search input"
                           onChange={handleSearch}
                         />
-                        <Button variant="light" size="sm">
-                          <i className="bi bi-search"></i>
-                        </Button>
                       </div>
                     </div>
                     <div className="col-md-2 d-flex align-items-center justify-content-end">
                       <Button
                         variant="primary"
                         size="sm"
-                        onClick={() => {
-                          setModalShow(true);
-                          setModalProps({
-                            onHide: () => setModalShow(false),
-                            onSave: handleSave,
-                            action: "CREATE",
-                            formFieldsProp: formFieldsProp,
-                            initialIsEdit: true,
-                            initialIdCurrent: null,
-                            apiCreate: apiCreate,
-                          });
-                        }}
+                        onClick={handleAddNew}
                       >
                         Thêm mới +
                       </Button>
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col-12" style={{ width: "100%" }}>
-                      <TableComponents
-                        cols={cols}
-                        dataTable={paginatedData}
-                        classTable={classTable}
-                        apiDelete={apiDelete}
-                        apiUpdate={apiUpdate}
-                        apiView={apiView}
-                        formFieldsProp={formFieldsProp}
-                        getData={getData}
-                      />
+                  {loading ? (
+                    <div className="text-center my-5">
+                      <Spinner animation="border" />
                     </div>
-                  </div>
-                  <div className="row justify-content-center mt-3">
-                    <div className="col-auto">
-                      <PagingComponent
-                        totalPage={totalPage}
-                        currentPage={currentPage}
-                        onPageChange={handlePageChange}
-                      />
-                    </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="row">
+                        <div className="col-12" style={{ width: "100%" }}>
+                          <TableComponents
+                            cols={cols}
+                            dataTable={paginatedData}
+                            classTable="table table-bordered table-hover"
+                            handleEdit={handleEdit}
+                            apiDelete={apiDelete} // Pass apiDelete
+                            getData={getData} // Pass getData to refresh data
+                            handleView={handleView}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-center mt-3">
+                        <div className="col-auto">
+                          <PagingComponent
+                            totalPage={totalPage}
+                            currentPage={currentPage}
+                            onPageChange={handlePageChange}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="card-footer"></div>
               </div>
@@ -226,7 +302,25 @@ const ReservationComponent = () => {
           </div>
         </div>
       </section>
-      <ModalComponent show={modalShow} getData={getData} {...modalProps} />
+      <ModalComponent
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        action={modalProps.action}
+        formFieldsProp={modalProps.formFieldsProp}
+        initialIsEdit={modalProps.initialIsEdit}
+        initialIdCurrent={modalProps.initialIdCurrent}
+        apiCreate={apiCreate}
+        apiUpdate={apiUpdate}
+        apiView={apiView}
+        getData={getData}
+      />
+
+      <DeleteComponent
+        show={deleteModalShow}
+        onHide={() => setDeleteModalShow(false)}
+        deleteItem={deleteItem}
+        onConfirm={confirmDelete}
+      />
     </>
   );
 };

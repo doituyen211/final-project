@@ -1,6 +1,5 @@
-// src/pages/ReservationComponent/ModalComponent.jsx
-import React from "react";
-import { Modal } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 import FormComponent from "./FormComponent";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,52 +9,53 @@ function ModalComponent({
   show,
   action,
   formFieldsProp,
-  initialIsEdit,
   initialIdCurrent,
   apiUpdate,
   apiCreate,
-  apiView,
+  apiView, // Ensure apiView is passed
   getData,
+  studentId, // Receive studentId prop
 }) {
-  const handleSave = (formData) => {
-    console.log("Saving data in SubjectCreate...");
-    console.log("Form data:", JSON.stringify(formData));
-    if (action === "EDIT") {
-      UpdateItem(formData);
-    } else if (action === "CREATE") {
-      CreateItem(formData);
-    }
-  };
-  const UpdateItem = (formData) => {
-    axios
-      .put(`${apiUpdate}/${formData.id}`, formData)
-      .then((response) => {
-        console.log("Update successful:", response);
-        onHide();
-        getData();
-        toast.success("Success Notification !", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      })
-      .catch((error) => {
-        console.error("There was an error updating the item:", error);
-      });
-  };
+  const [studentData, setStudentData] = useState(null);
+  const [formData, setFormData] = useState({}); // Initialize with an empty object
+  const [loadingData, setLoadingData] = useState(false); // Handle loading state
 
-  const CreateItem = (formData) => {
-    axios
-      .post(apiCreate, formData)
-      .then((response) => {
-        console.log("Create successful:", response);
-        onHide();
-        getData();
-        toast.success("Success Notification !", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      })
-      .catch((error) => {
-        console.error("There was an error creating the item:", error);
-      });
+
+  // Fetch reservation data for editing or viewing when modal opens
+  useEffect(() => {
+    const fetchReservationData = async () => {
+      if ((action === "EDIT" || action === "VIEW") && initialIdCurrent) {
+        setLoadingData(true); // Set loading state to true while fetching
+        try {
+          const response = await axios.get(`${apiView}/${initialIdCurrent}`);
+          setFormData(response.data); // Load reservation data into state
+        } catch (error) {
+          console.error("Error fetching reservation data:", error);
+        } finally {
+          setLoadingData(false); // Set loading to false once done
+        }
+      } else if (action === "CREATE") {
+        setFormData({}); // Reset formData for new entries
+      }
+    };
+    fetchReservationData();
+  }, [action, initialIdCurrent, apiView]);
+
+  // Handle saving the form data (CREATE or EDIT)
+  const handleSave = async (submittedFormData) => {
+    try {
+      if (action === "EDIT") {
+        await axios.put(`${apiUpdate}/${initialIdCurrent}`, submittedFormData);
+        toast.success("Update Successful!", { position: toast.POSITION.TOP_RIGHT });
+      } else if (action === "CREATE") {
+        await axios.post(apiCreate, submittedFormData);
+        toast.success("Item Created Successfully!", { position: toast.POSITION.TOP_RIGHT });
+      }
+      onHide();
+      getData();
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
   };
 
   return (
@@ -68,20 +68,52 @@ function ModalComponent({
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {action === "EDIT" ? "Cập nhật" : action === "VIEW" ? "" : "Thêm mới"}
+          {action === "EDIT"
+            ? "Cập nhật"
+            : action === "VIEW"
+            ? "Xem chi tiết"
+            : "Thêm mới"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <FormComponent
-          fields={formFieldsProp}
-          onSubmit={handleSave}
-          isEdit={action === "EDIT"}
-          isView={action === "VIEW"}
-          idCurrent={initialIdCurrent}
-          onClose={onHide}
-        />
+        {/* Display student details only when action is not "CREATE" */}
+        {studentData && action !== "CREATE" ? (
+          <div>
+            <h5>Student Details</h5>
+            <p>
+              <strong>Name:</strong> {studentData.student_name}
+            </p>
+            <p>
+              <strong>Email:</strong> {studentData.email}
+            </p>
+            <p>
+              <strong>Call Number:</strong> {studentData.call_number}
+            </p>
+            <p>
+              <strong>Status:</strong> {studentData.status}
+            </p>
+          </div>
+        ) : null}
+
+        {/* Form for reservation or other data */}
+        {loadingData ? (
+          <p>Loading reservation data...</p> // Show loading while fetching
+        ) : action === "CREATE" || Object.keys(formData).length > 0 ? (
+          <FormComponent
+            fields={formFieldsProp}
+            onSubmit={handleSave}
+            formData={formData} // Pass formData to FormComponent
+            isEdit={action === "EDIT"}
+            isView={action === "VIEW"}
+            onClose={onHide}
+          />
+        ) : (
+          <p>No data to display.</p>
+        )}
       </Modal.Body>
-      <Modal.Footer></Modal.Footer>
+      <Modal.Footer>
+        <Button onClick={onHide}>Close</Button>
+      </Modal.Footer>
     </Modal>
   );
 }

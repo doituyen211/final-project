@@ -13,7 +13,7 @@ export const useGetClassList = () => {
   const [debouncedKeyword, setDebouncedKeyword] = useState(className);
 
   useEffect(() => {
-    const handler = debounce(() => setDebouncedKeyword(className), 700);
+    const handler = debounce(() => setDebouncedKeyword(className), 300);
     handler();
     return () => {
       handler.cancel();
@@ -54,6 +54,18 @@ export const useGetTrainingProgram = () => {
   };
 };
 
+export const formatValues = (values, trainingPrograms) => {
+  const selectedTrainingProgram = trainingPrograms.find(
+    (program) => program.program_name == values.programName
+  );
+  return {
+    ...values,
+    startDate: values.startDate.format("YYYY-MM-DD"),
+    endDate: values.endDate.format("YYYY-MM-DD"),
+    programId: selectedTrainingProgram?.program_id,
+  };
+};
+
 export const useAddNewClass = (form) => {
   const queryClient = useQueryClient();
   const setShowModalAdd = useClassStore((state) => state.setShowModalAdd);
@@ -77,17 +89,7 @@ export const useAddNewClass = (form) => {
     form
       .validateFields()
       .then((values) => {
-        const selectedTrainingProgram = trainingPrograms.find(
-          (trainingProgram) =>
-            trainingProgram.program_name == values.programName
-        );
-
-        const formattedValues = {
-          ...values,
-          startDate: values.startDate.format("YYYY-MM-DD"),
-          endDate: values.endDate.format("YYYY-MM-DD"),
-          programId: selectedTrainingProgram?.program_id,
-        };
+        const formattedValues = formatValues(values, trainingPrograms);
         mutation.mutate(formattedValues);
         form.resetFields();
       })
@@ -97,26 +99,6 @@ export const useAddNewClass = (form) => {
   };
 
   return { handleAddNew, isPending: mutation.isPending };
-};
-
-export const useDeleteClass = (classId) => {
-  const setShowModalDelete = useClassStore((state) => state.setShowModalDelete);
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: () => classApi.deleteClass(classId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["classList"],
-      });
-      setShowModalDelete(false);
-      toast.success("Xóa thành công!");
-    },
-    onError: () => {
-      toast.error("Xóa thất bại!");
-    },
-  });
-  return { mutation, isPending: mutation.isPending };
 };
 
 export const useEditClass = (classId, form) => {
@@ -142,16 +124,7 @@ export const useEditClass = (classId, form) => {
     form
       .validateFields()
       .then((values) => {
-        const selectedTrainingProgram = trainingPrograms.find(
-          (trainingProgram) =>
-            trainingProgram.program_name == values.programName
-        );
-        const formattedValues = {
-          ...values,
-          startDate: values.startDate.format("YYYY-MM-DD"),
-          endDate: values.endDate.format("YYYY-MM-DD"),
-          programId: selectedTrainingProgram?.program_id,
-        };
+        const formattedValues = formatValues(values, trainingPrograms);
 
         mutation.mutate(formattedValues);
       })
@@ -160,4 +133,24 @@ export const useEditClass = (classId, form) => {
       });
   };
   return { handleEditClass, isPending: mutation.isPending };
+};
+
+export const useDeleteClass = (classId) => {
+  const setShowModalDelete = useClassStore((state) => state.setShowModalDelete);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: () => classApi.deleteClass(classId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["classList"],
+      });
+      setShowModalDelete(false);
+      toast.success("Xóa thành công!");
+    },
+    onError: () => {
+      toast.error("Xóa thất bại!");
+    },
+  });
+  return { mutation, isPending: mutation.isPending };
 };

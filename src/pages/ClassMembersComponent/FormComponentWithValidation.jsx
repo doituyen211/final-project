@@ -1,18 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Form, Row} from 'react-bootstrap';
-import {Form as FormikForm, Formik} from 'formik';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Formik, Field, Form as FormikForm } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios"; // Ensure this is correctly imported
 
-const FormComponentWithValidation = ({
-                                         initialData,
-                                         actionModal,
-                                         onSubmit,
-                                         onCancel,
-                                         programOptions,
-                                         statusOptions,
-                                         formFieldsProp
-                                     }) => {
+const FormComponentWithValidation = ({ initialData, actionModal, onSubmit, onCancel, programOptions, statusOptions , formFieldsProp}) => {
     // Create validation schema statically
     const validationSchema = Yup.object().shape(
         formFieldsProp.reduce((acc, field) => {
@@ -28,10 +20,9 @@ const FormComponentWithValidation = ({
         const fetchOptions = async (url, fieldName) => {
             try {
                 const response = await axios.get(url);
-                console.log(JSON.stringify(response))
                 setFieldOptions(prevOptions => ({
                     ...prevOptions,
-                    [fieldName]: response.data.data
+                    [fieldName]: response.data
                 }));
             } catch (error) {
                 console.error(`Error fetching options for ${fieldName}:`, error);
@@ -52,16 +43,16 @@ const FormComponentWithValidation = ({
             onSubmit={onSubmit}
             enableReinitialize={true} // Add this line to enable reinitialization
         >
-            {({handleChange, values, errors, touched}) => (
+            {({ handleChange, values, errors, touched }) => (
                 <FormikForm>
                     <h3 className="text-start mb-4">{actionModal === "EDIT" ? "Cập Nhật" : "Thêm Mới"}</h3>
                     <Row>
                         {formFieldsProp.map((field, index) => {
-                            const {name, label, type, placeholder, defaultOption, apiUrl} = field;
+                            const { name, label, type,placeholder, defaultOption,apiUrl } = field;
                             const options = fieldOptions[name] || []; // Get options for the field
 
                             return (
-                                <Col md={6} className='mb-3' key={index}>
+                                <Col md={12} className='mb-3' key={index}>
                                     <Form.Group controlId={name}>
                                         <Form.Label>{label}</Form.Label>
                                         {type === 'select' ? (
@@ -71,13 +62,10 @@ const FormComponentWithValidation = ({
                                                 value={values[name] || ''}
                                                 onChange={handleChange}
                                                 disabled={actionModal === "VIEW"}
-                                            >
+                                                >
                                                 <option value="">{defaultOption?.label || "Select an option"}</option>
-                                                {options.map(option => (
-                                                    <option key={option.id} value={option.id}>
-                                                        {option.name}
-                                                    </option>
-                                                ))}
+                                                <option value="2">Hoàn thành</option>
+                                                <option value="1">Đang học</option>
                                             </Form.Control>
 
                                         ) : (

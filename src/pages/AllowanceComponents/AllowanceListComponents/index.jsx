@@ -1,82 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import AllowanceTableComponents from "../AllowanceTableComponents";
+import React from 'react';
+import { Table, Button } from 'react-bootstrap';
 
-function AllowanceListComponents() {
-    const [data, setData] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-
-    // Fetch data from API or local state
-    useEffect(() => {
-        //
-        const fetchedData = [
-            // ...
-        ];
-        setData(fetchedData);
-    }, []);
-
-    const handleEdit = (item) => {
-        setSelectedItem(item);
-        setShowModal(true);
-    };
-
-    const handleDelete = (item) => {
-        fetch(`https://66ad1d32b18f3614e3b4736d.mockapi.io/${item.id}`, {
-            method: 'DELETE',
-        })
-            .then((response) => {
-                if (response.ok) {
-                    // If the deletion is successful, update the local state
-                    const updatedData = data.filter((i) => i.id !== item.id);
-                    setData(updatedData);
-                } else {
-                    // If there's an error, handle it appropriately
-                    console.error('Error deleting item:', response.statusText);
-                }
-            })
-            .catch((error) => {
-                console.error('Error deleting item:', error);
-            });
-    };
-
-    const handleSave = (updatedItem) => {
-        fetch(`https://66ad1d32b18f3614e3b4736d.mockapi.io/${updatedItem.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedItem),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    // If the update is successful, update the local state
-                    const updatedData = data.map((item) =>
-                        item.id === updatedItem.id ? updatedItem : item
-                    );
-                    setData(updatedData);
-                    setShowModal(false);
-                } else {
-                    // If there's an error, handle it appropriately
-                    console.error('Error updating item:', response.statusText);
-                }
-            })
-            .catch((error) => {
-                console.error('Error updating item:', error);
-            });
-    };
+function AllowanceListComponents({ data, handleEdit, handleDelete }) {
+    // Ensure data is an array before mapping
+    if (!Array.isArray(data)) {
+        return <div>Error: Data is not an array.</div>;
+    }
 
     return (
-        <div>
-            <AllowanceTableComponents data={data} onEdit={handleEdit} onDelete={handleDelete} />
-            {/* Assuming AllowanceListComponents is a component that should be imported and used here */}
-            <AllowanceListComponents
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                item={selectedItem}
-                onSave={handleSave}
-            />
-        </div>
+        <Table striped bordered hover>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID Chức vụ</th>
+                <th>Loại phụ cấp</th>
+                <th>Lương phụ cấp</th>
+                <th>Trạng thái</th>
+                <th>Ngày tạo</th>
+                <th>Ngày sửa</th>
+                <th>Hoạt động</th>
+            </tr>
+            </thead>
+            <tbody>
+            {data.map((item) => (
+                <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.idCV}</td>
+                    <td>{item.loaiPC}</td>
+                    <td>{item.luongPC}</td>
+                    <td>{item.trangThai ? 'Hoạt động' : 'Không hoạt động'}</td>
+                    <td>{item.create_at}</td>
+                    <td>{item.update_at}</td>
+                    <td>
+                        <Button variant="info" onClick={() => handleEdit(item)}>Xem</Button>{' '}
+                        <Button variant="warning" onClick={() => handleEdit(item)}>Sửa</Button>{' '}
+                        <Button variant="danger" onClick={() => handleDelete(item)}>Xóa</Button>
+                    </td>
+                </tr>
+            ))}
+            </tbody>
+        </Table>
     );
 }
+
 
 export default AllowanceListComponents;
