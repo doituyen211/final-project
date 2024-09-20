@@ -14,16 +14,32 @@ public class ClassMembers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private  Integer id ;
+    private Integer id;
 
-    @Column(name = "student_id")
-    private Integer studentId;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
-    @Column(name = "class_id")
-    private Integer classId;
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Class mclass;
 
-    @Column
-    private Integer status ;
+    private Integer status;
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
+//    private  Integer id ;
+//
+//    @Column(name = "student_id")
+//    private Integer studentId;
+//
+//    @Column(name = "class_id")
+//    private Integer classId;
+//
+//    @Column
+//    private Integer status ;
+
 
 
 }
